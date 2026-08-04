@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Jogaê — manual de uso</title>
+<meta name="description" content="Passo a passo dos fluxos de jogador e arena que já funcionam de ponta a ponta no Jogaê." />
+<style>
+  :root {
+    --primary: #ff6a00;
+    --primary-dark: #e05c00;
+    --primary-soft: #ffe7d2;
+    --secondary: #1f1f1f;
+    --accent: #f2b01e;
+    --text: #1f1f1f;
+    --text-muted: #6f6f6f;
+    --bg: #fcfbfa;
+    --surface: #ffffff;
+    --surface-alt: #f5f5f5;
+    --border: #e9e6e2;
+    --success: #2e9e4f;
+    --success-soft: #eaf5ea;
+    --info: #3b82c4;
+    --info-soft: #eff4fb;
+    --warning: #c97a12;
+    --warning-soft: #fef6ee;
+  }
+
+  :root[data-theme="dark"] {
+    --secondary: #f2f2f0;
+    --text: #f2f0ec;
+    --text-muted: #a8a39a;
+    --bg: #17140f;
+    --surface: #201c16;
+    --surface-alt: #262119;
+    --border: #332c22;
+    --primary-soft: #402615;
+    --success-soft: #16261a;
+    --info-soft: #16212c;
+    --warning-soft: #2c2011;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --secondary: #f2f2f0;
+      --text: #f2f0ec;
+      --text-muted: #a8a39a;
+      --bg: #17140f;
+      --surface: #201c16;
+      --surface-alt: #262119;
+      --border: #332c22;
+      --primary-soft: #402615;
+      --success-soft: #16261a;
+      --info-soft: #16212c;
+      --warning-soft: #2c2011;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .shell {
+    display: flex;
+    align-items: flex-start;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  nav.toc {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 250px;
+    flex: none;
+    padding: 40px 20px 40px 32px;
+    overflow-y: auto;
+    border-right: 1px solid var(--border);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .brand-mark {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: var(--primary);
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-weight: 800;
+    font-size: 15px;
+    flex: none;
+  }
+
+  .brand-name { font-weight: 700; font-size: 16px; letter-spacing: -0.01em; }
+  .brand-sub { font-size: 11.5px; color: var(--text-muted); margin: 2px 0 28px; letter-spacing: 0.02em; }
+
+  .toc-group { margin-bottom: 22px; }
+
+  .toc-eyebrow {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .toc a {
+    display: block;
+    font-size: 13.5px;
+    color: var(--text);
+    text-decoration: none;
+    padding: 5px 0;
+    opacity: 0.75;
+    border-left: 2px solid transparent;
+    padding-left: 10px;
+    margin-left: -11px;
+  }
+
+  .toc a:hover { opacity: 1; border-left-color: var(--primary); color: var(--primary); }
+  .toc a:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+  main { flex: 1; min-width: 0; padding: 48px 40px 100px; }
+
+  header.hero { margin-bottom: 44px; max-width: 640px; }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    font-weight: 700;
+    margin: 0 0 14px;
+    text-wrap: balance;
+  }
+
+  .lede { font-size: 15.5px; line-height: 1.6; color: var(--text-muted); margin: 0; max-width: 60ch; }
+
+  section.area { margin-bottom: 50px; scroll-margin-top: 24px; }
+
+  .area-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .area-head h2 { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; margin: 0; }
+  .area-tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+  }
+
+  .area-note { font-size: 13.5px; color: var(--text-muted); margin: 12px 0 20px; max-width: 68ch; line-height: 1.55; }
+
+  h3 {
+    font-size: 15.5px;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    margin: 28px 0 12px;
+  }
+  h3:first-of-type { margin-top: 4px; }
+
+  ol.steps { list-style: none; counter-reset: step; margin: 0 0 4px; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+
+  ol.steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+
+  ol.steps li::before {
+    content: counter(step);
+    flex: none;
+    width: 21px;
+    height: 21px;
+    border-radius: 999px;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+    font-variant-numeric: tabular-nums;
+    margin-top: 1px;
+  }
+
+  .screen {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 12px;
+    background: var(--surface-alt);
+    padding: 1px 6px;
+    border-radius: 5px;
+    white-space: nowrap;
+  }
+
+  .tip {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: var(--info-soft);
+    border-radius: 10px;
+    padding: 11px 14px;
+    margin: 14px 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+  .tip b { color: var(--info); }
+
+  .limits {
+    margin-top: 60px;
+    padding: 22px 24px;
+    background: var(--warning-soft);
+    border-radius: 14px;
+  }
+  .limits h2 { font-size: 16px; margin: 0 0 6px; }
+  .limits p.intro { font-size: 13px; color: var(--text-muted); margin: 0 0 14px; }
+  .limits ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; }
+  .limits li { font-size: 13px; line-height: 1.55; }
+  .limits b { color: var(--warning); }
+
+  footer {
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 860px) {
+    nav.toc { display: none; }
+    main { padding: 32px 20px 80px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <nav class="toc" aria-label="Sumário">
+    <div class="brand">
+      <div class="brand-mark">J</div>
+      <div class="brand-name">Jogaê</div>
+    </div>
+    <div class="brand-sub">Manual de uso</div>
+
+    <div class="toc-group">
+      <div class="toc-eyebrow">Jogador</div>
+      <a href="#j-conta">Criar conta e perfil</a>
+      <a href="#j-entrar">Entrar num jogo</a>
+      <a href="#j-criar">Criar um jogo</a>
+      <a href="#j-partidas">Jogar as partidas</a>
+      <a href="#j-outros">Ranking e histórico</a>
+      <a href="#j-arenas">Descobrir arenas</a>
+    </div>
+
+    <div class="toc-group">
+      <div class="toc-eyebrow">Arena</div>
+      <a href="#a-conta">Cadastro da arena</a>
+      <a href="#a-perfil">Perfil e preço</a>
+      <a href="#a-jogos">Administrar jogos</a>
+      <a href="#a-equipe">Equipe e estrutura</a>
+    </div>
+
+    <div class="toc-group">
+      <div class="toc-eyebrow">Aviso</div>
+      <a href="#limitacoes">O que ainda não funciona</a>
+    </div>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow">Manual de uso · Jogaê</div>
+      <h1>Como usar o Jogaê, passo a passo</h1>
+      <p class="lede">
+        Cobre os fluxos que já funcionam de ponta a ponta hoje, jogador e arena.
+        Nomes de tela aparecem em <span class="screen">destaque</span> pra bater
+        com o que aparece no app.
+      </p>
+    </header>
+
+    <!-- ================= JOGADOR ================= -->
+
+    <section class="area" id="j-conta">
+      <div class="area-head">
+        <h2>Criar conta e configurar seu perfil</h2>
+        <span class="area-tag">jogador</span>
+      </div>
+
+      <ol class="steps">
+        <li>Abra o app e escolha <b>"Sou Jogador"</b> na tela inicial.</li>
+        <li>Responda o onboarding: nível, modalidades que joga, objetivos, localização e, se quiser, uma arena favorita — cada pergunta numa tela.</li>
+        <li>Crie a conta com e-mail e senha (ou Apple/Google) e confirme o código enviado.</li>
+        <li>Tudo que você respondeu no onboarding é aplicado ao seu perfil automaticamente assim que a conta é criada.</li>
+      </ol>
+
+      <div class="tip"><b>Dica:</b> edite nome, cidade, foto e modalidade favorita a qualquer momento em <span class="screen">Perfil → editar perfil</span>.</div>
+    </section>
+
+    <section class="area" id="j-entrar">
+      <div class="area-head">
+        <h2>Entrar num jogo</h2>
+        <span class="area-tag">jogador</span>
+      </div>
+
+      <ol class="steps">
+        <li>Na aba <span class="screen">Partidas</span>, ou buscando uma arena, abra o jogo que te interessa.</li>
+        <li>Confira participantes (com foto), a arena, o nível exigido e as vagas antes de entrar.</li>
+        <li>Toque em <b>"Entrar na partida"</b>.</li>
+        <li>Se o jogo é de <b>times manuais</b>, escolha Time A ou B e, se quiser, convide um ou mais parceiros pra jogar no seu time — cada um recebe um convite próprio.</li>
+        <li>Se o jogo é de <b>times aleatórios</b>, você só confirma presença — o time é sorteado depois, na hora de gerar as partidas.</li>
+      </ol>
+
+      <div class="tip"><b>Nível incompatível ou jogo privado:</b> o app explica por que você não pode entrar, em vez de simplesmente esconder o botão.</div>
+    </section>
+
+    <section class="area" id="j-criar">
+      <div class="area-head">
+        <h2>Criar um jogo</h2>
+        <span class="area-tag">jogador</span>
+      </div>
+
+      <ol class="steps">
+        <li>Toque no <b>"+"</b> (aba central) e escolha uma modalidade rápida, ou vá em <span class="screen">Nova partida</span> pelo menu completo.</li>
+        <li>Escolha a modalidade (busca por nome) — a lista de arenas já filtra só quem atende essa modalidade.</li>
+        <li>Escolha a arena (opcional — sem arena, o jogo não passa por aprovação).</li>
+        <li>Escolha data e hora no calendário.</li>
+        <li>Defina nível exigido, visibilidade (público/privado), modo de times (aleatório/manual) e vagas — um número fixo ou indeterminado.</li>
+        <li>Toque em <b>"Criar partida"</b>. Se escolheu uma arena, o jogo fica pendente até ela aprovar.</li>
+      </ol>
+
+      <div class="tip"><b>Convidar depois:</b> na tela do jogo, quem criou pode tocar em "Convidar" pra buscar e chamar jogadores específicos a qualquer momento.</div>
+    </section>
+
+    <section class="area" id="j-partidas">
+      <div class="area-head">
+        <h2>Jogar as partidas dentro do jogo</h2>
+        <span class="area-tag">jogador · moderador</span>
+      </div>
+      <p class="area-note">
+        Um jogo pode ter várias partidas rodando ao mesmo tempo — cada uma com o número
+        de jogadores que a modalidade pede (hoje isso vale pra Futevôlei e Futebol) e seu
+        próprio placar. Só quem criou o jogo (ou a arena, quando é o caso) administra essa parte.
+      </p>
+
+      <h3>Iniciar o jogo e gerar as partidas</h3>
+      <ol class="steps">
+        <li>Na tela do jogo, toque em <span class="screen">Partidas</span>.</li>
+        <li>Toque em <b>"Iniciar jogo"</b> quando estiver pronto pra começar.</li>
+        <li>Times aleatórios: toque em <b>"Sortear partidas"</b> — o sistema divide os confirmados em grupos e sorteia os times de cada partida.</li>
+        <li>Times manuais: monte cada confronto escolhendo quem do Time A enfrenta quem do Time B e toque em <b>"Criar partida"</b>.</li>
+      </ol>
+
+      <h3>Lançar o placar</h3>
+      <ol class="steps">
+        <li>Toque numa partida da lista.</li>
+        <li>Ajuste o placar de cada time e toque em <b>"Salvar placar"</b>.</li>
+        <li>Quem venceu a partida ganha 3 pontos de ranking; quem participou, 1 ponto — isso monta o ranking automaticamente.</li>
+      </ol>
+
+      <h3>Encerrar o jogo</h3>
+      <ol class="steps">
+        <li>Depois de todas as partidas jogadas, toque em <b>"Encerrar jogo"</b>.</li>
+        <li>Todo mundo que confirmou presença recebe uma notificação com o resultado — em times manuais, qual time venceu; em times aleatórios, quem foi o destaque (mais partidas vencidas).</li>
+        <li>Depois de encerrado, o jogo vira só leitura: ninguém mais entra, sai, ou edita placar.</li>
+      </ol>
+
+      <div class="tip"><b>Esqueceu de encerrar?</b> Três horas depois do horário marcado, o app manda um lembrete pra quem criou o jogo.</div>
+    </section>
+
+    <section class="area" id="j-outros">
+      <div class="area-head">
+        <h2>Ranking, histórico e perfil</h2>
+        <span class="area-tag">jogador</span>
+      </div>
+
+      <ol class="steps">
+        <li>Aba <span class="screen">Ranking</span>: filtra por modalidade e por período (semanal, mensal, geral). Toque num jogador da lista pra ver o perfil dele.</li>
+        <li>Aba <span class="screen">Perfil</span>: seu nível, estatísticas, conquistas e progresso por modalidade.</li>
+        <li><span class="screen">Histórico</span>: as partidas que você já jogou.</li>
+        <li>Toque no nome de qualquer participante, em qualquer jogo, pra ver o perfil público dele.</li>
+      </ol>
+    </section>
+
+    <section class="area" id="j-arenas">
+      <div class="area-head">
+        <h2>Descobrir arenas</h2>
+        <span class="area-tag">jogador</span>
+      </div>
+
+      <ol class="steps">
+        <li><span class="screen">Buscar arena</span>: procure por nome e filtre por modalidade.</li>
+        <li>Toque numa arena pra ver fotos, avaliações, endereço, modalidades atendidas, serviços, valor da diária e formas de pagamento aceitas.</li>
+      </ol>
+    </section>
+
+    <!-- ================= ARENA ================= -->
+
+    <section class="area" id="a-conta">
+      <div class="area-head">
+        <h2>Cadastro da arena</h2>
+        <span class="area-tag">arena</span>
+      </div>
+
+      <ol class="steps">
+        <li>Escolha <b>"Sou Arena"</b> na tela inicial.</li>
+        <li>Onboarding em 6 telas: nome, localização, modalidades atendidas, estrutura (vestiário, lanchonete, estacionamento, pet), valor da diária e formas de pagamento aceitas, e fotos.</li>
+        <li>Crie a conta — a arena já nasce cadastrada com tudo que você respondeu.</li>
+      </ol>
+    </section>
+
+    <section class="area" id="a-perfil">
+      <div class="area-head">
+        <h2>Perfil e preço</h2>
+        <span class="area-tag">arena</span>
+      </div>
+
+      <ol class="steps">
+        <li><span class="screen">Perfil da arena</span> mostra como os jogadores veem sua arena.</li>
+        <li>Toque em <b>"Editar"</b> pra mudar nome, endereço, descrição, fotos, valor da diária e formas de pagamento.</li>
+        <li>Modalidades e serviços têm telas próprias de configuração, com liga/desliga por item.</li>
+      </ol>
+    </section>
+
+    <section class="area" id="a-jogos">
+      <div class="area-head">
+        <h2>Administrar jogos</h2>
+        <span class="area-tag">arena</span>
+      </div>
+
+      <ol class="steps">
+        <li>O painel inicial mostra os jogos marcados na sua arena para hoje.</li>
+        <li>Quando um jogador cria um jogo na sua arena, ele fica pendente até você aprovar ou recusar em <span class="screen">Aprovações</span>.</li>
+        <li>A arena também pode criar jogos diretamente, sem passar por aprovação.</li>
+      </ol>
+    </section>
+
+    <section class="area" id="a-equipe">
+      <div class="area-head">
+        <h2>Equipe e estrutura</h2>
+        <span class="area-tag">arena</span>
+      </div>
+
+      <ol class="steps">
+        <li><span class="screen">Quadras</span>: cadastro das quadras disponíveis.</li>
+        <li><span class="screen">Usuários vinculados</span>: quem mais da sua equipe acessa o painel (administrador, gerente, atendente).</li>
+        <li><span class="screen">Aprovações de nível</span>: fila de jogadores pedindo mudança de categoria.</li>
+        <li><span class="screen">Analytics</span>: indicadores de uso da arena.</li>
+      </ol>
+    </section>
+
+    <div class="limits" id="limitacoes">
+      <h2>O que ainda não funciona de ponta a ponta</h2>
+      <p class="intro">Revisão de código encontrou estas funcionalidades pela metade — por isso não entraram no manual acima como se estivessem prontas.</p>
+      <ul>
+        <li><b>Desafiar jogador</b> — dá pra enviar um desafio, mas quem recebe não tem como ver, aceitar ou recusar. Nenhuma notificação chega.</li>
+        <li><b>Eventos da arena</b> — a arena cria e lista eventos, mas não existe nenhuma tela pro jogador descobrir ou se inscrever.</li>
+        <li><b>Nível declarado no cadastro do jogador</b> — é perguntado no onboarding, mas nunca é usado depois; o nível que vale de verdade só vem da aprovação da arena.</li>
+        <li><b>Busca de arena por bairro</b> — o campo de busca promete isso, mas o bairro coletado no cadastro da arena não é salvo de um jeito que dá pra buscar.</li>
+        <li><b>Tela de Paywall</b> — está em branco, esperando o material visual (mockup) antes de ser construída; hoje o cadastro segue direto do onboarding pra criação de conta.</li>
+      </ul>
+    </div>
+
+    <footer>
+      Reflete o comportamento do app após a revisão de bugs realizada em agosto de 2026 — telas, textos e nomes podem mudar em versões futuras.
+    </footer>
+  </main>
+</div>
+
+</body>
+</html>
