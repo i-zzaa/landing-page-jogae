@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Jogaê — manual de uso</title>
-<meta name="description" content="Passo a passo dos fluxos de jogador e arena que já funcionam de ponta a ponta no Jogaê." />
+<meta name="description" content="Passo a passo dos fluxos de jogador, arena e moderador que já funcionam de ponta a ponta no Jogaê." />
 <style>
   :root {
     --primary: #ff6a00;
@@ -218,6 +218,9 @@
     margin-top: 1px;
   }
 
+  ul.plain { margin: 0 0 4px; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; }
+  ul.plain li { font-size: 13.5px; line-height: 1.55; }
+
   .screen {
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
     font-size: 12px;
@@ -285,15 +288,26 @@
       <a href="#j-criar">Criar um jogo</a>
       <a href="#j-partidas">Jogar as partidas</a>
       <a href="#j-outros">Ranking e histórico</a>
-      <a href="#j-arenas">Descobrir arenas</a>
+      <a href="#j-arenas">Descobrir arenas e jogadores</a>
     </div>
 
     <div class="toc-group">
       <div class="toc-eyebrow">Arena</div>
       <a href="#a-conta">Cadastro da arena</a>
+      <a href="#a-paywall">Plano e paywall</a>
       <a href="#a-perfil">Perfil e preço</a>
       <a href="#a-jogos">Administrar jogos</a>
+      <a href="#a-torneios">Torneios</a>
       <a href="#a-equipe">Equipe e estrutura</a>
+    </div>
+
+    <div class="toc-group">
+      <div class="toc-eyebrow">Moderador</div>
+      <a href="#m-convite">Como é convidado</a>
+      <a href="#m-aceite">Como aceita o convite</a>
+      <a href="#m-torneios">Torneios que modero</a>
+      <a href="#m-admin">O que administra</a>
+      <a href="#m-limites">O que só a arena pode</a>
     </div>
 
     <div class="toc-group">
@@ -307,9 +321,9 @@
       <div class="eyebrow">Manual de uso · Jogaê</div>
       <h1>Como usar o Jogaê, passo a passo</h1>
       <p class="lede">
-        Cobre os fluxos que já funcionam de ponta a ponta hoje, jogador e arena.
-        Nomes de tela aparecem em <span class="screen">destaque</span> pra bater
-        com o que aparece no app.
+        Cobre os fluxos que já funcionam de ponta a ponta hoje, pra jogador, arena e
+        moderador de torneio. Nomes de tela aparecem em <span class="screen">destaque</span>
+        pra bater com o que aparece no app.
       </p>
     </header>
 
@@ -323,12 +337,12 @@
 
       <ol class="steps">
         <li>Abra o app e escolha <b>"Sou Jogador"</b> na tela inicial.</li>
-        <li>Responda o onboarding: nível, modalidades que joga, objetivos, localização e, se quiser, uma arena favorita — cada pergunta numa tela.</li>
+        <li>Responda o onboarding: nível, modalidades que joga, localização e, se quiser, uma arena favorita — cada pergunta numa tela.</li>
         <li>Crie a conta com e-mail e senha (ou Apple/Google) e confirme o código enviado.</li>
         <li>Tudo que você respondeu no onboarding é aplicado ao seu perfil automaticamente assim que a conta é criada.</li>
       </ol>
 
-      <div class="tip"><b>Dica:</b> edite nome, cidade, foto e modalidade favorita a qualquer momento em <span class="screen">Perfil → editar perfil</span>.</div>
+      <div class="tip"><b>Dica:</b> edite nome, cidade, foto e modalidade favorita a qualquer momento em <span class="screen">Perfil → editar perfil</span>. No próprio Perfil também dá pra marcar se você está <b>disponível pra jogos</b> — quem some por 2 dias seguidos recebe um lembrete perguntando se ainda quer jogar.</div>
     </section>
 
     <section class="area" id="j-entrar">
@@ -410,7 +424,7 @@
 
       <ol class="steps">
         <li>Aba <span class="screen">Ranking</span>: filtra por modalidade e por período (semanal, mensal, geral). Toque num jogador da lista pra ver o perfil dele.</li>
-        <li>Aba <span class="screen">Perfil</span>: seu nível, estatísticas, conquistas e progresso por modalidade.</li>
+        <li>Aba <span class="screen">Perfil</span>: seu nível, estatísticas, conquistas e progresso por modalidade. Se pediu mudança de nível pra uma arena, o status do pedido (pendente ou recusado) aparece direto aqui, com opção de pedir de novo depois de uma recusa.</li>
         <li><span class="screen">Histórico</span>: as partidas que você já jogou.</li>
         <li>Toque no nome de qualquer participante, em qualquer jogo, pra ver o perfil público dele.</li>
       </ol>
@@ -418,13 +432,14 @@
 
     <section class="area" id="j-arenas">
       <div class="area-head">
-        <h2>Descobrir arenas</h2>
+        <h2>Descobrir arenas e jogadores</h2>
         <span class="area-tag">jogador</span>
       </div>
 
       <ol class="steps">
-        <li><span class="screen">Buscar arena</span>: procure por nome e filtre por modalidade.</li>
-        <li>Toque numa arena pra ver fotos, avaliações, endereço, modalidades atendidas, serviços, valor da diária e formas de pagamento aceitas.</li>
+        <li><span class="screen">Buscar</span> tem três modos: Arenas, Jogadores e Torneios.</li>
+        <li>Modo Arenas: procure por nome ou bairro e filtre por modalidade. Toque numa arena pra ver fotos, avaliações, endereço, modalidades atendidas, serviços, valor da diária e formas de pagamento aceitas.</li>
+        <li>Modo Jogadores: sem digitar nada, já aparecem até 10 jogadores perto de você (mesma cidade) e do seu mesmo nível — digite um nome pra buscar alguém específico em vez disso. Quem está marcado como indisponível pra jogos aparece com um selo, mas continua na lista.</li>
       </ol>
     </section>
 
@@ -438,9 +453,27 @@
 
       <ol class="steps">
         <li>Escolha <b>"Sou Arena"</b> na tela inicial.</li>
-        <li>Onboarding em 6 telas: nome, localização, modalidades atendidas, estrutura (vestiário, lanchonete, estacionamento, pet), valor da diária e formas de pagamento aceitas, e fotos.</li>
+        <li>Onboarding em 7 telas: nome e CNPJ (validado de verdade), localização (GPS ou endereço digitado), modalidades atendidas, estrutura (vestiário, lanchonete, estacionamento, pet), valor da diária e formas de pagamento aceitas, fotos (opcionais) e, por fim, escolha do ciclo do plano — mensal ou anual.</li>
         <li>Crie a conta — a arena já nasce cadastrada com tudo que você respondeu.</li>
       </ol>
+
+      <div class="tip"><b>Nota:</b> escolher o ciclo do plano na última tela do onboarding não cobra nada ainda — é só o que decide o que aparece na tela de confirmação logo após o cadastro.</div>
+    </section>
+
+    <section class="area" id="a-paywall">
+      <div class="area-head">
+        <h2>Plano e paywall, logo após o cadastro</h2>
+        <span class="area-tag">arena</span>
+      </div>
+      <p class="area-note">Assim que a conta arena está pronta, o app leva direto pra confirmação do plano — antes de liberar qualquer outra tela.</p>
+
+      <ol class="steps">
+        <li><b>Confirmação:</b> resumo do plano escolhido no onboarding (nome, ciclo, preço, total) — o preço vem de verdade da loja (App Store Connect/RevenueCat), não é mais fixo no app.</li>
+        <li><b>Pagamento:</b> escolha entre cartão de crédito ou Pix.</li>
+        <li><b>Sucesso:</b> "Sua arena está pronta!", com o plano contratado — segue direto pro cadastro de quadras.</li>
+      </ol>
+
+      <div class="tip"><b>No iOS</b> o produto já está cadastrado — uma build de produção cobraria de verdade. <b>No Android</b> o produto ainda não existe na Play Store, então qualquer forma de pagamento avança direto pro sucesso sem cobrar, em qualquer ambiente.</div>
     </section>
 
     <section class="area" id="a-perfil">
@@ -469,6 +502,37 @@
       </ol>
     </section>
 
+    <section class="area" id="a-torneios">
+      <div class="area-head">
+        <h2>Criar e administrar torneios</h2>
+        <span class="area-tag">arena</span>
+      </div>
+
+      <div class="tip"><b>Quem gerencia a arena, não moderador:</b> convidar moderadores, ver receita estimada do torneio e ver taxa de inscrição em algumas listagens só aparece pra quem administra a arena — um moderador confirmado não vê essas partes.</div>
+
+      <h3>Criar o torneio (assistente em 3 passos)</h3>
+      <ol class="steps">
+        <li>Em <span class="screen">Torneios</span>, toque em criar — abre o assistente sem torneio associado ainda (fica como rascunho).</li>
+        <li><b>1/3 — Informações:</b> nome, modalidade, descrição, data de início (obrigatória) e fim (opcional), visibilidade (público/privado). Salvar aqui já cria o rascunho.</li>
+        <li><b>2/3 — Categorias:</b> adicione ao menos uma categoria pra poder continuar — cada uma com nome, taxa de inscrição, composição do time, se exige capitão, regra de confirmação de pagamento, quadras vinculadas e o formato (eliminação simples, grupos + eliminação, todos contra todos, ou pontos corridos).</li>
+        <li><b>3/3 — Revisão:</b> capa (upload de imagem), resumo do torneio e das categorias (toque pra editar) e o botão <b>"Publicar"</b>.</li>
+      </ol>
+
+      <h3>Depois de publicado</h3>
+      <ol class="steps">
+        <li>O detalhe do torneio mostra estatísticas (categorias, times, confirmados, receita estimada) e o funil de inscrição.</li>
+        <li>Dentro de cada categoria: lista de times com status, funil de inscrição, botão <b>"Check-in"</b> e, quando há pelo menos 2 times confirmados com check-in feito, <b>"Gerar chaveamento"</b>.</li>
+        <li>O ingresso do jogador tem QR Code — o check-in é lido direto por ele, ou marcado manualmente numa lista.</li>
+      </ol>
+
+      <h3>Convidar moderadores</h3>
+      <ol class="steps">
+        <li>No detalhe do torneio, toque em <b>"Moderadores"</b> (só aparece pra quem administra a arena).</li>
+        <li>Busque um jogador já cadastrado no app e convide direto, ou convide por e-mail.</li>
+        <li>Convite por e-mail de alguém sem conta: o app cria a conta na hora com senha aleatória e manda por e-mail — a pessoa troca a senha no primeiro login.</li>
+      </ol>
+    </section>
+
     <section class="area" id="a-equipe">
       <div class="area-head">
         <h2>Equipe e estrutura</h2>
@@ -483,20 +547,98 @@
       </ol>
     </section>
 
+    <!-- ================= MODERADOR ================= -->
+
+    <section class="area" id="m-convite">
+      <div class="area-head">
+        <h2>Como é convidado</h2>
+        <span class="area-tag">moderador</span>
+      </div>
+      <p class="area-note">Moderador é quem a arena convida pra ajudar a administrar um torneio específico — sem ter uma arena própria. Quem convida é sempre alguém que administra a arena, dentro do detalhe do torneio; um moderador não pode convidar outro.</p>
+
+      <ol class="steps">
+        <li><b>Busca de jogador já cadastrado:</b> a arena procura pelo nome e convida direto — o convite entra como pendente.</li>
+        <li><b>Convite por e-mail:</b> a arena digita um e-mail. Se já existe uma conta jogador com esse e-mail, vira o mesmo convite pendente do item acima.</li>
+        <li>Se o e-mail não tem conta ainda, o app cria uma na hora, com senha aleatória, e manda login e senha por e-mail.</li>
+      </ol>
+    </section>
+
+    <section class="area" id="m-aceite">
+      <div class="area-head">
+        <h2>Como aceita o convite</h2>
+        <span class="area-tag">moderador</span>
+      </div>
+
+      <h3>Quem já tinha conta</h3>
+      <ol class="steps">
+        <li>O convite chega como uma notificação em <span class="screen">Notificações</span>, com os botões Aceitar e Recusar.</li>
+        <li>Aceitar confirma o moderador pro torneio e já leva direto pro detalhe dele — o moderador não tem arena própria pra achar o torneio sozinho de outro jeito.</li>
+        <li>Recusar remove o convite.</li>
+      </ol>
+
+      <h3>Quem ganhou conta nova por e-mail</h3>
+      <ol class="steps">
+        <li>Não existe link direto no e-mail pra aceitar o convite — a pessoa precisa entrar manualmente em <span class="screen">Entrar</span> com o e-mail e a senha recebida.</li>
+        <li>No primeiro login, a troca de senha é obrigatória antes de qualquer outra tela.</li>
+        <li>Depois de trocar a senha, o convite já está confirmado (foi criado assim direto pela arena) — não precisa aceitar de novo.</li>
+      </ol>
+
+      <div class="tip"><b>Os dois caminhos são bem diferentes</b> — o convite pra quem já tem conta é aceitável/recusável; o de e-mail novo entra confirmado direto no primeiro login.</div>
+    </section>
+
+    <section class="area" id="m-torneios">
+      <div class="area-head">
+        <h2>Torneios que modero</h2>
+        <span class="area-tag">moderador</span>
+      </div>
+
+      <ol class="steps">
+        <li>Em <span class="screen">Torneios que modero</span>, a lista mostra só os torneios em que o convite já está confirmado.</li>
+        <li>Toque num torneio da lista pra abrir o detalhe dele — a mesma tela que a arena usa.</li>
+      </ol>
+    </section>
+
+    <section class="area" id="m-admin">
+      <div class="area-head">
+        <h2>O que administra dentro do torneio</h2>
+        <span class="area-tag">moderador</span>
+      </div>
+      <p class="area-note">A partir do detalhe do torneio, o moderador confirmado vê os mesmos botões de gestão que a arena vê, dentro daquele torneio específico:</p>
+
+      <ul class="plain">
+        <li><b>Check-in</b> — duas abas: câmera pra ler o QR Code do ingresso do jogador, ou lista manual (só habilita marcar presença pra quem já pagou).</li>
+        <li><b>Gerar chaveamento</b> — habilitado quando há pelo menos 2 times confirmados com check-in feito.</li>
+        <li><b>Chaveamento / classificação</b> — acompanha o progresso; se tem permissão de gestão, toca numa partida pra lançar o placar.</li>
+        <li><b>Detalhe da partida</b> — vê placar e status; se tem permissão de gestão, edita quadra/horário da partida e lança o placar.</li>
+      </ul>
+    </section>
+
+    <section class="area" id="m-limites">
+      <div class="area-head">
+        <h2>O que só a arena pode, não o moderador</h2>
+        <span class="area-tag">restrição</span>
+      </div>
+
+      <ul class="plain">
+        <li>Convidar ou remover outro moderador do torneio.</li>
+        <li>Ver a receita estimada do torneio, no detalhe dele.</li>
+        <li>Ver a taxa de inscrição em algumas listagens de categoria.</li>
+        <li>Criar ou editar o torneio e suas categorias — essas telas só são alcançadas a partir da lista de torneios da arena, que o moderador não acessa.</li>
+      </ul>
+    </section>
+
     <div class="limits" id="limitacoes">
       <h2>O que ainda não funciona de ponta a ponta</h2>
-      <p class="intro">Revisão de código encontrou estas funcionalidades pela metade — por isso não entraram no manual acima como se estivessem prontas.</p>
+      <p class="intro">Levantado direto do código em agosto de 2026 — por isso não entrou no manual acima como se estivesse pronto.</p>
       <ul>
-        <li><b>Desafiar jogador</b> — dá pra enviar um desafio, mas quem recebe não tem como ver, aceitar ou recusar. Nenhuma notificação chega.</li>
         <li><b>Eventos da arena</b> — a arena cria e lista eventos, mas não existe nenhuma tela pro jogador descobrir ou se inscrever.</li>
-        <li><b>Nível declarado no cadastro do jogador</b> — é perguntado no onboarding, mas nunca é usado depois; o nível que vale de verdade só vem da aprovação da arena.</li>
-        <li><b>Busca de arena por bairro</b> — o campo de busca promete isso, mas o bairro coletado no cadastro da arena não é salvo de um jeito que dá pra buscar.</li>
-        <li><b>Tela de Paywall</b> — está em branco, esperando o material visual (mockup) antes de ser construída; hoje o cadastro segue direto do onboarding pra criação de conta.</li>
+        <li><b>Pagamento do plano no Android</b> — no iOS uma build de produção já cobraria de verdade; no Android o produto ainda não existe na Play Store, então qualquer forma de pagamento avança direto pro sucesso sem cobrar, em qualquer ambiente.</li>
+        <li><b>Convite de moderador por e-mail sem link de aceite</b> — quem ganha conta nova precisa entrar manualmente com a senha recebida por e-mail; não existe nenhum link que já abra o app direto no convite.</li>
       </ul>
     </div>
 
     <footer>
-      Reflete o comportamento do app após a revisão de bugs realizada em agosto de 2026 — telas, textos e nomes podem mudar em versões futuras.
+      Reflete o comportamento do app em 12 de agosto de 2026 — telas, textos e nomes podem mudar em versões futuras.
     </footer>
   </main>
 </div>
