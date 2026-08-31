@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex" />
-<title>Jogaê — voltando pro app</title>
+<title>Desafiaê — voltando pro app</title>
 <style>
   :root { --primary: #ff6a00; --bg: #fcfbfa; --text: #1f1f1f; --text-muted: #8c8c8c; }
   * { box-sizing: border-box; }
@@ -24,16 +24,16 @@
 </head>
 <body>
   <div class="spinner"></div>
-  <p id="msg">Voltando pro app Jogaê…</p>
+  <p id="msg">Voltando pro app Desafiaê…</p>
   <a id="fallback" href="#" style="display:none;">Toque aqui se o app não abrir sozinho</a>
 
   <script>
     // Ponte OAuth do Mercado Pago (só aceita redirect_uri https, não esquema
     // customizado) — pega o "code" que o MP devolveu e repassa pro app via
-    // jogae://arena-mercado-pago?code=... . Mantém os outros parametros (ex.
+    // desafiae://arena-mercado-pago?code=... . Mantém os outros parametros (ex.
     // state) tambem, caso existam.
     var params = new URLSearchParams(window.location.search);
-    var target = 'jogae://arena-mercado-pago?' + params.toString();
+    var target = 'desafiae://arena-mercado-pago?' + params.toString();
 
     var fallback = document.getElementById('fallback');
     fallback.href = target;

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jogae-app.com/sitemap.xml
+Sitemap: https://desafiae.com/sitemap.xml

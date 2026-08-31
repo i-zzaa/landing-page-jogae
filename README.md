@@ -1,6 +1,6 @@
-# Landing Page Jogaê
+# Landing Page Desafiaê
 
-Landing page responsiva em HTML, CSS e JavaScript, baseada no design system do Jogaê.
+Landing page responsiva em HTML, CSS e JavaScript, baseada no design system do Desafiaê.
 
 ## Executar
 
@@ -17,4 +17,4 @@ Depois acesse `http://localhost:8080`.
 - `styles.css`: identidade visual e responsividade
 - `script.js`: menu mobile, animações e formulário
 - `assets/`: logos, mascote e imagem do aplicativo
-# landing-page-jogae
+# landing-page-desafiae
