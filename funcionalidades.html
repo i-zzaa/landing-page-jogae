@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Funcionalidades do Desafiaê para jogadores, arenas, equipes de arena e torneios: partidas, desafios, reservas, aulas, torneios, financeiro e muito mais." />
+  <meta name="theme-color" content="#ff6a00" />
+  <title>Funcionalidades — Desafiaê</title>
+  <link rel="canonical" href="https://desafiae.com/funcionalidades" />
+  <link rel="icon" href="assets/logo-simplificada.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body{background:#fcfbfa}
+    .legal-hero{padding:150px 0 50px;background:radial-gradient(circle at 82% 15%,#fff1e4 0,transparent 42%),linear-gradient(180deg,#fff 0,#fcfbfa 100%)}
+    .legal-hero .container{max-width:820px}
+    .legal-hero h1{font-size:clamp(38px,5vw,60px);line-height:1.05;letter-spacing:-.05em;margin:18px 0 14px}
+    .legal-meta{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);font-weight:600}
+    .legal-intro{font-size:17px;color:#626262;max-width:640px;margin:0}
+    .legal-body{padding:10px 0 100px}
+    .legal-body .container{max-width:820px}
+    .legal-section{border-top:1px solid var(--border);padding:34px 0}
+    .legal-section h2{display:flex;gap:16px;align-items:baseline;font-size:22px;letter-spacing:-.02em;margin:0 0 12px}
+    .legal-section h2 span{color:var(--orange);font-size:12px;font-weight:800;letter-spacing:.1em;flex:0 0 auto}
+    .legal-section h3{font-size:16px;margin:22px 0 8px;letter-spacing:-.01em}
+    .legal-section p{margin:0 0 10px;color:#5f5f5f;font-size:15px}
+    .legal-section a{color:var(--orange);font-weight:600}
+    .legal-foot{border-top:1px solid var(--border);padding:28px 0 70px;font-size:13px;color:#777}
+    .legal-foot .container{max-width:820px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
+    .legal-foot a{color:var(--orange);font-weight:600}
+    .rules-part{scroll-margin-top:100px}
+    .rules-part + .rules-part{padding-top:40px}
+    .rules-tabs{display:flex;gap:4px;padding:4px;margin-top:26px;max-width:560px;background:#f5f5f5;border-radius:8px}
+    .rules-tab{flex:1;display:flex;align-items:center;justify-content:center;padding:8px;border:0;border-radius:6px;background:transparent;color:#8c8c8c;font:500 14px/20px "Poppins",Arial,sans-serif;cursor:pointer;transition:background .2s,color .2s}
+    .rules-tab:hover{color:var(--graphite)}
+    .rules-tab.is-active{background:var(--orange);color:#fff}
+    .rules-tab:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+    .js-tabs .rules-part + .rules-part{padding-top:0}
+    .rules-part-head{background:var(--graphite);color:#fff;border-radius:var(--radius);padding:30px 32px;margin-bottom:6px}
+    .rules-part-head .eyebrow{color:#ffb27a}
+    .rules-part-head .dot{background:#ffb27a}
+    .rules-part-head h2{font-size:clamp(28px,4vw,40px);letter-spacing:-.04em;line-height:1.1;margin:10px 0 8px}
+    .rules-part-head p{margin:0;color:#cfcfcf;font-size:15px}
+    .rules-part-head + .legal-section{border-top:0}
+    .rule-list{list-style:none;margin:0 0 10px;padding:0}
+    .rule-list li{position:relative;padding-left:22px;margin:0 0 8px;color:#5f5f5f;font-size:15px}
+    .rule-list li::before{content:"";position:absolute;left:4px;top:.72em;width:7px;height:7px;border-radius:50%;background:var(--orange)}
+    .rule-list b{color:var(--graphite);font-weight:600}
+    .rules-table-wrap{overflow-x:auto;margin:6px 0 12px;border:1px solid var(--border);border-radius:16px;background:#fff}
+    .rules-table{width:100%;border-collapse:collapse;font-size:14px;min-width:520px}
+    .rules-table th{text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);font-weight:700;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--ice)}
+    .rules-table td{padding:11px 16px;border-bottom:1px solid var(--border);color:#5f5f5f;vertical-align:top}
+    .rules-table tr:last-child td{border-bottom:0}
+    .rules-table td:first-child{color:var(--graphite);font-weight:600}
+    .rules-note{background:var(--beige);border-radius:16px;padding:14px 18px;font-size:14px;color:#6b4a2e;margin:12px 0 0}
+    .plan-table th:not(:first-child),.plan-table td:not(:first-child){text-align:center;width:96px}
+    .plan-yes{display:inline-grid;place-items:center;width:23px;height:23px;border-radius:50%;background:#fff0e5;color:var(--orange);vertical-align:middle}
+    .plan-no{color:#c9c4bf}
+    @media(max-width:640px){.legal-hero{padding-top:110px}.legal-section h2{font-size:19px;gap:12px}.rules-part-head{padding:24px 22px}.rules-tab{font-size:13px;padding:8px 4px}}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container nav-wrap">
+      <a class="brand" href="/" aria-label="Desafiaê - início">
+        <img src="assets/logo-completa.png" alt="Logo Desafiaê" />
+      </a>
+      <a class="btn btn-sm btn-secondary" href="/">Voltar ao site</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="legal-hero">
+      <div class="container">
+        <span class="eyebrow"><span class="dot"></span> O que o app faz</span>
+        <h1>Funcionalidades do Desafiaê</h1>
+        <p class="legal-meta">Última atualização: setembro de 2026</p>
+        <p class="legal-intro" style="margin-top:16px">Tudo o que você encontra no app, separado por quem usa: jogadores, arenas, a equipe que opera a arena e quem participa ou organiza torneios. As regras de cada formato estão em <a href="/regras" style="color:var(--orange);font-weight:600">Regras</a>.</p>
+        <div class="rules-tabs" role="tablist" aria-label="Funcionalidades por perfil">
+          <button class="rules-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="jogador" data-tab="jogador">Jogador</button>
+          <button class="rules-tab" type="button" role="tab" aria-selected="false" aria-controls="arena" data-tab="arena">Arena</button>
+          <button class="rules-tab" type="button" role="tab" aria-selected="false" aria-controls="equipe" data-tab="equipe">Equipe</button>
+          <button class="rules-tab" type="button" role="tab" aria-selected="false" aria-controls="torneios" data-tab="torneios">Torneios</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="legal-body">
+      <div class="container">
+
+      <!-- JOGADOR -->
+      <div class="rules-part" id="jogador">
+        <div class="rules-part-head">
+          <span class="eyebrow"><span class="dot"></span> Parte 1</span>
+          <h2>Jogador</h2>
+          <p>Encontrar jogo, desafiar, reservar quadra, fazer aula e acompanhar a própria evolução.</p>
+        </div>
+
+        <article class="legal-section">
+          <h2><span>01</span>Primeiros passos</h2>
+          <ul class="rule-list">
+            <li>Comece sem conta: escolha suas <b>modalidades</b>, seu nível, seus objetivos e onde costuma jogar.</li>
+            <li>Veja os planos e crie a conta com e-mail e senha, confirmando por código. O que você preencheu antes do cadastro não se perde.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>02</span>Encontrar jogo</h2>
+          <ul class="rule-list">
+            <li>A <b>Home</b> mostra partidas e torneios perto de você.</li>
+            <li>Busque <b>arenas próximas</b> e veja o perfil de cada uma: fotos, estrutura, modalidades, localização e eventos.</li>
+            <li>Receba um <b>aviso no celular</b> quando abrir um torneio ou uma partida pública perto de você, na modalidade que você joga.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>03</span>Partidas</h2>
+          <ul class="rule-list">
+            <li>Crie uma partida com modalidade, data, arena, nível, visibilidade (pública ou privada) e formato. O formato já vem sugerido pela modalidade (2x2, 3x3…) e pode ser alterado.</li>
+            <li>Convide jogadores, entre em partidas abertas e forme os times manualmente ou por sorteio.</li>
+            <li>A partida é um <b>encontro</b>: a turma joga vários jogos, cada um com seu placar.</li>
+            <li>Escolha a pontuação: <b>seguir a regra da modalidade</b>, com cada set validado, ou <b>livre</b>.</li>
+            <li>Veja a classificação da partida e vote no <b>craque do jogo</b>.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>04</span>Desafios</h2>
+          <ul class="rule-list">
+            <li>Desafie outro jogador ou time: escolha o rival, monte sua equipe, defina arena, data e formato e mande uma <b>provocação</b>.</li>
+            <li>O rival aceita ou recusa, e cada capitão convoca o próprio time. Com os times completos, o desafio vira partida.</li>
+            <li>Veja o <b>histórico de confrontos</b> contra o rival e os desafios expirados ou cancelados.</li>
+            <li>Compartilhe o desafio confirmado nos <b>Stories</b>, com uma imagem pronta.</li>
+          </ul>
+          <h3>Desafio de marca (corrida)</h3>
+          <ul class="rule-list">
+            <li>Todo mundo corre a mesma distância, onde e quando quiser: <b>3 km, 5 km, 10 km, meia maratona ou maratona</b>.</li>
+            <li>Defina a data limite, chame o rival e quantos participantes quiser.</li>
+            <li>Cada um lança o próprio tempo e pode corrigir até o prazo. O ranking mostra o tempo e o ritmo por km de cada participante.</li>
+            <li>No fim do prazo, o resultado sai sozinho: a melhor marca ganha <b>3 pontos</b> e quem lançou marca ganha <b>1 ponto</b> no ranking.</li>
+          </ul>
+          <h3>Desafio recorrente da arena</h3>
+          <ul class="rule-list">
+            <li>Escolha um lado numa categoria do desafio mensal da arena.</li>
+            <li>Toda semana o app sorteia os confrontos. Você confirma presença, joga e acompanha o <b>ranking do mês</b>.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>05</span>Torneios</h2>
+          <ul class="rule-list">
+            <li>Inscreva sua equipe ou peça para entrar na equipe de outra pessoa.</li>
+            <li>Pague a inscrição pelo app e receba o <b>ingresso com QR code</b> para o check-in.</li>
+            <li>Acompanhe chaveamento, confrontos, classificação e placar set a set. Receba o aviso quando for a vez da sua equipe na quadra.</li>
+          </ul>
+          <p>Veja tudo sobre equipes, capitão e organização na aba <a href="#torneios">Torneios</a>.</p>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>06</span>Reservas e aulas</h2>
+          <ul class="rule-list">
+            <li><b>Reserve quadra</b> nos horários livres da arena, pague pelo app e acompanhe tudo em "Minhas reservas".</li>
+            <li>Veja as <b>aulas</b> da arena, inscreva-se, pague pelo app e use o ingresso com QR code no check-in. Suas aulas ficam em "Minhas aulas".</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>07</span>Perfil e evolução</h2>
+          <ul class="rule-list">
+            <li>Nível por modalidade (D, C, B, A e Profissional), <b>pedido a uma arena</b> e aprovado por ela.</li>
+            <li>Ranking semanal e mensal, estatísticas, histórico de partidas, metas e conquistas.</li>
+            <li>"Meus tickets" reúne os ingressos de torneios e aulas.</li>
+            <li>Veja o perfil de outros jogadores. Bloqueie ou denuncie quando precisar.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>08</span>Notificações e conta</h2>
+          <ul class="rule-list">
+            <li>Notificações no celular, com preferências por categoria, e lembretes.</li>
+            <li>Idioma (português ou inglês), segurança da conta, assinatura, ajuda e exclusão de conta.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>09</span>Planos do jogador</h2>
+          <div class="rules-table-wrap">
+            <table class="rules-table">
+              <thead><tr><th>Plano</th><th>O que inclui</th></tr></thead>
+              <tbody>
+                <tr><td>Básico (grátis)</td><td>Tudo acima, com 1 desafio a cada 7 dias</td></tr>
+                <tr><td>Premium</td><td>Tudo acima, com desafios ilimitados</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+
+      <!-- ARENA -->
+      <div class="rules-part" id="arena">
+        <div class="rules-part-head">
+          <span class="eyebrow"><span class="dot"></span> Parte 2</span>
+          <h2>Arena</h2>
+          <p>Agenda, quadras, reservas, torneios, aulas e o financeiro da arena num só painel.</p>
+        </div>
+
+        <article class="legal-section">
+          <h2><span>01</span>Cadastro e perfil</h2>
+          <ul class="rule-list">
+            <li>Cadastre a arena em poucos passos: nome, localização, fotos, modalidades, estrutura e comodidades, preço e forma de pagamento.</li>
+            <li>Mantenha o <b>perfil público</b> atualizado, com fotos, serviços, modalidades e níveis atendidos.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>02</span>Painel e agenda</h2>
+          <ul class="rule-list">
+            <li><b>Painel</b> com o dia da arena e os desafios ativos, lado a lado, para responder ou convocar na hora.</li>
+            <li>Abas de jogos, calendário e um atalho central para agendar.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>03</span>Quadras e reservas</h2>
+          <ul class="rule-list">
+            <li>Cadastre as quadras com modalidade, bloqueios de horário e <b>regras de preço</b>.</li>
+            <li>Receba e aprove reservas, com <b>lista de espera</b> e reembolso.</li>
+            <li><b>Horário fixo</b>: reserve o mesmo horário toda semana para o mesmo cliente (mensalista).</li>
+            <li>Conecte a conta do <b>Mercado Pago</b> para receber os pagamentos de reservas, aulas e inscrições.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>04</span>Jogos, eventos e torneios</h2>
+          <ul class="rule-list">
+            <li>Crie jogos com formato sugerido pela modalidade e escolha da pontuação, e crie eventos.</li>
+            <li>Organize <b>torneios</b> completos: categorias, equipes, moderadores, chaveamento com fila por quadra, check-in por QR code, disputa de 3º lugar e página ao vivo. Detalhes na aba <a href="#torneios">Torneios</a>.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>05</span>Desafios</h2>
+          <ul class="rule-list">
+            <li><b>Arena x arena</b>: desafie outra arena montando um torneio com categorias por nível. A arena desafiada aceita, recusa ou sugere ajustes.</li>
+            <li><b>Desafio recorrente</b>: crie o desafio do mês, com dois lados e categorias por dia, horário e quadra. O app sorteia os confrontos toda semana.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>06</span>Aulas</h2>
+          <ul class="rule-list">
+            <li>Crie turmas e sessões com professores da sua equipe.</li>
+            <li>Alunos se inscrevem e pagam pelo app. O check-in é feito pela câmera, lendo o QR code do ingresso.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>07</span>Jogadores e clientes</h2>
+          <ul class="rule-list">
+            <li>Aprove o <b>nível</b> pedido pelos jogadores, ou conceda outro, e responda aos pedidos de vínculo.</li>
+            <li>"Meus atletas" mostra quem frequenta a arena e destaca <b>quem sumiu</b>, para chamar de volta.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>08</span>Gestão</h2>
+          <ul class="rule-list">
+            <li><b>Financeiro</b> com o resumo do que a arena recebe.</li>
+            <li><b>Analytics</b> de ocupação e desempenho.</li>
+            <li>Convide a sua <b>equipe</b> e defina o papel de cada pessoa (veja a aba <a href="#equipe">Equipe</a>).</li>
+            <li>Lembretes, notificações por categoria, idioma, assinatura e exclusão de conta.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>09</span>Planos da arena</h2>
+          <div class="rules-table-wrap">
+            <table class="rules-table plan-table">
+              <thead><tr><th>Recurso</th><th>Básico</th><th>Premium</th><th>Elite</th></tr></thead>
+              <tbody>
+                <tr><td>Perfil, visibilidade no Desafiaê e serviços</td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td></tr>
+                <tr><td>Cadastro das quadras</td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td></tr>
+                <tr><td>Partidas</td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td></tr>
+                <tr><td>Reservas de quadras</td><td><span class="plan-no" aria-label="Não incluso">—</span></td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td></tr>
+                <tr><td>Financeiro completo</td><td><span class="plan-no" aria-label="Não incluso">—</span></td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td></tr>
+                <tr><td>Desafio das arenas</td><td><span class="plan-no" aria-label="Não incluso">—</span></td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td></tr>
+                <tr><td>Desafio recorrente</td><td><span class="plan-no" aria-label="Não incluso">—</span></td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td></tr>
+                <tr><td>Aulas e turmas com professores</td><td><span class="plan-no" aria-label="Não incluso">—</span></td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td><td><span class="plan-yes" aria-label="Incluso"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Os valores de cada plano aparecem no app, na hora de assinar.</p>
+        </article>
+      </div>
+
+      <!-- EQUIPE -->
+      <div class="rules-part" id="equipe">
+        <div class="rules-part-head">
+          <span class="eyebrow"><span class="dot"></span> Parte 3</span>
+          <h2>Equipe da arena</h2>
+          <p>Quem opera a arena com você, cada um com o acesso que precisa.</p>
+        </div>
+
+        <article class="legal-section">
+          <h2><span>01</span>Papéis</h2>
+          <div class="rules-table-wrap">
+            <table class="rules-table">
+              <thead><tr><th>Papel</th><th>O que pode fazer</th></tr></thead>
+              <tbody>
+                <tr><td>Dono</td><td>Tudo: perfil, quadras, reservas, torneios, desafios, aulas, clientes, financeiro, analytics, equipe e assinatura</td></tr>
+                <tr><td>Administrador</td><td>Tudo o que o dono faz, inclusive convidar e remover membros da equipe</td></tr>
+                <tr><td>Gerente</td><td>Tudo, menos convidar ou remover membros. Lança placar de torneio e decide confrontos anulados</td></tr>
+                <tr><td>Atendente</td><td>O dia a dia: reservas, partidas comuns, lembretes e notificações. Vê a equipe, sem editar</td></tr>
+                <tr><td>Professor</td><td>Dá aulas: vê a própria agenda de aulas e faz o check-in dos alunos. Não opera a arena</td></tr>
+                <tr><td>Moderador</td><td>Não faz parte da equipe fixa: é convidado por e-mail para um torneio. Lança o placar e decide quem avança em confronto anulado. Não edita categorias, não publica nem cancela o torneio, e perde o acesso depois da data de fim</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>02</span>Uma conta, dois modos</h2>
+          <ul class="rule-list">
+            <li>Quem faz parte da equipe continua sendo jogador: dá para <b>trocar entre o modo arena e o modo jogador</b> sem sair da conta.</li>
+            <li>O professor fica no modo jogador, com a aba <b>Aulas</b> na barra.</li>
+          </ul>
+        </article>
+      </div>
+
+      <!-- TORNEIOS -->
+      <div class="rules-part" id="torneios">
+        <div class="rules-part-head">
+          <span class="eyebrow"><span class="dot"></span> Parte 4</span>
+          <h2>Torneios</h2>
+          <p>Da inscrição da equipe ao campeão, para quem joga, organiza e acompanha.</p>
+        </div>
+
+        <article class="legal-section">
+          <h2><span>01</span>Organização (arena)</h2>
+          <ul class="rule-list">
+            <li>Crie o torneio em etapas: informações, categorias e revisão.</li>
+            <li>Formatos: <b>eliminação simples</b>, <b>grupos + eliminação</b>, <b>todos contra todos</b> e <b>pontos corridos</b>, com turno e returno.</li>
+            <li>Disputa de <b>3º lugar</b> opcional em cada categoria de mata-mata.</li>
+            <li>Crie equipes pela arena e convide <b>moderadores</b> por e-mail.</li>
+            <li>Check-in pela câmera, lendo o QR code do ingresso.</li>
+            <li>Chaveamento com <b>fila por quadra</b>: quando uma quadra libera, o próximo confronto entra nela. O horário também pode ser marcado à mão.</li>
+            <li>O app avisa quando a configuração da categoria não fecha com as equipes inscritas, antes de gerar o chaveamento.</li>
+            <li>Placar com a <b>regra de cada esporte</b> (gols, pontos ou sets) e desempate automático por modalidade.</li>
+            <li>Passada a data de fim, jogos sem placar são anulados. No mata-mata, a organização escolhe quem avança.</li>
+          </ul>
+          <p>A regra de cada formato, placar e desempate está em <a href="/regras#torneios">Regras</a>.</p>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>02</span>Capitão da equipe</h2>
+          <ul class="rule-list">
+            <li>Crie a equipe numa categoria e convide colegas, pela busca ou por e-mail.</li>
+            <li>Aprove ou recuse os <b>pedidos de entrada</b> de quem quer jogar com você.</li>
+            <li>Acompanhe quem já aceitou, pagou e fez check-in.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>03</span>Jogador inscrito</h2>
+          <ul class="rule-list">
+            <li>Aceite o convite ou peça para entrar numa equipe.</li>
+            <li>Pague a inscrição pelo app e receba o ingresso com QR code, que também pode ser aberto na horizontal.</li>
+            <li>Acompanhe chaveamento, confrontos e classificação, e receba avisos de "Sua vez na quadra", fim da fase de grupos e disputa de 3º lugar.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>04</span>Moderador</h2>
+          <ul class="rule-list">
+            <li>Convidado pela arena por e-mail. Ao entrar no app, os torneios dele aparecem em "Torneios que modero".</li>
+            <li>Lança o placar dos confrontos, set a set nos esportes de set, e decide quem avança num confronto anulado.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>05</span>Página ao vivo</h2>
+          <ul class="rule-list">
+            <li>Qualquer pessoa acompanha o torneio <b>pelo navegador, sem conta</b>: chaveamento, placares, sets de cada jogo e disputa de 3º lugar.</li>
+          </ul>
+        </article>
+      </div>
+
+      <article class="legal-section">
+        <h2><span>—</span>Dúvidas</h2>
+        <p>Quer saber como uma regra funciona? Veja as <a href="/regras">Regras</a>. Para qualquer outra dúvida, escreva para <a href="mailto:suporte@desafiae.com">suporte@desafiae.com</a>.</p>
+      </article>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="legal-foot">
+    <div class="container">
+      <span>© 2026 Desafiaê. Todos os direitos reservados.</span>
+      <span><a href="/regras">Regras</a> · <a href="/termos">Termos de Uso</a> · <a href="/privacidade">Privacidade</a> · <a href="mailto:suporte@desafiae.com">suporte@desafiae.com</a></span>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      var tabs = Array.prototype.slice.call(document.querySelectorAll('.rules-tab'));
+      var parts = Array.prototype.slice.call(document.querySelectorAll('.rules-part'));
+      if (!tabs.length || !parts.length) return;
+      document.documentElement.classList.add('js-tabs');
+
+      function show(id) {
+        parts.forEach(function (p) { p.hidden = p.id !== id; });
+        tabs.forEach(function (t) {
+          var on = t.dataset.tab === id;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', String(on));
+        });
+      }
+
+      // abre a aba do alvo do link (#arena, #torneios...) e rola ate ele
+      function fromHash(scroll) {
+        var el = location.hash ? document.getElementById(location.hash.slice(1)) : null;
+        var part = el && el.closest('.rules-part');
+        show(part ? part.id : 'jogador');
+        if (scroll && el) el.scrollIntoView();
+      }
+
+      tabs.forEach(function (t) {
+        t.addEventListener('click', function () {
+          history.replaceState(null, '', '#' + t.dataset.tab);
+          show(t.dataset.tab);
+        });
+      });
+      window.addEventListener('hashchange', function () { fromHash(true); });
+      fromHash(!!location.hash);
+    })();
+  </script>
+</body>
+</html>
