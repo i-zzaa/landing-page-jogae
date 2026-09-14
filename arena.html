@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Desafiaê para arenas — reservas, torneios, desafios entre arenas e desafios recorrentes, financeiro e analytics num só painel." />
+<meta name="description" content="Desafiaê para arenas — reservas, torneios, desafios entre arenas e desafios recorrentes, aulas e mensalidade dos alunos, financeiro e analytics num só painel." />
 <meta name="theme-color" content="#ff6a00" />
 <title>Desafiaê para Arenas</title>
 <link rel="icon" href="assets/logo-simplificada.png" />
@@ -448,11 +448,11 @@
   /* -------------------------------------------------- pricing */
   .plans {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
     margin-top: 48px;
   }
-  @media (max-width: 780px) { .plans { grid-template-columns: 1fr; } }
+  @media (max-width: 980px) { .plans { grid-template-columns: 1fr; } }
   .plan-card {
     border-radius: 22px;
     padding: 32px 30px;
@@ -481,15 +481,6 @@
     border-radius: 999px;
   }
   .plan-name { font-weight: 700; font-size: 20px; }
-  .plan-price { margin-top: 14px; display: flex; align-items: baseline; gap: 6px; }
-  .plan-price b {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 900;
-    font-size: 40px;
-    letter-spacing: -.01em;
-    font-variant-numeric: tabular-nums;
-  }
-  .plan-price span { color: var(--ink-soft); font-size: 14px; }
   .plan-annual { margin-top: 6px; font-size: 13px; color: var(--ink-faint); }
   .plan-features {
     list-style: none;
@@ -537,6 +528,7 @@
     <a class="nav-logo" href="/"><img src="assets/logo-completa.png" alt="Desafiaê" /></a>
     <ul class="nav-links">
       <li><a href="#como-funciona">Como funciona</a></li>
+      <li><a href="#aulas">Aulas</a></li>
       <li><a href="#niveis">Pareamento por nível</a></li>
       <li><a href="#planos">Planos</a></li>
     </ul>
@@ -549,12 +541,12 @@
     <div>
       <p class="eyebrow">Software pra arena esportiva</p>
       <h1>Sua arena não devia rodar no grupo do WhatsApp.</h1>
-      <p class="lede">Desafiaê organiza reserva de quadra, aprovação de jogador, torneio e financeiro da sua arena — e ainda coloca você na frente de quem tá procurando onde jogar.</p>
+      <p class="lede">Desafiaê organiza reserva de quadra, aprovação de jogador, torneio, aulas, mensalidade e financeiro da sua arena — e ainda coloca você na frente de quem tá procurando onde jogar.</p>
       <div class="hero-ctas">
-        <a class="btn btn-primary" href="#planos">Ver planos e preços</a>
+        <a class="btn btn-primary" href="#planos">Ver planos</a>
         <a class="btn btn-ghost" href="#como-funciona">Como funciona</a>
       </div>
-      <p class="hero-note">Sem instalar nada na recepção — o painel roda no navegador e no app, do bolso de quem administra.</p>
+      <p class="hero-note">Sem instalar nada na recepção — o painel fica no app, no bolso de quem administra.</p>
     </div>
     <div class="hero-visual">
       <img class="hero-mascot" src="assets/mascote.png" alt="" />
@@ -594,6 +586,7 @@
           <li>Ninguém sabe se quem chegou é nível D ou nível P</li>
           <li>Cancelamento de última hora e a vaga fica parada</li>
           <li>Torneio organizado em planilha, chaveamento feito na mão</li>
+          <li>Mensalidade de aluno anotada no caderno, cobrança atrasada por mensagem</li>
         </ul>
       </div>
       <div class="compare-col after">
@@ -603,6 +596,7 @@
           <li>Vínculo por modalidade: você decide quem representa sua arena, e em que nível</li>
           <li>Lista de espera automática — cancelou, o próximo da fila entra sozinho</li>
           <li>Chaveamento gerado automático, com placar e ranking em tempo real</li>
+          <li>Aluno paga a mensalidade pelo app, e você vê quem está em dia, atrasado ou bloqueado</li>
         </ul>
       </div>
     </div>
@@ -625,7 +619,7 @@
       <div class="pillar">
         <div class="pillar-num">02</div>
         <h3>Operação</h3>
-        <p>Reserva de quadra, partida e vínculo de modalidade aprovados com um toque, sem sair do painel.</p>
+        <p>Reserva de quadra, partida e vínculo de modalidade aprovados com um toque. Aulas e check-in de alunos no mesmo lugar.</p>
       </div>
       <div class="pillar">
         <div class="pillar-num">03</div>
@@ -635,7 +629,7 @@
       <div class="pillar">
         <div class="pillar-num">04</div>
         <h3>Gestão</h3>
-        <p>Financeiro completo, analytics e equipe com papel — dono, gerente ou atendente, cada um vê só o que precisa.</p>
+        <p>Financeiro com reservas, torneios, aulas e mensalidades, analytics e equipe com papel — cada um vê só o que precisa.</p>
       </div>
     </div>
   </div>
@@ -690,19 +684,19 @@
       <div class="desafio-card card-orange">
         <h3>Desafio entre arenas</h3>
         <ul>
-          <li>Sua arena convida outra pra um confronto</li>
-          <li>Data, local e formato da partida já combinados no convite</li>
-          <li>A outra arena aceita, recusa ou responde com provocação (taunt)</li>
-          <li>Resultado entra no retrospecto entre as duas arenas</li>
+          <li>Sua arena desafia outra montando um torneio entre as duas</li>
+          <li>Categorias por nível, com data e local já definidos no convite</li>
+          <li>A arena desafiada aceita, recusa ou sugere ajustes</li>
+          <li>Chaveamento, placar e check-in rodam como em qualquer torneio do app</li>
         </ul>
       </div>
       <div class="desafio-card card-blue">
         <h3>Desafio recorrente</h3>
         <ul>
-          <li>Liga fixa mensal entre dois times da sua arena</li>
+          <li>Liga fixa mensal entre dois lados da sua arena</li>
           <li>Categorias por nível, dia da semana, horário e quadra</li>
-          <li>Substituto automático quando falta jogador na rodada</li>
-          <li>Ranking e histórico de confronto guardados sozinhos</li>
+          <li>O app sorteia os confrontos toda semana e o jogador confirma presença</li>
+          <li>Ranking do mês guardado sozinho</li>
         </ul>
       </div>
     </div>
@@ -719,6 +713,43 @@
       <p class="eyebrow">Chaveamento em tempo real</p>
       <img src="assets/arena-chaveamento.png" alt="Página pública do chaveamento ao vivo do Desafiaê, mostrando as duplas e a fase final de um torneio" />
       <p class="caption">Página pública do chaveamento (link compartilhável, fora do app, sem login) — captura de um torneio no ambiente de demonstração.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="aulas">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Aulas e mensalidade</p>
+      <h2>Sua escolinha organizada, com a mensalidade em dia</h2>
+      <p>Turma, professor, check-in e cobrança do aluno no mesmo app que já cuida das quadras.</p>
+    </div>
+    <div class="desafio-cards">
+      <div class="desafio-card card-orange">
+        <h3>Aulas e turmas</h3>
+        <ul>
+          <li>Turmas e sessões com os professores da sua equipe</li>
+          <li>Aluno se inscreve e paga a aula pelo app</li>
+          <li>Check-in pela câmera, lendo o QR code do ingresso</li>
+          <li>Professor vê a própria agenda de aulas, sem mexer no resto da arena</li>
+        </ul>
+      </div>
+      <div class="desafio-card card-blue">
+        <h3>Planos de mensalidade</h3>
+        <ul>
+          <li>Planos com uma ou mais modalidades, limite de aulas por semana e valor mensal</li>
+          <li>Aluno contrata pelo app e paga por Pix ou cartão — o que for pago no balcão, você marca como pago</li>
+          <li>Tolerância de atraso definida por você: veja quem está em dia, atrasado ou bloqueado</li>
+          <li>Aviso quando um aluno é bloqueado por atraso ou cancela o plano</li>
+        </ul>
+      </div>
+    </div>
+    <div class="desafio-benefits">
+      <strong>Aulas e planos de alunos são do plano Elite</strong>
+      <ul>
+        <li>Coloque quem já treina na arena num plano — a cobrança só começa quando você confirma</li>
+        <li>Mensalidades entram no financeiro junto com reservas e torneios</li>
+      </ul>
     </div>
   </div>
 </section>
@@ -777,7 +808,7 @@
         </div>
         <div class="realtime-item">
           <div class="realtime-icon">2</div>
-          <div><h4>Papel por pessoa da equipe</h4><p>Atendente cuida do dia a dia; financeiro e configuração ficam só com quem administra.</p></div>
+          <div><h4>Papel por pessoa da equipe</h4><p>Atendente cuida do dia a dia, professor faz o check-in das aulas e moderador convidado lança o placar do torneio; financeiro e configuração ficam só com quem administra.</p></div>
         </div>
         <div class="realtime-item">
           <div class="realtime-icon">3</div>
@@ -796,23 +827,21 @@
       <p>Sem contrato de fidelidade escondido em letra miúda — o plano anual só existe porque sai mais barato.</p>
     </div>
     <div class="plans">
-      <div class="plan-card">
-        <div class="plan-name">Básico</div>
-        <div class="plan-price"><b>R$ 189,90</b><span>/mês</span></div>
-        <p class="plan-annual">ou anual, com desconto</p>
-        <ul class="plan-features">
-          <li>Gerenciamento de serviços</li>
-          <li>Cadastro das quadras</li>
-          <li>Partidas</li>
-          <li>Visibilidade no Desafiaê</li>
-        </ul>
-        <a class="btn btn-ghost" href="#">Assinar o Básico</a>
-      </div>
       <div class="plan-card featured">
         <span class="plan-pill">Mais completo</span>
+        <div class="plan-name">Elite</div>
+        <p class="plan-annual">Mensal ou anual — valores no app, na hora de assinar</p>
+        <ul class="plan-features">
+          <li>Tudo do Premium, mais:</li>
+          <li>Aulas e turmas com professores</li>
+          <li>Planos de mensalidade dos alunos</li>
+          <li>Check-in de alunos por QR code</li>
+        </ul>
+        <a class="btn btn-primary" href="#">Assinar o Elite</a>
+      </div>
+      <div class="plan-card">
         <div class="plan-name">Premium</div>
-        <div class="plan-price"><b>R$ 289,90</b><span>/mês</span></div>
-        <p class="plan-annual">ou R$ 2.899,90/ano — cerca de 17% mais barato</p>
+        <p class="plan-annual">Mensal ou anual — valores no app, na hora de assinar</p>
         <ul class="plan-features">
           <li>Tudo do Básico, mais:</li>
           <li>Reservas de quadras</li>
@@ -820,7 +849,18 @@
           <li>Financeiro completo</li>
           <li>Desafio recorrente</li>
         </ul>
-        <a class="btn btn-primary" href="#">Assinar o Premium</a>
+        <a class="btn btn-ghost" href="#">Assinar o Premium</a>
+      </div>
+      <div class="plan-card">
+        <div class="plan-name">Básico</div>
+        <p class="plan-annual">Mensal ou anual — valores no app, na hora de assinar</p>
+        <ul class="plan-features">
+          <li>Gerenciamento de serviços</li>
+          <li>Cadastro das quadras</li>
+          <li>Partidas</li>
+          <li>Visibilidade no Desafiaê</li>
+        </ul>
+        <a class="btn btn-ghost" href="#">Assinar o Básico</a>
       </div>
     </div>
   </div>
@@ -833,7 +873,7 @@
     <h2>Bora colocar sua arena em jogo?</h2>
     <p class="lede">Leva menos tempo que organizar mais um grupo novo no WhatsApp.</p>
     <div class="hero-ctas">
-      <a class="btn btn-primary" href="#planos">Ver planos e preços</a>
+      <a class="btn btn-primary" href="#planos">Ver planos</a>
       <a class="btn btn-ghost-invert" href="#como-funciona">Como funciona</a>
     </div>
   </div>
