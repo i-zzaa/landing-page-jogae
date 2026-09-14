@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Regras do Desafiaê: como funcionam torneios, partidas e desafios — inscrição, chaveamento, placar, pontuação, desempate e prazos." />
+  <meta name="description" content="Regras do Desafiaê: como funcionam torneios, partidas, desafios e aulas — inscrição, chaveamento, placar, pontuação, desempate, mensalidade e prazos." />
   <meta name="theme-color" content="#ff6a00" />
   <title>Regras — Desafiaê</title>
   <link rel="canonical" href="https://desafiae.com/regras" />
@@ -33,7 +33,7 @@
     .legal-foot a{color:var(--orange);font-weight:600}
     .rules-part{scroll-margin-top:100px}
     .rules-part + .rules-part{padding-top:40px}
-    .rules-tabs{display:flex;gap:4px;padding:4px;margin-top:26px;max-width:480px;background:#f5f5f5;border-radius:8px}
+    .rules-tabs{display:flex;gap:4px;padding:4px;margin-top:26px;max-width:560px;background:#f5f5f5;border-radius:8px}
     .rules-tab{flex:1;display:flex;align-items:center;justify-content:center;padding:8px;border:0;border-radius:6px;background:transparent;color:#8c8c8c;font:500 14px/20px "Poppins",Arial,sans-serif;cursor:pointer;transition:background .2s,color .2s}
     .rules-tab:hover{color:var(--graphite)}
     .rules-tab.is-active{background:var(--orange);color:#fff}
@@ -56,7 +56,7 @@
     .rules-table tr:last-child td{border-bottom:0}
     .rules-table td:first-child{color:var(--graphite);font-weight:600}
     .rules-note{background:var(--beige);border-radius:16px;padding:14px 18px;font-size:14px;color:#6b4a2e;margin:12px 0 0}
-    @media(max-width:640px){.legal-hero{padding-top:110px}.legal-section h2{font-size:19px;gap:12px}.rules-part-head{padding:24px 22px}}
+    @media(max-width:640px){.legal-hero{padding-top:110px}.legal-section h2{font-size:19px;gap:12px}.rules-part-head{padding:24px 22px}.rules-tab{font-size:13px;padding:8px 4px}}
   </style>
 </head>
 <body>
@@ -75,11 +75,12 @@
         <span class="eyebrow"><span class="dot"></span> Como funciona</span>
         <h1>Regras do Desafiaê</h1>
         <p class="legal-meta">Última atualização: setembro de 2026</p>
-        <p class="legal-intro" style="margin-top:16px">Tudo o que o app aplica em torneios, partidas e desafios: quem pode fazer o quê, como o placar é lançado, como a pontuação é calculada e o que acontece quando um prazo passa.</p>
+        <p class="legal-intro" style="margin-top:16px">Tudo o que o app aplica em torneios, partidas, desafios e aulas: quem pode fazer o quê, como o placar é lançado, como a pontuação é calculada e o que acontece quando um prazo passa.</p>
         <div class="rules-tabs" role="tablist" aria-label="Regras">
           <button class="rules-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="torneios" data-tab="torneios">Torneios</button>
           <button class="rules-tab" type="button" role="tab" aria-selected="false" aria-controls="partidas" data-tab="partidas">Partidas</button>
           <button class="rules-tab" type="button" role="tab" aria-selected="false" aria-controls="desafios" data-tab="desafios">Desafios</button>
+          <button class="rules-tab" type="button" role="tab" aria-selected="false" aria-controls="aulas" data-tab="aulas">Aulas</button>
         </div>
       </div>
     </section>
@@ -389,6 +390,92 @@
             <li>Os níveis são D, C, B, A e P (Profissional), definidos <b>por modalidade</b>.</li>
             <li>O jogador pede o nível a uma arena com a qual tem vínculo naquela modalidade. A arena aprova, recusa ou concede outro nível.</li>
             <li>O nível define quem pode entrar em partidas públicas com nível definido e ajuda nas sugestões de rivais e companheiros. Ele <b>não sobe nem desce</b> com resultados.</li>
+          </ul>
+        </article>
+      </div>
+
+      <!-- AULAS -->
+      <div class="rules-part" id="aulas">
+        <div class="rules-part-head">
+          <span class="eyebrow"><span class="dot"></span> Parte 4</span>
+          <h2>Aulas</h2>
+          <p>Turmas das arenas, aula avulsa, planos de mensalidade e a avaliação da arena.</p>
+        </div>
+
+        <article class="legal-section">
+          <h2><span>01</span>Inscrição</h2>
+          <ul class="rule-list">
+            <li>As turmas são criadas pela arena, com professor, dia, horário e número de vagas. Aulas fazem parte do <b>plano Elite</b> da arena.</li>
+            <li>A inscrição <b>abre 24 horas antes</b> do início da aula e fecha quando a aula começa, sempre pelo horário do servidor.</li>
+            <li>Qualquer conta pode se inscrever, menos o professor daquela aula.</li>
+            <li>Não dá para estar inscrito em duas aulas no mesmo horário. Aulas seguidas podem.</li>
+            <li>Você pode cancelar a inscrição até o início da aula.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>02</span>Lista de espera</h2>
+          <ul class="rule-list">
+            <li>Com a aula lotada, você entra na lista de espera, se a turma tiver uma. Estar na lista não reserva horário.</li>
+            <li>Quando uma vaga abre, ela é <b>oferecida</b> ao próximo da fila, que tem <b>1 hora</b> para confirmar (ou até o início da aula, o que vier antes).</li>
+            <li>Se a pessoa não confirmar a tempo, a oferta expira e passa para o próximo.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>03</span>Como você entra na aula</h2>
+          <ul class="rule-list">
+            <li><b>Pelo plano:</b> quem tem um plano de mensalidade válido que cobre a modalidade entra pelo plano. A arena pode definir que uma turma aceita só alguns planos.</li>
+            <li><b>Avulsa:</b> sem plano válido, você paga a aula avulsa pelo app, se a turma tiver preço de avulsa.</li>
+            <li>Turma sem preço de avulsa é só para quem tem plano.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>04</span>Aula avulsa e estorno</h2>
+          <ul class="rule-list">
+            <li>Ao se inscrever, a vaga fica <b>reservada por 30 minutos</b> (ou até o início da aula) para você pagar. Sem pagamento nesse prazo, a vaga é liberada.</li>
+            <li>Cancelou com <b>2 horas ou mais</b> de antecedência: estorno total.</li>
+            <li>Cancelou com menos de 2 horas: a vaga é liberada, <b>sem estorno</b>.</li>
+            <li>Se a arena cancelar a aula ou tirar você dela, o estorno é sempre total.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>05</span>Planos de mensalidade</h2>
+          <ul class="rule-list">
+            <li>Cada plano tem uma ou mais modalidades, um <b>limite de aulas por semana</b> e um valor mensal, definidos pela arena.</li>
+            <li>O mês conta a partir da data em que você contrata. A primeira mensalidade vence na hora, e o plano só libera aulas depois que ela é paga.</li>
+            <li>O valor e o limite ficam como estavam na contratação. Se a arena mudar o plano depois, o que você contratou não muda.</li>
+            <li>O limite semanal conta as aulas em que você se inscreveu pelo plano de <b>segunda a domingo</b>. Aula cancelada deixa de contar.</li>
+            <li>Você tem no máximo um plano por modalidade em cada arena.</li>
+            <li>A mensalidade é paga por Pix ou cartão no app, ou no balcão da arena, que marca como pago.</li>
+            <li>Quem já frequentava a arena só passa a ser cobrado depois que a arena escolhe o plano e confirma.</li>
+          </ul>
+          <h3>Atraso</h3>
+          <ul class="rule-list">
+            <li>A próxima mensalidade é gerada 5 dias antes do vencimento. Você recebe avisos quando ela é gerada, no dia do vencimento e se atrasar.</li>
+            <li>Com a mensalidade atrasada, você continua podendo se inscrever até o fim da <b>tolerância definida pela arena</b>.</li>
+            <li>Passada a tolerância, o plano fica <b>bloqueado</b>: você não se inscreve em aulas novas, mas as inscrições que já tinha continuam valendo.</li>
+            <li>Pagou, o plano é liberado na hora.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>06</span>Check-in</h2>
+          <ul class="rule-list">
+            <li>O check-in é feito pela gestão da arena ou pelo professor daquela aula, lendo o QR code do seu ingresso ou pela lista de inscritos.</li>
+            <li>Só vale no dia da aula, e o ingresso de outra aula é recusado.</li>
+            <li>Um check-in marcado por engano pode ser desfeito, e fica registrado quem marcou e quem desfez.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>07</span>Avaliação da arena</h2>
+          <ul class="rule-list">
+            <li>Só avalia a arena quem jogou nela: partida concluída (inclusive a de um desafio), torneio finalizado, aula com check-in ou reserva confirmada que já passou.</li>
+            <li>Depois de uma dessas atividades, o app pergunta como foi. Se você fechar sem avaliar, a pergunta volta na próxima atividade concluída naquela arena. Depois de avaliar, ela não aparece mais.</li>
+            <li>Quem faz parte da equipe da arena não avalia a própria arena.</li>
           </ul>
         </article>
       </div>

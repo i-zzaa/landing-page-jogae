@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow, noarchive" />
+<meta name="referrer" content="no-referrer" />
+<link rel="icon" href="/assets/logo-simplificada.png" />
+<title>Desafiaê no Mercado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --orange:#ff6a00;--orange-ink:#d95800;--orange-soft:#fff0e5;
+    --ink:#1f1f1f;--text:#5f5a55;--muted:#8c8580;
+    --ground:#fcfbfa;--surface:#fff;--ice:#f6f4f2;--border:#e9e6e2;
+    --beige:#ffe7d2;--beige-ink:#6b4a2e;
+    --head-bg:#1f1f1f;--head-text:#fff;--head-sub:#cfcfcf;--head-accent:#ffb27a;
+    --good:#2d8f4a;--good-soft:#e8f6ec;--warn:#b26a00;--warn-soft:#fff4df;--bad:#c2410c;--bad-soft:#fdece4;
+    --radius:24px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --orange:#ff7a1f;--orange-ink:#ff9a55;--orange-soft:#3a2415;
+      --ink:#f3efeb;--text:#c4bdb6;--muted:#968e87;
+      --ground:#171514;--surface:#1f1d1b;--ice:#262321;--border:#35312e;
+      --beige:#33261b;--beige-ink:#f0cfae;
+      --head-bg:#26221f;--head-text:#fff;--head-sub:#bdb5ae;--head-accent:#ffb27a;
+      --good:#6fd08e;--good-soft:#1b2e22;--warn:#f0b35a;--warn-soft:#33281a;--bad:#ff8a5c;--bad-soft:#3a2119;
+    }
+  }
+  :root[data-theme="dark"]{
+    --orange:#ff7a1f;--orange-ink:#ff9a55;--orange-soft:#3a2415;
+    --ink:#f3efeb;--text:#c4bdb6;--muted:#968e87;
+    --ground:#171514;--surface:#1f1d1b;--ice:#262321;--border:#35312e;
+    --beige:#33261b;--beige-ink:#f0cfae;
+    --head-bg:#26221f;--head-text:#fff;--head-sub:#bdb5ae;--head-accent:#ffb27a;
+    --good:#6fd08e;--good-soft:#1b2e22;--warn:#f0b35a;--warn-soft:#33281a;--bad:#ff8a5c;--bad-soft:#3a2119;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--ground);color:var(--ink);font:400 15px/1.6 "Poppins",Arial,Helvetica,sans-serif;padding-inline:16px}
+  a{color:var(--orange-ink);font-weight:600;text-decoration:none}
+  a:hover{text-decoration:underline}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--orange);outline-offset:2px;border-radius:4px}
+  .wrap{max-width:900px;margin:0 auto}
+  h1,h2,h3{text-wrap:balance;margin:0}
+
+  .top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:22px;border-bottom:1px solid var(--border)}
+  .logo{width:132px;height:auto;display:block}
+  :root[data-theme="dark"] .logo{filter:invert(1) hue-rotate(180deg)}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .logo{filter:invert(1) hue-rotate(180deg)}}
+  .badge-internal{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--bad);background:var(--bad-soft);padding:6px 12px;border-radius:999px}
+  .badge-internal::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+
+  .hero{padding-block:48px 28px}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--orange-ink);font-size:12px;letter-spacing:.11em;text-transform:uppercase;font-weight:700}
+  .dot{width:8px;height:8px;background:var(--orange);border-radius:50%}
+  .hero h1{font-size:clamp(34px,5.4vw,54px);line-height:1.05;letter-spacing:-.045em;font-weight:700;margin:16px 0 12px}
+  .hero h1 span{color:var(--orange)}
+  .meta{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0}
+  .lede{font-size:17px;color:var(--text);max-width:64ch;margin:16px 0 0}
+
+  .nav{position:sticky;top:0;z-index:5;background:var(--ground);padding-block:10px;margin-bottom:8px}
+  .tabs{display:flex;gap:4px;padding:4px;background:var(--ice);border-radius:10px;overflow-x:auto}
+  .tabs a{flex:1 0 auto;text-align:center;padding:8px 14px;border-radius:7px;color:var(--muted);font-weight:500;font-size:14px;white-space:nowrap}
+  .tabs a:hover{color:var(--ink);text-decoration:none}
+  .tabs a.on{background:var(--orange);color:#fff}
+
+  .part{scroll-margin-top:70px;padding-block:28px 8px}
+  .part-head{background:var(--head-bg);color:var(--head-text);border-radius:var(--radius);padding:28px 30px}
+  .part-head .eyebrow{color:var(--head-accent)}
+  .part-head .dot{background:var(--head-accent)}
+  .part-head h2{font-size:clamp(26px,3.6vw,36px);letter-spacing:-.035em;line-height:1.12;margin:8px 0 6px}
+  .part-head p{margin:0;color:var(--head-sub);font-size:15px;max-width:62ch}
+
+  .sec{border-top:1px solid var(--border);padding-block:30px}
+  .part-head + .sec{border-top:0}
+  .sec h3{font-size:21px;letter-spacing:-.02em;margin:0 0 12px}
+  .sec h4{font-size:15px;margin:22px 0 8px}
+  .sec p{margin:0 0 10px;color:var(--text);max-width:68ch}
+
+  .list{list-style:none;margin:0 0 6px;padding:0;display:grid;gap:8px}
+  .list li{position:relative;padding-left:22px;color:var(--text)}
+  .list li::before{content:"";position:absolute;left:4px;top:.7em;width:7px;height:7px;border-radius:50%;background:var(--orange)}
+  .list b{color:var(--ink);font-weight:600}
+  ol.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:grid;gap:10px}
+  ol.steps li{counter-increment:s;display:grid;grid-template-columns:30px 1fr;gap:12px;color:var(--text)}
+  ol.steps li::before{content:counter(s);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--orange-soft);color:var(--orange-ink);font-weight:700;font-size:13px}
+  ol.steps b{color:var(--ink)}
+
+  .verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:4px}
+  .v{border:1px solid var(--border);background:var(--surface);border-radius:18px;padding:18px 20px}
+  .v small{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+  .v.good small{color:var(--good)} .v.warn small{color:var(--warn)} .v.bad small{color:var(--bad)}
+  .v p{margin:0;color:var(--ink);font-weight:500;font-size:15px;line-height:1.45}
+
+  .tbl-wrap{overflow-x:auto;margin:8px 0 12px;border:1px solid var(--border);border-radius:16px;background:var(--surface)}
+  table{width:100%;border-collapse:collapse;font-size:14px;min-width:760px}
+  th{text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--ice)}
+  td{padding:12px 16px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  td:first-child{color:var(--ink);font-weight:600}
+  td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+  tr.us td{background:var(--orange-soft)}
+  tr.us td:first-child{color:var(--orange-ink)}
+  /* cobertura: tabela larga, sem rolagem; vira cartões em tela estreita */
+  .cov-wrap{margin-inline:calc(50% - min(640px, 50vw - 16px));margin-block:8px 12px;border:1px solid var(--border);border-radius:16px;background:var(--surface);overflow:hidden}
+  table.cov{min-width:0;table-layout:fixed;font-size:14px}
+  .cov th{vertical-align:bottom;line-height:1.3;text-align:center;padding:14px 8px;letter-spacing:.05em;overflow-wrap:break-word;hyphens:auto}
+  .cov td{text-align:center;vertical-align:middle;padding:14px 8px}
+  .cov th:first-child,.cov td:first-child{text-align:left;padding-left:20px;width:140px}
+  .cov td:first-child{font-size:15px}
+  .cov .chip{white-space:normal;line-height:1.3;padding:4px 10px;font-size:12px}
+  @media (max-width:1100px){
+    .cov-wrap{margin-inline:0}
+    .cov thead{display:none}
+    .cov,.cov tbody,.cov tr,.cov td{display:block;width:auto}
+    .cov tr{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px 16px;padding:18px 18px 20px;border-bottom:1px solid var(--border)}
+    .cov tr:last-child{border-bottom:0}
+    .cov tr.us{background:var(--orange-soft)}
+    .cov tr.us td{background:transparent}
+    .cov td,.cov td:first-child{border:0;padding:0;text-align:left;display:flex;flex-direction:column;align-items:flex-start;gap:4px;width:auto}
+    .cov td::before{content:attr(data-label);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700}
+    .cov td:first-child{grid-column:1/-1;font-size:17px}
+    .cov td:first-child::before{content:none}
+  }
+  .chip{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;white-space:nowrap}
+  .chip.yes{background:var(--good-soft);color:var(--good)}
+  .chip.part{background:var(--warn-soft);color:var(--warn)}
+  .chip.no{background:var(--ice);color:var(--muted)}
+  .chip.q{background:var(--bad-soft);color:var(--bad)}
+
+  .note{background:var(--beige);color:var(--beige-ink);border-radius:16px;padding:14px 18px;font-size:14px;margin:12px 0 0;max-width:none}
+  .note b{color:inherit}
+
+  /* régua de preços (arena, R$/mês) */
+  .ruler{border:1px solid var(--border);border-radius:18px;background:var(--surface);padding:20px 22px 14px;margin:10px 0 6px}
+  .ruler-row{display:grid;grid-template-columns:150px 1fr;align-items:center;gap:14px;padding-block:9px}
+  .ruler-row + .ruler-row{border-top:1px dashed var(--border)}
+  .ruler-name{font-size:13px;font-weight:600;color:var(--ink);line-height:1.3}
+  .ruler-name small{display:block;font-weight:400;color:var(--muted);font-size:11px}
+  .track{position:relative;height:26px}
+  .track::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border)}
+  .bar{position:absolute;top:50%;height:10px;transform:translateY(-50%);border-radius:999px;background:var(--muted);opacity:.55}
+  .bar.us-now{background:var(--bad);opacity:1}
+  .bar.us-new{background:var(--orange);opacity:1}
+  .pin{position:absolute;top:50%;width:10px;height:10px;border-radius:50%;transform:translate(-50%,-50%);background:var(--surface);border:2px solid currentColor}
+  .lbl{position:absolute;top:-4px;font-size:11px;font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap;transform:translateX(-50%)}
+  .axis{display:grid;grid-template-columns:150px 1fr;gap:14px;margin-top:6px}
+  .axis .ticks{position:relative;height:18px;border-top:1px solid var(--border)}
+  .axis span{position:absolute;top:3px;font-size:11px;color:var(--muted);transform:translateX(-50%);font-variant-numeric:tabular-nums}
+  .axis span:first-child{transform:none}
+  .axis span:last-child{transform:translateX(-100%)}
+  .band{position:absolute;top:0;bottom:0;background:var(--orange-soft);opacity:.7;border-radius:6px}
+  .tracks{position:relative}
+  @media (max-width:560px){
+    .ruler-row,.axis{grid-template-columns:1fr;gap:4px}
+    .axis > div:first-child{display:none}
+    .part-head{padding:22px 20px}
+  }
+
+  .price-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:8px 0 6px}
+  .pc{border:1px solid var(--border);border-radius:18px;background:var(--surface);padding:20px}
+  .pc.feat{border-color:var(--orange);box-shadow:0 14px 34px rgba(255,106,0,.12)}
+  .pc h4{margin:0;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .pc .big{font-size:32px;font-weight:700;letter-spacing:-.03em;margin:6px 0 0;font-variant-numeric:tabular-nums;color:var(--ink)}
+  .pc .big small{font-size:14px;font-weight:500;color:var(--muted);letter-spacing:0}
+  .pc .yr{font-size:13px;color:var(--muted);margin:0 0 10px;font-variant-numeric:tabular-nums}
+  .pc .was{font-size:12px;color:var(--bad);font-weight:600;margin:0 0 10px}
+  .pc p{font-size:14px;margin:0;color:var(--text)}
+
+  .src{columns:2 280px;column-gap:28px;padding:0;margin:0;list-style:none;font-size:13px}
+  .src li{break-inside:avoid;margin-bottom:8px;color:var(--text)}
+  .src a{word-break:break-word;font-weight:500}
+
+  .foot{border-top:1px solid var(--border);padding-block:24px 56px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <img class="logo" src="/assets/logo-completa.png" alt="Desafiaê" />
+    <span class="badge-internal">Uso interno · não divulgar</span>
+  </header>
+
+  <section class="hero">
+    <span class="eyebrow"><span class="dot"></span> Comparativo de mercado</span>
+    <h1>Desafiaê no <span>mercado</span></h1>
+    <p class="meta">Concorrentes: 13 de setembro de 2026 · Desafiaê: reconferido na develop em 13/09 (commit 96e9f97)</p>
+    <p class="lede">O que o app entrega hoje, quem mais disputa jogadores e arenas no Brasil, quanto cada um cobra e onde o preço do Desafiaê deveria ficar. Preços de terceiros mudam rápido: confira a fonte antes de usar num argumento de venda.</p>
+  </section>
+
+  <nav class="nav" aria-label="Seções">
+    <div class="tabs">
+      <a href="#resumo" class="on">Resumo</a>
+      <a href="#concorrentes">Concorrentes</a>
+      <a href="#precos">Preços</a>
+      <a href="#fontes">Fontes</a>
+    </div>
+  </nav>
+
+  <!-- RESUMO -->
+  <div class="part" id="resumo">
+    <div class="part-head">
+      <span class="eyebrow"><span class="dot"></span> Parte 1</span>
+      <h2>Onde o Desafiaê está</h2>
+      <p>O produto tem mais funcionalidade que a maioria dos concorrentes nacionais. O que falta é o dinheiro entrar. App conferido em 13/09 na develop (commit 96e9f97). Mensalidade de aluno, Premium do jogador e avaliação da arena estão só no staging.</p>
+    </div>
+
+    <section class="sec">
+      <div class="verdict">
+        <div class="v good"><small>Produto</small><p>Único com desafio entre jogadores e entre arenas. Em torneio, empata com a SporTickets.</p></div>
+        <div class="v bad"><small>Cobrança</small><p>Mercado Pago ligado só no staging. Em produção, nenhum pagamento online funciona.</p></div>
+        <div class="v warn"><small>Preço</small><p>Três valores diferentes entre loja, código e landing.</p></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h3>Pontos fortes</h3>
+      <ul class="list">
+        <li><b>Dois produtos num só:</b> rede competitiva para o jogador (desafio 1x1, em time, recorrente, ranking) e gestão para a arena (quadras, reservas, horário fixo, financeiro, clientes, aulas com check-in por QR, torneios). No Brasil, só LetzPlay (beach tennis) e Playtomic (padel) cobrem os dois lados.</li>
+        <li><b>Torneio completo:</b> grupos, mata-mata, pênaltis, 3º lugar, moderador, check-in, chave ao vivo na web e link com prévia no WhatsApp. Vai além de Copa Fácil, Arena Online e Atacante; a SporTickets tem nível parecido (chave com quadra e horário automáticos, placar ao vivo), mas sem pênaltis nem moderador por convite.</li>
+        <li><b>Desafio entre arenas e desafio recorrente:</b> não aparecem em nenhum concorrente pesquisado.</li>
+        <li><b>15 modalidades</b>, incluindo pickleball, futevôlei e society. A maioria dos concorrentes atende um esporte só.</li>
+        <li><b>Base técnica sólida:</b> 267 commits em 6 semanas, 164 migrations, 70 fluxos E2E no Maestro e limite do plano grátis checado no servidor.</li>
+      </ul>
+    </section>
+
+    <section class="sec">
+      <h3>Pontos fracos, por impacto</h3>
+      <ol class="steps">
+        <li><span><b>Sem pagamento online em produção.</b> A conta do Mercado Pago existe e as chaves estão no staging desde 08/09, mas a produção não tem as chaves nem as funções de pagamento. Pix integrado é o principal motivo de uma arena assinar um concorrente; em produção, o financeiro depende da arena marcar "pago" à mão.</span></li>
+        <li><span><b>Preço indefinido.</b> O app mostra "Preço em breve", um comentário no código cita R$ 29,99 e R$ 44,99, e a landing publica R$ 189,90 e R$ 289,90. O Premium do jogador não tem preço e a Play Store não tem as assinaturas.</span></li>
+        <li><span><b>Premium do jogador só no staging e sem preço.</b> Ganhou estatísticas completas, histórico detalhado contra cada rival e selo no perfil e no ranking (0163), além do desafio ilimitado. Em produção continua só o desafio ilimitado, e o webhook novo da RevenueCat não foi publicado.</span></li>
+        <li><span><b>Elite ainda fora das lojas.</b> Aulas e mensalidade de aluno são só do Elite (0158). Nenhuma arena consegue assinar esses módulos até os produtos Elite existirem na App Store e na Play Store.</span></li>
+        <li><span><b>Mensalidade de aluno pronta, mas só no staging:</b> planos por modalidade com limite semanal, contratação, Pix ou cartão pelo app com taxa de 2%, baixa no balcão, tolerância e bloqueio por atraso, avisos de vencimento e card no Financeiro (0159 a 0164). Faltam cartão recorrente, CRM por WhatsApp, PDV e catraca, que SporTickets, Atacante, Effect e Arena Manager já têm.</span></li>
+        <li><span><b>Só Brasil:</b> real e fuso de São Paulo fixos. Operar na Bélgica exige refatoração.</span></li>
+        <li><span><b>Um usuário, uma arena;</b> sem testes unitários; desafio de marca (corrida) ainda sem commit.</span></li>
+      </ol>
+    </section>
+  </div>
+
+  <!-- CONCORRENTES -->
+  <div class="part" id="concorrentes">
+    <div class="part-head">
+      <span class="eyebrow"><span class="dot"></span> Parte 2</span>
+      <h2>Quem disputa o mesmo espaço</h2>
+      <p>Separados por quem paga: arena, jogador, organizador de torneio e professor.</p>
+    </div>
+
+    <section class="sec">
+      <h3>Cobertura de funcionalidades</h3>
+      <p>Comparação com os concorrentes mais próximos do Desafiaê, pelo que está publicado no site ou na loja de cada um.</p>
+      <div class="cov-wrap">
+        <table class="cov">
+          <thead><tr><th>Concorrente</th><th>Reserva de quadra</th><th>Pagamento online (Pix)</th><th>Torneios</th><th>Aulas com professor</th><th>Mensalidade de aluno</th><th>PDV e produtos</th><th>Desafio entre jogadores</th><th>Desafio arena x arena</th><th>Ranking de jogadores</th><th>Cobrança e CRM por WhatsApp</th></tr></thead>
+          <tbody>
+            <tr class="us"><td>Desafiaê</td><td data-label="Reserva"><span class="chip yes">Sim</span></td><td data-label="Pix"><span class="chip part">Só no staging</span></td><td data-label="Torneios"><span class="chip yes">Completo</span></td><td data-label="Aulas"><span class="chip yes">Só Elite</span></td><td data-label="Mensalidade de aluno"><span class="chip part">Só no staging (Elite)</span></td><td data-label="PDV"><span class="chip no">Não</span></td><td data-label="Desafio entre jogadores"><span class="chip yes">1x1, time, recorrente</span></td><td data-label="Arena x arena"><span class="chip yes">Sim</span></td><td data-label="Ranking"><span class="chip yes">Sim</span></td><td data-label="Cobrança e CRM"><span class="chip no">Não</span></td></tr>
+            <tr><td>SporTickets</td><td data-label="Reserva"><span class="chip yes">Aluguel por hora</span></td><td data-label="Pix"><span class="chip yes">Sim</span></td><td data-label="Torneios"><span class="chip yes">Completo</span></td><td data-label="Aulas"><span class="chip yes">Turmas + comissão</span></td><td data-label="Mensalidade de aluno"><span class="chip yes">Sim</span></td><td data-label="PDV"><span class="chip yes">Sim</span></td><td data-label="Desafio entre jogadores"><span class="chip no">Não</span></td><td data-label="Arena x arena"><span class="chip no">Não</span></td><td data-label="Ranking"><span class="chip yes">Sim</span></td><td data-label="Cobrança e CRM"><span class="chip part">Cobrança automática</span></td></tr>
+            <tr><td>Playtomic</td><td data-label="Reserva"><span class="chip yes">Sim</span></td><td data-label="Pix"><span class="chip yes">Sim</span></td><td data-label="Torneios"><span class="chip yes">Sim</span></td><td data-label="Aulas"><span class="chip yes">Sim</span></td><td data-label="Mensalidade de aluno"><span class="chip q">?</span></td><td data-label="PDV"><span class="chip yes">Sim</span></td><td data-label="Desafio entre jogadores"><span class="chip part">Partida aberta</span></td><td data-label="Arena x arena"><span class="chip no">Não</span></td><td data-label="Ranking"><span class="chip yes">Nível</span></td><td data-label="Cobrança e CRM"><span class="chip no">Não</span></td></tr>
+            <tr><td>LetzPlay</td><td data-label="Reserva"><span class="chip yes">Sim</span></td><td data-label="Pix"><span class="chip q">?</span></td><td data-label="Torneios"><span class="chip yes">Sim</span></td><td data-label="Aulas"><span class="chip yes">Sim</span></td><td data-label="Mensalidade de aluno"><span class="chip q">?</span></td><td data-label="PDV"><span class="chip q">?</span></td><td data-label="Desafio entre jogadores"><span class="chip yes">Sim</span></td><td data-label="Arena x arena"><span class="chip no">Não</span></td><td data-label="Ranking"><span class="chip yes">Sim</span></td><td data-label="Cobrança e CRM"><span class="chip q">?</span></td></tr>
+            <tr><td>Atacante.App</td><td data-label="Reserva"><span class="chip yes">Sim</span></td><td data-label="Pix"><span class="chip yes">Sim</span></td><td data-label="Torneios"><span class="chip no">Não</span></td><td data-label="Aulas"><span class="chip yes">Turmas</span></td><td data-label="Mensalidade de aluno"><span class="chip yes">Sim</span></td><td data-label="PDV"><span class="chip q">?</span></td><td data-label="Desafio entre jogadores"><span class="chip no">Não</span></td><td data-label="Arena x arena"><span class="chip no">Não</span></td><td data-label="Ranking"><span class="chip no">Não</span></td><td data-label="Cobrança e CRM"><span class="chip yes">Sim</span></td></tr>
+            <tr><td>Arena Online</td><td data-label="Reserva"><span class="chip yes">Sim</span></td><td data-label="Pix"><span class="chip q">?</span></td><td data-label="Torneios"><span class="chip yes">Sim</span></td><td data-label="Aulas"><span class="chip yes">Sim</span></td><td data-label="Mensalidade de aluno"><span class="chip q">?</span></td><td data-label="PDV"><span class="chip q">?</span></td><td data-label="Desafio entre jogadores"><span class="chip no">Não</span></td><td data-label="Arena x arena"><span class="chip no">Não</span></td><td data-label="Ranking"><span class="chip no">Não</span></td><td data-label="Cobrança e CRM"><span class="chip no">Não</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note"><b>?</b> = não confirmado. "Não" nos concorrentes quer dizer que a funcionalidade não aparece no material público deles, não que foi testada no produto.</p>
+    </section>
+
+    <section class="sec">
+      <h3>Sistemas para arena</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Sistema</th><th>Destaques</th><th class="num">Mensalidade</th><th>Taxa sobre venda</th></tr></thead>
+          <tbody>
+            <tr class="us"><td>Desafiaê</td><td>Reservas, torneios, desafios, financeiro; aulas e mensalidade de aluno no Elite (mensalidade só no staging); avaliação só de quem jogou</td><td class="num">Indefinida</td><td>10% (torneio, reserva, aula avulsa) · 2% (mensalidade de aluno)</td></tr>
+            <tr><td>SporTickets</td><td>Agenda, turmas, mensalidades com cobrança automática, catraca facial ou QR, PDV, professores com comissão, aula experimental, torneio interno</td><td class="num">R$ 0</td><td>3% Pix · 5% cartão · 8% cartão internacional (planos e mensalidades); reserva sob consulta</td></tr>
+            <tr><td>Atacante.App</td><td>Agenda, turmas, day use, pacotes, CRM por WhatsApp, check-in facial</td><td class="num">R$ 199 (até 3 quadras)<br />R$ 399 (4 ou mais)</td><td>5% sobre venda online</td></tr>
+            <tr><td>Arena Online</td><td>Reservas, financeiro, aulas, torneios, painel</td><td class="num">R$ 147 / 247 / 347<br /><small>preço de lançamento</small></td><td>Não informada</td></tr>
+            <tr><td>Arena Manager</td><td>White-label, mensalidade no Pix, app de aluno e instrutor</td><td class="num">R$ 99 / 279 / 449</td><td>0% na mensalidade; split 1–1,5%</td></tr>
+            <tr><td>Effect Sports</td><td>Mercado Pago, WhatsApp com IA, gamificação</td><td class="num">R$ 99,90 / 199,90 / 349,90</td><td>Não informada</td></tr>
+            <tr><td>Reserve</td><td>Marketplace de reserva</td><td class="num">R$ 0</td><td>R$ 10,99 por horário (Pix)</td></tr>
+            <tr><td>Playtomic Manager</td><td>Agenda, pagamentos, torneios, aulas, ligas, PDV</td><td class="num">Não público<br /><small>tabela antiga €59–119</small></td><td>Não informada</td></tr>
+            <tr><td>Quadras Online</td><td>Reserva, parceiro de jogo, torneios, ranking</td><td class="num">R$ 0</td><td>Não informada</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h3>Apps para o jogador</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>App</th><th>O que a assinatura dá</th><th class="num">Preço</th><th>Brasil</th></tr></thead>
+          <tbody>
+            <tr class="us"><td>Desafiaê Premium</td><td>Desafios ilimitados (grátis: 1 a cada 7 dias), estatísticas completas, histórico detalhado contra cada rival e selo no perfil e no ranking; os três últimos só no staging</td><td class="num">Sem preço na loja</td><td>Sim</td></tr>
+            <tr><td>Playtomic</td><td>Desconto ou isenção da taxa de reserva, estatísticas, destaque em partidas</td><td class="num">R$ 50,90/mês<br />R$ 299/ano</td><td>Sim · €9,99/mês na Bélgica</td></tr>
+            <tr><td>MATCHi</td><td>Sem assinatura; cobra taxa de serviço na reserva</td><td class="num">4% por transação</td><td>Não · opera na Bélgica</td></tr>
+            <tr><td>LetzPlay</td><td>Sem assinatura para o jogador; quem paga é a arena</td><td class="num">R$ 0</td><td>Forte no beach tennis</td></tr>
+            <tr><td>Strava <small>(referência)</small></td><td>Não concorre; mostra quanto o esportista brasileiro paga</td><td class="num">R$ 22,90/mês<br />R$ 149,90/ano</td><td>Sim</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h3>Torneios e inscrições</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Ferramenta</th><th>Modelo</th><th class="num">Valor</th></tr></thead>
+          <tbody>
+            <tr class="us"><td>Desafiaê</td><td>Taxa sobre a inscrição paga</td><td class="num">10%</td></tr>
+            <tr><td>SporTickets</td><td>Sem mensalidade; chave automática com quadra e horário, placar ao vivo, lotes, cupons, check-in por QR. Taxa pode ser repassada ao atleta</td><td class="num">10% Pix · 12% cartão<br />15% cartão internacional</td></tr>
+            <tr><td>Sympla</td><td>Taxa de serviço (pode repassar) + processamento</td><td class="num">10% + 2–2,5%</td></tr>
+            <tr><td>Playinga</td><td>Freemium + taxa de transação</td><td class="num">2,5% (Free) · 2% (Pro)</td></tr>
+            <tr><td>Rankedin</td><td>Básico grátis + taxa sobre inscrição</td><td class="num">1% + Stripe</td></tr>
+            <tr><td>Copa Fácil</td><td>Mensalidade por tamanho</td><td class="num">R$ 25 a 55/mês</td></tr>
+            <tr><td>Challonge</td><td>Freemium</td><td class="num">US$ 7–12/mês</td></tr>
+            <tr><td>MeuRanking</td><td>Inscrição via PagSeguro, ranking FBT</td><td class="num">Só por WhatsApp</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Inscrições de beach tennis custam de <b>R$ 60 a R$ 195</b> por atleta ou categoria.</p>
+    </section>
+
+    <section class="sec">
+      <h3>Professores</h3>
+      <p>Set Prime (grátis em teste), OutArena Professor (teste de 7 dias), Beach Class e Bora Pro Play. Nenhum tem preço público: ainda não existe preço de mercado para esse público.</p>
+    </section>
+
+    <section class="sec">
+      <h3>Tamanho do mercado</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Indicador</th><th class="num">Número</th><th>Fonte</th></tr></thead>
+          <tbody>
+            <tr><td>Praticantes de beach tennis no Brasil</td><td class="num">≈ 1,1 milhão</td><td>CBT · +175% entre 2021 e 2023</td></tr>
+            <tr><td>Quadras de beach tennis em SP</td><td class="num">900+</td><td>CBBT · dobrou desde 2020</td></tr>
+            <tr><td>Clubes de padel no Brasil</td><td class="num">380</td><td>FIP World Padel Report 2025</td></tr>
+            <tr><td>Quadras de padel no Brasil</td><td class="num">1.000+</td><td>FIP 2025</td></tr>
+            <tr><td>Jogadores de padel no Brasil</td><td class="num">500–600 mil</td><td>FIP / COBRAPA</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Não há número nacional de arenas. Sul e Sudeste concentram cerca de 70% das quadras cadastradas.</p>
+    </section>
+  </div>
+
+  <!-- PREÇOS -->
+  <div class="part" id="precos">
+    <div class="part-head">
+      <span class="eyebrow"><span class="dot"></span> Parte 3</span>
+      <h2>Onde o preço deveria ficar</h2>
+      <p>Sugestão a partir do mercado. Nada disso foi alterado no app, na loja ou na landing.</p>
+    </div>
+
+    <section class="sec">
+      <h3>Mensalidade de arena: Desafiaê contra o mercado</h3>
+      <p>Faixa de cada sistema, do plano mais barato ao mais caro, em R$ por mês. A área laranja clara é onde se concentra o mercado para 3 a 6 quadras.</p>
+      <div class="ruler" role="img" aria-label="Faixas de mensalidade: SporTickets 0 mais taxa, Arena Manager 99 a 449, Effect 99,90 a 349,90, Arena Online 147 a 347, Atacante 199 a 399, Desafiaê hoje 29,99 a 44,99, Desafiaê sugerido 89 a 349 reais por mês">
+        <div class="tracks">
+          <div class="ruler-row">
+            <div class="ruler-name">SporTickets <small>+ 3% a 8% por pagamento</small></div>
+            <div class="track"><span class="band" style="left:40%;width:20%"></span><span class="pin" style="left:1%;color:var(--muted)"></span><span class="lbl" style="left:1%;top:-10px;transform:none">R$ 0</span></div>
+          </div>
+          <div class="ruler-row">
+            <div class="ruler-name">Arena Manager</div>
+            <div class="track"><span class="band" style="left:40%;width:20%"></span><span class="bar" style="left:19.8%;width:70%"></span></div>
+          </div>
+          <div class="ruler-row">
+            <div class="ruler-name">Effect Sports</div>
+            <div class="track"><span class="band" style="left:40%;width:20%"></span><span class="bar" style="left:19.98%;width:50%"></span></div>
+          </div>
+          <div class="ruler-row">
+            <div class="ruler-name">Arena Online <small>lançamento</small></div>
+            <div class="track"><span class="band" style="left:40%;width:20%"></span><span class="bar" style="left:29.4%;width:40%"></span></div>
+          </div>
+          <div class="ruler-row">
+            <div class="ruler-name">Atacante.App</div>
+            <div class="track"><span class="band" style="left:40%;width:20%"></span><span class="bar" style="left:39.8%;width:40%"></span></div>
+          </div>
+          <div class="ruler-row">
+            <div class="ruler-name">Desafiaê hoje <small>comentário no código</small></div>
+            <div class="track"><span class="band" style="left:40%;width:20%"></span><span class="bar us-now" style="left:6%;width:3%"></span><span class="lbl" style="left:7.5%;top:-10px">R$ 29,99–44,99</span></div>
+          </div>
+          <div class="ruler-row">
+            <div class="ruler-name">Desafiaê sugerido</div>
+            <div class="track"><span class="band" style="left:40%;width:20%"></span><span class="bar us-new" style="left:17.8%;width:52%"></span></div>
+          </div>
+        </div>
+        <div class="axis">
+          <div></div>
+          <div class="ticks"><span style="left:0">R$ 0</span><span style="left:20%">100</span><span style="left:40%">200</span><span style="left:60%">300</span><span style="left:80%">400</span><span style="left:100%">500</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h3>Arena</h3>
+      <div class="price-cards">
+        <div class="pc">
+          <h4>Básico</h4>
+          <p class="big">R$ 89<small>/mês</small></p>
+          <p class="yr">R$ 890/ano</p>
+          <p class="was">Hoje: R$ 29,99?</p>
+          <p>Quadras, partidas, serviços e visibilidade.</p>
+        </div>
+        <div class="pc feat">
+          <h4>Premium</h4>
+          <p class="big">R$ 219<small>/mês</small></p>
+          <p class="yr">R$ 2.190/ano</p>
+          <p class="was">Hoje: R$ 44,99?</p>
+          <p>Reservas, financeiro, desafios e torneios.</p>
+        </div>
+        <div class="pc">
+          <h4>Elite</h4>
+          <p class="big">R$ 349<small>/mês</small></p>
+          <p class="yr">R$ 3.490/ano</p>
+          <p class="was">Hoje: não existe na loja</p>
+          <p>Premium + aulas, professores e mensalidade de aluno.</p>
+        </div>
+      </div>
+      <ul class="list" style="margin-top:14px">
+        <li><b>R$ 29,99 e R$ 44,99 deixam dinheiro na mesa</b> e passam imagem de produto amador para quem compra sistema de gestão.</li>
+        <li><b>Os R$ 189,90 e R$ 289,90 da landing estão no preço de mercado,</b> mas só se sustentam com pagamento online funcionando.</li>
+        <li><b>Enquanto o Pix não estiver em produção,</b> o Premium só se defende perto de R$ 149.</li>
+        <li><b>A loja fica com 15% da assinatura</b> (programa de pequenas empresas da Apple e do Google).</li>
+        <li><b>A SporTickets não cobra mensalidade</b> e entrega mensalidade de aluno, catraca, PDV e comissão de professor, ganhando só 3% a 8% do que a arena recebe. Contra ela, mensalidade + 10% é difícil de vender. Vale ter um plano de entrada sem mensalidade, cobrando só taxa.</li>
+      </ul>
+    </section>
+
+    <section class="sec">
+      <h3>Jogador</h3>
+      <div class="price-cards">
+        <div class="pc feat">
+          <h4>Premium hoje</h4>
+          <p class="big">R$ 14,90<small>/mês</small></p>
+          <p class="yr">R$ 119/ano</p>
+          <p>Abaixo do Strava. Com estatísticas completas, histórico contra cada rival e selo (0163), o valor se sustenta quando isso chegar à produção.</p>
+        </div>
+        <div class="pc">
+          <h4>Premium reforçado</h4>
+          <p class="big">R$ 24,90<small>/mês</small></p>
+          <p class="yr">Alvo depois de novos benefícios</p>
+          <p>Somar isenção da taxa de reserva e inscrição e prioridade em lista de espera.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h3>Taxa sobre transação</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Onde</th><th class="num">Hoje</th><th class="num">Sugestão</th><th>Por quê</th></tr></thead>
+          <tbody>
+            <tr><td>Inscrição de torneio</td><td class="num">10%</td><td class="num">10%, repassada ao atleta</td><td>Igual à Sympla e ao Pix da SporTickets; inscrição de R$ 60 a 195 absorve bem</td></tr>
+            <tr><td>Reserva de quadra</td><td class="num">10%</td><td class="num">≈ 5% para assinante</td><td>Mensalidade + 10% fica acima de todos; a SporTickets cobra 3% no Pix sem mensalidade</td></tr>
+            <tr><td>Aula avulsa</td><td class="num">10%</td><td class="num">≈ 5% para assinante</td><td>Mesmo motivo da reserva</td></tr>
+            <tr><td>Mensalidade de aluno</td><td class="num">2%</td><td class="num">2%</td><td>Já está entre o Arena Manager (0%) e o Pix da SporTickets (3%)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note"><b>Falta pesquisar a taxa do Mercado Pago,</b> que vem por cima da nossa. Ela precisa entrar na conta antes de fechar os percentuais.</p>
+    </section>
+
+    <section class="sec">
+      <h3>Prioridades</h3>
+      <ol class="steps">
+        <li><span><b>Levar o Mercado Pago para produção:</b> cadastrar as chaves e publicar as funções de pagamento, que hoje só existem no staging. É o que destrava o valor do Premium da arena.</span></li>
+        <li><span><b>Um preço só</b> na loja, no app e na landing, com os produtos Elite criados.</span></li>
+        <li><span><b>Assinaturas na Play Store,</b> quando for liberar Android.</span></li>
+        <li><span><b>Levar Premium do jogador, mensalidade de aluno e avaliação da arena para produção</b> (0158 a 0165 e os webhooks), com o furo de permissão em <code>profiles</code> corrigido antes de vender assinatura.</span></li>
+      </ol>
+    </section>
+  </div>
+
+  <!-- FONTES -->
+  <div class="part" id="fontes">
+    <div class="part-head">
+      <span class="eyebrow"><span class="dot"></span> Parte 4</span>
+      <h2>Fontes e limites</h2>
+      <p>Só entrou preço visto em página oficial, loja de apps ou terceiro citado abaixo.</p>
+    </div>
+
+    <section class="sec">
+      <h3>O que não foi confirmado</h3>
+      <ul class="list">
+        <li><b>R$ 29,99 e R$ 44,99</b> vêm de um comentário no código, não da App Store Connect.</li>
+        <li><b>Playtomic Manager</b> não publica preço; a tabela em euro é antiga. <b>MATCHi</b> (preço para clube) e <b>Challonge</b> bloquearam a leitura.</li>
+        <li><b>Não encontrados:</b> Quadra Livre, Reservei, Kourts, Easy Court, Beach Manager, SuaQuadra, Arena Hub, ArenaPro, Gestor de Quadras, Sportsbooking, LetsBT, Sportzy, Padel Mobile, Joinfut, Torneio Fácil.</li>
+        <li><b>Sem preço público:</b> LetzPlay, BT Match, ArenaAi, MeuRanking, Premium do Rankedin.</li>
+      </ul>
+    </section>
+
+    <section class="sec">
+      <h3>Links</h3>
+      <ul class="src">
+        <li>Playtomic, App Store BR · <a href="https://apps.apple.com/br/app/playtomic-play-padel/id1242321076">apps.apple.com</a></li>
+        <li>Playtomic, App Store BE · <a href="https://apps.apple.com/be/app/playtomic-play-padel/id1242321076">apps.apple.com</a></li>
+        <li>Playtomic Premium · <a href="https://helpmanager.playtomic.com/hc/en-gb/articles/20534670300561-Playtomic-Premium-Plan-for-players">helpmanager.playtomic.com</a></li>
+        <li>Playtomic Manager · <a href="https://playtomic.com/pricing">playtomic.com/pricing</a></li>
+        <li>Playtomic Manager (tabela antiga) · <a href="https://www.appvizer.co.uk/recreational-activities/gym-mgt/syltek">appvizer.co.uk</a></li>
+        <li>MATCHi, taxa de serviço · <a href="https://matchiplayers.zendesk.com/hc/en-gb/articles/21632070063517-Service-fee">matchiplayers.zendesk.com</a></li>
+        <li>LetzPlay · <a href="https://apps.apple.com/br/app/letzplay/id1262006308">apps.apple.com</a></li>
+        <li>Rankedin · <a href="https://www.rankedin.com/en/pricing">rankedin.com/pricing</a></li>
+        <li>Ranking Beach Tennis · <a href="https://www.rankingbeachtennis.com/">rankingbeachtennis.com</a></li>
+        <li>Playinga · <a href="https://playinga.com/pt/pricing/">playinga.com</a></li>
+        <li>Copa Fácil · <a href="https://copafacil.com/">copafacil.com</a></li>
+        <li>Challonge · <a href="https://www.softwaresuggest.com/challonge">softwaresuggest.com</a></li>
+        <li>SporTickets, organizadores · <a href="https://www.sportickets.com.br/pt/landing">sportickets.com.br/pt/landing</a></li>
+        <li>SporTickets, arenas · <a href="https://www.sportickets.com.br/pt/landing/arenas">sportickets.com.br/pt/landing/arenas</a></li>
+        <li>Sympla · <a href="https://produtores.sympla.com.br/quanto-custa/">produtores.sympla.com.br</a></li>
+        <li>Atacante.App · <a href="https://atacante.app/sistema-para-beach-tennis/">atacante.app</a></li>
+        <li>Arena Online · <a href="https://arenaonline.app.br/">arenaonline.app.br</a></li>
+        <li>Arena Manager · <a href="https://arenamanager.com.br/">arenamanager.com.br</a></li>
+        <li>Effect Sports · <a href="https://effectsports.com/">effectsports.com</a></li>
+        <li>Reserve · <a href="https://reserveapp.com.br/">reserveapp.com.br</a></li>
+        <li>Quadras Online · <a href="https://www.quadras.online/">quadras.online</a></li>
+        <li>Tecnofit · <a href="https://www.tecnofit.com.br/precos/">tecnofit.com.br</a></li>
+        <li>Set Prime · <a href="https://apps.apple.com/br/app/set-prime/id6760924804">apps.apple.com</a></li>
+        <li>OutArena Professor · <a href="https://professor.outarena.app/">professor.outarena.app</a></li>
+        <li>Strava no Brasil · <a href="https://bikeaospedacos.com.br/2026/02/24/strava-pix-assinatura-brasil/">bikeaospedacos.com.br</a></li>
+        <li>Beach tennis, 1,1 milhão · <a href="https://jornalismo.iesb.br/destaque3/brasil-tem-11-milhao-de-praticantes-de-beach-tennis/">jornalismo.iesb.br</a></li>
+        <li>Beach tennis, quadras em SP · <a href="https://aquiesportes.com.br/beach-tennis/o-que-e-beach-tennis/">aquiesportes.com.br</a></li>
+        <li>Padel, FIP 2025 · <a href="https://superpadel.com.br/2025/12/03/fip-divulga-o-world-padel-report-2025-e-aponta-expansao-historica-do-esporte/">superpadel.com.br</a></li>
+        <li>Padel, COBRAPA · <a href="https://www.gazetasp.com.br/esportes/mais-de-600-mil-praticantes-padel-dispara-no-brasil-e-e-o-esporte-que/1175610/">gazetasp.com.br</a></li>
+      </ul>
+    </section>
+  </div>
+
+  <footer class="foot">
+    <span>Desafiaê · documento interno</span>
+    <span>Levantamento de 13/09/2026</span>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.tabs a'));
+    var parts = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+    function mark() {
+      var y = window.scrollY + 120, idx = 0;
+      parts.forEach(function (p, i) { if (p && p.offsetTop <= y) idx = i; });
+      links.forEach(function (a, i) { a.classList.toggle('on', i === idx); });
+    }
+    window.addEventListener('scroll', mark, { passive: true });
+    mark();
+  })();
+</script>
+</body>
+</html>
