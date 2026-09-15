@@ -41,8 +41,8 @@
   ],
   "rewrites": [
     {
-      "source": "/(match|challenge|tournament|arena-challenge)/:id",
-      "destination": "/abrir.html"
+      "source": "/:type(match|challenge|tournament|arena-challenge)/:id",
+      "destination": "/abrir"
     }
   ]
 }
