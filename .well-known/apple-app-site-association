@@ -1,0 +1,16 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["4256HYK2UW.com.andressanovaiis.desafiae"],
+        "components": [
+          { "/": "/tournament/*/cover", "exclude": true, "comment": "imagem do preview, nao e tela" },
+          { "/": "/tournament/*", "comment": "detalhe do torneio abre no app" },
+          { "/": "/match/*", "comment": "detalhe da partida abre no app" },
+          { "/": "/challenge/*", "comment": "detalhe do desafio abre no app" },
+          { "/": "/arena-challenge/*", "comment": "desafio entre arenas abre no app" }
+        ]
+      }
+    ]
+  }
+}

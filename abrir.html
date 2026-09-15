@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Desafiaê — abrir no app</title>
+<style>
+  :root { --primary:#ff6a00; --text:#1f1f1f; --muted:#8c8c8c; --bg:#fcfbfa; --surface:#fff; }
+  body { margin:0; min-height:100vh; font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+         background:var(--bg); color:var(--text); display:flex; align-items:center; justify-content:center; padding:24px; box-sizing:border-box; }
+  main { width:100%; max-width:420px; text-align:center; }
+  img { width:160px; margin:0 auto 24px; display:block; }
+  h1 { font-size:22px; margin:0 0 4px; }
+  p { color:var(--muted); margin:0 0 24px; }
+  a.btn { display:block; text-align:center; padding:14px; border-radius:999px; text-decoration:none;
+          background:var(--primary); color:#fff; font-weight:600; margin-bottom:8px; }
+  a.alt { background:var(--surface); color:var(--primary); border:1px solid var(--primary); }
+</style>
+</head>
+<body>
+<main>
+  <img src="/assets/logo-completa.png" alt="Desafiaê" />
+  <h1 id="title">Abra no Desafiaê</h1>
+  <p>Veja os detalhes e participe pelo app.</p>
+  <a class="btn" id="open" href="desafiae:///">Abrir no Desafiaê</a>
+  <a class="btn alt" href="https://apps.apple.com/app/id6807155371">Baixar o app</a>
+</main>
+<script>
+  // Quem tem o app instalado nem chega aqui: o iOS abre o app direto pelo
+  // apple-app-site-association. Esta pagina e o destino dos rewrites de
+  // /match, /challenge, /tournament e /arena-challenge (vercel.json) pra quem
+  // nao tem o app — o botao repassa o mesmo caminho pelo esquema do app.
+  var titles = { match: 'Partida no Desafiaê', challenge: 'Desafio no Desafiaê', tournament: 'Torneio no Desafiaê', 'arena-challenge': 'Desafio entre arenas no Desafiaê' };
+  var parts = window.location.pathname.split('/').filter(Boolean);
+  if (parts.length === 2 && titles[parts[0]] && /^[0-9a-f-]{36}$/i.test(parts[1])) {
+    document.getElementById('open').href = 'desafiae:///' + parts[0] + '/' + parts[1];
+    document.getElementById('title').textContent = titles[parts[0]];
+    document.title = titles[parts[0]];
+  }
+</script>
+</body>
+</html>

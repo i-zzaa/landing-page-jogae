@@ -4,6 +4,15 @@
   "trailingSlash": false,
   "headers": [
     {
+      "source": "/.well-known/apple-app-site-association",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
       "source": "/assets/(.*)",
       "headers": [
         {
@@ -28,6 +37,12 @@
           "value": "strict-origin-when-cross-origin"
         }
       ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(match|challenge|tournament|arena-challenge)/:id",
+      "destination": "/abrir.html"
     }
   ]
 }
