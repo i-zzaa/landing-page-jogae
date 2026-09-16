@@ -80,21 +80,26 @@ const TOUR=[
  {mode:'Painel da arena',screens:[
   {label:'Painel',src:'assets/screens/arena-painel.png',cap:'O dia da arena e os desafios ativos, lado a lado.'},
   {label:'Ajustes',src:'assets/screens/arena-ajustes.png',cap:'Quadras, preços, equipe e formas de pagamento.'},
-  {label:'Perfil público',src:'assets/screens/arena-perfil.png',cap:'A página que o jogador vê ao procurar onde jogar.'}]}
+  {label:'Analytics',src:'assets/screens/arena-analytics.png',cap:'Jogos, jogadores ativos e ocupação por dia e horário.'}]}
 ];
 
 const modeBox=document.querySelector('.tour-modes');
-const screenBox=document.querySelector('.tour-screens');
-const shot=document.querySelector('.tour-shot img');
-const cap=document.querySelector('.tour-shot figcaption');
-if(modeBox&&screenBox&&shot){
+const shots=document.querySelector('.tour-shots');
+if(modeBox&&shots){
   tablist(modeBox,TOUR.map(m=>m.mode),m=>{
     markTabs(modeBox,m);
-    tablist(screenBox,TOUR[m].screens.map(s=>s.label),i=>{
-      const sc=TOUR[m].screens[i];
-      markTabs(screenBox,i);
-      shot.src=sc.src;shot.alt=`${sc.label} — ${TOUR[m].mode} do Desafiaê`;
-      cap.textContent=sc.cap;
-    });
+    shots.innerHTML=TOUR[m].screens.map(sc=>
+      `<figure class="tour-shot"><img src="${sc.src}" alt="${sc.label} — ${TOUR[m].mode} do Desafiaê" loading="lazy" /><figcaption><b>${sc.label}</b>${sc.cap}</figcaption></figure>`
+    ).join('');
   });
+}
+
+/* Menu acompanha a secao: bege enquanto o menu esta sobre o inicio */
+const header=document.querySelector('.header');
+const hero=document.querySelector('.hero');
+if(header&&hero){
+  const paint=()=>header.classList.toggle('on-beige',hero.getBoundingClientRect().bottom>header.offsetHeight);
+  window.addEventListener('scroll',paint,{passive:true});
+  window.addEventListener('resize',paint);
+  paint();
 }
