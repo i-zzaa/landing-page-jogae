@@ -668,11 +668,31 @@
     .desafio-benefits li { display: flex; gap: 10px; font-size: 14px; line-height: 1.5; color: var(--ink); }
     .desafio-benefits li::before { content: '✓'; color: var(--primary); font-weight: 700; flex: none; }
 
-    .bracket-shot { margin-top: 48px; }
-    .bracket-shot img {
-      width: 100%; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow); display: block;
+    .bracket-demo { margin-top: 48px; }
+    .bracket-hint { font-size: 13px; color: var(--ink-soft); margin: 0 0 18px; }
+    .bracket-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: start; }
+    @media (max-width: 860px) { .bracket-grid { grid-template-columns: 1fr; } }
+    .bracket-col > h4 {
+      font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint);
+      margin: 0 0 10px; font-weight: 700;
     }
-    .bracket-shot .caption { margin-top: 10px; font-size: 12.5px; color: var(--ink-faint); }
+    .bracket-match {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      padding: 4px 0; margin-bottom: 10px; box-shadow: var(--shadow);
+    }
+    .bracket-match .court { font-size: 10.5px; color: var(--ink-faint); padding: 5px 12px 2px; letter-spacing: .05em; }
+    .bracket-team {
+      display: flex; justify-content: space-between; gap: 12px; width: 100%;
+      background: none; border: 0; font: inherit; text-align: left; cursor: pointer;
+      padding: 7px 12px; color: var(--ink-soft); border-radius: 8px;
+    }
+    .bracket-team b { font-weight: 600; font-size: 13.5px; }
+    .bracket-team span { font-variant-numeric: tabular-nums; font-weight: 700; font-size: 13.5px; }
+    .bracket-team.won { color: var(--ink); }
+    .bracket-team.won span { color: var(--primary); }
+    .bracket-team:hover { background: var(--surface-alt); }
+    .bracket-team.lit { background: var(--primary-wash); box-shadow: inset 2px 0 0 var(--primary); }
+    .bracket-caption { margin-top: 14px; font-size: 12.5px; color: var(--ink-faint); }
   </style>
   <div class="wrap">
     <div class="section-head">
@@ -709,10 +729,11 @@
         <li>Tudo com a marca da sua arena, dentro do app</li>
       </ul>
     </div>
-    <div class="bracket-shot">
+    <div class="bracket-demo">
       <p class="eyebrow">Chaveamento em tempo real</p>
-      <img src="assets/arena-chaveamento.png" alt="Página pública do chaveamento ao vivo do Desafiaê, mostrando as duplas e a fase final de um torneio" />
-      <p class="caption">Página pública do chaveamento (link compartilhável, fora do app, sem login) — captura de um torneio no ambiente de demonstração.</p>
+      <p class="bracket-hint">Toque numa dupla para seguir o caminho dela até a final. Beach tennis, eliminação simples, 1 set de 6 games — as regras que o app aplica.</p>
+      <div class="bracket-grid" id="bracket"></div>
+      <p class="bracket-caption">Demonstração com duplas fictícias. No app, essa é a página pública do chaveamento: link compartilhável, fora do app e sem login.</p>
     </div>
   </div>
 </section>
@@ -819,6 +840,79 @@
   </div>
 </section>
 
+<section class="section" id="calculadora">
+  <style>
+    .calc { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; margin-top: 34px; }
+    @media (max-width: 860px) { .calc { grid-template-columns: 1fr; } }
+    .calc-form { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px 26px; box-shadow: var(--shadow); }
+    .calc-field { margin-bottom: 16px; }
+    .calc-field:last-child { margin-bottom: 0; }
+    .calc-field label { display: block; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); font-weight: 700; margin-bottom: 6px; }
+    .calc-field input, .calc-field select {
+      width: 100%; font: inherit; font-size: 14px; color: var(--ink); background: var(--bg);
+      border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px;
+    }
+    .calc-field input:focus, .calc-field select:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+    .calc-out { background: var(--primary-wash); border: 1px solid var(--primary-soft); border-radius: 16px; padding: 24px 26px; }
+    .calc-line { display: flex; justify-content: space-between; gap: 14px; padding: 11px 0; border-top: 1px solid var(--primary-soft); font-size: 14px; color: var(--ink); }
+    .calc-line:first-of-type { border-top: 0; padding-top: 0; }
+    .calc-line small { color: var(--ink-soft); font-size: 12px; display: block; }
+    .calc-line b { font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .calc-total { margin-top: 10px; padding-top: 14px; border-top: 2px solid var(--primary); display: flex; justify-content: space-between; align-items: baseline; gap: 14px; }
+    .calc-total span { font-size: 13px; font-weight: 700; color: var(--ink); }
+    .calc-total b { font-size: 26px; color: var(--primary); font-variant-numeric: tabular-nums; }
+    .calc-note { margin: 16px 0 0; font-size: 12.5px; color: var(--ink-soft); line-height: 1.55; }
+  </style>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Quanto cai na sua conta</p>
+      <h2>Faça a conta antes de assinar</h2>
+      <p>O dinheiro vai direto para a sua conta do Mercado Pago — o Desafiaê nunca fica com ele. Só a taxa do app sai da sua parte.</p>
+    </div>
+    <div class="calc">
+      <div class="calc-form">
+        <div class="calc-field">
+          <label for="calc-valor">Valor anunciado (R$)</label>
+          <input id="calc-valor" type="number" min="1" step="1" value="120" inputmode="decimal" />
+        </div>
+        <div class="calc-field">
+          <label for="calc-tipo">O que está sendo pago</label>
+          <select id="calc-tipo">
+            <option value="10" data-pix-only="0">Reserva de quadra — taxa de 10%</option>
+            <option value="10" data-pix-only="1">Inscrição de torneio — taxa de 10%</option>
+            <option value="10" data-pix-only="0">Aula avulsa — taxa de 10%</option>
+            <option value="2" data-pix-only="0">Mensalidade do plano de aulas — taxa de 2%</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label for="calc-meio">Meio de pagamento</label>
+          <select id="calc-meio">
+            <option value="0.99">Pix, na hora — 0,99%</option>
+            <option value="4.99">Cartão de crédito, na hora — 4,99%</option>
+            <option value="4.49">Cartão de crédito, em 14 dias — 4,49%</option>
+            <option value="3.99">Cartão de crédito, em 30 dias — 3,99%</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label for="calc-plano">Plano de quem está pagando</label>
+          <select id="calc-plano">
+            <option value="0">Jogador Básico — sem desconto</option>
+            <option value="50">Jogador Premium — 50% da taxa</option>
+            <option value="100">Jogador Elite — sem taxa do app</option>
+          </select>
+        </div>
+      </div>
+      <div class="calc-out">
+        <div class="calc-line"><span>Jogador paga</span><b id="calc-paga"></b></div>
+        <div class="calc-line"><span>Taxa do app<small id="calc-taxa-label"></small></span><b id="calc-taxa"></b></div>
+        <div class="calc-line"><span>Tarifa do Mercado Pago<small id="calc-mp-label"></small></span><b id="calc-mp"></b></div>
+        <div class="calc-total"><span>Sua arena recebe</span><b id="calc-arena"></b></div>
+        <p class="calc-note" id="calc-note"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="section" id="planos" style="background:var(--surface-alt);">
   <div class="wrap">
     <div class="section-head">
@@ -886,6 +980,101 @@
   </div>
 </footer>
 
+
+<script>
+/* Chaveamento de demonstracao — beach tennis, eliminacao simples, 1 set de 6 games
+   (regra da 0154: placares validos de 6-0 a 6-4, 7-5 ou 7-6). A disputa de 3o lugar
+   vem antes da final na fila de quadras, como no app. */
+const BRACKET = [
+  { title: 'Quartas de final', matches: [
+    { court: 'Quadra 1', a: ['Marina / Rafa', 6], b: ['Bia / Duda', 4] },
+    { court: 'Quadra 2', a: ['Camila / Tati', 6], b: ['Ana / Lu', 3] },
+    { court: 'Quadra 1', a: ['Sofia / Helô', 7], b: ['Nina / Paula', 5] },
+    { court: 'Quadra 2', a: ['Carol / Juju', 6], b: ['Vitória / Manu', 2] } ] },
+  { title: 'Semifinais', matches: [
+    { court: 'Quadra 1', a: ['Marina / Rafa', 6], b: ['Camila / Tati', 4] },
+    { court: 'Quadra 2', a: ['Sofia / Helô', 5], b: ['Carol / Juju', 7] } ] },
+  { title: 'Disputa de 3º e final', matches: [
+    { court: 'Quadra 2 · 3º lugar', a: ['Camila / Tati', 6], b: ['Sofia / Helô', 3] },
+    { court: 'Quadra 1 · Final', a: ['Marina / Rafa', 7], b: ['Carol / Juju', 6] } ] }
+];
+
+const bracketBox = document.getElementById('bracket');
+if (bracketBox) {
+  bracketBox.innerHTML = BRACKET.map(col => `
+    <div class="bracket-col">
+      <h4>${col.title}</h4>
+      ${col.matches.map(m => {
+        const row = (t, won) =>
+          `<button type="button" class="bracket-team${won ? ' won' : ''}" data-team="${t[0]}">
+             <b>${t[0]}</b><span>${t[1]}</span>
+           </button>`;
+        return `<div class="bracket-match">
+                  <p class="court">${m.court}</p>
+                  ${row(m.a, m.a[1] > m.b[1])}${row(m.b, m.b[1] > m.a[1])}
+                </div>`;
+      }).join('')}
+    </div>`).join('');
+
+  let lit = null;
+  bracketBox.addEventListener('click', e => {
+    const btn = e.target.closest('.bracket-team');
+    if (!btn) return;
+    const team = btn.dataset.team;
+    lit = lit === team ? null : team;
+    bracketBox.querySelectorAll('.bracket-team').forEach(b =>
+      b.classList.toggle('lit', lit !== null && b.dataset.team === lit));
+  });
+}
+
+/* Calculadora — taxas do app e tarifas do Mercado Pago como em /pagamentos.
+   O desconto do plano sai da taxa do app: o jogador paga menos e a arena
+   recebe o mesmo valor bruto. A tarifa do MP incide sobre o que foi pago. */
+const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+const el = id => document.getElementById(id);
+const calcValor = el('calc-valor');
+
+function calcular() {
+  const tipo = el('calc-tipo');
+  const meio = el('calc-meio');
+  const pixOnly = tipo.selectedOptions[0].dataset.pixOnly === '1';
+  [...meio.options].forEach((o, i) => { o.disabled = pixOnly && i > 0; });
+  if (pixOnly) meio.selectedIndex = 0;
+
+  const valor = Math.max(0, Number(calcValor.value) || 0);
+  const taxaPct = Number(tipo.value);
+  const mpPct = Number(meio.value);
+  const descPct = Number(el('calc-plano').value);
+
+  const cents = n => Math.round(n * 100) / 100;
+  const taxaCheia = cents(valor * taxaPct / 100);
+  const desconto = cents(taxaCheia * descPct / 100);
+  const paga = cents(valor - desconto);
+  const taxaApp = cents(taxaCheia - desconto);
+  const tarifaMp = cents(paga * mpPct / 100);
+  const recebe = cents(paga - taxaApp - tarifaMp);
+
+  el('calc-paga').textContent = brl(paga);
+  const menos = v => (v > 0 ? '− ' : '') + brl(v);
+  el('calc-taxa').textContent = menos(taxaApp);
+  el('calc-mp').textContent = menos(tarifaMp);
+  el('calc-arena').textContent = brl(recebe);
+  el('calc-taxa-label').textContent = descPct
+    ? `${taxaPct}% com ${descPct}% de desconto do plano`
+    : `${taxaPct}% do valor`;
+  el('calc-mp-label').textContent = meio.selectedOptions[0].textContent.split('—')[0].trim();
+  el('calc-note').textContent = descPct
+    ? 'O desconto do plano sai da taxa do app, não da sua parte: sem ele, o jogador pagaria '
+      + brl(valor) + ' e você receberia praticamente o mesmo.'
+    : 'Valores do Mercado Pago de junho de 2026, para venda online. A tarifa que vale é a da conta da sua arena.';
+}
+
+if (calcValor) {
+  ['calc-valor', 'calc-tipo', 'calc-meio', 'calc-plano'].forEach(id =>
+    el(id).addEventListener('input', calcular));
+  calcular();
+}
+</script>
 
 </body>
 </html>
