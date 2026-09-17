@@ -42,15 +42,15 @@
   "rewrites": [
     {
       "source": "/tournament/:id/cover",
-      "destination": "https://imhzjdnymsneywwtkzoe.supabase.co/functions/v1/tournament-og?id=:id&cover=1"
+      "destination": "https://ckgxcylcnkqdhalsrptz.supabase.co/functions/v1/tournament-og?id=:id&cover=1"
     },
     {
       "source": "/tournament/:id",
-      "destination": "https://imhzjdnymsneywwtkzoe.supabase.co/functions/v1/tournament-og?id=:id"
+      "destination": "https://ckgxcylcnkqdhalsrptz.supabase.co/functions/v1/tournament-og?id=:id"
     },
     {
       "source": "/arena-challenge/:id/cover",
-      "destination": "https://imhzjdnymsneywwtkzoe.supabase.co/functions/v1/tournament-og?type=arena-challenge&id=:id&cover=1"
+      "destination": "https://ckgxcylcnkqdhalsrptz.supabase.co/functions/v1/tournament-og?type=arena-challenge&id=:id&cover=1"
     },
     {
       "source": "/:type(match|challenge|arena-challenge)/:id",
@@ -61,7 +61,7 @@
           "value": ".*(WhatsApp|facebookexternalhit|Facebot|Twitterbot|TelegramBot|Slackbot|Discordbot|LinkedInBot|SkypeUriPreview|redditbot|Iframely|vkShare|Applebot).*"
         }
       ],
-      "destination": "https://imhzjdnymsneywwtkzoe.supabase.co/functions/v1/tournament-og?type=:type&id=:id"
+      "destination": "https://ckgxcylcnkqdhalsrptz.supabase.co/functions/v1/tournament-og?type=:type&id=:id"
     },
     {
       "source": "/:type(match|challenge|tournament|arena-challenge)/:id",
