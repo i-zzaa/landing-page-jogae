@@ -190,15 +190,17 @@
   <section class="hero">
     <span class="eyebrow"><span class="dot"></span> Comparativo de mercado</span>
     <h1>Desafiaê no <span>mercado</span></h1>
-    <p class="meta">Concorrentes: 13 de setembro de 2026 · Desafiaê: reconferido na develop em 13/09 (commit 96e9f97)</p>
-    <p class="lede">O que o app entrega hoje, quem mais disputa jogadores e arenas no Brasil, quanto cada um cobra e onde o preço do Desafiaê deveria ficar. Preços de terceiros mudam rápido: confira a fonte antes de usar num argumento de venda.</p>
+    <p class="meta">Concorrentes: reconferidos em 20 de setembro de 2026 · Desafiaê: develop 26af264 e produção ckgxcylcnkqdhalsrptz</p>
+    <p class="lede">O que o app entrega hoje, quem mais disputa jogadores, arenas e agora boxes no Brasil, quanto cada um cobra e como o nosso preço — já aprovado na App Store — se compara. Preços de terceiros mudam rápido: confira a fonte antes de usar num argumento de venda.</p>
   </section>
 
   <nav class="nav" aria-label="Seções">
     <div class="tabs">
       <a href="#resumo" class="on">Resumo</a>
       <a href="#concorrentes">Concorrentes</a>
+      <a href="#marca">Corrida e box</a>
       <a href="#precos">Preços</a>
+      <a href="#eixos">Dois eixos</a>
       <a href="#fontes">Fontes</a>
     </div>
   </nav>
@@ -208,38 +210,40 @@
     <div class="part-head">
       <span class="eyebrow"><span class="dot"></span> Parte 1</span>
       <h2>Onde o Desafiaê está</h2>
-      <p>O produto tem mais funcionalidade que a maioria dos concorrentes nacionais. O que falta é o dinheiro entrar. App conferido em 13/09 na develop (commit 96e9f97). Mensalidade de aluno, Premium do jogador e avaliação da arena estão só no staging.</p>
+      <p>Mudou muita coisa em uma semana. O pagamento online saiu do staging e foi para a produção nova, os preços deixaram de ser hipótese e estão aprovados na loja, e o app entrou num segundo mercado — corrida, CrossFit e Hyrox. O que trava agora não é produto: é a 1.0 não ter sido aprovada.</p>
     </div>
 
     <section class="sec">
       <div class="verdict">
-        <div class="v good"><small>Produto</small><p>Único com desafio entre jogadores e entre arenas. Em torneio, empata com a SporTickets.</p></div>
-        <div class="v bad"><small>Cobrança</small><p>Mercado Pago ligado só no staging. Em produção, nenhum pagamento online funciona.</p></div>
-        <div class="v warn"><small>Preço</small><p>Três valores diferentes entre loja, código e landing.</p></div>
+        <div class="v good"><small>Produto</small><p>Desafio entre jogadores, entre arenas e por marca. Nenhum concorrente pesquisado cobre os três.</p></div>
+        <div class="v good"><small>Cobrança</small><p>Mercado Pago em produção desde 17/09, com as 15 funções publicadas. Falta só uma cobrança real passar por lá.</p></div>
+        <div class="v warn"><small>Preço</small><p>Definido e aprovado: R$ 189,90 a R$ 449,90 por mês. É o topo do mercado brasileiro.</p></div>
+        <div class="v bad"><small>Receita</small><p>Zero. A 1.0 está em revisão e nada foi vendido ainda.</p></div>
       </div>
     </section>
 
     <section class="sec">
       <h3>Pontos fortes</h3>
       <ul class="list">
-        <li><b>Dois produtos num só:</b> rede competitiva para o jogador (desafio 1x1, em time, recorrente, ranking) e gestão para a arena (quadras, reservas, horário fixo, financeiro, clientes, aulas com check-in por QR, torneios). No Brasil, só LetzPlay (beach tennis) e Playtomic (padel) cobrem os dois lados.</li>
-        <li><b>Torneio completo:</b> grupos, mata-mata, pênaltis, 3º lugar, moderador, check-in, chave ao vivo na web e link com prévia no WhatsApp. Vai além de Copa Fácil, Arena Online e Atacante; a SporTickets tem nível parecido (chave com quadra e horário automáticos, placar ao vivo), mas sem pênaltis nem moderador por convite.</li>
-        <li><b>Desafio entre arenas e desafio recorrente:</b> não aparecem em nenhum concorrente pesquisado.</li>
-        <li><b>15 modalidades</b>, incluindo pickleball, futevôlei e society. A maioria dos concorrentes atende um esporte só.</li>
-        <li><b>Base técnica sólida:</b> 267 commits em 6 semanas, 164 migrations, 70 fluxos E2E no Maestro e limite do plano grátis checado no servidor.</li>
+        <li><b>Dois produtos num só:</b> rede competitiva para o jogador (desafio 1x1, em time, recorrente, de marca, ranking) e gestão para a arena (quadras, reservas, horário fixo, financeiro, clientes, aulas com check-in por QR, mensalidade de aluno, torneios). No Brasil, só LetzPlay (beach tennis) e Playtomic (padel) cobrem os dois lados — e nenhum dos dois entra em corrida ou box.</li>
+        <li><b>Torneio completo:</b> grupos, mata-mata, pênaltis, disputa de 3º lugar, moderador por convite, regulamento por esporte, check-in, fila por quadra, chave ao vivo na web e link com prévia no WhatsApp. Vai além de Copa Fácil, Arena Online e Atacante; a SporTickets chega perto (chave com quadra e horário automáticos, placar ao vivo), mas sem pênaltis, moderador nem regulamento.</li>
+        <li><b>Desafio entre arenas, recorrente e de marca:</b> não aparecem em nenhum concorrente pesquisado, nem entre os apps de quadra nem entre os de box.</li>
+        <li><b>18 modalidades</b>, incluindo pickleball, futevôlei, society, corrida, CrossFit e Hyrox, com níveis próprios por modalidade (D/C/B/A/P nas de quadra; INI/SC/RX/RX+ e OP/PRO nas de marca). A maioria dos concorrentes atende um esporte só.</li>
+        <li><b>Conformidade de loja pronta:</b> denúncia de conteúdo com e-mail automático, bloqueio de jogador, filtro de palavrões, exclusão de conta com revogação do token da Apple e plano obrigatório verificado no servidor. É o tipo de item que trava publicação e que nenhum concorrente nacional pesquisado expõe no material público.</li>
+        <li><b>Base técnica:</b> 310 commits, 194 migrations, 21 suítes E2E, Sentry ligado e limites de plano verificados no banco, não no app.</li>
       </ul>
     </section>
 
     <section class="sec">
       <h3>Pontos fracos, por impacto</h3>
       <ol class="steps">
-        <li><span><b>Sem pagamento online em produção.</b> A conta do Mercado Pago existe e as chaves estão no staging desde 08/09, mas a produção não tem as chaves nem as funções de pagamento. Pix integrado é o principal motivo de uma arena assinar um concorrente; em produção, o financeiro depende da arena marcar "pago" à mão.</span></li>
-        <li><span><b>Preço indefinido.</b> O app mostra "Preço em breve", um comentário no código cita R$ 29,99 e R$ 44,99, e a landing publica R$ 189,90 e R$ 289,90. O Premium do jogador não tem preço e a Play Store não tem as assinaturas.</span></li>
-        <li><span><b>Premium do jogador só no staging e sem preço.</b> Ganhou estatísticas completas, histórico detalhado contra cada rival e selo no perfil e no ranking (0163), além do desafio ilimitado. Em produção continua só o desafio ilimitado, e o webhook novo da RevenueCat não foi publicado.</span></li>
-        <li><span><b>Elite ainda fora das lojas.</b> Aulas e mensalidade de aluno são só do Elite (0158). Nenhuma arena consegue assinar esses módulos até os produtos Elite existirem na App Store e na Play Store.</span></li>
-        <li><span><b>Mensalidade de aluno pronta, mas só no staging:</b> planos por modalidade com limite semanal, contratação, Pix ou cartão pelo app com taxa de 2%, baixa no balcão, tolerância e bloqueio por atraso, avisos de vencimento e card no Financeiro (0159 a 0164). Faltam cartão recorrente, CRM por WhatsApp, PDV e catraca, que SporTickets, Atacante, Effect e Arena Manager já têm.</span></li>
-        <li><span><b>Só Brasil:</b> real e fuso de São Paulo fixos. Operar na Bélgica exige refatoração.</span></li>
-        <li><span><b>Um usuário, uma arena;</b> sem testes unitários; desafio de marca (corrida) ainda sem commit.</span></li>
+        <li><span><b>Nada vendido ainda.</b> A 1.0 (build 42) foi enviada em 17/09 com as 10 assinaturas e voltou com uma mensagem automática de revisão pedindo confirmação dos preços mais altos — Arena Premium mensal, Arena Elite mensal e Arena Elite anual. Não é defeito do app, mas enquanto não for respondido pela Central de Resoluções e aprovado, nenhum plano é vendido e nenhuma arena entra.</span></li>
+        <li><span><b>O plano de entrada é o mais caro do mercado.</b> R$ 189,90/mês contra R$ 0 de SporTickets, Reserve e Quadras Online, R$ 99 do Arena Manager Starter e R$ 99,90 do Effect Starter. Quem cobra R$ 0 ganha na transação: a SporTickets fica com 3% do Pix e 5% do cartão, e entrega catraca, PDV e comissão de professor.</span></li>
+        <li><span><b>Falta o que a arena grande pede:</b> PDV, controle de acesso (catraca facial ou QR), CRM e cobrança por WhatsApp e cartão recorrente. SporTickets, Atacante, Effect e Tecnofit já têm. O nosso diferencial é competição; o deles é operação de balcão.</span></li>
+        <li><span><b>Níveis do Elite da arena empatados com o Premium</b> na App Store. Quem comparar os planos na página da loja não vê diferença entre pagar R$ 289,90 e R$ 449,90.</span></li>
+        <li><span><b>Produção nova e nunca usada de verdade.</b> O projeto <code>ckgxcylcnkqdhalsrptz</code> subiu em 17/09 com 189 migrations e 0 usuários além das contas do revisor. As migrations 0190 a 0194 (voto de MVP, conta de arena que não participa, validade do plano, regras de criação) entraram na develop depois e não foram conferidas lá, e o token do Mercado Pago de produção nunca passou por uma cobrança real.</span></li>
+        <li><span><b>Só Brasil:</b> real e fuso de São Paulo fixos. Operar fora exige refatoração.</span></li>
+        <li><span><b>Um usuário, uma arena;</b> sem testes unitários; landing e página ao vivo só viram para produção no dia do lançamento.</span></li>
       </ol>
     </section>
   </div>
@@ -249,7 +253,7 @@
     <div class="part-head">
       <span class="eyebrow"><span class="dot"></span> Parte 2</span>
       <h2>Quem disputa o mesmo espaço</h2>
-      <p>Separados por quem paga: arena, jogador, organizador de torneio e professor.</p>
+      <p>Separados por quem paga: arena, jogador, organizador de torneio e professor. Corrida, CrossFit e Hyrox têm concorrentes próprios e estão na Parte 3.</p>
     </div>
 
     <section class="sec">
@@ -259,16 +263,19 @@
         <table class="cov">
           <thead><tr><th>Concorrente</th><th>Reserva de quadra</th><th>Pagamento online (Pix)</th><th>Torneios</th><th>Aulas com professor</th><th>Mensalidade de aluno</th><th>PDV e produtos</th><th>Desafio entre jogadores</th><th>Desafio arena x arena</th><th>Ranking de jogadores</th><th>Cobrança e CRM por WhatsApp</th></tr></thead>
           <tbody>
-            <tr class="us"><td>Desafiaê</td><td data-label="Reserva"><span class="chip yes">Sim</span></td><td data-label="Pix"><span class="chip part">Só no staging</span></td><td data-label="Torneios"><span class="chip yes">Completo</span></td><td data-label="Aulas"><span class="chip yes">Só Elite</span></td><td data-label="Mensalidade de aluno"><span class="chip part">Só no staging (Elite)</span></td><td data-label="PDV"><span class="chip no">Não</span></td><td data-label="Desafio entre jogadores"><span class="chip yes">1x1, time, recorrente</span></td><td data-label="Arena x arena"><span class="chip yes">Sim</span></td><td data-label="Ranking"><span class="chip yes">Sim</span></td><td data-label="Cobrança e CRM"><span class="chip no">Não</span></td></tr>
+            <tr class="us"><td>Desafiaê</td><td data-label="Reserva"><span class="chip yes">Sim</span></td><td data-label="Pix"><span class="chip yes">Sim, em produção</span></td><td data-label="Torneios"><span class="chip yes">Completo</span></td><td data-label="Aulas"><span class="chip yes">Sim (Elite)</span></td><td data-label="Mensalidade de aluno"><span class="chip yes">Sim (Elite)</span></td><td data-label="PDV"><span class="chip no">Não</span></td><td data-label="Desafio entre jogadores"><span class="chip yes">1x1, time, recorrente, marca</span></td><td data-label="Arena x arena"><span class="chip yes">Sim</span></td><td data-label="Ranking"><span class="chip yes">Sim</span></td><td data-label="Cobrança e CRM"><span class="chip no">Não</span></td></tr>
             <tr><td>SporTickets</td><td data-label="Reserva"><span class="chip yes">Aluguel por hora</span></td><td data-label="Pix"><span class="chip yes">Sim</span></td><td data-label="Torneios"><span class="chip yes">Completo</span></td><td data-label="Aulas"><span class="chip yes">Turmas + comissão</span></td><td data-label="Mensalidade de aluno"><span class="chip yes">Sim</span></td><td data-label="PDV"><span class="chip yes">Sim</span></td><td data-label="Desafio entre jogadores"><span class="chip no">Não</span></td><td data-label="Arena x arena"><span class="chip no">Não</span></td><td data-label="Ranking"><span class="chip yes">Sim</span></td><td data-label="Cobrança e CRM"><span class="chip part">Cobrança automática</span></td></tr>
-            <tr><td>Playtomic</td><td data-label="Reserva"><span class="chip yes">Sim</span></td><td data-label="Pix"><span class="chip yes">Sim</span></td><td data-label="Torneios"><span class="chip yes">Sim</span></td><td data-label="Aulas"><span class="chip yes">Sim</span></td><td data-label="Mensalidade de aluno"><span class="chip q">?</span></td><td data-label="PDV"><span class="chip yes">Sim</span></td><td data-label="Desafio entre jogadores"><span class="chip part">Partida aberta</span></td><td data-label="Arena x arena"><span class="chip no">Não</span></td><td data-label="Ranking"><span class="chip yes">Nível</span></td><td data-label="Cobrança e CRM"><span class="chip no">Não</span></td></tr>
+            <tr><td>Playtomic</td><td data-label="Reserva"><span class="chip yes">Sim</span></td><td data-label="Pix"><span class="chip yes">Sim</span></td><td data-label="Torneios"><span class="chip yes">Sim</span></td><td data-label="Aulas"><span class="chip yes">Públicas e privadas</span></td><td data-label="Mensalidade de aluno"><span class="chip yes">Memberships</span></td><td data-label="PDV"><span class="chip yes">Sim</span></td><td data-label="Desafio entre jogadores"><span class="chip part">Partida aberta</span></td><td data-label="Arena x arena"><span class="chip no">Não</span></td><td data-label="Ranking"><span class="chip yes">Nível e ligas</span></td><td data-label="Cobrança e CRM"><span class="chip part">Campanhas</span></td></tr>
+            <tr><td>Arena Manager</td><td data-label="Reserva"><span class="chip yes">Sim</span></td><td data-label="Pix"><span class="chip yes">Sim</span></td><td data-label="Torneios"><span class="chip no">Não</span></td><td data-label="Aulas"><span class="chip yes">Sim</span></td><td data-label="Mensalidade de aluno"><span class="chip yes">Automática (Pro+)</span></td><td data-label="PDV"><span class="chip no">Não</span></td><td data-label="Desafio entre jogadores"><span class="chip no">Não</span></td><td data-label="Arena x arena"><span class="chip no">Não</span></td><td data-label="Ranking"><span class="chip no">Não</span></td><td data-label="Cobrança e CRM"><span class="chip part">Cobrança automática</span></td></tr>
+            <tr><td>Atacante.App</td><td data-label="Reserva"><span class="chip yes">Sim</span></td><td data-label="Pix"><span class="chip yes">Sim</span></td><td data-label="Torneios"><span class="chip no">Não</span></td><td data-label="Aulas"><span class="chip yes">Turmas</span></td><td data-label="Mensalidade de aluno"><span class="chip yes">Recorrência</span></td><td data-label="PDV"><span class="chip q">?</span></td><td data-label="Desafio entre jogadores"><span class="chip no">Não</span></td><td data-label="Arena x arena"><span class="chip no">Não</span></td><td data-label="Ranking"><span class="chip no">Não</span></td><td data-label="Cobrança e CRM"><span class="chip yes">Sim</span></td></tr>
+            <tr><td>Effect Sports</td><td data-label="Reserva"><span class="chip q">?</span></td><td data-label="Pix"><span class="chip yes">Sim</span></td><td data-label="Torneios"><span class="chip no">Não</span></td><td data-label="Aulas"><span class="chip yes">Agenda e presença</span></td><td data-label="Mensalidade de aluno"><span class="chip yes">Sim</span></td><td data-label="PDV"><span class="chip no">Não</span></td><td data-label="Desafio entre jogadores"><span class="chip no">Não</span></td><td data-label="Arena x arena"><span class="chip no">Não</span></td><td data-label="Ranking"><span class="chip part">XP e conquistas</span></td><td data-label="Cobrança e CRM"><span class="chip yes">WhatsApp com IA</span></td></tr>
+            <tr><td>Arena Online</td><td data-label="Reserva"><span class="chip yes">Sim</span></td><td data-label="Pix"><span class="chip q">?</span></td><td data-label="Torneios"><span class="chip yes">Torneios e rallys</span></td><td data-label="Aulas"><span class="chip yes">Turmas e alunos</span></td><td data-label="Mensalidade de aluno"><span class="chip q">?</span></td><td data-label="PDV"><span class="chip q">?</span></td><td data-label="Desafio entre jogadores"><span class="chip no">Não</span></td><td data-label="Arena x arena"><span class="chip no">Não</span></td><td data-label="Ranking"><span class="chip no">Não</span></td><td data-label="Cobrança e CRM"><span class="chip no">Não</span></td></tr>
+            <tr><td>Quadras Online</td><td data-label="Reserva"><span class="chip yes">Sim</span></td><td data-label="Pix"><span class="chip yes">Sim</span></td><td data-label="Torneios"><span class="chip yes">Com inscrição paga</span></td><td data-label="Aulas"><span class="chip part">Perfil de professor</span></td><td data-label="Mensalidade de aluno"><span class="chip no">Não</span></td><td data-label="PDV"><span class="chip no">Não</span></td><td data-label="Desafio entre jogadores"><span class="chip part">Match making por nível</span></td><td data-label="Arena x arena"><span class="chip no">Não</span></td><td data-label="Ranking"><span class="chip yes">Sim</span></td><td data-label="Cobrança e CRM"><span class="chip no">Não</span></td></tr>
             <tr><td>LetzPlay</td><td data-label="Reserva"><span class="chip yes">Sim</span></td><td data-label="Pix"><span class="chip q">?</span></td><td data-label="Torneios"><span class="chip yes">Sim</span></td><td data-label="Aulas"><span class="chip yes">Sim</span></td><td data-label="Mensalidade de aluno"><span class="chip q">?</span></td><td data-label="PDV"><span class="chip q">?</span></td><td data-label="Desafio entre jogadores"><span class="chip yes">Sim</span></td><td data-label="Arena x arena"><span class="chip no">Não</span></td><td data-label="Ranking"><span class="chip yes">Sim</span></td><td data-label="Cobrança e CRM"><span class="chip q">?</span></td></tr>
-            <tr><td>Atacante.App</td><td data-label="Reserva"><span class="chip yes">Sim</span></td><td data-label="Pix"><span class="chip yes">Sim</span></td><td data-label="Torneios"><span class="chip no">Não</span></td><td data-label="Aulas"><span class="chip yes">Turmas</span></td><td data-label="Mensalidade de aluno"><span class="chip yes">Sim</span></td><td data-label="PDV"><span class="chip q">?</span></td><td data-label="Desafio entre jogadores"><span class="chip no">Não</span></td><td data-label="Arena x arena"><span class="chip no">Não</span></td><td data-label="Ranking"><span class="chip no">Não</span></td><td data-label="Cobrança e CRM"><span class="chip yes">Sim</span></td></tr>
-            <tr><td>Arena Online</td><td data-label="Reserva"><span class="chip yes">Sim</span></td><td data-label="Pix"><span class="chip q">?</span></td><td data-label="Torneios"><span class="chip yes">Sim</span></td><td data-label="Aulas"><span class="chip yes">Sim</span></td><td data-label="Mensalidade de aluno"><span class="chip q">?</span></td><td data-label="PDV"><span class="chip q">?</span></td><td data-label="Desafio entre jogadores"><span class="chip no">Não</span></td><td data-label="Arena x arena"><span class="chip no">Não</span></td><td data-label="Ranking"><span class="chip no">Não</span></td><td data-label="Cobrança e CRM"><span class="chip no">Não</span></td></tr>
           </tbody>
         </table>
       </div>
-      <p class="note"><b>?</b> = não confirmado. "Não" nos concorrentes quer dizer que a funcionalidade não aparece no material público deles, não que foi testada no produto.</p>
+      <p class="note"><b>?</b> = não confirmado. "Não" nos concorrentes quer dizer que a funcionalidade não aparece no material público deles, não que foi testada no produto. A linha da LetzPlay é a de 13/09 e não foi reconferida em 20/09.</p>
     </section>
 
     <section class="sec">
@@ -277,18 +284,20 @@
         <table>
           <thead><tr><th>Sistema</th><th>Destaques</th><th class="num">Mensalidade</th><th>Taxa sobre venda</th></tr></thead>
           <tbody>
-            <tr class="us"><td>Desafiaê</td><td>Reservas, torneios, desafios, financeiro; aulas e mensalidade de aluno no Elite (mensalidade só no staging); avaliação só de quem jogou</td><td class="num">Indefinida</td><td>10% (torneio, reserva, aula avulsa) · 2% (mensalidade de aluno)</td></tr>
-            <tr><td>SporTickets</td><td>Agenda, turmas, mensalidades com cobrança automática, catraca facial ou QR, PDV, professores com comissão, aula experimental, torneio interno</td><td class="num">R$ 0</td><td>3% Pix · 5% cartão · 8% cartão internacional (planos e mensalidades); reserva sob consulta</td></tr>
-            <tr><td>Atacante.App</td><td>Agenda, turmas, day use, pacotes, CRM por WhatsApp, check-in facial</td><td class="num">R$ 199 (até 3 quadras)<br />R$ 399 (4 ou mais)</td><td>5% sobre venda online</td></tr>
-            <tr><td>Arena Online</td><td>Reservas, financeiro, aulas, torneios, painel</td><td class="num">R$ 147 / 247 / 347<br /><small>preço de lançamento</small></td><td>Não informada</td></tr>
-            <tr><td>Arena Manager</td><td>White-label, mensalidade no Pix, app de aluno e instrutor</td><td class="num">R$ 99 / 279 / 449</td><td>0% na mensalidade; split 1–1,5%</td></tr>
-            <tr><td>Effect Sports</td><td>Mercado Pago, WhatsApp com IA, gamificação</td><td class="num">R$ 99,90 / 199,90 / 349,90</td><td>Não informada</td></tr>
-            <tr><td>Reserve</td><td>Marketplace de reserva</td><td class="num">R$ 0</td><td>R$ 10,99 por horário (Pix)</td></tr>
-            <tr><td>Playtomic Manager</td><td>Agenda, pagamentos, torneios, aulas, ligas, PDV</td><td class="num">Não público<br /><small>tabela antiga €59–119</small></td><td>Não informada</td></tr>
-            <tr><td>Quadras Online</td><td>Reserva, parceiro de jogo, torneios, ranking</td><td class="num">R$ 0</td><td>Não informada</td></tr>
+            <tr class="us"><td>Desafiaê</td><td>Reservas, torneios, desafios (jogador, arena, recorrente, marca), financeiro, avaliação só de quem jogou; aulas e mensalidade de aluno no Elite</td><td class="num">R$ 189,90 · 289,90 · 449,90<br /><small>aprovados na App Store</small></td><td>10% (torneio, reserva, aula avulsa) · 2% (mensalidade de aluno)</td></tr>
+            <tr><td>SporTickets</td><td>Agenda, turmas, mensalidades com cobrança automática, catraca facial ou QR, PDV, professores com comissão, aula experimental, torneio interno, página pública da arena</td><td class="num">R$ 0</td><td>3% Pix · 5% cartão · 8% cartão internacional; reserva sob consulta</td></tr>
+            <tr><td>Atacante.App</td><td>Agenda unificada, turmas, day use, pacotes, CRM por WhatsApp, check-in com catraca facial</td><td class="num">R$ 199 (até 3 quadras)<br />R$ 399 (4 ou mais)</td><td>5% na venda avulsa online · recorrente a partir de 1,19% Pix e 3,15% cartão</td></tr>
+            <tr><td>Arena Online</td><td>Reservas, financeiro, turmas e alunos, torneios e rallys, painel</td><td class="num">R$ 147 / 247 / 347<br /><small>lançamento; cheio R$ 197 / 297 / 397</small></td><td>Não informada</td></tr>
+            <tr><td>Arena Manager</td><td>White-label, mensalidade no Pix e cartão, app de aluno, conciliação, multi-esporte</td><td class="num">R$ 99 / 279 / 449<br /><small>até 50 / 300 / 1.000 alunos</small></td><td>0% na mensalidade do aluno; split 1,5% (Pro) e 1% (Scale)</td></tr>
+            <tr><td>Effect Sports</td><td>Cobrança automática, WhatsApp com IA, gamificação com XP, white-label no plano de cima</td><td class="num">R$ 99,90 / 199,90 / 349,90<br /><small>até 50 / 200 / ilimitado</small></td><td>Não informada (Mercado Pago)</td></tr>
+            <tr><td>Reserve</td><td>Marketplace de reserva, sem mensalidade</td><td class="num">R$ 0</td><td>R$ 10,99 fixos por horário no Pix · ~R$ 10,25 no cartão, subindo ~R$ 0,93 a cada R$ 30</td></tr>
+            <tr><td>Quadras Online</td><td>Reserva, match making por nível, torneios com inscrição e ranking</td><td class="num">R$ 0</td><td>Não informada</td></tr>
+            <tr><td>Playtomic Manager</td><td>Standard a Master: agenda, pagamentos, torneios, aulas públicas e privadas, ligas, memberships, PDV, API</td><td class="num">Não público<br /><small>4 planos, só por contato</small></td><td>Não informada</td></tr>
+            <tr><td>Tecnofit</td><td>Gestão de academia, box e estúdio: matrícula, mensalidade, treino, acesso; não faz torneio nem desafio</td><td class="num">Por aluno ativo<br /><small>≈ R$ 3,38/aluno/mês</small></td><td>Não informada</td></tr>
           </tbody>
         </table>
       </div>
+      <p class="note">Os planos dos concorrentes são limitados por <b>número de alunos</b> (Arena Manager, Effect, Tecnofit) ou por <b>número de quadras</b> (Atacante, Arena Online). Os nossos não têm limite nenhum — é espaço para crescer receita por cliente grande, e é risco de deixar dinheiro na mesa com arena de 8 quadras pagando o mesmo que a de 2.</p>
     </section>
 
     <section class="sec">
@@ -297,14 +306,17 @@
         <table>
           <thead><tr><th>App</th><th>O que a assinatura dá</th><th class="num">Preço</th><th>Brasil</th></tr></thead>
           <tbody>
-            <tr class="us"><td>Desafiaê Premium</td><td>Desafios ilimitados (grátis: 1 a cada 7 dias), estatísticas completas, histórico detalhado contra cada rival e selo no perfil e no ranking; os três últimos só no staging</td><td class="num">Sem preço na loja</td><td>Sim</td></tr>
-            <tr><td>Playtomic</td><td>Desconto ou isenção da taxa de reserva, estatísticas, destaque em partidas</td><td class="num">R$ 50,90/mês<br />R$ 299/ano</td><td>Sim · €9,99/mês na Bélgica</td></tr>
-            <tr><td>MATCHi</td><td>Sem assinatura; cobra taxa de serviço na reserva</td><td class="num">4% por transação</td><td>Não · opera na Bélgica</td></tr>
+            <tr class="us"><td>Desafiaê Premium</td><td>Desafios ilimitados (grátis: 1 a cada 7 dias) e 50% de desconto na taxa da plataforma</td><td class="num">R$ 14,90/mês<br />R$ 129,90/ano</td><td>Sim</td></tr>
+            <tr class="us"><td>Desafiaê Elite</td><td>Tudo do Premium, taxa zero, estatísticas completas, histórico contra cada rival e selo no perfil e no ranking</td><td class="num">R$ 29,90/mês<br />R$ 299,90/ano</td><td>Sim</td></tr>
+            <tr><td>Playtomic</td><td>Desconto ou isenção da taxa de reserva, estatísticas, destaque em partidas</td><td class="num">R$ 50,90/mês<br />R$ 299,00/ano</td><td>Sim</td></tr>
+            <tr><td>Strava <small>(referência)</small></td><td>Não concorre em quadra; mostra quanto o esportista brasileiro aceita pagar</td><td class="num">R$ 22,90/mês<br />R$ 149,90/ano · família R$ 389,90/ano</td><td>Sim</td></tr>
+            <tr><td>MATCHi</td><td>Sem assinatura; cobra taxa de serviço na reserva</td><td class="num">4% por transação</td><td>Não · opera na Europa</td></tr>
             <tr><td>LetzPlay</td><td>Sem assinatura para o jogador; quem paga é a arena</td><td class="num">R$ 0</td><td>Forte no beach tennis</td></tr>
-            <tr><td>Strava <small>(referência)</small></td><td>Não concorre; mostra quanto o esportista brasileiro paga</td><td class="num">R$ 22,90/mês<br />R$ 149,90/ano</td><td>Sim</td></tr>
+            <tr><td>Quadras Online</td><td>Sem assinatura para jogador, professor ou promotor; paga-se por serviço</td><td class="num">R$ 0</td><td>Sim</td></tr>
           </tbody>
         </table>
       </div>
+      <p>O nosso Premium é <b>o mais barato da lista</b> e o Elite fica entre o Strava e o Playtomic. Do lado do jogador, o preço não é o problema.</p>
     </section>
 
     <section class="sec">
@@ -313,23 +325,23 @@
         <table>
           <thead><tr><th>Ferramenta</th><th>Modelo</th><th class="num">Valor</th></tr></thead>
           <tbody>
-            <tr class="us"><td>Desafiaê</td><td>Taxa sobre a inscrição paga</td><td class="num">10%</td></tr>
-            <tr><td>SporTickets</td><td>Sem mensalidade; chave automática com quadra e horário, placar ao vivo, lotes, cupons, check-in por QR. Taxa pode ser repassada ao atleta</td><td class="num">10% Pix · 12% cartão<br />15% cartão internacional</td></tr>
-            <tr><td>Sympla</td><td>Taxa de serviço (pode repassar) + processamento</td><td class="num">10% + 2–2,5%</td></tr>
-            <tr><td>Playinga</td><td>Freemium + taxa de transação</td><td class="num">2,5% (Free) · 2% (Pro)</td></tr>
-            <tr><td>Rankedin</td><td>Básico grátis + taxa sobre inscrição</td><td class="num">1% + Stripe</td></tr>
-            <tr><td>Copa Fácil</td><td>Mensalidade por tamanho</td><td class="num">R$ 25 a 55/mês</td></tr>
-            <tr><td>Challonge</td><td>Freemium</td><td class="num">US$ 7–12/mês</td></tr>
+            <tr class="us"><td>Desafiaê</td><td>Taxa sobre a inscrição paga, sem mensalidade extra para quem já assina</td><td class="num">10%</td></tr>
+            <tr><td>SporTickets</td><td>Sem mensalidade nem custo por evento; inscrição de dupla/trio/time com convite ao parceiro, categorias com preço próprio, lotes, cupons, check-in por QR, chaveamento com repescagem, placar ao vivo, ranking de temporada. Taxa pode ser repassada ao atleta</td><td class="num">10%<br /><small>Pix, cartão e internacional</small></td></tr>
+            <tr><td>Sympla</td><td>Taxa de serviço (pode repassar) + processamento (não pode)</td><td class="num">10% + 2–2,5%<br /><small>mínimo R$ 3,99 em ingresso até R$ 39,90</small></td></tr>
+            <tr><td>Playinga</td><td>Free até 100 participantes por categoria; Pro com inscrição paga e check-in</td><td class="num">Pro sem preço público<br /><small>gestão de espaço a partir de US$ 10 por quadra/mês</small></td></tr>
+            <tr><td>Copa Fácil</td><td>Mensalidade por tamanho do campeonato (até 300 / 600 / 900 jogadores / ilimitado)</td><td class="num">R$ 25 / 32 / 40 / 55 por mês<br /><small>anual R$ 210 a R$ 462</small></td></tr>
+            <tr><td>Rankedin</td><td>Básico grátis + taxa sobre inscrição</td><td class="num">1% + Stripe<br /><small>dado de 13/09, não reconferido</small></td></tr>
+            <tr><td>Challonge</td><td>Freemium</td><td class="num">US$ 7–12/mês<br /><small>dado de 13/09, não reconferido</small></td></tr>
             <tr><td>MeuRanking</td><td>Inscrição via PagSeguro, ranking FBT</td><td class="num">Só por WhatsApp</td></tr>
           </tbody>
         </table>
       </div>
-      <p>Inscrições de beach tennis custam de <b>R$ 60 a R$ 195</b> por atleta ou categoria.</p>
+      <p>Inscrições de beach tennis custam de <b>R$ 60 a R$ 195</b> por atleta ou categoria. <b>Em torneio estamos empatados com a SporTickets:</b> os mesmos 10%, com a mesma possibilidade de repasse ao atleta. É o único eixo em que o preço já está em paridade com ela.</p>
     </section>
 
     <section class="sec">
       <h3>Professores</h3>
-      <p>Set Prime (grátis em teste), OutArena Professor (teste de 7 dias), Beach Class e Bora Pro Play. Nenhum tem preço público: ainda não existe preço de mercado para esse público.</p>
+      <p>Set Prime (grátis em teste), OutArena Professor (teste de 7 dias), Beach Class e Bora Pro Play. Nenhum tem preço público — segue sem preço de mercado para esse público, igual a 13/09. Não foi reconferido em 20/09.</p>
     </section>
 
     <section class="sec">
@@ -343,32 +355,80 @@
             <tr><td>Clubes de padel no Brasil</td><td class="num">380</td><td>FIP World Padel Report 2025</td></tr>
             <tr><td>Quadras de padel no Brasil</td><td class="num">1.000+</td><td>FIP 2025</td></tr>
             <tr><td>Jogadores de padel no Brasil</td><td class="num">500–600 mil</td><td>FIP / COBRAPA</td></tr>
+            <tr><td>Boxes de CrossFit filiados no Brasil</td><td class="num">≈ 1.000</td><td>CrossFit Inc. · Brasil entre os 5 maiores mercados; SP concentra ~30%</td></tr>
+            <tr><td>Atletas no HYROX São Paulo</td><td class="num">4.000+</td><td>Edição anterior; ingressos esgotados antecipadamente</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="note">Não há número nacional de arenas. Sul e Sudeste concentram cerca de 70% das quadras cadastradas.</p>
+      <p class="note">Não há número nacional de arenas. Sul e Sudeste concentram cerca de 70% das quadras cadastradas. O dado de boxes filiados é de levantamento da CrossFit Inc. citado pela imprensa esportiva e não tem atualização pública de 2026.</p>
+    </section>
+  </div>
+
+  <!-- MARCA -->
+  <div class="part" id="marca">
+    <div class="part-head">
+      <span class="eyebrow"><span class="dot"></span> Parte 3</span>
+      <h2>Corrida, CrossFit e Hyrox</h2>
+      <p>Segmento novo desde a última análise. Aqui o adversário não é sistema de quadra: é o sistema que o box já paga e o app que o atleta já usa.</p>
+    </div>
+
+    <section class="sec">
+      <h3>O que o Desafiaê faz nesse segmento</h3>
+      <ul class="list">
+        <li><b>Desafio de marca:</b> corrida, CrossFit e Hyrox com métrica por tempo ou por carga/repetição, aceite, comprovação e resultado.</li>
+        <li><b>Partida de marca aberta</b> com ranking de marcas, para quem não tem adversário definido.</li>
+        <li><b>Níveis próprios por modalidade:</b> INI, SC, RX e RX+ no CrossFit; OP e PRO no Hyrox — em vez de forçar a escala D/C/B/A/P das quadras.</li>
+        <li><b>A arena entra como vitrine e como aula,</b> não como ERP do box: o box aparece, oferta aula e recebe pelo app.</li>
+      </ul>
+    </section>
+
+    <section class="sec">
+      <h3>Quem já está lá</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Concorrente</th><th>Quem paga</th><th class="num">Preço</th><th>O que faz / não faz</th></tr></thead>
+          <tbody>
+            <tr><td>Wodify</td><td>Box</td><td class="num">A partir de US$ 99/mês</td><td>Gestão completa do box com WOD, leaderboard e mensalidade. Não tem desafio entre pessoas de boxes diferentes.</td></tr>
+            <tr><td>SugarWOD</td><td>Box ou atleta</td><td class="num">Box a partir de US$ 37/mês<br />Atleta US$ 9,99/mês</td><td>Treino do dia e leaderboard do box; cobra por atleta registrado. Sem desafio 1x1 nem ranking público por cidade.</td></tr>
+            <tr><td>Beyond the Whiteboard</td><td>Box ou atleta</td><td class="num">Atleta US$ 7,99/mês<br />US$ 87/ano</td><td>Registro de treino e benchmarks; o box pode repassar o custo ao aluno. Comparação é contra o próprio histórico.</td></tr>
+            <tr><td>Tecnofit / Pacto</td><td>Box</td><td class="num">≈ R$ 3,38 por aluno/mês</td><td>ERP brasileiro de academia e box: matrícula, mensalidade, acesso. Nenhuma camada competitiva.</td></tr>
+            <tr><td>Strava</td><td>Atleta</td><td class="num">R$ 22,90/mês<br />R$ 149,90/ano</td><td>Corrida com segmentos, desafios e clubes. É o hábito já instalado do corredor brasileiro.</td></tr>
+            <tr><td>RoxFit, TrainRox, Centr</td><td>Atleta</td><td class="num">RoxFit grátis hoje<br />demais por assinatura</td><td>Treino e resultados de Hyrox. Não existe app oficial do Hyrox: os resultados ficam no portal de provas.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h3>Leitura</h3>
+      <div class="verdict">
+        <div class="v good"><small>Buraco real</small><p>Ninguém liga a marca do atleta a um desafio direto contra outra pessoa, com ranking público e a arena por trás. Leaderboard de box é interno; Strava é contra si mesmo.</p></div>
+        <div class="v warn"><small>Risco</small><p>O box já paga Tecnofit ou Wodify e não troca de sistema por causa de desafio. Disputar o ERP do box é briga perdida.</p></div>
+        <div class="v warn"><small>Preço</small><p>O atleta desse mundo paga US$ 8 a 10 ou R$ 22,90. O Elite a R$ 29,90 está acima da referência dele.</p></div>
+      </div>
+      <p>O caminho que se sustenta é <b>entrar pelo atleta</b> — desafio, marca e ranking — e vender para o box o plano Elite como vitrine e canal de aula, não como substituto do sistema de gestão. É exatamente o que a modelagem atual faz; vale manter a comunicação nesse limite para não ser comparado ao Wodify numa mesa de negociação.</p>
     </section>
   </div>
 
   <!-- PREÇOS -->
   <div class="part" id="precos">
     <div class="part-head">
-      <span class="eyebrow"><span class="dot"></span> Parte 3</span>
-      <h2>Onde o preço deveria ficar</h2>
-      <p>Sugestão a partir do mercado. Nada disso foi alterado no app, na loja ou na landing.</p>
+      <span class="eyebrow"><span class="dot"></span> Parte 4</span>
+      <h2>O preço agora é real</h2>
+      <p>Os valores abaixo saíram da App Store Connect em 20/09, território Brasil, todos com estado aprovado. Não é mais sugestão: é o que a loja vai cobrar quando a 1.0 for liberada.</p>
     </div>
 
     <section class="sec">
       <h3>Mensalidade de arena: Desafiaê contra o mercado</h3>
       <p>Faixa de cada sistema, do plano mais barato ao mais caro, em R$ por mês. A área laranja clara é onde se concentra o mercado para 3 a 6 quadras.</p>
-      <div class="ruler" role="img" aria-label="Faixas de mensalidade: SporTickets 0 mais taxa, Arena Manager 99 a 449, Effect 99,90 a 349,90, Arena Online 147 a 347, Atacante 199 a 399, Desafiaê hoje 29,99 a 44,99, Desafiaê sugerido 89 a 349 reais por mês">
+      <div class="ruler" role="img" aria-label="Faixas de mensalidade por mês: SporTickets, Reserve e Quadras Online em zero mais taxa; Arena Manager de 99 a 449; Effect de 99,90 a 349,90; Arena Online de 147 a 347; Atacante de 199 a 399; Desafiaê de 189,90 a 449,90 reais">
         <div class="tracks">
           <div class="ruler-row">
-            <div class="ruler-name">SporTickets <small>+ 3% a 8% por pagamento</small></div>
-            <div class="track"><span class="band" style="left:40%;width:20%"></span><span class="pin" style="left:1%;color:var(--muted)"></span><span class="lbl" style="left:1%;top:-10px;transform:none">R$ 0</span></div>
+            <div class="ruler-name">Sem mensalidade <small>SporTickets, Reserve, Quadras Online</small></div>
+            <div class="track"><span class="band" style="left:40%;width:20%"></span><span class="pin" style="left:1%;color:var(--muted)"></span><span class="lbl" style="left:1%;top:-10px;transform:none">R$ 0 + taxa</span></div>
           </div>
           <div class="ruler-row">
-            <div class="ruler-name">Arena Manager</div>
+            <div class="ruler-name">Arena Manager <small>até 1.000 alunos</small></div>
             <div class="track"><span class="band" style="left:40%;width:20%"></span><span class="bar" style="left:19.8%;width:70%"></span></div>
           </div>
           <div class="ruler-row">
@@ -384,12 +444,8 @@
             <div class="track"><span class="band" style="left:40%;width:20%"></span><span class="bar" style="left:39.8%;width:40%"></span></div>
           </div>
           <div class="ruler-row">
-            <div class="ruler-name">Desafiaê hoje <small>comentário no código</small></div>
-            <div class="track"><span class="band" style="left:40%;width:20%"></span><span class="bar us-now" style="left:6%;width:3%"></span><span class="lbl" style="left:7.5%;top:-10px">R$ 29,99–44,99</span></div>
-          </div>
-          <div class="ruler-row">
-            <div class="ruler-name">Desafiaê sugerido</div>
-            <div class="track"><span class="band" style="left:40%;width:20%"></span><span class="bar us-new" style="left:17.8%;width:52%"></span></div>
+            <div class="ruler-name">Desafiaê <small>aprovado na loja</small></div>
+            <div class="track"><span class="band" style="left:40%;width:20%"></span><span class="bar us-new" style="left:37.98%;width:52%"></span><span class="lbl" style="left:64%;top:-10px">R$ 189,90–449,90</span></div>
           </div>
         </div>
         <div class="axis">
@@ -397,58 +453,62 @@
           <div class="ticks"><span style="left:0">R$ 0</span><span style="left:20%">100</span><span style="left:40%">200</span><span style="left:60%">300</span><span style="left:80%">400</span><span style="left:100%">500</span></div>
         </div>
       </div>
+      <p class="note">O diagnóstico de 13/09 era o contrário deste: naquela data o código falava em R$ 29,99 e R$ 44,99 e a conclusão foi que estávamos <b>baratos demais</b>. Com os valores reais, o problema virou o oposto — o plano de entrada é o mais caro do mercado.</p>
     </section>
 
     <section class="sec">
-      <h3>Arena</h3>
+      <h3>Arena · preço aprovado na App Store</h3>
       <div class="price-cards">
         <div class="pc">
           <h4>Básico</h4>
-          <p class="big">R$ 89<small>/mês</small></p>
-          <p class="yr">R$ 890/ano</p>
-          <p class="was">Hoje: R$ 29,99?</p>
+          <p class="big">R$ 189,90<small>/mês</small></p>
+          <p class="yr">R$ 1.899,90/ano · líquido R$ 155,77</p>
           <p>Quadras, partidas, serviços e visibilidade.</p>
         </div>
         <div class="pc feat">
           <h4>Premium</h4>
-          <p class="big">R$ 219<small>/mês</small></p>
-          <p class="yr">R$ 2.190/ano</p>
-          <p class="was">Hoje: R$ 44,99?</p>
+          <p class="big">R$ 289,90<small>/mês</small></p>
+          <p class="yr">R$ 2.899,90/ano · líquido R$ 237,79</p>
           <p>Reservas, financeiro, desafios e torneios.</p>
         </div>
         <div class="pc">
           <h4>Elite</h4>
-          <p class="big">R$ 349<small>/mês</small></p>
-          <p class="yr">R$ 3.490/ano</p>
-          <p class="was">Hoje: não existe na loja</p>
+          <p class="big">R$ 449,90<small>/mês</small></p>
+          <p class="yr">R$ 4.499,90/ano · líquido R$ 369,03</p>
           <p>Premium + aulas, professores e mensalidade de aluno.</p>
         </div>
       </div>
       <ul class="list" style="margin-top:14px">
-        <li><b>R$ 29,99 e R$ 44,99 deixam dinheiro na mesa</b> e passam imagem de produto amador para quem compra sistema de gestão.</li>
-        <li><b>Os R$ 189,90 e R$ 289,90 da landing estão no preço de mercado,</b> mas só se sustentam com pagamento online funcionando.</li>
-        <li><b>Enquanto o Pix não estiver em produção,</b> o Premium só se defende perto de R$ 149.</li>
-        <li><b>A loja fica com 15% da assinatura</b> (programa de pequenas empresas da Apple e do Google).</li>
-        <li><b>A SporTickets não cobra mensalidade</b> e entrega mensalidade de aluno, catraca, PDV e comissão de professor, ganhando só 3% a 8% do que a arena recebe. Contra ela, mensalidade + 10% é difícil de vender. Vale ter um plano de entrada sem mensalidade, cobrando só taxa.</li>
+        <li><b>Premium e Elite estão no lugar certo.</b> R$ 289,90 fica na faixa do Arena Manager Pro (R$ 279) e do Atacante de 4+ quadras (R$ 399); R$ 449,90 empata com o Arena Manager Scale (R$ 449), que atende até 1.000 alunos e 3 unidades.</li>
+        <li><b>O Básico a R$ 189,90 é o problema.</b> É quase o dobro do plano de entrada do Arena Manager (R$ 99) e do Effect (R$ 99,90), e disputa com três sistemas que cobram R$ 0 de mensalidade. Para a arena pequena, esse é o preço da primeira conversa — e é onde a venda morre.</li>
+        <li><b>A loja fica com ~18%.</b> De R$ 189,90 chegam R$ 155,77. Já considerado o programa de pequenas empresas; sobre isso ainda vêm as taxas do Mercado Pago no que a arena receber.</li>
+        <li><b>Sugestão:</b> um plano de entrada sem mensalidade, cobrando só taxa, para desarmar a comparação com SporTickets, Reserve e Quadras Online — detalhado na <a href="#eixos">Parte 5</a>.</li>
+        <li><b>Os planos não têm limite de alunos nem de quadras.</b> Todo concorrente limita. Vale decidir se isso é argumento de venda ou receita perdida na arena grande.</li>
       </ul>
+      <p class="note"><b>A Apple já questionou esses valores.</b> A rejeição da 1.0 foi uma mensagem automática pedindo confirmação de Arena Premium mensal, Arena Elite mensal e Arena Elite anual. Os valores em dólar batem com a equalização dos preços em real — mas é sinal de que estão no teto da categoria.</p>
     </section>
 
     <section class="sec">
-      <h3>Jogador</h3>
+      <h3>Jogador · preço aprovado na App Store</h3>
       <div class="price-cards">
         <div class="pc feat">
-          <h4>Premium hoje</h4>
+          <h4>Premium</h4>
           <p class="big">R$ 14,90<small>/mês</small></p>
-          <p class="yr">R$ 119/ano</p>
-          <p>Abaixo do Strava. Com estatísticas completas, histórico contra cada rival e selo (0163), o valor se sustenta quando isso chegar à produção.</p>
+          <p class="yr">R$ 129,90/ano · líquido R$ 12,22</p>
+          <p>Desafio ilimitado e 50% de desconto na taxa. Mais barato que o Strava.</p>
         </div>
         <div class="pc">
-          <h4>Premium reforçado</h4>
-          <p class="big">R$ 24,90<small>/mês</small></p>
-          <p class="yr">Alvo depois de novos benefícios</p>
-          <p>Somar isenção da taxa de reserva e inscrição e prioridade em lista de espera.</p>
+          <h4>Elite</h4>
+          <p class="big">R$ 29,90<small>/mês</small></p>
+          <p class="yr">R$ 299,90/ano · líquido R$ 24,53</p>
+          <p>Taxa zero, estatísticas, confronto e selo. Acima do Strava, bem abaixo do Playtomic.</p>
         </div>
       </div>
+      <ul class="list" style="margin-top:14px">
+        <li><b>O anual do Premium é o mais generoso da casa.</b> R$ 129,90 equivalem a 8,7 meses — cerca de 27% de desconto. Todos os outros planos, de arena e de jogador, dão exatamente 2 meses grátis (10 mensalidades). Ou é intencional e vira argumento, ou é desalinhamento. Referência do público: o Strava dá 45% no anual.</li>
+        <li><b>O Elite se paga na taxa</b> para quem joga torneio: uma inscrição de R$ 195 já devolve R$ 19,50 dos R$ 29,90.</li>
+        <li><b>Básico do jogador segue em <code>MISSING_METADATA</code></b> na loja — sem uso, mas é um produto pendente na lista.</li>
+      </ul>
     </section>
 
     <section class="sec">
@@ -457,23 +517,132 @@
         <table>
           <thead><tr><th>Onde</th><th class="num">Hoje</th><th class="num">Sugestão</th><th>Por quê</th></tr></thead>
           <tbody>
-            <tr><td>Inscrição de torneio</td><td class="num">10%</td><td class="num">10%, repassada ao atleta</td><td>Igual à Sympla e ao Pix da SporTickets; inscrição de R$ 60 a 195 absorve bem</td></tr>
-            <tr><td>Reserva de quadra</td><td class="num">10%</td><td class="num">≈ 5% para assinante</td><td>Mensalidade + 10% fica acima de todos; a SporTickets cobra 3% no Pix sem mensalidade</td></tr>
+            <tr><td>Inscrição de torneio</td><td class="num">10%</td><td class="num">10%, repassada ao atleta</td><td>Igual à taxa de serviço da Sympla; a SporTickets cobra 3% no Pix sem mensalidade, então o repasse é o que torna o número defensável</td></tr>
+            <tr><td>Reserva de quadra</td><td class="num">10%</td><td class="num">≈ 5% para assinante</td><td>Mensalidade de R$ 189,90 + 10% fica acima de todos; a Reserve cobra R$ 10,99 fixos e a SporTickets 3%</td></tr>
             <tr><td>Aula avulsa</td><td class="num">10%</td><td class="num">≈ 5% para assinante</td><td>Mesmo motivo da reserva</td></tr>
-            <tr><td>Mensalidade de aluno</td><td class="num">2%</td><td class="num">2%</td><td>Já está entre o Arena Manager (0%) e o Pix da SporTickets (3%)</td></tr>
+            <tr><td>Mensalidade de aluno</td><td class="num">2%</td><td class="num">2%</td><td>Entre o Arena Manager (0% na mensalidade, 1–1,5% no split), o Atacante (1,19% Pix) e a SporTickets (3% Pix)</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="note"><b>Falta pesquisar a taxa do Mercado Pago,</b> que vem por cima da nossa. Ela precisa entrar na conta antes de fechar os percentuais.</p>
+      <p class="note">O desconto de taxa por plano do jogador (Premium 50%, Elite 100%) já está no banco e sai da nossa margem, não da arena. Por cima da nossa taxa ainda vêm as do Mercado Pago, cobradas da arena.</p>
     </section>
 
     <section class="sec">
       <h3>Prioridades</h3>
       <ol class="steps">
-        <li><span><b>Levar o Mercado Pago para produção:</b> cadastrar as chaves e publicar as funções de pagamento, que hoje só existem no staging. É o que destrava o valor do Premium da arena.</span></li>
-        <li><span><b>Um preço só</b> na loja, no app e na landing, com os produtos Elite criados.</span></li>
-        <li><span><b>Assinaturas na Play Store,</b> quando for liberar Android.</span></li>
-        <li><span><b>Levar Premium do jogador, mensalidade de aluno e avaliação da arena para produção</b> (0158 a 0165 e os webhooks), com o furo de permissão em <code>profiles</code> corrigido antes de vender assinatura.</span></li>
+        <li><span><b>Responder a rejeição pela Central de Resoluções</b> confirmando os preços. É o único item entre nós e a primeira venda.</span></li>
+        <li><span><b>Separar os níveis do Elite e do Premium da arena</b> na App Store, senão a página da loja mostra dois planos idênticos com R$ 160 de diferença.</span></li>
+        <li><span><b>Decidir o degrau de entrada:</b> hoje a conversa com arena pequena começa perdida. A conta dos dois eixos e a escada sugerida estão na Parte 5.</span></li>
+        <li><span><b>Conferir as migrations 0190 a 0194 na produção nova</b> antes do lançamento; a virada de 17/09 parou na 189.</span></li>
+        <li><span><b>Testar a build no aparelho</b> (login, compra em sandbox, push) — a 42 foi enviada sem teste em iPhone.</span></li>
+        <li><span><b>Não disputar ERP de box.</b> Manter a arena de CrossFit e Hyrox como vitrine e canal de aula; o concorrente ali é o hábito do atleta, não o Wodify.</span></li>
+      </ol>
+    </section>
+  </div>
+
+  <!-- DOIS EIXOS -->
+  <div class="part" id="eixos">
+    <div class="part-head">
+      <span class="eyebrow"><span class="dot"></span> Parte 5</span>
+      <h2>A conta dos dois eixos</h2>
+      <p>A régua da Parte 4 mostra só a mensalidade. O que a arena paga é mensalidade <b>mais</b> taxa — e é aí que o Desafiaê fica sozinho no topo.</p>
+    </div>
+
+    <section class="sec">
+      <h3>Todo concorrente escolhe um lado</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Sistema</th><th class="num">Mensalidade</th><th class="num">Taxa</th><th>Onde ele ganha</th></tr></thead>
+          <tbody>
+            <tr><td>SporTickets, Reserve, Quadras Online</td><td class="num">R$ 0</td><td class="num">3–5%</td><td>Volume transacionado</td></tr>
+            <tr><td>Arena Manager</td><td class="num">R$ 99–449</td><td class="num">0–1,5%</td><td>Assinatura</td></tr>
+            <tr><td>Effect Sports</td><td class="num">R$ 99,90–349,90</td><td class="num">Não informada</td><td>Assinatura</td></tr>
+            <tr><td>Atacante.App</td><td class="num">R$ 199–399</td><td class="num">1,19–5%</td><td>Assinatura + avulso</td></tr>
+            <tr class="us"><td>Desafiaê</td><td class="num">R$ 189,90–449,90</td><td class="num">10%</td><td>Os dois</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Não é que a mensalidade esteja errada ou que a taxa esteja errada. É que as duas juntas não têm paralelo no mercado.</p>
+    </section>
+
+    <section class="sec">
+      <h3>Quanto a arena paga por mês, de verdade</h3>
+      <p>Custo total (mensalidade + taxa) em três perfis de arena, considerando o que passa pelo pagamento online.</p>
+
+      <h4>Arena pequena · 2 quadras · R$ 3.000/mês em reserva online, sem aulas</h4>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Sistema</th><th class="num">Mensalidade</th><th class="num">Taxa</th><th class="num">Total/mês</th></tr></thead>
+          <tbody>
+            <tr class="us"><td>Desafiaê hoje (Básico)</td><td class="num">R$ 189,90</td><td class="num">R$ 300,00</td><td class="num">R$ 489,90</td></tr>
+            <tr><td>SporTickets</td><td class="num">R$ 0</td><td class="num">R$ 90,00</td><td class="num">R$ 90,00</td></tr>
+            <tr><td>Arena Manager Starter</td><td class="num">R$ 99,00</td><td class="num">não informada</td><td class="num">R$ 99,00</td></tr>
+            <tr><td>Reserve <small>(~30 horários)</small></td><td class="num">R$ 0</td><td class="num">R$ 329,70</td><td class="num">R$ 329,70</td></tr>
+            <tr><td>Atacante.App (até 3 quadras)</td><td class="num">R$ 199,00</td><td class="num">R$ 150,00</td><td class="num">R$ 349,00</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Arena média · 4 quadras · R$ 12.000 em reserva + R$ 8.000 em mensalidade de aluno</h4>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Sistema</th><th class="num">Mensalidade</th><th class="num">Taxa</th><th class="num">Total/mês</th></tr></thead>
+          <tbody>
+            <tr class="us"><td>Desafiaê hoje (Elite)</td><td class="num">R$ 449,90</td><td class="num">R$ 1.360,00</td><td class="num">R$ 1.809,90</td></tr>
+            <tr><td>Arena Manager Scale</td><td class="num">R$ 449,00</td><td class="num">R$ 120,00</td><td class="num">R$ 569,00</td></tr>
+            <tr><td>SporTickets</td><td class="num">R$ 0</td><td class="num">R$ 600,00</td><td class="num">R$ 600,00</td></tr>
+            <tr><td>Atacante.App (4+ quadras)</td><td class="num">R$ 399,00</td><td class="num">R$ 695,20</td><td class="num">R$ 1.094,20</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Arena grande · 8 quadras · R$ 30.000 em reserva + R$ 25.000 em mensalidade de aluno</h4>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Sistema</th><th class="num">Mensalidade</th><th class="num">Taxa</th><th class="num">Total/mês</th></tr></thead>
+          <tbody>
+            <tr class="us"><td>Desafiaê hoje (Elite)</td><td class="num">R$ 449,90</td><td class="num">R$ 3.500,00</td><td class="num">R$ 3.949,90</td></tr>
+            <tr><td>Arena Manager Scale <small>(trava em 1.000 alunos)</small></td><td class="num">R$ 449,00</td><td class="num">R$ 300,00</td><td class="num">R$ 749,00</td></tr>
+            <tr><td>SporTickets</td><td class="num">R$ 0</td><td class="num">R$ 1.650,00</td><td class="num">R$ 1.650,00</td></tr>
+            <tr><td>Atacante.App (4+ quadras)</td><td class="num">R$ 399,00</td><td class="num">R$ 1.797,50</td><td class="num">R$ 2.196,50</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="note"><b>O que a conta assume.</b> Que tudo passa pelo pagamento online — hoje boa parte da arena recebe no balcão e não paga taxa nenhuma, então este é o custo <b>de destino</b>, não o de hoje. A taxa de reserva da SporTickets é "sob consulta": usei os 3% do Pix que ela publica para planos e mensalidades, então a linha dela pode estar otimista. No Arena Manager considerei 0% na mensalidade do aluno e 1% de split na reserva (Scale). As taxas do Mercado Pago vêm por cima em todos os casos e são cobradas da arena.</p>
+
+      <div class="verdict" style="margin-top:18px">
+        <div class="v bad"><small>Hoje</small><p>Somos de 2 a 5 vezes o sistema mais barato em todos os três perfis, e a diferença cresce com o faturamento — justo quando a arena começa a olhar a fatura.</p></div>
+        <div class="v warn"><small>O que dá para defender</small><p>Nunca vamos ganhar de um ERP puro no preço. Dá para estar acima — não 5 vezes acima.</p></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h3>A saída: mensalidade compra desconto de taxa</h3>
+      <p>A mecânica já existe e está em produção — é o <code>player_plan_benefits</code> do jogador, em que Premium desconta 50% e Elite zera a taxa. Aplicada à arena, resolve os dois eixos de uma vez: quem não quer pagar assinatura entra e paga taxa cheia; quem fatura mais compra o desconto.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Degrau</th><th class="num">Mensalidade</th><th class="num">Reserva, torneio e aula</th><th class="num">Mensalidade de aluno</th><th class="num">Faixa em que compensa</th></tr></thead>
+          <tbody>
+            <tr><td>Start <small>(novo)</small></td><td class="num">R$ 0</td><td class="num">10%</td><td class="num">—</td><td class="num">até R$ 4.950</td></tr>
+            <tr><td>Básico</td><td class="num">R$ 99,00</td><td class="num">8%</td><td class="num">—</td><td class="num">R$ 4.950 a 6.363</td></tr>
+            <tr><td>Premium</td><td class="num">R$ 289,90</td><td class="num">5%</td><td class="num">—</td><td class="num">R$ 6.363 a 8.000</td></tr>
+            <tr class="us"><td>Elite</td><td class="num">R$ 449,90</td><td class="num">3%</td><td class="num">2%</td><td class="num">acima de R$ 8.000</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note"><b>Por que o Básico precisa cair para R$ 99.</b> Mantendo os R$ 189,90 de hoje com os mesmos 8%, o Básico fica matematicamente morto: ele só passaria a compensar contra o Start em R$ 9.495 de faturamento, mas o Premium já compensa em R$ 5.798 — ou seja, não existe faixa nenhuma em que o Básico seja a melhor escolha. São só R$ 100 entre Básico e Premium hoje, e esse espaço não comporta uma queda de taxa que faça sentido. Baixar o Básico sozinho não resolveria nada; baixar o Básico <b>junto com</b> a escada de taxa é o que faz os quatro degraus existirem de verdade.</p>
+      <p>Com essa escada, a arena média sai de R$ 1.809,90 para <b>R$ 969,90</b> e a grande, de R$ 3.949,90 para <b>R$ 1.849,90</b>. Continuamos acima do Arena Manager — e aí a conversa passa a ser sobre o que ele não tem: o jogador.</p>
+    </section>
+
+    <section class="sec">
+      <h3>Em que ordem fazer</h3>
+      <ol class="steps">
+        <li><span><b>Não mexer em preço agora.</b> A 1.0 voltou por causa de preço; alterar valor no meio da Central de Resoluções reabre a conversa que precisa ser fechada. Responder, aprovar, lançar.</span></li>
+        <li><span><b>O degrau R$ 0 não precisa de produto novo na loja.</b> Plano gratuito não é assinatura, é regra: hoje a 0186 e a 0193 exigem plano ativo para a arena usar o app. Liberar um nível Start é mudança de banco, não de App Store — e evita o <code>FIRST_SUBSCRIPTION_MUST_BE_SUBMITTED_ON_VERSION</code> que já travou o envio.</span></li>
+        <li><span><b>Baixar a taxa de reserva e aula avulsa</b> para quem assina, mesmo antes da escada completa. A mensalidade dói uma vez por mês; a taxa dói toda semana, e é ela que decide a renovação no terceiro mês.</span></li>
+        <li><span><b>Baixar o Básico para R$ 99</b> na mesma leva da escada, nunca sozinho.</span></li>
+        <li><span><b>Não mexer em Premium e Elite.</b> Os valores estão certos, e o Elite tem um argumento que nenhum concorrente tem: sem limite de alunos nem de quadras. O Arena Manager cobra os mesmos R$ 449 e trava em 1.000 alunos e 3 unidades.</span></li>
       </ol>
     </section>
   </div>
@@ -481,49 +650,59 @@
   <!-- FONTES -->
   <div class="part" id="fontes">
     <div class="part-head">
-      <span class="eyebrow"><span class="dot"></span> Parte 4</span>
+      <span class="eyebrow"><span class="dot"></span> Parte 6</span>
       <h2>Fontes e limites</h2>
       <p>Só entrou preço visto em página oficial, loja de apps ou terceiro citado abaixo.</p>
     </div>
 
     <section class="sec">
+      <h3>O que foi reconferido em 20/09</h3>
+      <p>SporTickets, Atacante.App, Arena Manager, Effect Sports, Arena Online, Reserve, Quadras Online, Playtomic (Manager e App Store BR), Copa Fácil, Playinga, Sympla, Strava, Tecnofit, Wodify, SugarWOD e Beyond the Whiteboard. Os preços do Desafiaê vieram da API da App Store Connect, território Brasil.</p>
+    </section>
+
+    <section class="sec">
       <h3>O que não foi confirmado</h3>
       <ul class="list">
-        <li><b>R$ 29,99 e R$ 44,99</b> vêm de um comentário no código, não da App Store Connect.</li>
-        <li><b>Playtomic Manager</b> não publica preço; a tabela em euro é antiga. <b>MATCHi</b> (preço para clube) e <b>Challonge</b> bloquearam a leitura.</li>
+        <li><b>Rankedin e Challonge:</b> a página de preços não carrega por leitura automática; os valores são os de 13/09.</li>
+        <li><b>LetzPlay, MATCHi, MeuRanking, BT Match e ArenaAi:</b> sem preço público ou sem reconferência em 20/09.</li>
+        <li><b>Playtomic Manager</b> tem 4 planos (Standard, Professional, Champion, Master) e nenhum preço público.</li>
+        <li><b>Tecnofit e Pacto</b> cobram por aluno ativo, por faixa, e só fecham valor por contato; a média de ≈ R$ 3,38 por aluno é da própria Tecnofit.</li>
+        <li><b>Professores</b> (Set Prime, OutArena, Beach Class, Bora Pro Play) seguem sem preço público, sem reconferência.</li>
+        <li><b>Boxes de CrossFit no Brasil:</b> o número de ~1.000 filiados é de levantamento citado pela imprensa, sem atualização pública de 2026.</li>
         <li><b>Não encontrados:</b> Quadra Livre, Reservei, Kourts, Easy Court, Beach Manager, SuaQuadra, Arena Hub, ArenaPro, Gestor de Quadras, Sportsbooking, LetsBT, Sportzy, Padel Mobile, Joinfut, Torneio Fácil.</li>
-        <li><b>Sem preço público:</b> LetzPlay, BT Match, ArenaAi, MeuRanking, Premium do Rankedin.</li>
       </ul>
     </section>
 
     <section class="sec">
       <h3>Links</h3>
       <ul class="src">
-        <li>Playtomic, App Store BR · <a href="https://apps.apple.com/br/app/playtomic-play-padel/id1242321076">apps.apple.com</a></li>
-        <li>Playtomic, App Store BE · <a href="https://apps.apple.com/be/app/playtomic-play-padel/id1242321076">apps.apple.com</a></li>
-        <li>Playtomic Premium · <a href="https://helpmanager.playtomic.com/hc/en-gb/articles/20534670300561-Playtomic-Premium-Plan-for-players">helpmanager.playtomic.com</a></li>
-        <li>Playtomic Manager · <a href="https://playtomic.com/pricing">playtomic.com/pricing</a></li>
-        <li>Playtomic Manager (tabela antiga) · <a href="https://www.appvizer.co.uk/recreational-activities/gym-mgt/syltek">appvizer.co.uk</a></li>
-        <li>MATCHi, taxa de serviço · <a href="https://matchiplayers.zendesk.com/hc/en-gb/articles/21632070063517-Service-fee">matchiplayers.zendesk.com</a></li>
-        <li>LetzPlay · <a href="https://apps.apple.com/br/app/letzplay/id1262006308">apps.apple.com</a></li>
-        <li>Rankedin · <a href="https://www.rankedin.com/en/pricing">rankedin.com/pricing</a></li>
-        <li>Ranking Beach Tennis · <a href="https://www.rankingbeachtennis.com/">rankingbeachtennis.com</a></li>
-        <li>Playinga · <a href="https://playinga.com/pt/pricing/">playinga.com</a></li>
-        <li>Copa Fácil · <a href="https://copafacil.com/">copafacil.com</a></li>
-        <li>Challonge · <a href="https://www.softwaresuggest.com/challonge">softwaresuggest.com</a></li>
-        <li>SporTickets, organizadores · <a href="https://www.sportickets.com.br/pt/landing">sportickets.com.br/pt/landing</a></li>
         <li>SporTickets, arenas · <a href="https://www.sportickets.com.br/pt/landing/arenas">sportickets.com.br/pt/landing/arenas</a></li>
-        <li>Sympla · <a href="https://produtores.sympla.com.br/quanto-custa/">produtores.sympla.com.br</a></li>
+        <li>SporTickets, organizadores · <a href="https://www.sportickets.com.br/pt/landing">sportickets.com.br/pt/landing</a></li>
         <li>Atacante.App · <a href="https://atacante.app/sistema-para-beach-tennis/">atacante.app</a></li>
-        <li>Arena Online · <a href="https://arenaonline.app.br/">arenaonline.app.br</a></li>
         <li>Arena Manager · <a href="https://arenamanager.com.br/">arenamanager.com.br</a></li>
         <li>Effect Sports · <a href="https://effectsports.com/">effectsports.com</a></li>
+        <li>Arena Online · <a href="https://arenaonline.app.br/">arenaonline.app.br</a></li>
         <li>Reserve · <a href="https://reserveapp.com.br/">reserveapp.com.br</a></li>
         <li>Quadras Online · <a href="https://www.quadras.online/">quadras.online</a></li>
-        <li>Tecnofit · <a href="https://www.tecnofit.com.br/precos/">tecnofit.com.br</a></li>
+        <li>Playtomic Manager · <a href="https://playtomic.com/pricing">playtomic.com/pricing</a></li>
+        <li>Playtomic, App Store BR · <a href="https://apps.apple.com/br/app/playtomic-play-padel/id1242321076">apps.apple.com</a></li>
+        <li>MATCHi, taxa de serviço · <a href="https://matchiplayers.zendesk.com/hc/en-gb/articles/21632070063517-Service-fee">matchiplayers.zendesk.com</a></li>
+        <li>LetzPlay · <a href="https://apps.apple.com/br/app/letzplay/id1262006308">apps.apple.com</a></li>
+        <li>Copa Fácil · <a href="https://copafacil.com/">copafacil.com</a></li>
+        <li>Playinga · <a href="https://playinga.com/pt/pricing/">playinga.com</a></li>
+        <li>Sympla · <a href="https://produtores.sympla.com.br/quanto-custa/">produtores.sympla.com.br</a></li>
+        <li>Rankedin · <a href="https://www.rankedin.com/en/pricing">rankedin.com/pricing</a></li>
+        <li>Tecnofit, preços · <a href="https://www.tecnofit.com.br/precos/">tecnofit.com.br/precos</a></li>
+        <li>Wodify, preços · <a href="https://www.wodify.com/pricing">wodify.com/pricing</a></li>
+        <li>SugarWOD, preços · <a href="https://www.sugarwod.com/pricing/">sugarwod.com/pricing</a></li>
+        <li>Beyond the Whiteboard · <a href="https://support.btwb.com/en/support/solutions/articles/35000014855-how-much-does-btwb-cost-">support.btwb.com</a></li>
+        <li>Apps de Hyrox, comparativo · <a href="https://www.gowod.app/blog/best-apps-for-hyrox-training-a-comparison-of-the-top-5">gowod.app</a></li>
+        <li>HYROX São Paulo · <a href="https://roxlyfe.com/hyrox-sao-paulo/">roxlyfe.com</a></li>
+        <li>Strava, preços · <a href="https://www.strava.com/pricing">strava.com/pricing</a></li>
         <li>Set Prime · <a href="https://apps.apple.com/br/app/set-prime/id6760924804">apps.apple.com</a></li>
         <li>OutArena Professor · <a href="https://professor.outarena.app/">professor.outarena.app</a></li>
-        <li>Strava no Brasil · <a href="https://bikeaospedacos.com.br/2026/02/24/strava-pix-assinatura-brasil/">bikeaospedacos.com.br</a></li>
+        <li>Boxes de CrossFit no Brasil · <a href="https://www.ativo.com/cross-training/noticias-cross-training/brasil-incrivel-marca-mil-boxes-crossfit/">ativo.com</a></li>
+        <li>CrossFit, concentração em SP · <a href="https://www.segs.com.br/demais/337924-sao-paulo-concentra-quase-30-dos-espacos-crossfit-do-pais-revela-pesquisa">segs.com.br</a></li>
         <li>Beach tennis, 1,1 milhão · <a href="https://jornalismo.iesb.br/destaque3/brasil-tem-11-milhao-de-praticantes-de-beach-tennis/">jornalismo.iesb.br</a></li>
         <li>Beach tennis, quadras em SP · <a href="https://aquiesportes.com.br/beach-tennis/o-que-e-beach-tennis/">aquiesportes.com.br</a></li>
         <li>Padel, FIP 2025 · <a href="https://superpadel.com.br/2025/12/03/fip-divulga-o-world-padel-report-2025-e-aponta-expansao-historica-do-esporte/">superpadel.com.br</a></li>
@@ -534,7 +713,7 @@
 
   <footer class="foot">
     <span>Desafiaê · documento interno</span>
-    <span>Levantamento de 13/09/2026</span>
+    <span>Levantamento de 20/09/2026</span>
   </footer>
 </div>
 
