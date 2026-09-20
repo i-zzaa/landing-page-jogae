@@ -1,0 +1,19 @@
+termos.html
+  s_cb98f5b0b90dd0::t_7998aef429007f 52,90-91
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "acb09478dd59cde855cc0b9d9c09978777553ae0",
+  "prompts": {},
+  "sessions": {
+    "s_cb98f5b0b90dd0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "s_cb98f5b0b90dd0",
+        "model": "unknown"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
