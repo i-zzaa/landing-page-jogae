@@ -1,0 +1,14 @@
+README.md
+  h_ad5e0c8135e62b 1-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "13800905aa6b8f4d5762e3ff0588c9a4b8cf7d7c",
+  "prompts": {},
+  "humans": {
+    "h_ad5e0c8135e62b": {
+      "author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
