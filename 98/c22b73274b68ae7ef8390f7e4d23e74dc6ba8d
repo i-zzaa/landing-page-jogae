@@ -1,0 +1,31 @@
+arena.html
+  s_c258ef3b97ea6c::t_c95b2c016d8b49 6,8,537,552,587,591,600,720,768,807,831,844-845
+index.html
+  s_c258ef3b97ea6c::t_56cb4d6e0d7542 6,8,18-19,51,67,89,105,147-149,155-157,168-169,177-178
+README.md
+  s_c258ef3b97ea6c::t_4b0363538dcd4d 1,3,20
+manual/index.html
+  s_c258ef3b97ea6c::t_45e4b6d3be94d0 6-7,280,321-322
+mp-redirect.html
+  s_c258ef3b97ea6c::t_094e0c45920638 7,27,33,36
+robots.txt
+  s_c258ef3b97ea6c::t_12fdadfe1e40e2 4
+sitemap.xml
+  s_c258ef3b97ea6c::t_b6e0cc104a1d41 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "98c22b73274b68ae7ef8390f7e4d23e74dc6ba8d",
+  "prompts": {},
+  "sessions": {
+    "s_c258ef3b97ea6c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2bcfb88f-e2d1-4327-ae59-9f6fc35a633f",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
