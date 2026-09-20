@@ -1,0 +1,14 @@
+vercel.json
+  h_ad5e0c8135e62b 43-65
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "75f3f7331ac9f33cb5c38eea6ee940c230c83195",
+  "prompts": {},
+  "humans": {
+    "h_ad5e0c8135e62b": {
+      "author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
