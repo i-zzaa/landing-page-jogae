@@ -1,0 +1,31 @@
+arena.html
+  s_c258ef3b97ea6c::t_d0c2586801a9ee 671-677,679-695,732,734-736,843-915,984-1078
+funcionalidades.html
+  s_c258ef3b97ea6c::t_560769ee0fde46 132,136,138,140-144,178,182,206,249,257,366,373
+index.html
+  s_c258ef3b97ea6c::t_45cd8317103fd9 29,37-39,41,45-46,53,58-71,77,79-82,92,96-99,108-109,116,122,129,131-133,140,153-161,167,170-181,184,188-189
+regras.html
+  s_c258ef3b97ea6c::t_243c234f0a21fe 117-128,140,151,161,172,199,223,231,241,330,337,351,376-390,393,397,402,414
+styles.css
+  s_c258ef3b97ea6c::t_c454b616d72c80 1,10,19,21-62
+privacidade.html
+  s_c258ef3b97ea6c::t_30a8a12291dbaa 70
+script.js
+  s_c258ef3b97ea6c::t_70e3f77bd7ad46 1,3-100
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "5a4c15b7dddb1ade6ff04293b2bd6787ee9c9da9",
+  "prompts": {},
+  "sessions": {
+    "s_c258ef3b97ea6c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2bcfb88f-e2d1-4327-ae59-9f6fc35a633f",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
