@@ -1,0 +1,31 @@
+abrir.html
+  s_c258ef3b97ea6c::t_2d0d4308c9f0e2 104
+arena.html
+  s_c258ef3b97ea6c::t_58a3e2086dfabd 627,778-814,907,919,933-939,977,979,991,1002,1089-1096,1105,1115,1117,1119-1124,1128
+funcionalidades.html
+  s_c258ef3b97ea6c::t_9857c710eff4de 160-161,252-253,255-263,271,327,332,366,392-393,411
+index.html
+  s_c258ef3b97ea6c::t_00f6e4ca7a8f28 110,170,174,176-177
+pagamentos.html
+  s_c258ef3b97ea6c::t_e79097e8a69162 87,99,128-129,194-207
+regras.html
+  s_c258ef3b97ea6c::t_93f95bf3aec8bb 145,147,149,252-266,284,368,380,414-415,528-537
+styles.css
+  s_c258ef3b97ea6c::t_0f1f2df427a9b1 33-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "4b31b04b7b4ce0ab997efaeae46e9fce19d0c642",
+  "prompts": {},
+  "sessions": {
+    "s_c258ef3b97ea6c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2bcfb88f-e2d1-4327-ae59-9f6fc35a633f",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
