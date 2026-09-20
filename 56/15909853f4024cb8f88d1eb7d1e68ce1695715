@@ -1,0 +1,31 @@
+.well-known/assetlinks.json
+  s_437dc71a28cbfa::t_4aef26904c318d 1-14
+excluir-conta.html
+  s_437dc71a28cbfa::t_c4a2eef3e8d47b 1-152
+index.html
+  s_437dc71a28cbfa::t_d2dc3a839ee4b9 186
+privacidade.html
+  s_437dc71a28cbfa::t_7abd85846cebe3 98
+sitemap.xml
+  s_437dc71a28cbfa::t_967d5afdff199f 38-42
+termos.html
+  s_437dc71a28cbfa::t_d19664962eba72 99
+vercel.json
+  s_437dc71a28cbfa::t_994c4ee60dc4fe 15-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "5615909853f4024cb8f88d1eb7d1e68ce1695715",
+  "prompts": {},
+  "sessions": {
+    "s_437dc71a28cbfa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6adcbed0-b626-4e71-b9fc-b8ae6c6e7540",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
