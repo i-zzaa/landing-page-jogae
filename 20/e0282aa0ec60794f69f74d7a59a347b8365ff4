@@ -1,0 +1,31 @@
+funcionalidades.html
+  s_c258ef3b97ea6c::t_4ade839e13f910 166,168,176,178,197-198,261-269,277,284,304-305
+interno/comparativo-f129406331.html
+  s_95a51c70b6046f::t_a9c5a1252825ec 1-555
+regras.html
+  s_c258ef3b97ea6c::t_c656ea5824ac1d 6,36,59,78,83,395-480
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "20e0282aa0ec60794f69f74d7a59a347b8365ff4",
+  "prompts": {},
+  "sessions": {
+    "s_95a51c70b6046f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5feeccc5-7f02-4220-ba63-a07881be5930",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_c258ef3b97ea6c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2bcfb88f-e2d1-4327-ae59-9f6fc35a633f",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
