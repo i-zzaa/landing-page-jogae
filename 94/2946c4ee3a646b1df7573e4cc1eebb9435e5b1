@@ -1,0 +1,14 @@
+manual/index.html
+  h_ad5e0c8135e62b 1-505
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "942946c4ee3a646b1df7573e4cc1eebb9435e5b1",
+  "prompts": {},
+  "humans": {
+    "h_ad5e0c8135e62b": {
+      "author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
