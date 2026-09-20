@@ -30,6 +30,8 @@
 .store-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:32px}
 .store-btn{display:inline-flex;align-items:center;gap:11px;background:#fff;color:var(--graphite);border-radius:14px;padding:11px 20px;text-decoration:none;transition:transform .18s ease,box-shadow .18s ease;box-shadow:0 6px 18px rgba(31,31,31,.14)}
 .store-btn:hover,.store-btn:focus-visible{transform:translateY(-2px);box-shadow:0 12px 26px rgba(31,31,31,.2)}
+.store-btn.is-soon{opacity:.55;cursor:default;box-shadow:0 6px 18px rgba(31,31,31,.08)}
+.store-btn.is-soon:hover{transform:none;box-shadow:0 6px 18px rgba(31,31,31,.08)}
 .store-btn span{display:flex;flex-direction:column;line-height:1.15;text-align:left}
 .store-btn small{font-size:10px;letter-spacing:.04em;color:#6b6b6b}
 .store-btn strong{font-size:16px;font-weight:700}

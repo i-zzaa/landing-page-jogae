@@ -142,9 +142,11 @@
           <ul class="rule-list">
             <li><b>Mínimo pago:</b> a equipe confirma quando o número mínimo de jogadores para iniciar uma partida já pagou.</li>
             <li><b>Todos pagam:</b> a equipe confirma quando não há convites pendentes, tem o mínimo de jogadores e todos os confirmados pagaram.</li>
-            <li><b>Categoria gratuita:</b> todo jogador confirmado conta como pago.</li>
+            <li><b>Categoria gratuita:</b> todo jogador confirmado conta como pago. Categoria nova sempre tem taxa de inscrição — as gratuitas criadas antes dessa mudança seguem valendo.</li>
           </ul>
+          <p>Toda categoria de torneio tem <b>taxa de inscrição</b>, e a arena organizadora precisa ter a conta do Mercado Pago conectada para publicar: é por ela que o dinheiro da inscrição entra.</p>
           <p>O pagamento da inscrição é feito por Pix, dentro do app, depois de aceitar o convite. Taxas, reembolsos e condições são definidos por cada arena (veja os <a href="/termos">Termos de Uso</a>).</p>
+          <p>Em cada categoria a arena escolhe quem paga a taxa de serviço do Desafiaê: ela pode <b>absorver</b> a taxa, e o atleta paga só o valor da inscrição, ou <b>repassar</b>, e o valor mostrado no app já vem com a taxa somada — nesse caso a arena recebe a inscrição cheia. O preço que aparece na categoria é sempre o que o atleta vai pagar.</p>
         </article>
 
         <article class="legal-section">
@@ -247,6 +249,21 @@
             <li>Torneio encerrado fica <b>somente leitura</b>: não aceita novas equipes, convites, check-ins ou placares.</li>
           </ul>
         </article>
+
+        <article class="legal-section">
+          <h2><span>12</span>Temporada (circuito)</h2>
+          <p>A arena pode juntar vários torneios numa <b>temporada</b>: cada etapa é um torneio normal, com as mesmas regras acima, e a temporada só soma os pontos. Criar temporada exige o <b>plano Elite</b> da arena.</p>
+          <ul class="rule-list">
+            <li>Quem acumula ponto é o <b>atleta</b>, nunca a equipe: dupla e time podem mudar de formação entre as etapas.</li>
+            <li>A temporada tem categorias próprias, e cada categoria de etapa aponta para uma delas. <b>Categoria de etapa sem essa ligação não pontua.</b></li>
+            <li>Pontuação padrão: <b>100 / 80 / 65 / 50 / 40 / 30 / 20 / 10</b> do 1º ao 8º lugar, mais pontos de participação para quem terminou a etapa fora dessa faixa. Cada temporada pode editar a tabela.</li>
+            <li>O <b>descarte</b> é opcional: valem as melhores N etapas de cada atleta, para quem faltou a uma etapa seguir competindo.</li>
+            <li>Desempate: mais etapas vencidas, depois melhor colocação numa etapa, depois mais etapas disputadas.</li>
+            <li>Só entra no ranking a etapa com a categoria <b>encerrada</b>.</li>
+            <li>A temporada tem <b>página pública com o ranking</b>, e esse link não expira — ao contrário do link do chaveamento ao vivo, que sai do ar 24 horas depois do fim do torneio.</li>
+            <li>Temporada encerrada é definitiva: não entram nem saem etapas, e a pontuação fica como está.</li>
+          </ul>
+        </article>
       </div>
 
       <!-- PARTIDAS -->
@@ -264,7 +281,7 @@
             <li>Também é possível definir nível (qualquer, D, C, B ou A), visibilidade (pública ou privada), formato de 1x1 a 15x15 e como os times são formados.</li>
             <li>Em esportes de sets, escolhe-se a pontuação: <b>seguir a modalidade</b> (padrão) ou <b>livre</b> (veja <a href="#placar-partida">Placar</a>).</li>
             <li>Quem cria a partida entra como capitão confirmado.</li>
-            <li>Partida marcada numa arena fica <b>pendente até a arena aprovar</b>. Se a arena recusar, a partida é cancelada. Quem organizou é avisado nos dois casos.</li>
+            <li>Partida marcada numa arena fica <b>pendente até a arena aprovar</b> (partida criada por desafio não passa por isso). Se a arena recusar, a partida é cancelada. Quem organizou é avisado nos dois casos.</li>
             <li>Partida pública aprovada numa arena avisa jogadores da mesma cidade que praticam a modalidade.</li>
           </ul>
         </article>
@@ -348,6 +365,7 @@
             <li>Só o desafiado responde. Ao <b>aceitar</b>, ele vira capitão do outro time. Ao <b>recusar</b>, quem desafiou é avisado.</li>
             <li>Cada capitão convoca os companheiros. Se alguém recusa, o capitão é avisado para convocar outra pessoa.</li>
             <li>Quando os dois times estão completos e ninguém está pendente, o desafio é <b>confirmado</b> e vira uma partida privada. No 1x1, isso acontece assim que o desafio é aceito.</li>
+            <li>A arena escolhida é só o local do jogo: <b>não precisa aprovar</b> o desafio e não há quadra definida. Quando o desafio é confirmado, a arena recebe um aviso de que ele foi marcado lá.</li>
             <li>Com o desafio confirmado, os jogadores podem trocar provocações, sempre escolhidas entre as <b>frases prontas</b> do app — não existe provocação de texto livre. Ainda assim, um desafio pode ser denunciado.</li>
           </ul>
         </article>
@@ -359,7 +377,7 @@
             <li>Quando chega a data marcada, o desafio é <b>cancelado automaticamente</b> se:
               o rival não respondeu, ou os times não fecharam a tempo. Os dois lados são avisados.</li>
             <li>Não é possível aceitar um desafio depois da data marcada.</li>
-            <li>Desafio confirmado não expira: a partida criada segue as regras de <a href="#partidas">Partidas</a>.</li>
+            <li>Desafio confirmado não expira: a partida criada segue as regras de <a href="#partidas">Partidas</a>, menos a aprovação da arena.</li>
           </ul>
         </article>
 
@@ -393,7 +411,8 @@
             <li>A arena desafiada pode aceitar (o torneio é publicado e as duas arenas o organizam juntas), recusar ou sugerir alterações (o convite volta para ajuste).</li>
             <li>A arena que desafia pode cancelar o convite enquanto ele não foi respondido.</li>
             <li>Convite sem resposta até a data do evento é cancelado automaticamente, e as duas arenas são avisadas.</li>
-            <li>Cada arena convoca seus próprios jogadores, sem inscrição e sem pagamento. Chaveamento, placar e classificação seguem as regras de <a href="#torneios">Torneios</a>.</li>
+            <li>Cada arena convoca seus próprios jogadores. <b>Quem é convocado pela arena não paga nada.</b> Chaveamento, placar e classificação seguem as regras de <a href="#torneios">Torneios</a>.</li>
+            <li>As categorias do desafio têm <b>taxa de inscrição</b>, cobrada só de quem pede entrada pelo link compartilhado. As duas arenas precisam ter a conta do Mercado Pago conectada, porque cada uma recebe a inscrição dos atletas da própria equipe.</li>
             <li>Depois do aceite, o desafio pode ser <b>compartilhado por link</b>: qualquer jogador com conta escolhe a arena e a categoria e pede entrada numa equipe. Só o capitão daquela equipe ou a própria arena dela aprova, e só até o chaveamento ser gerado.</li>
           </ul>
         </article>
@@ -505,6 +524,16 @@
           </ul>
         </article>
       </div>
+
+      <article class="legal-section">
+        <h2><span>—</span>Quem participa e o que a arena precisa</h2>
+        <p>Duas regras valem em todas as abas acima:</p>
+        <ul class="rule-list">
+          <li>Quem entra em partida, torneio, evento, desafio, desafio recorrente, aula ou plano de mensalidade é sempre uma <b>conta de jogador</b>. A conta de arena organiza e recebe, nunca participa — quem tem papel na arena (dono, administrador, gerente, atendente, professor) joga pela conta de jogador dele.</li>
+          <li>A arena precisa de <b>plano ativo para criar</b>: torneio, evento, aula, desafio entre arenas, desafio recorrente, série de horário fixo e reserva lançada pela equipe da arena.</li>
+        </ul>
+        <p>Para quem joga, nada disso muda: inscrição em torneio, evento e desafio recorrente, aula avulsa, reserva, desafio entre jogadores, partida marcada numa arena e pedido de vínculo continuam funcionando, e a arena segue podendo responder a esses pedidos. O que já está publicado também segue: torneio no ar recebe equipes, chaveamento e placar normalmente.</p>
+      </article>
 
       <article class="legal-section">
         <h2><span>—</span>Dúvidas</h2>

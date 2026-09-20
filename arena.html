@@ -624,7 +624,7 @@
       <div class="pillar">
         <div class="pillar-num">03</div>
         <h3>Competição</h3>
-        <p>Torneio com chaveamento automático, desafio entre arenas e desafio recorrente — sua liga fixa, sem planilha.</p>
+        <p>Torneio com chaveamento automático, temporada somando os pontos de cada etapa, desafio entre arenas e desafio recorrente — sua liga fixa, sem planilha.</p>
       </div>
       <div class="pillar">
         <div class="pillar-num">04</div>
@@ -775,6 +775,43 @@
   </div>
 </section>
 
+<section class="section" id="temporada">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Temporada</p>
+      <h2>Seu circuito do ano, com ranking que não sai do ar</h2>
+      <p>Cada etapa é um torneio normal, do jeito que você já faz. A temporada só soma os pontos — e quem pontua é o atleta, nunca a equipe.</p>
+    </div>
+    <div class="desafio-cards">
+      <div class="desafio-card card-orange">
+        <h3>Como você monta</h3>
+        <ul>
+          <li>Informações e capa, categorias, tabela de pontuação e revisão</li>
+          <li>Ligue cada torneio como etapa e aponte a categoria dele para a da temporada</li>
+          <li>Tabela padrão de 100 a 10 pontos do 1º ao 8º, mais pontos de participação</li>
+          <li>Descarte opcional: valem as melhores N etapas de cada atleta</li>
+        </ul>
+      </div>
+      <div class="desafio-card card-blue">
+        <h3>O que o atleta vê</h3>
+        <ul>
+          <li>Ranking do circuito no app, com o total de etapas e a melhor colocação</li>
+          <li>Etapa entra na conta assim que a categoria é encerrada</li>
+          <li>Dupla e time podem mudar de formação entre as etapas, sem perder ponto</li>
+          <li>Página pública do circuito, com link que não expira</li>
+        </ul>
+      </div>
+    </div>
+    <div class="desafio-benefits">
+      <strong>Temporada é do plano Elite</strong>
+      <ul>
+        <li>Reaproveita inscrição, pagamento, chaveamento e classificação que você já usa nos torneios</li>
+        <li>Desempate por etapas vencidas, melhor colocação e etapas disputadas — a regra toda em <a href="/regras#torneios">Regras</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <section class="section level-section" id="niveis">
   <div class="wrap">
     <div class="section-head">
@@ -867,7 +904,7 @@
     <div class="section-head">
       <p class="eyebrow">Quanto cai na sua conta</p>
       <h2>Faça a conta antes de assinar</h2>
-      <p>O dinheiro vai direto para a sua conta do Mercado Pago — o Desafiaê nunca fica com ele. Só a taxa do app sai da sua parte.</p>
+      <p>O dinheiro vai direto para a sua conta do Mercado Pago — o Desafiaê nunca fica com ele. A taxa do app sai da sua parte, a não ser que você repasse a inscrição do torneio ao atleta.</p>
     </div>
     <div class="calc">
       <div class="calc-form">
@@ -879,7 +916,7 @@
           <label for="calc-tipo">O que está sendo pago</label>
           <select id="calc-tipo">
             <option value="10" data-pix-only="0">Reserva de quadra — taxa de 10%</option>
-            <option value="10" data-pix-only="1">Inscrição de torneio — taxa de 10%</option>
+            <option value="10" data-pix-only="1" data-repasse="1">Inscrição de torneio — taxa de 10%</option>
             <option value="10" data-pix-only="0">Aula avulsa — taxa de 10%</option>
             <option value="2" data-pix-only="0">Mensalidade do plano de aulas — taxa de 2%</option>
           </select>
@@ -891,6 +928,13 @@
             <option value="4.99">Cartão de crédito, na hora — 4,99%</option>
             <option value="4.49">Cartão de crédito, em 14 dias — 4,49%</option>
             <option value="3.99">Cartão de crédito, em 30 dias — 3,99%</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label for="calc-taxa-quem">Quem paga a taxa do app</label>
+          <select id="calc-taxa-quem">
+            <option value="0">A arena absorve a taxa</option>
+            <option value="1">Repassar ao atleta</option>
           </select>
         </div>
         <div class="calc-field">
@@ -930,8 +974,9 @@
           <li>Aulas e turmas com professores</li>
           <li>Planos de mensalidade dos alunos</li>
           <li>Check-in de alunos por QR code</li>
+          <li>Temporada (circuito) com ranking público</li>
         </ul>
-        <a class="btn btn-primary" href="#">Assinar o Elite</a>
+        <a class="btn btn-primary" href="https://apps.apple.com/br/app/desafia%C3%AA/id6807155371" target="_blank" rel="noopener">Assinar o Elite no app</a>
       </div>
       <div class="plan-card">
         <div class="plan-name">Premium</div>
@@ -943,7 +988,7 @@
           <li>Financeiro completo</li>
           <li>Desafio recorrente</li>
         </ul>
-        <a class="btn btn-ghost" href="#">Assinar o Premium</a>
+        <a class="btn btn-ghost" href="https://apps.apple.com/br/app/desafia%C3%AA/id6807155371" target="_blank" rel="noopener">Assinar o Premium no app</a>
       </div>
       <div class="plan-card">
         <div class="plan-name">Básico</div>
@@ -954,7 +999,7 @@
           <li>Partidas</li>
           <li>Visibilidade no Desafiaê</li>
         </ul>
-        <a class="btn btn-ghost" href="#">Assinar o Básico</a>
+        <a class="btn btn-ghost" href="https://apps.apple.com/br/app/desafia%C3%AA/id6807155371" target="_blank" rel="noopener">Assinar o Básico no app</a>
       </div>
     </div>
   </div>
@@ -1041,6 +1086,14 @@ function calcular() {
   [...meio.options].forEach((o, i) => { o.disabled = pixOnly && i > 0; });
   if (pixOnly) meio.selectedIndex = 0;
 
+  // repasse e so da inscricao de torneio (0196): nos outros pagamentos a arena
+  // sempre absorve, entao a opcao fica desligada
+  const quem = el('calc-taxa-quem');
+  const podeRepassar = tipo.selectedOptions[0].dataset.repasse === '1';
+  quem.options[1].disabled = !podeRepassar;
+  if (!podeRepassar) quem.selectedIndex = 0;
+  const repassa = quem.value === '1';
+
   const valor = Math.max(0, Number(calcValor.value) || 0);
   const taxaPct = Number(tipo.value);
   const mpPct = Number(meio.value);
@@ -1049,7 +1102,7 @@ function calcular() {
   const cents = n => Math.round(n * 100) / 100;
   const taxaCheia = cents(valor * taxaPct / 100);
   const desconto = cents(taxaCheia * descPct / 100);
-  const paga = cents(valor - desconto);
+  const paga = cents(repassa ? valor + taxaCheia - desconto : valor - desconto);
   const taxaApp = cents(taxaCheia - desconto);
   const tarifaMp = cents(paga * mpPct / 100);
   const recebe = cents(paga - taxaApp - tarifaMp);
@@ -1059,18 +1112,20 @@ function calcular() {
   el('calc-taxa').textContent = menos(taxaApp);
   el('calc-mp').textContent = menos(tarifaMp);
   el('calc-arena').textContent = brl(recebe);
-  el('calc-taxa-label').textContent = descPct
+  el('calc-taxa-label').textContent = (descPct
     ? `${taxaPct}% com ${descPct}% de desconto do plano`
-    : `${taxaPct}% do valor`;
+    : `${taxaPct}% do valor`) + (repassa ? ', somada ao preço do atleta' : '');
   el('calc-mp-label').textContent = meio.selectedOptions[0].textContent.split('—')[0].trim();
-  el('calc-note').textContent = descPct
-    ? 'O desconto do plano sai da taxa do app, não da sua parte: sem ele, o jogador pagaria '
-      + brl(valor) + ' e você receberia praticamente o mesmo.'
-    : 'Valores do Mercado Pago de junho de 2026, para venda online. A tarifa que vale é a da conta da sua arena.';
+  el('calc-note').textContent = repassa
+    ? 'No repasse, a categoria é anunciada por ' + brl(paga) + ': o atleta paga a taxa do app e você recebe a inscrição cheia, só com a tarifa do Mercado Pago descontada.'
+    : descPct
+      ? 'O desconto do plano sai da taxa do app, não da sua parte: sem ele, o jogador pagaria '
+        + brl(valor) + ' e você receberia praticamente o mesmo.'
+      : 'Valores do Mercado Pago de junho de 2026, para venda online. A tarifa que vale é a da conta da sua arena.';
 }
 
 if (calcValor) {
-  ['calc-valor', 'calc-tipo', 'calc-meio', 'calc-plano'].forEach(id =>
+  ['calc-valor', 'calc-tipo', 'calc-meio', 'calc-plano', 'calc-taxa-quem'].forEach(id =>
     el(id).addEventListener('input', calcular));
   calcular();
 }
