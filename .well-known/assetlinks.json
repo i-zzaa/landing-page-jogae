@@ -1,0 +1,14 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.andressanovaiis.desafiae",
+      "sha256_cert_fingerprints": [
+        "31:E3:77:98:78:E1:E8:97:66:2C:E5:01:9D:EE:6B:32:4B:3B:2D:E6:2C:3D:6F:B7:D9:67:ED:18:BB:87:14:DF",
+        "EA:FE:E1:05:D8:84:14:CD:6D:D5:0E:53:0A:66:18:84:28:37:95:AA:FD:53:71:A9:8C:45:37:55:C3:40:27:B6",
+        "59:EF:13:DB:08:5A:C3:A7:DF:04:F2:7D:96:E9:60:BC:EA:8F:48:19:A2:04:C4:54:A2:91:FA:9C:AE:7E:A2:7A"
+      ]
+    }
+  }
+]
