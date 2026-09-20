@@ -1,0 +1,21 @@
+index.html
+  s_c258ef3b97ea6c::t_e5a06686c276f3 27,128-140,177
+styles.css
+  s_c258ef3b97ea6c::t_8dce1a43200947 1-3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "920c6af4dea72a44185f427165ea6591a91b3f2c",
+  "prompts": {},
+  "sessions": {
+    "s_c258ef3b97ea6c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2bcfb88f-e2d1-4327-ae59-9f6fc35a633f",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
