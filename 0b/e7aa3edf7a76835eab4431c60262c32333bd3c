@@ -1,0 +1,23 @@
+abrir.html
+  s_c258ef3b97ea6c::t_e0182c91394082 1-43
+.well-known/apple-app-site-association
+  s_c258ef3b97ea6c::t_33f93711f67bcf 1-16
+vercel.json
+  s_c258ef3b97ea6c::t_02f443f2c21ce8 6-14,41-46,48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "0be7aa3edf7a76835eab4431c60262c32333bd3c",
+  "prompts": {},
+  "sessions": {
+    "s_c258ef3b97ea6c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2bcfb88f-e2d1-4327-ae59-9f6fc35a633f",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
