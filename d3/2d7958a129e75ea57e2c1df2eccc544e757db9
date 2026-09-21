@@ -1,0 +1,35 @@
+arena.html
+  s_566e1327bc9a3e::t_dc7c74b6c39a93 13,713-715,1068
+bracket-live.css
+  s_566e1327bc9a3e::t_5238008bf265db 1-54
+bracket-live.js
+  s_b8ce26c7480a8b::t_c4b28e3028eab3 1-360
+index.html
+  s_b8ce26c7480a8b::t_e33aecd3a59237 14,26,106-107,112-116,129-170,237
+styles.css
+  s_566e1327bc9a3e::t_2890c42f45ca11 71-100
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "d32d7958a129e75ea57e2c1df2eccc544e757db9",
+  "prompts": {},
+  "sessions": {
+    "s_566e1327bc9a3e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8db9d791-9369-4342-87ec-299ad5a33071",
+        "model": "unknown"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_b8ce26c7480a8b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bc8895ee-bc1b-4bdc-9aba-4d532e10f710",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
