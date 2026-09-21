@@ -97,8 +97,12 @@ if(modeBox&&shots){
 /* Menu acompanha a secao: bege enquanto o menu esta sobre o inicio */
 const header=document.querySelector('.header');
 const hero=document.querySelector('.hero');
+const heroScroll=document.querySelector('.hero-scroll');
 if(header&&hero){
-  const paint=()=>header.classList.toggle('on-beige',hero.getBoundingClientRect().bottom>header.offsetHeight);
+  const paint=()=>{
+    header.classList.toggle('on-beige',hero.getBoundingClientRect().bottom>header.offsetHeight);
+    heroScroll?.classList.toggle('gone',window.scrollY>60);
+  };
   window.addEventListener('scroll',paint,{passive:true});
   window.addEventListener('resize',paint);
   paint();

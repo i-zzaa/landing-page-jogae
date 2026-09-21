@@ -75,6 +75,10 @@
     {
       "source": "/:type(match|challenge|tournament|arena-challenge)/:id",
       "destination": "/abrir"
+    },
+    {
+      "source": "/:path*",
+      "destination": "https://app-dist-ecru.vercel.app/:path*"
     }
   ]
 }
