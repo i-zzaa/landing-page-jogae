@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="bracket-live.css" />
 </head>
 <body>
   <header class="header" id="inicio">
@@ -22,7 +23,7 @@
       <nav class="nav" aria-label="Navegação principal">
         <a href="#como-funciona">Como funciona</a>
         <a href="#jogadores">Para jogadores</a>
-        <a href="#arenas">Para arenas</a>
+        <a href="/arena">Para arenas</a>
         <a href="#recursos">Recursos</a>
         <a href="#niveis">Níveis</a>
       </nav>
@@ -102,13 +103,17 @@
     </section>
 
     <section class="section split-section arena-section" id="arenas">
-      <div class="container split-grid reverse">
+      <div class="container">
+        <div class="split-grid reverse">
         <div class="split-copy reveal">
           <span class="eyebrow light">Para arenas</span>
           <h2>Sua arena fora do grupo do WhatsApp.</h2>
           <p>Reserva, torneio, aula e mensalidade no mesmo painel — e sua arena aparecendo para quem está procurando onde jogar.</p>
-          <ul class="check-list light-list"><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Quadras com preço por horário, reservas, lista de espera e horário fixo</li><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Torneios com fila por quadra, check-in com QR Code e página ao vivo</li><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Temporada juntando os torneios num circuito, com ranking de página pública</li><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Aulas e mensalidade dos alunos, pagas por Pix ou cartão</li><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Divulgação para jogadores próximos e avaliações de quem jogou</li><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Financeiro, ocupação e aviso de quem sumiu</li></ul>
-          <a href="/arena" class="btn btn-white">Conhecer o Desafiaê para arenas <span>→</span></a>
+          <ul class="check-list light-list"><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Quadras com preço por horário, reservas, lista de espera e horário fixo</li><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Torneio, temporada e desafio entre arenas, com chaveamento automático</li><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Aulas e mensalidade dos alunos, pagas por Pix ou cartão</li><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Financeiro, ocupação e sua equipe avisada na hora que algo pede decisão</li></ul>
+          <div class="arena-actions">
+            <a href="/arena" class="btn btn-white">Conhecer o Desafiaê para arenas <span>→</span></a>
+            <a href="/arena#planos" class="text-link light">Ver os planos <span>→</span></a>
+          </div>
         </div>
         <div class="arena-panel reveal">
           <div class="dashboard">
@@ -120,6 +125,48 @@
             <div class="booking"><span>21:00</span><div><b>Quadra 01</b><small>Horário disponível</small></div><button>Divulgar</button></div>
           </div>
           <div class="arena-float"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1.5a1.5 1.5 0 0 0 0 3V14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1.5a1.5 1.5 0 0 0 0-3V8z"/><path d="M14 6.5v11" stroke-dasharray="2 2.4"/></svg><div><small>Check-ins via QR Code</small><b>83 neste mês</b></div></div>
+        </div>
+        </div>
+
+        <div class="arena-pillars">
+          <article class="arena-pillar reveal"><b>01 · Descoberta</b><h3>Achada por quem procura</h3><ul><li>Sua arena na busca de quem quer jogar perto, com foto, quadras e horário de funcionamento</li><li>Avaliação com estrelas só de quem jogou ali de verdade</li><li>Aviso para os jogadores próximos quando você abre torneio ou partida</li></ul></article>
+          <article class="arena-pillar reveal"><b>02 · Operação</b><h3>Agenda aprovada num toque</h3><ul><li>Reserva com preço por horário, aprovada ou recusada direto no painel</li><li>Lista de espera automática e horário fixo toda semana, sem duplicar</li><li>Vínculo por modalidade: você decide quem representa a arena, e em que nível</li></ul></article>
+          <article class="arena-pillar reveal"><b>03 · Competição</b><h3>Torneio sem planilha</h3><ul><li>Chaveamento automático, check-in por QR code e página ao vivo do torneio</li><li>Temporada somando as etapas num circuito, com link público que não expira</li><li>Desafio entre arenas e desafio recorrente — sua liga fixa, sorteada sozinha</li></ul></article>
+          <article class="arena-pillar reveal"><b>04 · Gestão</b><h3>Contas e equipe no lugar</h3><ul><li>Financeiro com reservas, torneios, aulas e mensalidades no mesmo extrato</li><li>Ocupação por dia e horário, e quem sumiu da arena para você chamar de volta</li><li>Equipe com papel: atendente, professor e moderador veem só o que precisam</li></ul></article>
+        </div>
+
+
+        <div class="arena-live reveal">
+          <span class="eyebrow light">Chaveamento em tempo real</span>
+          <h3>O link do torneio abre isto aqui.</h3>
+          <p>A página pública que sua arena compartilha no grupo: chaveamento, placar, status de cada jogo, quadra e horário — fora do app e sem login.</p>
+          <div class="live-demo" data-live-bracket data-live-fit></div>
+          <small>Demonstração com duplas fictícias.</small>
+        </div>
+        <div class="arena-money reveal">
+          <div>
+            <span class="eyebrow light">Como você recebe</span>
+            <h3>O dinheiro cai direto na sua conta.</h3>
+            <p>Pix e cartão caem na conta do Mercado Pago da sua arena — o Desafiaê nunca fica com ele. A taxa do app sai da sua parte, a não ser que você escolha repassar a inscrição do torneio ao atleta.</p>
+            <a href="/arena#calculadora" class="text-link light">Fazer a conta antes de assinar <span>→</span></a>
+          </div>
+          <ul class="money-rates">
+            <li>Reserva de quadra <b>10%</b></li>
+            <li>Inscrição de torneio <b>10%</b></li>
+            <li>Aula avulsa <b>10%</b></li>
+            <li>Mensalidade do plano de aulas <b>2%</b></li>
+          </ul>
+        </div>
+
+        <div class="arena-plans">
+          <article class="arena-plan reveal"><b>Básico</b><p>Cadastro das quadras, partidas, gerenciamento dos serviços e visibilidade no Desafiaê.</p></article>
+          <article class="arena-plan reveal"><b>Premium</b><p>Tudo do Básico, mais reservas de quadra, financeiro completo, desafio entre arenas e desafio recorrente.</p></article>
+          <article class="arena-plan is-top reveal"><b>Elite</b><p>Tudo do Premium, mais aulas e turmas, planos de mensalidade dos alunos e temporada com ranking público.</p></article>
+        </div>
+
+        <div class="arena-foot reveal">
+          <small>Mensal ou anual — os valores de cada plano aparecem no app, na hora de assinar. Em Hyrox e CrossFit sua arena entra como vitrine e com as aulas, e essas modalidades têm níveis próprios: Iniciante, Scaled, RX e RX+ no CrossFit; Open e Pro no Hyrox.</small>
+          <a href="/arena#planos" class="text-link light">Comparar os planos <span>→</span></a>
         </div>
       </div>
     </section>
@@ -187,5 +234,6 @@
     <div class="container footer-bottom"><span>© 2026 Desafiaê. Todos os direitos reservados.</span></div>
   </footer>
   <script src="script.js"></script>
+  <script src="bracket-live.js"></script>
 </body>
 </html>

@@ -1,0 +1,54 @@
+/* Chaveamento da pagina publica ao vivo, replicado aqui com duplas ficticias.
+   Estilos copiados de web/tournament-live.html (repo do app) e escopados em
+   .live-demo, pra nao vazar pro resto da landing nem receber estilo dela. */
+.live-demo{--primary:#ff6a00;--primary-dark:#e05c00;--primary-tint:#fed0b0;--primary-wash:#fdf3ed;--text:#1f1f1f;--text-muted:#8c8c8c;--background:#fcfbfa;--surface:#fff;--border:#ececea;--success:#2e9e4f;--success-soft:#eaf5ea;--neutral:#8c8c8c;--radius-lg:14px;--radius-xl:20px;--radius-pill:999px;background:var(--background);color:var(--text);border:1px solid var(--border);border-radius:24px;font-family:"Poppins",Arial,sans-serif;line-height:1.6;overflow:hidden}
+.live-demo *{box-sizing:border-box}
+.live-demo .live-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 16px 12px}
+.live-demo .live-head img{height:28px;width:auto}
+.live-demo .live-badge{display:inline-flex;align-items:center;gap:6px;background:var(--success-soft);color:var(--success);border:1px solid #d9e8db;border-radius:var(--radius-pill);padding:4px 12px;font-size:12px;font-weight:500}
+.live-demo .live-dot{width:6px;height:6px;border-radius:3px;background:var(--success);animation:livePulse 1.6s infinite}
+@keyframes livePulse{0%,100%{opacity:1}50%{opacity:.35}}
+.live-demo .live-intro{padding:0 16px 12px}
+.live-demo .live-intro h3{font-size:22px;font-weight:600;line-height:1.3;margin:0 0 4px;color:var(--text);letter-spacing:normal}
+.live-demo .live-intro p{margin:0;color:var(--text-muted);font-size:14px}
+.live-demo .chips{display:flex;gap:8px;padding:0 16px 12px;flex-wrap:wrap}
+.live-demo .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:var(--radius-pill);padding:5px 12px;font-size:12px;color:var(--text-muted);background:var(--surface)}
+.live-demo .tabs{display:flex;gap:16px;padding:0 16px;border-bottom:1px solid var(--border)}
+.live-demo .tab{background:none;border:none;font-family:inherit;cursor:pointer;padding:8px 2px 12px;font-size:14px;font-weight:500;color:var(--text-muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+.live-demo .tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+.live-demo .live-body{padding:16px}
+.live-demo .view{display:none}
+.live-demo .view.active{display:block}
+.live-demo .bracket-scroll{overflow-x:auto;padding-bottom:8px}
+.live-demo .bracket{position:relative;display:flex;align-items:center;gap:56px;width:max-content;padding:42px 8px 12px}
+.live-demo .round-column{display:flex;flex-direction:column;justify-content:space-around;gap:28px;width:208px;height:100%}
+.live-demo .round-label{text-align:center;color:var(--text-muted);font-size:13px;font-weight:500}
+.live-demo .round-labels{position:absolute;top:12px;display:flex;gap:56px;width:max-content}
+.live-demo .round-labels .round-label{width:208px}
+.live-demo .match-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:8px 12px;display:flex;flex-direction:column;gap:6px;box-shadow:0 1px 3px rgba(31,31,31,.05);position:relative;z-index:1}
+.live-demo .match-card.final-card{border-color:var(--primary-tint);background:var(--primary-wash);width:208px}
+.live-demo .final-card .trophy{text-align:center;font-size:12px;color:var(--primary);font-weight:600;letter-spacing:.04em;margin-bottom:2px}
+.live-demo .team-row{display:flex;align-items:center;gap:8px}
+.live-demo .avatar{width:26px;height:26px;border-radius:50%;background:var(--primary-tint);color:var(--primary-dark);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.live-demo .avatar-duo{display:flex;flex-shrink:0}
+.live-demo .avatar-overlap{margin-left:-10px;border:2px solid var(--surface)}
+.live-demo .team-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;font-weight:500;color:var(--text-muted)}
+.live-demo .team-name.winner{color:var(--text)}
+.live-demo .team-score{font-size:14px;font-weight:500;color:var(--text-muted);min-width:16px;text-align:right}
+.live-demo .team-score.winner{color:var(--primary)}
+.live-demo .match-status{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted);margin-top:2px}
+.live-demo .match-schedule{font-size:11px;color:var(--text-muted)}
+.live-demo .status-dot{width:6px;height:6px;border-radius:3px;flex-shrink:0}
+.live-demo .status-dot.done{background:var(--success)}
+.live-demo .status-dot.next{background:var(--primary)}
+.live-demo .status-dot.waiting{background:var(--neutral)}
+.live-demo .legend{display:flex;gap:16px;justify-content:center;padding:16px 0 12px;flex-wrap:wrap}
+.live-demo .legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted)}
+.live-demo .mascot-banner{display:flex;align-items:center;gap:12px;background:var(--primary-wash);border:1px solid var(--primary-tint);border-radius:var(--radius-xl);padding:12px;margin-top:12px}
+.live-demo .mascot-banner img{width:64px;height:64px;object-fit:contain;flex-shrink:0}
+.live-demo .mascot-banner p{margin:0;font-size:14px;font-weight:500;color:var(--text)}
+.live-demo .match-list{display:flex;flex-direction:column;gap:8px;max-width:420px;margin:0 auto}
+.live-demo .match-list .round-tag{font-size:12px;color:var(--text-muted);margin-top:12px}
+.live-demo .third-place{display:flex;flex-direction:column;gap:8px}
+.live-demo .state{padding:60px 16px;text-align:center;color:var(--text-muted);font-size:14px}
+.live-demo .live-foot{text-align:center;padding:24px 16px;color:var(--text-muted);font-size:12px}

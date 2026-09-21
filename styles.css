@@ -68,3 +68,33 @@
 
 /* celulares de "Para quem so quer jogar": print real no lugar do mockup em HTML */
 .phone img{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
+
+/* secao "Para arenas" da home: pilares, taxas e planos abaixo do bloco split */
+.arena-actions{display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+.text-link.light{color:#ff9b55}
+.arena-pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:80px}
+.arena-pillar{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:28px 26px}
+.arena-pillar b{display:block;font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:#ff9b55;margin-bottom:12px}
+.arena-pillar h3{font-size:19px;line-height:1.25;letter-spacing:-.02em;margin:0 0 16px}
+.arena-pillar ul{list-style:none;margin:0;padding:0}
+.arena-pillar li{position:relative;padding-left:16px;margin:11px 0;font-size:13px;line-height:1.55;color:#bdbdbd}
+.arena-pillar li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--orange)}
+.arena-money{display:grid;grid-template-columns:1.05fr .95fr;gap:45px;align-items:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:28px;padding:40px;margin-top:18px}
+.arena-money h3{font-size:27px;line-height:1.2;letter-spacing:-.035em;margin:14px 0 12px}
+.arena-money p{color:#b8b8b8;font-size:15px;margin:0 0 20px}
+.money-rates{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.money-rates li{display:flex;justify-content:space-between;align-items:baseline;gap:16px;background:rgba(0,0,0,.28);border-radius:14px;padding:14px 18px;font-size:14px;color:#ddd}
+.money-rates b{color:#fff;font-size:16px}
+.arena-plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+.arena-plan{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:26px}
+.arena-plan.is-top{background:rgba(255,106,0,.12);border-color:rgba(255,106,0,.5)}
+.arena-plan b{display:block;font-size:19px;margin-bottom:8px}
+.arena-plan p{margin:0;font-size:13px;line-height:1.55;color:#bdbdbd}
+.arena-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;margin-top:24px}
+.arena-foot small{flex:1 1 560px;font-size:12.5px;line-height:1.65;color:#8f8f8f}
+@media(max-width:980px){.arena-pillars{grid-template-columns:repeat(2,1fr);margin-top:55px}.arena-money{grid-template-columns:1fr;gap:30px;padding:32px 28px}.arena-plans{grid-template-columns:1fr}}
+@media(max-width:640px){.arena-pillars{grid-template-columns:1fr;margin-top:45px}.arena-actions{flex-direction:column;align-items:stretch;gap:18px}.arena-actions .text-link{justify-content:center}}
+.arena-live{margin-top:18px}
+.arena-live h3{font-size:27px;line-height:1.2;letter-spacing:-.035em;margin:14px 0 10px}
+.arena-live>p{color:#b8b8b8;font-size:15px;margin:0 0 22px;max-width:640px}
+.arena-live>small{display:block;margin-top:12px;font-size:12.5px;color:#8f8f8f}
