@@ -3,11 +3,11 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.andressanovaiis.desafiae",
+      "package_name": "com.desafiae.app",
       "sha256_cert_fingerprints": [
-        "31:E3:77:98:78:E1:E8:97:66:2C:E5:01:9D:EE:6B:32:4B:3B:2D:E6:2C:3D:6F:B7:D9:67:ED:18:BB:87:14:DF",
-        "EA:FE:E1:05:D8:84:14:CD:6D:D5:0E:53:0A:66:18:84:28:37:95:AA:FD:53:71:A9:8C:45:37:55:C3:40:27:B6",
-        "59:EF:13:DB:08:5A:C3:A7:DF:04:F2:7D:96:E9:60:BC:EA:8F:48:19:A2:04:C4:54:A2:91:FA:9C:AE:7E:A2:7A"
+        "A4:93:AD:90:97:32:54:D9:91:02:12:6B:76:1F:B6:3F:DC:C0:C0:A7:D6:73:7B:8A:D2:8C:10:06:D9:9E:11:51",
+        "4B:FE:C6:70:18:D0:E7:F6:8D:3D:FD:E1:04:19:7F:29:EE:01:6F:94:60:E4:9A:EC:DD:E8:E7:BE:1B:17:59:50",
+        "73:9E:35:71:11:55:C9:C9:26:1B:51:E7:DF:9D:61:2C:65:3E:85:03:35:A4:17:C3:A5:01:57:74:FA:6E:B6:70"
       ]
     }
   }
