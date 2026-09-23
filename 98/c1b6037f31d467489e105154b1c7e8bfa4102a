@@ -1,0 +1,19 @@
+.well-known/assetlinks.json
+  s_31b76d4782fdcf::t_8076362ce77011 6,8-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "98c1b6037f31d467489e105154b1c7e8bfa4102a",
+  "prompts": {},
+  "sessions": {
+    "s_31b76d4782fdcf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "face9eb4-b7d4-4fc1-9aec-77bcd2d70e0f",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
