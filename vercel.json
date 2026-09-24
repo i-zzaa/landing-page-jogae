@@ -77,6 +77,21 @@
       "destination": "/abrir"
     },
     {
+      "source": "/temporada/:id",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(WhatsApp|facebookexternalhit|Facebot|Twitterbot|TelegramBot|Slackbot|Discordbot|LinkedInBot|SkypeUriPreview|redditbot|Iframely|vkShare|Applebot).*"
+        }
+      ],
+      "destination": "https://ckgxcylcnkqdhalsrptz.supabase.co/functions/v1/tournament-og?type=season&id=:id&live=https://desafiae.com/temporada/:id"
+    },
+    {
+      "source": "/temporada/:id",
+      "destination": "https://dist-five-jet-77.vercel.app/temporada/:id"
+    },
+    {
       "source": "/:path*",
       "destination": "https://app-dist-ecru.vercel.app/:path*"
     }
