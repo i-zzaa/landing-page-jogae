@@ -1,0 +1,19 @@
+vercel.json
+  s_5bc3e72a64f66f::t_e76c7db31b70cf 79-93
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "f572fa6665d135775b72785af963b4a37ee70e5e",
+  "prompts": {},
+  "sessions": {
+    "s_5bc3e72a64f66f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "458ed37d-07f8-44e6-9690-8f6cc59c72d9",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
