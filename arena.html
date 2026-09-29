@@ -11,1061 +11,331 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="bracket-live.css" />
+<link rel="stylesheet" href="lp.css" />
 </head>
 <body>
-<style>
-  :root {
-    --bg: #fcfbfa;
-    --surface: #ffffff;
-    --surface-alt: #f5f5f5;
-    --border: #ececea;
-    --ink: #1f1f1f;
-    --ink-soft: #8c8c8c;
-    --ink-faint: #b7b2ac;
-    --primary: #ff6a00;
-    --primary-dark: #e05c00;
-    --primary-soft: #ffe7d2;
-    --primary-wash: #fdf3ed;
-    --gold: #f2b01e;
-    --gold-soft: #fef6e8;
-    --success: #2e9e4f;
-    --success-soft: #eaf5ea;
-    --info: #3b82c4;
-    --info-soft: #eff4fb;
-    --danger: #e0483f;
-    --danger-soft: #fdf2f1;
-    --graphite: #1f1f1f;
-    --graphite-2: #2a2a2a;
-    --graphite-border: #3a3a3a;
-    --on-graphite: #f7f4f1;
-    --on-graphite-soft: #a8a29b;
-    --shadow: 0 1px 2px rgba(31,31,31,.04), 0 8px 24px rgba(31,31,31,.06);
-  }
+<div class="lp">
 
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #15120f;
-      --surface: #1f1a15;
-      --surface-alt: #262019;
-      --border: #362d23;
-      --ink: #f7f1ea;
-      --ink-soft: #b3a495;
-      --ink-faint: #726657;
-      --primary: #ff7a1a;
-      --primary-dark: #ff9142;
-      --primary-soft: rgba(255, 122, 26, .18);
-      --primary-wash: rgba(255, 122, 26, .09);
-      --gold: #f2b01e;
-      --gold-soft: rgba(242, 176, 30, .14);
-      --success: #4cb56d;
-      --success-soft: rgba(76, 181, 109, .14);
-      --info: #5c9bd6;
-      --info-soft: rgba(92, 155, 214, .14);
-      --danger: #e8695f;
-      --danger-soft: rgba(232, 105, 95, .14);
-      --graphite: #0d0b09;
-      --graphite-2: #171310;
-      --graphite-border: #2b241d;
-      --on-graphite: #f7f1ea;
-      --on-graphite-soft: #a8a29b;
-      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.4);
-    }
-  }
-
-  :root[data-theme="dark"] {
-    --bg: #15120f;
-    --surface: #1f1a15;
-    --surface-alt: #262019;
-    --border: #362d23;
-    --ink: #f7f1ea;
-    --ink-soft: #b3a495;
-    --ink-faint: #726657;
-    --primary: #ff7a1a;
-    --primary-dark: #ff9142;
-    --primary-soft: rgba(255, 122, 26, .18);
-    --primary-wash: rgba(255, 122, 26, .09);
-    --gold: #f2b01e;
-    --gold-soft: rgba(242, 176, 30, .14);
-    --success: #4cb56d;
-    --success-soft: rgba(76, 181, 109, .14);
-    --info: #5c9bd6;
-    --info-soft: rgba(92, 155, 214, .14);
-    --danger: #e8695f;
-    --danger-soft: rgba(232, 105, 95, .14);
-    --graphite: #0d0b09;
-    --graphite-2: #171310;
-    --graphite-border: #2b241d;
-    --on-graphite: #f7f1ea;
-    --on-graphite-soft: #a8a29b;
-    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.4);
-  }
-
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    * { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
-  }
-
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'Poppins', system-ui, sans-serif;
-    font-weight: 400;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
-
-  img { max-width: 100%; display: block; }
-
-  .wrap {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 0 28px;
-  }
-
-  .eyebrow {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    font-size: 12.5px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--primary);
-  }
-
-  h1, h2, h3 { text-wrap: balance; margin: 0; }
-
-  h1 {
-    font-weight: 900;
-    font-size: clamp(38px, 6vw, 68px);
-    line-height: 1.04;
-    letter-spacing: -.02em;
-    margin: 18px 0 20px;
-  }
-
-  h2 {
-    font-weight: 700;
-    font-size: clamp(28px, 4vw, 42px);
-    line-height: 1.12;
-    letter-spacing: -.01em;
-  }
-
-  p { line-height: 1.65; color: var(--ink-soft); margin: 0; }
-
-  .lede {
-    font-size: 18px;
-    max-width: 46ch;
-    line-height: 1.6;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    font-size: 15px;
-    padding: 14px 26px;
-    border-radius: 999px;
-    text-decoration: none;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-    white-space: nowrap;
-  }
-  .btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
-  .btn:active { transform: translateY(1px); }
-  .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 10px 24px rgba(255,106,0,.28); }
-  .btn-primary:hover { background: var(--primary-dark); box-shadow: 0 14px 30px rgba(255,106,0,.36); }
-  .btn-ghost { background: transparent; color: var(--ink); border-color: var(--border); }
-  .btn-ghost:hover { border-color: var(--ink-faint); }
-  .btn-ghost-invert { background: transparent; color: var(--on-graphite); border-color: var(--graphite-border); }
-  .btn-ghost-invert:hover { border-color: var(--on-graphite-soft); }
-
-  /* -------------------------------------------------- header */
-  header.site {
-    position: sticky;
-    top: 0;
-    z-index: 40;
-    background: color-mix(in srgb, var(--bg) 88%, transparent);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 0;
-  }
-  .nav-logo img { height: 30px; width: auto; }
-  .nav-links {
-    display: flex;
-    gap: 32px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .nav-links a {
-    color: var(--ink-soft);
-    text-decoration: none;
-    font-size: 14.5px;
-    font-weight: 500;
-  }
-  .nav-links a:hover { color: var(--ink); }
-  @media (max-width: 720px) { .nav-links { display: none; } }
-
-  /* -------------------------------------------------- hero */
-  .hero {
-    padding: 76px 0 88px;
-  }
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1.05fr .95fr;
-    gap: 56px;
-    align-items: center;
-  }
-  @media (max-width: 880px) {
-    .hero-grid { grid-template-columns: 1fr; }
-  }
-  .hero-ctas { display: flex; gap: 14px; margin-top: 8px; flex-wrap: wrap; }
-  .hero-note { margin-top: 18px; font-size: 13.5px; color: var(--ink-faint); }
-
-  .hero-visual { position: relative; }
-  .hero-stage {
-    position: relative;
-    background: var(--primary-wash);
-    border: 1px solid var(--primary-soft);
-    border-radius: 28px;
-    padding: 36px 30px 46px;
-    overflow: visible;
-  }
-  .stat-trio {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--surface);
-    border-radius: 20px;
-    box-shadow: var(--shadow);
-    padding: 20px 22px;
-    gap: 14px;
-  }
-  .stat-trio .stat { text-align: left; }
-  .stat-trio .stat b {
-    display: block;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 900;
-    font-size: 26px;
-    line-height: 1;
-  }
-  .stat-trio .stat span {
-    display: block;
-    margin-top: 5px;
-    font-size: 11.5px;
-    color: var(--ink-soft);
-  }
-  .stat-divider { width: 1px; height: 30px; background: var(--border); flex: none; }
-
-  .float-card {
-    position: absolute;
-    right: -14px;
-    bottom: -34px;
-    width: 250px;
-    background: var(--surface);
-    border-radius: 16px;
-    box-shadow: var(--shadow);
-    padding: 14px 16px;
-  }
-  .float-card .row1 { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-  .float-card .tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--info-soft);
-    color: var(--info);
-    font-size: 11px;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 999px;
-  }
-  .float-card p.body { color: var(--ink); font-size: 13px; margin-top: 8px; line-height: 1.45; }
-  .float-card .row2 { display: flex; gap: 8px; margin-top: 12px; }
-  .mini-btn {
-    flex: 1;
-    text-align: center;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 7px 0;
-    border-radius: 999px;
-  }
-  .mini-btn.accept { background: var(--primary); color: #fff; }
-  .mini-btn.decline { background: transparent; border: 1px solid var(--border); color: var(--ink-soft); }
-
-  .hero-mascot {
-    position: absolute;
-    left: -34px;
-    top: -46px;
-    width: 118px;
-    filter: drop-shadow(0 14px 18px rgba(31,31,31,.16));
-  }
-
-  /* -------------------------------------------------- band (dark) */
-  .band-dark {
-    background: var(--graphite);
-    color: var(--on-graphite);
-    padding: 84px 0;
-  }
-  .band-dark .eyebrow { color: var(--primary); }
-  .band-dark h2 { color: var(--on-graphite); }
-  .band-dark p { color: var(--on-graphite-soft); }
-
-  .compare {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-top: 48px;
-  }
-  @media (max-width: 780px) { .compare { grid-template-columns: 1fr; } }
-  .compare-col {
-    border-radius: 20px;
-    padding: 28px 26px;
-    border: 1px solid var(--graphite-border);
-  }
-  .compare-col.before { background: var(--graphite-2); }
-  .compare-col.after { background: linear-gradient(165deg, rgba(255,122,26,.14), rgba(255,122,26,.03)); border-color: rgba(255,122,26,.3); }
-  .compare-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 600;
-    font-size: 13px;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-    margin-bottom: 18px;
-  }
-  .compare-col.before .compare-label { color: var(--on-graphite-soft); }
-  .compare-col.after .compare-label { color: var(--primary); }
-  .compare ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 15px; }
-  .compare li { display: flex; gap: 12px; font-size: 15px; line-height: 1.5; color: var(--on-graphite); }
-  .compare-col.before li::before { content: '✕'; color: #8a7f74; font-weight: 700; flex: none; }
-  .compare-col.after li::before { content: '✓'; color: var(--primary); font-weight: 700; flex: none; }
-
-  /* -------------------------------------------------- pillars */
-  .section { padding: 92px 0; }
-  .section-head { max-width: 620px; margin-bottom: 52px; }
-  .section-head h2 { margin-top: 14px; }
-  .section-head p { margin-top: 16px; font-size: 16.5px; }
-
-  .pillars {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-  }
-  @media (max-width: 980px) { .pillars { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 560px) { .pillars { grid-template-columns: 1fr; } }
-  .pillar {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 26px 22px;
-    box-shadow: var(--shadow);
-  }
-  .pillar-num {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 900;
-    font-size: 13px;
-    color: var(--primary);
-    background: var(--primary-wash);
-    width: 30px;
-    height: 30px;
-    border-radius: 999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 18px;
-  }
-  .pillar h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
-  .pillar p { font-size: 14.5px; }
-
-  /* -------------------------------------------------- levels */
-  .level-section { background: var(--surface-alt); }
-  .medals {
-    display: flex;
-    gap: 18px;
-    margin-top: 46px;
-    overflow-x: auto;
-    padding-bottom: 8px;
-  }
-  .medal-card {
-    flex: 1 0 180px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 22px 18px 24px;
-    text-align: center;
-    box-shadow: var(--shadow);
-  }
-  .medal-card img { width: 64px; height: auto; margin: 0 auto 14px; }
-  .medal-card h4 { font-size: 15px; font-weight: 700; margin: 0 0 6px; }
-  .medal-card p { font-size: 12.5px; line-height: 1.5; }
-  .level-note {
-    margin-top: 40px;
-    background: var(--primary-wash);
-    border: 1px solid var(--primary-soft);
-    border-radius: 16px;
-    padding: 20px 24px;
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-  }
-  .level-note strong { color: var(--ink); }
-  .level-note p { font-size: 14.5px; color: var(--ink); }
-
-  /* -------------------------------------------------- realtime */
-  .realtime {
-    display: grid;
-    grid-template-columns: .85fr 1.15fr;
-    gap: 56px;
-    align-items: center;
-  }
-  @media (max-width: 880px) { .realtime { grid-template-columns: 1fr; } }
-  .realtime img.mascot { width: 100%; max-width: 300px; margin: 0 auto; }
-  .realtime-list { display: flex; flex-direction: column; gap: 22px; margin-top: 30px; }
-  .realtime-item { display: flex; gap: 16px; }
-  .realtime-icon {
-    flex: none;
-    width: 40px; height: 40px;
-    border-radius: 12px;
-    background: var(--success-soft);
-    color: var(--success);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700;
-  }
-  .realtime-item:nth-child(2) .realtime-icon { background: var(--info-soft); color: var(--info); }
-  .realtime-item:nth-child(3) .realtime-icon { background: var(--gold-soft); color: var(--gold); }
-  .realtime-item h4 { font-size: 15.5px; font-weight: 700; margin: 0 0 4px; }
-  .realtime-item p { font-size: 14px; }
-
-  /* -------------------------------------------------- pricing */
-  .plans {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-top: 48px;
-  }
-  @media (max-width: 980px) { .plans { grid-template-columns: 1fr; } }
-  .plan-card {
-    border-radius: 22px;
-    padding: 32px 30px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    box-shadow: var(--shadow);
-    display: flex;
-    flex-direction: column;
-  }
-  .plan-card.featured {
-    border-color: var(--primary);
-    background: linear-gradient(180deg, var(--primary-wash), var(--surface) 40%);
-    position: relative;
-  }
-  .plan-pill {
-    position: absolute;
-    top: -13px;
-    left: 30px;
-    background: var(--primary);
-    color: #fff;
-    font-size: 11.5px;
-    font-weight: 700;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-    padding: 5px 14px;
-    border-radius: 999px;
-  }
-  .plan-name { font-weight: 700; font-size: 20px; }
-  .plan-annual { margin-top: 6px; font-size: 13px; color: var(--ink-faint); }
-  .plan-features {
-    list-style: none;
-    margin: 26px 0 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 13px;
-    flex: 1;
-  }
-  .plan-features li {
-    display: flex;
-    gap: 10px;
-    font-size: 14.5px;
-    color: var(--ink);
-  }
-  .plan-features li::before { content: '✓'; color: var(--primary); font-weight: 700; flex: none; }
-  .plan-card .btn { margin-top: 28px; justify-content: center; }
-
-  /* -------------------------------------------------- final cta */
-  .final-cta { text-align: center; }
-  .final-cta img.mascot { width: 150px; margin: 0 auto 22px; }
-  .final-cta h2 { max-width: 640px; margin: 0 auto; }
-  .final-cta p.lede { margin: 16px auto 0; text-align: center; }
-  .final-cta .hero-ctas { justify-content: center; margin-top: 30px; }
-
-  /* -------------------------------------------------- footer */
-  footer {
-    padding: 44px 0 56px;
-    border-top: 1px solid var(--border);
-  }
-  .footer-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .footer-row img { height: 22px; }
-  footer p { font-size: 13px; }
-</style>
-
-<header class="site">
-  <div class="wrap nav">
-    <a class="nav-logo" href="/"><img src="assets/logo-completa.png" alt="Desafiaê" /></a>
-    <ul class="nav-links">
-      <li><a href="#como-funciona">Como funciona</a></li>
-      <li><a href="#aulas">Aulas</a></li>
-      <li><a href="#niveis">Pareamento por nível</a></li>
-      <li><a href="#planos">Planos</a></li>
-    </ul>
-    <a class="btn btn-ghost" href="/sign-in">Entrar</a>
-    <a class="btn btn-primary" href="/cadastrar-arena">Cadastrar arena</a>
-  </div>
-</header>
-
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <p class="eyebrow">Software pra arena esportiva</p>
-      <h1>Sua arena não devia rodar no grupo do WhatsApp.</h1>
-      <p class="lede">Desafiaê organiza reserva de quadra, aprovação de jogador, torneio, aulas, mensalidade e financeiro da sua arena — e ainda coloca você na frente de quem tá procurando onde jogar.</p>
-      <div class="hero-ctas">
-        <a class="btn btn-primary" href="/cadastrar-arena">Cadastrar minha arena <span>→</span></a>
-        <a class="btn btn-ghost" href="/sign-in">Já tenho conta: entrar</a>
-      </div>
-      <p class="hero-note">Sem instalar nada na recepção — o painel fica no app, no bolso de quem administra.</p>
+  <!-- TOPO -->
+  <section class="lp-hero arena">
+    <div class="quadra" aria-hidden="true">
+      <svg viewBox="0 0 900 520" fill="none" stroke="#ff6a00" stroke-opacity=".18" stroke-width="2">
+        <rect x="2" y="2" width="896" height="516" rx="4"/>
+        <line x1="450" y1="2" x2="450" y2="518" stroke-dasharray="10 8" stroke-opacity=".4"/>
+        <line x1="190" y1="2" x2="190" y2="518"/>
+        <line x1="710" y1="2" x2="710" y2="518"/>
+        <line x1="190" y1="260" x2="710" y2="260"/>
+      </svg>
     </div>
-    <div class="hero-visual">
-      <img class="hero-mascot" src="assets/mascote.png" alt="" />
-      <div class="hero-stage">
-        <div class="stat-trio">
-          <div class="stat"><b>4</b><span>Jogos de hoje</span></div>
-          <div class="stat-divider"></div>
-          <div class="stat"><b>2</b><span>Partidas pendentes</span></div>
-          <div class="stat-divider"></div>
-          <div class="stat"><b>3</b><span>Reservas pendentes</span></div>
+    <div class="in">
+      <nav class="lp-nav">
+        <a class="logo" href="/"><img src="assets/logo-simbolo-laranja.png" alt="">Desafiaê</a>
+        <div class="links"><a href="#como-funciona">Como funciona</a><a href="#aulas">Aulas</a><a href="#temporada">Temporada</a><a href="#planos">Planos</a></div>
+        <div class="acoes"><a class="bt fant" href="/sign-in">Entrar</a><a class="bt pri" href="/cadastrar-arena">Cadastrar arena</a></div>
+        <button class="menu" type="button" aria-label="Abrir menu" aria-expanded="false" data-menu style="background:none;border:0;padding:0;color:inherit"><i data-lucide="menu"></i></button>
+        <div class="gaveta"><a href="#como-funciona">Como funciona</a><a href="#aulas">Aulas</a><a href="#temporada">Temporada</a><a href="#planos">Planos</a><a href="/sign-in">Entrar</a><a class="bt pri" href="/cadastrar-arena">Cadastrar arena</a></div>
+      </nav>
+      <div class="corpo">
+        <div>
+          <span class="pilula"><b>Arena</b>Software pra arena esportiva</span>
+          <h1>Sua arena não devia rodar no <em>grupo do WhatsApp.</em></h1>
+          <p class="lead">Reserva de quadra, aprovação de jogador, torneio, aulas, mensalidade e financeiro no mesmo lugar, e sua arena na frente de quem tá procurando onde jogar.</p>
+          <div class="ctas"><a class="bt pri" href="/cadastrar-arena">Cadastrar minha arena<i data-lucide="arrow-right"></i></a><a class="bt fant" href="/sign-in">Já tenho conta: entrar</a></div>
+          <p class="miudo"><i data-lucide="smartphone"></i>Sem instalar nada na recepção: o painel fica no app, no bolso de quem administra.</p>
         </div>
-        <div class="float-card">
-          <div class="row1">
-            <strong style="font-size:13.5px;">Pedido de vínculo</strong>
-            <span class="tag">Convite</span>
+        <div class="cena">
+          <div class="antes" aria-label="Como é hoje, no grupo">
+            <p class="bolha"><small>Grupo da arena</small><span class="risco">Tem quadra sábado 18h??</span></p>
+            <p class="bolha"><small>Grupo da arena</small><span class="risco">Quem é nível C aí pra fechar dupla</span></p>
+            <p class="bolha"><small>Grupo da arena</small><span class="risco">Mandei o pix da mensalidade, confere?</span></p>
           </div>
-          <p class="body">Beatriz Lima pediu vínculo em Vôlei.</p>
-          <div class="row2">
-            <span class="mini-btn decline">Recusar</span>
-            <span class="mini-btn accept">Aceitar</span>
+          <svg class="seta-cena" viewBox="0 0 120 80" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 10 C 50 10, 70 60, 110 64"/><path d="M96 54 L110 64 L94 72"/></svg>
+          <div class="painel">
+            <div class="topo-p"><b>Painel</b><span>Hoje</span></div>
+            <div class="kpis">
+              <div class="kpi laranja"><b class="num">4</b><span>Jogos de hoje</span></div>
+              <div class="kpi"><b class="num">2</b><span>Partidas pendentes</span></div>
+              <div class="kpi"><b class="num">3</b><span>Reservas pendentes</span></div>
+            </div>
+            <div class="pedido">
+              <div class="l1"><span class="av">B</span><span><b style="display:block;font-size:14px">Pedido de vínculo</b><span style="font-size:13px;color:var(--text-muted)">Beatriz Lima pediu vínculo em Vôlei.</span></span><span class="tag">Vôlei</span></div>
+              <div class="bts"><span>Recusar</span><span class="sim">Aceitar</span></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="band-dark" id="como-funciona">
-  <div class="wrap">
-    <p class="eyebrow">O dia a dia sem o Desafiaê</p>
-    <h2>Grupo de WhatsApp lotado. Agenda de papel. Nível "no olho".</h2>
-    <div class="compare">
-      <div class="compare-col before">
-        <span class="compare-label">Sem o Desafiaê</span>
-        <ul>
-          <li>Pedido de reserva se perde entre figurinha e mensagem de aniversário</li>
-          <li>Ninguém sabe se quem chegou é nível D ou nível P</li>
-          <li>Cancelamento de última hora e a vaga fica parada</li>
-          <li>Torneio organizado em planilha, chaveamento feito na mão</li>
-          <li>Mensalidade de aluno anotada no caderno, cobrança atrasada por mensagem</li>
-        </ul>
-      </div>
-      <div class="compare-col after">
-        <span class="compare-label">Com o Desafiaê</span>
-        <ul>
-          <li>Pedido de reserva chega no painel — aprova ou recusa em 1 toque</li>
-          <li>Vínculo por modalidade: você decide quem representa sua arena, e em que nível</li>
-          <li>Lista de espera automática — cancelou, o próximo da fila entra sozinho</li>
-          <li>Chaveamento gerado automático, com placar e ranking em tempo real</li>
-          <li>Aluno paga a mensalidade pelo app, e você vê quem está em dia, atrasado ou bloqueado</li>
-        </ul>
+  <!-- SEM × COM -->
+  <section class="lp-versus">
+    <div class="in">
+      <p class="eyebrow">O dia a dia sem o Desafiaê</p>
+      <h2 class="h2" style="margin-top:12px">Grupo lotado. Agenda de papel. Nível "no olho".</h2>
+      <div class="tabela">
+        <div class="linha cab"><div class="sem">Sem o Desafiaê</div><div class="com">Com o Desafiaê</div></div>
+        <div class="linha"><div class="sem"><i data-lucide="x"></i>Pedido de reserva se perde entre figurinha e mensagem de aniversário</div><div class="com"><i data-lucide="check"></i>Pedido de reserva chega no painel, e você aprova ou recusa com um toque</div></div>
+        <div class="linha"><div class="sem"><i data-lucide="x"></i>Ninguém sabe se quem chegou é nível D ou nível P</div><div class="com"><i data-lucide="check"></i>Vínculo por modalidade: você decide quem representa sua arena, e em que nível</div></div>
+        <div class="linha"><div class="sem"><i data-lucide="x"></i>Cancelamento de última hora e a vaga fica parada</div><div class="com"><i data-lucide="check"></i>Lista de espera automática: cancelou, o próximo da fila entra sozinho</div></div>
+        <div class="linha"><div class="sem"><i data-lucide="x"></i>Torneio organizado em planilha, chaveamento feito na mão</div><div class="com"><i data-lucide="check"></i>Chaveamento automático, com placar e ranking em tempo real</div></div>
+        <div class="linha"><div class="sem"><i data-lucide="x"></i>Mensalidade de aluno anotada no caderno, cobrança atrasada por mensagem</div><div class="com"><i data-lucide="check"></i>Aluno paga a mensalidade pelo app, e você vê quem está em dia, atrasado ou bloqueado</div></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="section">
-  <div class="wrap">
-    <div class="section-head">
+  <!-- 4 FRENTES -->
+  <section class="lp-frentes escuro" id="como-funciona">
+    <div class="in">
       <p class="eyebrow">Tudo num só painel</p>
-      <h2>Da procura ao apito final</h2>
-      <p>Quatro frentes, um único lugar pra administrar — sem alternar entre app de mensagem, planilha e caderno de reserva.</p>
-    </div>
-    <div class="pillars">
-      <div class="pillar">
-        <div class="pillar-num">01</div>
-        <h3>Descoberta</h3>
-        <p>Jogador que busca arena perto encontra a sua — com foto, quadras, horário de funcionamento e avaliação.</p>
-      </div>
-      <div class="pillar">
-        <div class="pillar-num">02</div>
-        <h3>Operação</h3>
-        <p>Reserva de quadra, partida e vínculo de modalidade aprovados com um toque. Aulas e check-in de alunos no mesmo lugar.</p>
-      </div>
-      <div class="pillar">
-        <div class="pillar-num">03</div>
-        <h3>Competição</h3>
-        <p>Torneio com chaveamento automático, temporada somando os pontos de cada etapa, desafio entre arenas e desafio recorrente — sua liga fixa, sem planilha.</p>
-      </div>
-      <div class="pillar">
-        <div class="pillar-num">04</div>
-        <h3>Gestão</h3>
-        <p>Financeiro com reservas, torneios, aulas e mensalidades, analytics e equipe com papel — cada um vê só o que precisa.</p>
+      <h2 class="h2" style="margin-top:12px">Da procura ao apito final.</h2>
+      <p class="lead" style="margin-top:16px">Quatro frentes num lugar só, sem alternar entre app de mensagem, planilha e caderno de reserva.</p>
+      <div class="grade">
+        <div class="fr"><span class="n num">01</span><h3>Descoberta</h3><p>Jogador que busca arena perto encontra a sua, com foto, quadras, horário de funcionamento e avaliação.</p></div>
+        <div class="fr"><span class="n num">02</span><h3>Operação</h3><p>Reserva de quadra, partida e vínculo de modalidade aprovados com um toque. Aulas e check-in de alunos no mesmo lugar.</p></div>
+        <div class="fr"><span class="n num">03</span><h3>Competição</h3><p>Torneio com chaveamento automático, temporada somando os pontos de cada etapa, desafio entre arenas e desafio recorrente.</p></div>
+        <div class="fr"><span class="n num">04</span><h3>Gestão</h3><p>Financeiro com reservas, torneios, aulas e mensalidades, analytics e equipe com papel: cada um vê só o que precisa.</p></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="section" id="desafio">
-  <style>
-    .desafio-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 8px; }
-    @media (max-width: 720px) { .desafio-cards { grid-template-columns: 1fr; } }
-    .desafio-card {
-      border-radius: 20px;
-      padding: 28px 26px;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-    }
-    .desafio-card.card-orange { background: linear-gradient(165deg, rgba(255,106,0,.10), var(--surface) 60%); border-color: var(--primary-soft); }
-    .desafio-card.card-blue { background: linear-gradient(165deg, rgba(59,130,196,.10), var(--surface) 60%); border-color: rgba(59,130,196,.28); }
-    .desafio-card h3 { font-size: 19px; font-weight: 700; margin-bottom: 16px; }
-    .desafio-card.card-orange h3 { color: var(--primary-dark); }
-    .desafio-card.card-blue h3 { color: var(--info); }
-    .desafio-card ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 13px; }
-    .desafio-card li { display: flex; gap: 10px; font-size: 14.5px; line-height: 1.5; color: var(--ink); }
-    .desafio-card.card-orange li::before { content: '✓'; color: var(--primary); font-weight: 700; flex: none; }
-    .desafio-card.card-blue li::before { content: '✓'; color: var(--info); font-weight: 700; flex: none; }
-
-    .desafio-benefits {
-      margin-top: 24px;
-      background: var(--primary-wash);
-      border: 1px solid var(--primary-soft);
-      border-radius: 16px;
-      padding: 24px 26px;
-    }
-    .desafio-benefits strong { display: block; color: var(--ink); font-size: 15px; margin-bottom: 14px; }
-    .desafio-benefits ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 28px; }
-    @media (max-width: 720px) { .desafio-benefits ul { grid-template-columns: 1fr; } }
-    .desafio-benefits li { display: flex; gap: 10px; font-size: 14px; line-height: 1.5; color: var(--ink); }
-    .desafio-benefits li::before { content: '✓'; color: var(--primary); font-weight: 700; flex: none; }
-
-    .bracket-demo { margin-top: 48px; }
-    .bracket-hint { font-size: 13px; color: var(--ink-soft); margin: 0 0 18px; }
-    .bracket-caption { margin-top: 14px; font-size: 12.5px; color: var(--ink-faint); }
-  </style>
-  <div class="wrap">
-    <div class="section-head">
+  <!-- COMPETIÇÃO -->
+  <section class="lp-bloco">
+    <div class="in">
       <p class="eyebrow">Competição entre arenas</p>
-      <h2>O desafio que enche a agenda sozinho</h2>
-      <p>Duas formas de fazer sua arena disputar sem organizar nada na mão — mais o chaveamento automático que já roda por trás de qualquer torneio ou desafio.</p>
-    </div>
-    <div class="desafio-cards">
-      <div class="desafio-card card-orange">
-        <h3>Desafio entre arenas</h3>
-        <ul>
-          <li>Sua arena desafia outra montando um torneio entre as duas</li>
-          <li>Categorias por nível, com data e local já definidos no convite</li>
-          <li>A arena desafiada aceita, recusa ou sugere ajustes</li>
-          <li>Chaveamento, placar e check-in rodam como em qualquer torneio do app</li>
-        </ul>
+      <h2 class="h2" style="margin-top:12px">O desafio que enche a agenda sozinho.</h2>
+      <p class="lead" style="margin-top:16px">Duas formas de fazer sua arena disputar sem organizar nada na mão, com o chaveamento automático rodando por trás.</p>
+      <div class="grade">
+        <div class="card">
+          <h3><i data-lucide="swords"></i>Desafio entre arenas</h3>
+          <ul>
+            <li><i data-lucide="check"></i>Sua arena desafia outra montando um torneio entre as duas</li>
+            <li><i data-lucide="check"></i>Categorias por nível, com data e local já definidos no convite</li>
+            <li><i data-lucide="check"></i>A arena desafiada aceita, recusa ou sugere ajustes</li>
+            <li><i data-lucide="check"></i>Chaveamento, placar e check-in rodam como em qualquer torneio do app</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3><i data-lucide="repeat"></i>Desafio recorrente</h3>
+          <ul>
+            <li><i data-lucide="check"></i>Liga fixa mensal entre dois lados da sua arena</li>
+            <li><i data-lucide="check"></i>Categorias por nível, dia da semana, horário e quadra</li>
+            <li><i data-lucide="check"></i>O app sorteia os confrontos toda semana e o jogador confirma presença</li>
+            <li><i data-lucide="check"></i>Ranking do mês guardado sozinho</li>
+          </ul>
+        </div>
       </div>
-      <div class="desafio-card card-blue">
-        <h3>Desafio recorrente</h3>
-        <ul>
-          <li>Liga fixa mensal entre dois lados da sua arena</li>
-          <li>Categorias por nível, dia da semana, horário e quadra</li>
-          <li>O app sorteia os confrontos toda semana e o jogador confirma presença</li>
-          <li>Ranking do mês guardado sozinho</li>
-        </ul>
-      </div>
     </div>
-    <div class="desafio-benefits">
-      <strong>Benefícios pra sua arena, nos dois formatos</strong>
-      <ul>
-        <li>Agenda ocupada sem precisar organizar por fora, em grupo de mensagem</li>
-        <li>Jogador engajado tem motivo pra voltar toda semana ou disputar de novo</li>
-        <li>Chaveamento e ranking gerados automático — sem planilha, sem tabela na mão</li>
-        <li>Tudo com a marca da sua arena, dentro do app</li>
-      </ul>
-    </div>
-    <div class="bracket-demo">
-      <p class="eyebrow">Chaveamento em tempo real</p>
-      <p class="bracket-hint">É esta a página que abre no link do torneio: o mesmo chaveamento que sua arena vê no app, fora dele e sem login. Beach tennis, eliminação simples, 1 set de 6 games — as regras que o app aplica.</p>
-      <div class="live-demo" data-live-bracket data-live-fit></div>
-      <p class="bracket-caption">Demonstração com duplas fictícias, na mesma página pública que o link compartilhável do torneio abre — placar, status de cada jogo, quadra e horário atualizam ao vivo.</p>
-    </div>
-  </div>
-</section>
+  </section>
 
-<section class="section" id="aulas">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">Aulas e mensalidade</p>
-      <h2>Sua escolinha organizada, com a mensalidade em dia</h2>
-      <p>Turma, professor, check-in e cobrança do aluno no mesmo app que já cuida das quadras.</p>
-    </div>
-    <div class="desafio-cards">
-      <div class="desafio-card card-orange">
-        <h3>Aulas e turmas</h3>
-        <ul>
-          <li>Turmas e sessões com os professores da sua equipe</li>
-          <li>Aluno se inscreve e paga a aula pelo app</li>
-          <li>Check-in pela câmera, lendo o QR code do ingresso</li>
-          <li>Professor vê a própria agenda de aulas, sem mexer no resto da arena</li>
-        </ul>
+  <!-- CHAVEAMENTO AO VIVO -->
+  <section class="lp-chave">
+    <div class="in">
+      <div class="cab">
+        <p class="eyebrow">Chaveamento em tempo real</p>
+        <h2 class="h2">O link do torneio abre isto aqui.</h2>
+        <p class="lead">É esta a página que abre no link do torneio: o mesmo chaveamento que sua arena vê no app, fora dele e sem login. Beach tennis, eliminação simples, 1 set de 6 games, as regras que o app aplica.</p>
       </div>
-      <div class="desafio-card card-blue">
-        <h3>Planos de mensalidade</h3>
-        <ul>
-          <li>Planos com uma ou mais modalidades, limite de aulas por semana e valor mensal</li>
-          <li>Aluno contrata pelo app e paga por Pix ou cartão — o que for pago no balcão, você marca como pago</li>
-          <li>Tolerância de atraso definida por você: veja quem está em dia, atrasado ou bloqueado</li>
-          <li>Aviso quando um aluno é bloqueado por atraso ou cancela o plano</li>
-        </ul>
-      </div>
+      <div class="caixa"><div class="live-demo" data-live-bracket data-live-fit></div></div>
+      <p class="aviso">Demonstração com duplas fictícias.</p>
     </div>
-    <div class="desafio-benefits">
-      <strong>Aulas e planos de alunos são do plano Elite</strong>
-      <ul>
-        <li>Coloque quem já treina na arena num plano — a cobrança só começa quando você confirma</li>
-        <li>Mensalidades entram no financeiro junto com reservas e torneios</li>
-      </ul>
-    </div>
-  </div>
-</section>
+  </section>
 
-<section class="section" id="temporada">
-  <div class="wrap">
-    <div class="section-head">
+  <!-- TEMPORADA -->
+  <section class="lp-temporada escuro" id="temporada">
+    <div class="in">
       <p class="eyebrow">Temporada</p>
-      <h2>Seu circuito do ano, com ranking que não sai do ar</h2>
-      <p>Cada etapa é um torneio normal, do jeito que você já faz. A temporada só soma os pontos — e quem pontua é o atleta, nunca a equipe.</p>
-    </div>
-    <div class="desafio-cards">
-      <div class="desafio-card card-orange">
-        <h3>Como você monta</h3>
-        <ul>
-          <li>Informações e capa, categorias, tabela de pontuação e revisão</li>
-          <li>Ligue cada torneio como etapa e aponte a categoria dele para a da temporada</li>
-          <li>Tabela padrão de 100 a 10 pontos do 1º ao 8º, mais pontos de participação</li>
-          <li>Descarte opcional: valem as melhores N etapas de cada atleta</li>
-        </ul>
+      <h2 class="h2" style="margin-top:12px">Seu circuito do ano, com ranking que não sai do ar.</h2>
+      <div class="grade">
+        <div>
+          <p class="lead">Cada etapa é um torneio normal, do jeito que você já faz. A temporada só soma os pontos, e quem pontua é o atleta, nunca a equipe.</p>
+          <h3>Como você monta</h3>
+          <ul>
+            <li><i data-lucide="check"></i>Ligue cada torneio como etapa e aponte a categoria dele pra da temporada</li>
+            <li><i data-lucide="check"></i>Descarte opcional: valem as melhores N etapas de cada atleta</li>
+            <li><i data-lucide="check"></i>Página pública do circuito, com link que não expira</li>
+          </ul>
+        </div>
+        <div>
+          <div class="barras" role="img" aria-label="Pontos por colocação: 1º 100, 2º 80, 3º 65, 4º 50, 5º 40, 6º 30, 7º 20, 8º 10">
+            <div class="b"><b class="num">100</b><i style="height:100%"></i></div>
+            <div class="b"><b class="num">80</b><i style="height:80%"></i></div>
+            <div class="b"><b class="num">65</b><i style="height:65%"></i></div>
+            <div class="b"><b class="num">50</b><i style="height:50%"></i></div>
+            <div class="b"><b class="num">40</b><i style="height:40%"></i></div>
+            <div class="b"><b class="num">30</b><i style="height:30%"></i></div>
+            <div class="b"><b class="num">20</b><i style="height:20%"></i></div>
+            <div class="b"><b class="num">10</b><i style="height:10%"></i></div>
+          </div>
+          <div class="rot"><span>1º</span><span>2º</span><span>3º</span><span>4º</span><span>5º</span><span>6º</span><span>7º</span><span>8º</span></div>
+          <p class="legenda">Tabela padrão de pontos por colocação, mais pontos de participação. Dá pra editar por temporada. Desempate: mais etapas vencidas, melhor colocação numa etapa, mais etapas disputadas.</p>
+        </div>
       </div>
-      <div class="desafio-card card-blue">
-        <h3>O que o atleta vê</h3>
-        <ul>
-          <li>Ranking do circuito no app, com o total de etapas e a melhor colocação</li>
-          <li>Etapa entra na conta assim que a categoria é encerrada</li>
-          <li>Dupla e time podem mudar de formação entre as etapas, sem perder ponto</li>
-          <li>Página pública do circuito, com link que não expira</li>
-        </ul>
-      </div>
     </div>
-    <div class="desafio-benefits">
-      <strong>Temporada é do plano Elite</strong>
-      <ul>
-        <li>Reaproveita inscrição, pagamento, chaveamento e classificação que você já usa nos torneios</li>
-        <li>Desempate por etapas vencidas, melhor colocação e etapas disputadas — a regra toda em <a href="/regras#torneios">Regras</a></li>
+  </section>
+
+  <!-- AULAS -->
+  <section class="lp-bloco" id="aulas">
+    <div class="in">
+      <p class="eyebrow">Aulas e mensalidade</p>
+      <h2 class="h2" style="margin-top:12px">Sua escolinha organizada, com a mensalidade em dia.</h2>
+      <p class="lead" style="margin-top:16px">Turma, professor, check-in e cobrança do aluno no mesmo app que já cuida das quadras.</p>
+      <div class="grade">
+        <div class="card">
+          <h3><i data-lucide="graduation-cap"></i>Aulas e turmas</h3>
+          <ul>
+            <li><i data-lucide="check"></i>Turmas e sessões com os professores da sua equipe</li>
+            <li><i data-lucide="check"></i>Aluno se inscreve e paga a aula pelo app</li>
+            <li><i data-lucide="check"></i>Check-in pela câmera, lendo o QR code do ingresso</li>
+            <li><i data-lucide="check"></i>Professor vê a própria agenda de aulas, sem mexer no resto da arena</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3><i data-lucide="wallet"></i>Planos de mensalidade</h3>
+          <ul>
+            <li><i data-lucide="check"></i>Planos com uma ou mais modalidades, limite de aulas por semana e valor mensal</li>
+            <li><i data-lucide="check"></i>Aluno contrata pelo app e paga por Pix ou cartão; o que for pago no balcão, você marca como pago</li>
+            <li><i data-lucide="check"></i>Tolerância de atraso definida por você: veja quem está em dia, atrasado ou bloqueado</li>
+            <li><i data-lucide="check"></i>Aviso quando um aluno é bloqueado por atraso ou cancela o plano</li>
+          </ul>
+        </div>
+      </div>
+      <div class="faixa-elite"><span class="selo"><i data-lucide="gem"></i>Elite</span><span>Aulas, planos de alunos e temporada são do plano Elite. Mensalidades entram no financeiro junto com reservas e torneios.</span></div>
+    </div>
+  </section>
+
+  <!-- AGREGADORES -->
+  <section class="lp-agreg escuro">
+    <div class="in">
+      <p class="eyebrow">TotalPass e Wellhub</p>
+      <h2 class="h2" style="margin-top:12px">Aluno de agregador entra na aula sem ninguém digitar nada.</h2>
+      <p class="lead" style="margin-top:16px">Ele não precisa ter o Desafiaê: o check-in que ele faz no app do agregador chega na sua arena e cai sozinho na aula certa.</p>
+      <div class="fluxo3">
+        <div class="no"><span class="rot">No app do agregador</span><b>Check-in do aluno</b><span>Feito no TotalPass ou no Wellhub, como ele já faz.</span><div class="chips"><i>TotalPass</i><i>Wellhub</i></div></div>
+        <div class="seta" aria-hidden="true"><i data-lucide="arrow-right"></i></div>
+        <div class="no meio"><span class="rot">No Desafiaê</span><b>Aluno criado sozinho</b><span>Aparece na aula e em Meus atletas, sem cadastro na recepção.</span></div>
+        <div class="seta" aria-hidden="true"><i data-lucide="arrow-right"></i></div>
+        <div class="no"><span class="rot">Na turma</span><b>Cai na aula da modalidade</b><span>A que começa até 15 min antes ou depois do check-in.</span></div>
+      </div>
+      <ul class="regras4">
+        <li><i data-lucide="check"></i>Fora da janela, o check-in fica como "sem aula" pra equipe encaixar ou recusar, e o professor da turma recebe push.</li>
+        <li><i data-lucide="check"></i>A vaga do agregador conta na lotação da aula e no teto de vagas por turma, então a turma não estoura.</li>
+        <li><i data-lucide="check"></i>Aulas publicadas no app deles abrem pra reserva 24h antes e fecham no início; a reserva só é confirmada se couber.</li>
+        <li><i data-lucide="check"></i>O valor por visita é estimativa e fica fora do "Recebido": quem paga é o agregador, fora do Mercado Pago.</li>
       </ul>
+      <span class="selo"><i data-lucide="gem"></i>Plano Elite</span>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="section level-section" id="niveis">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">Pareamento por nível</p>
-      <h2>Todo jogador tem nível. Cada modalidade, um vínculo que passa por você.</h2>
-      <p>Da estreia ao profissional — cinco categorias guiam quem joga com quem, pra ninguém cair numa partida completamente fora do seu nível.</p>
-    </div>
-    <div class="medals">
-      <div class="medal-card">
-        <img src="assets/categoria-d.png" alt="Nível D" />
-        <h4>Aprendiz</h4>
-        <p>Começando agora — ainda aprendendo regras e fundamentos.</p>
-      </div>
-      <div class="medal-card">
-        <img src="assets/categoria-c.png" alt="Nível C" />
-        <h4>Iniciante</h4>
-        <p>Joga com regularidade e domina o básico, ainda evoluindo a técnica.</p>
-      </div>
-      <div class="medal-card">
-        <img src="assets/categoria-b.png" alt="Nível B" />
-        <h4>Intermediário</h4>
-        <p>Joga com consistência, entende as regras e já tem repertório tático.</p>
-      </div>
-      <div class="medal-card">
-        <img src="assets/categoria-a.png" alt="Nível A" />
-        <h4>Avançado</h4>
-        <p>Bastante tempo de jogo, boa técnica e consistência em partidas competitivas.</p>
-      </div>
-      <div class="medal-card">
-        <img src="assets/categoria-p.png" alt="Nível P" />
-        <h4>Profissional</h4>
-        <p>Compete ou já competiu em nível profissional ou federado.</p>
-      </div>
-    </div>
-    <div class="level-note">
-      <p><strong>Um jogador pode jogar em duas modalidades, em duas arenas diferentes</strong> — e cada vínculo passa pela sua aprovação, modalidade por modalidade. Trocou de nível, o pedido volta pra você decidir de novo.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap realtime">
-    <img class="mascot" src="assets/mascote.png" alt="Mascote Desafiaê com celular" />
-    <div>
+  <!-- EQUIPE -->
+  <section class="lp-equipe">
+    <div class="in">
       <p class="eyebrow">Sua equipe sempre por dentro</p>
-      <h2>Pedido novo? Sua equipe sabe na hora.</h2>
-      <p style="margin-top:14px; font-size: 16.5px;">Notificação chega pra quem administra a arena assim que algo pede decisão — sem precisar ficar checando o painel a cada cinco minutos.</p>
-      <div class="realtime-list">
-        <div class="realtime-item">
-          <div class="realtime-icon">1</div>
-          <div><h4>Aprovação em tempo real</h4><p>Reserva, partida e vínculo de modalidade avisam dono, gerente e atendente na hora que chegam.</p></div>
-        </div>
-        <div class="realtime-item">
-          <div class="realtime-icon">2</div>
-          <div><h4>Papel por pessoa da equipe</h4><p>Atendente cuida do dia a dia, professor faz o check-in das aulas e moderador convidado lança o placar do torneio; financeiro e configuração ficam só com quem administra.</p></div>
-        </div>
-        <div class="realtime-item">
-          <div class="realtime-icon">3</div>
-          <div><h4>Histórico sempre à mão</h4><p>Toda decisão fica registrada — quem aprovou, quando, e em qual modalidade.</p></div>
-        </div>
+      <h2 class="h2" style="margin-top:12px">Pedido novo? Sua equipe sabe na hora.</h2>
+      <div class="grade">
+        <div class="it"><span class="ic"><i data-lucide="bell-ring"></i></span><h3>Aprovação em tempo real</h3><p>Reserva, partida e vínculo de modalidade avisam dono, gerente e atendente na hora que chegam.</p></div>
+        <div class="it"><span class="ic"><i data-lucide="users"></i></span><h3>Papel por pessoa</h3><p>Atendente cuida do dia a dia, professor faz o check-in das aulas e moderador lança o placar do torneio. Financeiro e configuração ficam com quem administra.</p></div>
+        <div class="it"><span class="ic"><i data-lucide="history"></i></span><h3>Histórico à mão</h3><p>Toda decisão fica registrada: quem aprovou, quando e em qual modalidade.</p></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="section" id="calculadora">
-  <style>
-    .calc { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; margin-top: 34px; }
-    @media (max-width: 860px) { .calc { grid-template-columns: 1fr; } }
-    .calc-form { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px 26px; box-shadow: var(--shadow); }
-    .calc-field { margin-bottom: 16px; }
-    .calc-field:last-child { margin-bottom: 0; }
-    .calc-field label { display: block; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); font-weight: 700; margin-bottom: 6px; }
-    .calc-field input, .calc-field select {
-      width: 100%; font: inherit; font-size: 14px; color: var(--ink); background: var(--bg);
-      border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px;
-    }
-    .calc-field input:focus, .calc-field select:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
-    .calc-out { background: var(--primary-wash); border: 1px solid var(--primary-soft); border-radius: 16px; padding: 24px 26px; }
-    .calc-line { display: flex; justify-content: space-between; gap: 14px; padding: 11px 0; border-top: 1px solid var(--primary-soft); font-size: 14px; color: var(--ink); }
-    .calc-line:first-of-type { border-top: 0; padding-top: 0; }
-    .calc-line small { color: var(--ink-soft); font-size: 12px; display: block; }
-    .calc-line b { font-variant-numeric: tabular-nums; white-space: nowrap; }
-    .calc-total { margin-top: 10px; padding-top: 14px; border-top: 2px solid var(--primary); display: flex; justify-content: space-between; align-items: baseline; gap: 14px; }
-    .calc-total span { font-size: 13px; font-weight: 700; color: var(--ink); }
-    .calc-total b { font-size: 26px; color: var(--primary); font-variant-numeric: tabular-nums; }
-    .calc-note { margin: 16px 0 0; font-size: 12.5px; color: var(--ink-soft); line-height: 1.55; }
-  </style>
-  <div class="wrap">
-    <div class="section-head">
+  <!-- CALCULADORA -->
+  <section class="lp-calc escuro" id="calculadora">
+    <div class="in">
       <p class="eyebrow">Quanto cai na sua conta</p>
-      <h2>Faça a conta antes de assinar</h2>
-      <p>O dinheiro vai direto para a sua conta do Mercado Pago — o Desafiaê nunca fica com ele. A taxa do app sai da sua parte, a não ser que você repasse a inscrição do torneio ao atleta.</p>
-    </div>
-    <div class="calc">
-      <div class="calc-form">
-        <div class="calc-field">
-          <label for="calc-valor">Valor anunciado (R$)</label>
-          <input id="calc-valor" type="number" min="1" step="1" value="120" inputmode="decimal" />
-        </div>
-        <div class="calc-field">
-          <label for="calc-tipo">O que está sendo pago</label>
-          <select id="calc-tipo">
-            <option value="10" data-pix-only="0">Reserva de quadra — taxa de 10%</option>
-            <option value="10" data-pix-only="1" data-repasse="1">Inscrição de torneio — taxa de 10%</option>
-            <option value="10" data-pix-only="0">Aula avulsa — taxa de 10%</option>
-            <option value="2" data-pix-only="0">Mensalidade do plano de aulas — taxa de 2%</option>
-          </select>
-        </div>
-        <div class="calc-field">
-          <label for="calc-meio">Meio de pagamento</label>
-          <select id="calc-meio">
-            <option value="0.99">Pix, na hora — 0,99%</option>
-            <option value="4.99">Cartão de crédito, na hora — 4,99%</option>
-            <option value="4.49">Cartão de crédito, em 14 dias — 4,49%</option>
-            <option value="3.99">Cartão de crédito, em 30 dias — 3,99%</option>
-          </select>
-        </div>
-        <div class="calc-field">
-          <label for="calc-taxa-quem">Quem paga a taxa do app</label>
-          <select id="calc-taxa-quem">
+      <h2 class="h2" style="margin-top:12px">Faça a conta antes de assinar.</h2>
+      <p class="lead" style="margin-top:16px">O dinheiro vai direto pra conta do Mercado Pago da sua arena, e o Desafiaê nunca fica com ele. A taxa do app sai da sua parte, a não ser que você repasse a inscrição do torneio ao atleta.</p>
+      <div class="grade" data-lp="calc">
+        <div class="campos">
+          <label>Valor anunciado (R$)<input data-c="valor" type="number" min="1" step="1" value="120" inputmode="decimal"></label>
+          <label>O que está sendo pago<select data-c="tipo">
+            <option value="10">Reserva de quadra · taxa de 10%</option>
+            <option value="10" data-repasse="1">Inscrição de torneio · taxa de 10%</option>
+            <option value="10">Aula avulsa · taxa de 10%</option>
+            <option value="2">Mensalidade do plano de aulas · taxa de 2%</option>
+          </select></label>
+          <label>Meio de pagamento<select data-c="meio">
+            <option value="0.99">Pix, na hora · 0,99%</option>
+            <option value="4.99">Cartão de crédito, na hora · 4,99%</option>
+            <option value="4.49">Cartão de crédito, em 14 dias · 4,49%</option>
+            <option value="3.99">Cartão de crédito, em 30 dias · 3,99%</option>
+          </select></label>
+          <label>Quem paga a taxa do app<select data-c="quem">
             <option value="0">A arena absorve a taxa</option>
             <option value="1">Repassar ao atleta</option>
-          </select>
+          </select></label>
+          <label>Plano de quem está pagando<select data-c="plano">
+            <option value="0">Jogador Básico · sem desconto</option>
+            <option value="50">Jogador Premium · 50% da taxa</option>
+            <option value="100">Jogador Elite · sem taxa do app</option>
+          </select></label>
         </div>
-        <div class="calc-field">
-          <label for="calc-plano">Plano de quem está pagando</label>
-          <select id="calc-plano">
-            <option value="0">Jogador Básico — sem desconto</option>
-            <option value="50">Jogador Premium — 50% da taxa</option>
-            <option value="100">Jogador Elite — sem taxa do app</option>
-          </select>
+        <div class="saida" aria-live="polite">
+          <div class="l"><span>Jogador paga</span><b data-c="paga"></b></div>
+          <div class="l"><span>Taxa do app<small data-c="taxa-rot"></small></span><b data-c="taxa"></b></div>
+          <div class="l"><span>Tarifa do Mercado Pago<small data-c="mp-rot"></small></span><b data-c="mp"></b></div>
+          <div class="total"><span>Sua arena recebe</span><b data-c="recebe"></b></div>
+          <p class="nota" data-c="nota"></p>
         </div>
-      </div>
-      <div class="calc-out">
-        <div class="calc-line"><span>Jogador paga</span><b id="calc-paga"></b></div>
-        <div class="calc-line"><span>Taxa do app<small id="calc-taxa-label"></small></span><b id="calc-taxa"></b></div>
-        <div class="calc-line"><span>Tarifa do Mercado Pago<small id="calc-mp-label"></small></span><b id="calc-mp"></b></div>
-        <div class="calc-total"><span>Sua arena recebe</span><b id="calc-arena"></b></div>
-        <p class="calc-note" id="calc-note"></p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="section" id="planos" style="background:var(--surface-alt);">
-  <div class="wrap">
-    <div class="section-head">
+  <!-- PLANOS -->
+  <section class="lp-planos" id="planos">
+    <div class="in">
       <p class="eyebrow">Planos</p>
-      <h2>Comece no Básico, evolua quando fizer sentido</h2>
-      <p>Sem contrato de fidelidade escondido em letra miúda — o plano anual só existe porque sai mais barato.</p>
-    </div>
-    <div class="plans">
-      <div class="plan-card featured">
-        <span class="plan-pill">Mais completo</span>
-        <div class="plan-name">Elite</div>
-        <p class="plan-annual">Mensal ou anual — valores no app, na hora de assinar</p>
-        <ul class="plan-features">
-          <li>Tudo do Premium, mais:</li>
-          <li>Aulas e turmas com professores</li>
-          <li>Planos de mensalidade dos alunos</li>
-          <li>Check-in de alunos por QR code</li>
-          <li>Temporada (circuito) com ranking público</li>
-        </ul>
-        <a class="btn btn-primary" href="https://apps.apple.com/br/app/desafia%C3%AA/id6807155371" target="_blank" rel="noopener">Assinar o Elite no app</a>
-      </div>
-      <div class="plan-card">
-        <div class="plan-name">Premium</div>
-        <p class="plan-annual">Mensal ou anual — valores no app, na hora de assinar</p>
-        <ul class="plan-features">
-          <li>Tudo do Básico, mais:</li>
-          <li>Reservas de quadras</li>
-          <li>Desafio das arenas</li>
-          <li>Financeiro completo</li>
-          <li>Desafio recorrente</li>
-        </ul>
-        <a class="btn btn-ghost" href="https://apps.apple.com/br/app/desafia%C3%AA/id6807155371" target="_blank" rel="noopener">Assinar o Premium no app</a>
-      </div>
-      <div class="plan-card">
-        <div class="plan-name">Básico</div>
-        <p class="plan-annual">Mensal ou anual — valores no app, na hora de assinar</p>
-        <ul class="plan-features">
-          <li>Gerenciamento de serviços</li>
-          <li>Cadastro das quadras</li>
-          <li>Partidas</li>
-          <li>Visibilidade no Desafiaê</li>
-        </ul>
-        <a class="btn btn-ghost" href="https://apps.apple.com/br/app/desafia%C3%AA/id6807155371" target="_blank" rel="noopener">Assinar o Básico no app</a>
+      <h2 class="h2" style="margin-top:12px">Comece no Básico, evolua quando fizer sentido.</h2>
+      <p class="lead" style="margin-top:16px">Sem fidelidade escondida em letra miúda: o plano anual só existe porque sai mais barato.</p>
+      <div class="grade">
+        <div class="pl">
+          <h3>Básico</h3><p class="preco">Mensal ou anual · valores no app, na hora de assinar</p>
+          <ul><li><i data-lucide="check"></i>Gerenciamento de serviços</li><li><i data-lucide="check"></i>Cadastro das quadras</li><li><i data-lucide="check"></i>Partidas</li><li><i data-lucide="check"></i>Visibilidade no Desafiaê</li></ul>
+          <a class="bt cont" href="https://apps.apple.com/br/app/desafia%C3%AA/id6807155371" target="_blank" rel="noopener">Assinar o Básico no app</a>
+        </div>
+        <div class="pl">
+          <h3>Premium</h3><p class="preco">Mensal ou anual · valores no app, na hora de assinar</p>
+          <ul><li class="titulo"><i data-lucide="plus"></i>Tudo do Básico, mais:</li><li><i data-lucide="check"></i>Reservas de quadras</li><li><i data-lucide="check"></i>Desafio entre arenas</li><li><i data-lucide="check"></i>Financeiro completo</li><li><i data-lucide="check"></i>Desafio recorrente</li></ul>
+          <a class="bt cont" href="https://apps.apple.com/br/app/desafia%C3%AA/id6807155371" target="_blank" rel="noopener">Assinar o Premium no app</a>
+        </div>
+        <div class="pl top">
+          <span class="fita">Mais completo</span>
+          <h3>Elite</h3><p class="preco">Mensal ou anual · valores no app, na hora de assinar</p>
+          <ul><li class="titulo"><i data-lucide="plus"></i>Tudo do Premium, mais:</li><li><i data-lucide="check"></i>Aulas e turmas com professores</li><li><i data-lucide="check"></i>Planos de mensalidade dos alunos</li><li><i data-lucide="check"></i>Check-in de alunos por QR code</li><li><i data-lucide="check"></i>Temporada com ranking público</li><li><i data-lucide="check"></i>TotalPass e Wellhub</li></ul>
+          <a class="bt pri" href="https://apps.apple.com/br/app/desafia%C3%AA/id6807155371" target="_blank" rel="noopener">Assinar o Elite no app</a>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="section band-dark final-cta">
-  <div class="wrap">
-    <img class="mascot" src="assets/mascote.png" alt="Mascote arena do Desafiaê" />
-    <p class="eyebrow">Bora começar?</p>
-    <h2>Bora colocar sua arena em jogo?</h2>
-    <p class="lede">Leva menos tempo que organizar mais um grupo novo no WhatsApp.</p>
-    <div class="hero-ctas">
-      <a class="btn btn-primary" href="#planos">Ver planos</a>
-      <a class="btn btn-ghost-invert" href="#como-funciona">Como funciona</a>
+  <!-- CHAMADA -->
+  <section class="lp-cta">
+    <div class="in grade">
+      <div>
+        <h2>Bora colocar sua arena em jogo?</h2>
+        <p>Leva menos tempo que organizar mais um grupo novo no WhatsApp.</p>
+        <div class="lojas"><a class="bt claro" href="/cadastrar-arena">Cadastrar minha arena<i data-lucide="arrow-right"></i></a><a class="bt fant" href="#planos">Ver os planos</a></div>
+      </div>
+      <img class="mascote" src="assets/mascote-arena.png" alt="">
     </div>
-  </div>
-</section>
+  </section>
 
-<footer>
-  <div class="wrap footer-row">
-    <img src="assets/logo-completa.png" alt="Desafiaê" />
-    <p>Desafiaê — conecta jogador, organiza arena.</p>
-  </div>
-</footer>
+  <!-- RODAPÉ -->
+  <footer class="lp-rodape">
+    <div class="in">
+      <div class="grade">
+        <div><a class="logo" href="/"><img src="assets/logo-simbolo-laranja.png" alt="">Desafiaê</a><p class="lema">Conecta jogador, organiza arena.</p></div>
+        <div><h4>Desafiaê</h4><ul><li><a href="/">Início</a></li><li><a href="/funcionalidades">Funcionalidades</a></li><li><a href="/regras">Regras</a></li><li><a href="/pagamentos">Pagamentos</a></li></ul></div>
+        <div><h4>Arena</h4><ul><li><a href="#como-funciona">Como funciona</a></li><li><a href="#calculadora">Calculadora</a></li><li><a href="#planos">Planos</a></li><li><a href="/cadastrar-arena">Cadastrar arena</a></li></ul></div>
+        <div><h4>Contato</h4><ul><li><a href="mailto:suporte@desafiae.com">suporte@desafiae.com</a></li><li><a href="/termos">Termos de Uso</a></li><li><a href="/privacidade">Privacidade</a></li></ul></div>
+      </div>
+      <p class="fim">© 2026 Desafiaê. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+</div>
 
-
-<script>
-/* Calculadora — taxas do app e tarifas do Mercado Pago como em /pagamentos.
-   O desconto do plano sai da taxa do app: o jogador paga menos e a arena
-   recebe o mesmo valor bruto. A tarifa do MP incide sobre o que foi pago. */
-const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-const el = id => document.getElementById(id);
-const calcValor = el('calc-valor');
-
-function calcular() {
-  const tipo = el('calc-tipo');
-  const meio = el('calc-meio');
-  const pixOnly = tipo.selectedOptions[0].dataset.pixOnly === '1';
-  [...meio.options].forEach((o, i) => { o.disabled = pixOnly && i > 0; });
-  if (pixOnly) meio.selectedIndex = 0;
-
-  // repasse e so da inscricao de torneio (0196): nos outros pagamentos a arena
-  // sempre absorve, entao a opcao fica desligada
-  const quem = el('calc-taxa-quem');
-  const podeRepassar = tipo.selectedOptions[0].dataset.repasse === '1';
-  quem.options[1].disabled = !podeRepassar;
-  if (!podeRepassar) quem.selectedIndex = 0;
-  const repassa = quem.value === '1';
-
-  const valor = Math.max(0, Number(calcValor.value) || 0);
-  const taxaPct = Number(tipo.value);
-  const mpPct = Number(meio.value);
-  const descPct = Number(el('calc-plano').value);
-
-  const cents = n => Math.round(n * 100) / 100;
-  const taxaCheia = cents(valor * taxaPct / 100);
-  const desconto = cents(taxaCheia * descPct / 100);
-  const paga = cents(repassa ? valor + taxaCheia - desconto : valor - desconto);
-  const taxaApp = cents(taxaCheia - desconto);
-  const tarifaMp = cents(paga * mpPct / 100);
-  const recebe = cents(paga - taxaApp - tarifaMp);
-
-  el('calc-paga').textContent = brl(paga);
-  const menos = v => (v > 0 ? '− ' : '') + brl(v);
-  el('calc-taxa').textContent = menos(taxaApp);
-  el('calc-mp').textContent = menos(tarifaMp);
-  el('calc-arena').textContent = brl(recebe);
-  el('calc-taxa-label').textContent = (descPct
-    ? `${taxaPct}% com ${descPct}% de desconto do plano`
-    : `${taxaPct}% do valor`) + (repassa ? ', somada ao preço do atleta' : '');
-  el('calc-mp-label').textContent = meio.selectedOptions[0].textContent.split('—')[0].trim();
-  el('calc-note').textContent = repassa
-    ? 'No repasse, a categoria é anunciada por ' + brl(paga) + ': o atleta paga a taxa do app e você recebe a inscrição cheia, só com a tarifa do Mercado Pago descontada.'
-    : descPct
-      ? 'O desconto do plano sai da taxa do app, não da sua parte: sem ele, o jogador pagaria '
-        + brl(valor) + ' e você receberia praticamente o mesmo.'
-      : 'Valores do Mercado Pago de junho de 2026, para venda online. A tarifa que vale é a da conta da sua arena.';
-}
-
-if (calcValor) {
-  ['calc-valor', 'calc-tipo', 'calc-meio', 'calc-plano', 'calc-taxa-quem'].forEach(id =>
-    el(id).addEventListener('input', calcular));
-  calcular();
-}
-</script>
-
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<script src="lp.js"></script>
 <script src="bracket-live.js"></script>
 </body>
 </html>

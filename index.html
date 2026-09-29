@@ -10,242 +10,299 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  
   <link rel="stylesheet" href="bracket-live.css" />
+  <link rel="stylesheet" href="lp.css" />
 </head>
 <body>
-  <header class="header" id="inicio">
-    <div class="container nav-wrap">
-      <a class="brand" href="#inicio" aria-label="Desafiaê - início">
-        <img src="assets/logo-completa.png" alt="Logo Desafiaê" />
-      </a>
-      <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
-      <nav class="nav" aria-label="Navegação principal">
-        <a href="#como-funciona">Como funciona</a>
-        <a href="#jogadores">Para jogadores</a>
-        <a href="/arena">Para arenas</a>
-        <a href="#recursos">Recursos</a>
-        <a href="#niveis">Níveis</a>
-        <div class="nav-cta-group">
-          <a class="btn btn-sm btn-secondary nav-cta" href="/sign-in">Entrar</a>
-          <a class="btn btn-sm btn-primary nav-cta cta-arena" href="/cadastrar-arena"><span class="cta-label">Cadastrar <span class="ac-long">minha </span>arena</span><span class="ac-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span></a>
-        </div>
-      </nav>
-    </div>
-  </header>
+<div class="lp">
 
-  <main>
-    <section class="hero section">
-      <div class="container hero-grid">
-        <div class="hero-copy reveal">
-          <span class="eyebrow"><span class="dot"></span> 18 modalidades, de futevôlei a CrossFit</span>
+  <!-- TOPO: o de hoje, sem mudar -->
+  <section class="lp-orig" id="inicio">
+    <div class="in">
+      <header class="cab">
+        <a class="marca" href="#inicio"><img src="assets/logo-completa.png" alt="Desafiaê"></a>
+        <nav aria-label="Navegação principal"><a href="#como-funciona">Como funciona</a><a href="#jogadores">Para jogadores</a><a href="/arena">Para arenas</a><a href="#recursos">Recursos</a><a href="#niveis">Níveis</a>
+          <span class="grupo"><a class="btn sec" href="/sign-in">Entrar</a><a class="btn pri" href="/cadastrar-arena">Cadastrar arena</a></span></nav>
+        <button class="menu" type="button" aria-label="Abrir menu" aria-expanded="false" data-menu style="background:none;border:0;padding:0;color:inherit"><i data-lucide="menu"></i></button>
+        <div class="gaveta"><a href="#como-funciona">Como funciona</a><a href="#jogadores">Para jogadores</a><a href="/arena">Para arenas</a><a href="#recursos">Recursos</a><a href="#niveis">Níveis</a><a href="/sign-in">Entrar</a><a class="bt pri" href="/cadastrar-arena">Cadastrar minha arena</a></div>
+      </header>
+      <div class="grade">
+        <div class="copy">
+          <span class="ey"><i></i>18 modalidades, de futevôlei a CrossFit</span>
           <h1>Achar com quem jogar<br><span>não devia dar tanto trabalho.</span></h1>
           <p>Chega de combinar pelada por print e mensagem solta. No Desafiaê você entra em partida aberta perto de casa, desafia quem quiser, disputa torneio com chaveamento de verdade, reserva quadra e faz aula.</p>
-          <div class="hero-actions">
-            <a class="store-btn hero-store" href="https://apps.apple.com/br/app/desafia%C3%AA/id6807155371" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.7c0-2.2 1.8-3.3 1.9-3.3-1-1.5-2.6-1.7-3.2-1.7-1.4-.1-2.7.8-3.3.8-.7 0-1.7-.8-2.8-.8-1.5 0-2.8.8-3.6 2.1-1.5 2.7-.4 6.6 1.1 8.8.7 1 1.6 2.2 2.7 2.2 1.1 0 1.5-.7 2.8-.7s1.7.7 2.8.7 1.9-1.1 2.6-2.1c.8-1.2 1.2-2.4 1.2-2.4s-2.2-.9-2.2-3.6zM14.3 6.2c.6-.7 1-1.7.9-2.7-.9 0-2 .6-2.6 1.3-.6.7-1.1 1.7-.9 2.7 1 .1 2-.5 2.6-1.3z"/></svg>
-              <span><small>Baixar na</small><strong>App Store</strong></span>
-            </a>
-            <span class="store-btn hero-store is-soon" aria-label="Em breve no Google Play">
-              <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M3.6 2.4c-.3.3-.5.8-.5 1.4v16.4c0 .6.2 1.1.5 1.4l.1.1 9.2-9.2v-.2L3.6 2.4z" fill="#4ac0f2"/><path d="M16 15.3l-3.1-3.1v-.2L16 8.9l.1.1 3.6 2.1c1.1.6 1.1 1.6 0 2.2L16 15.3z" fill="#ffd400"/><path d="M16.1 15.2L12.9 12l-9.3 9.3c.4.4 1 .4 1.7 0l10.8-6.1" fill="#f14c53"/><path d="M16.1 8.8L5.3 2.7c-.7-.4-1.3-.4-1.7 0L12.9 12l3.2-3.2z" fill="#37ab6b"/></svg>
-              <span><small>Em breve no</small><strong>Google Play</strong></span>
-            </span>
+          <div class="acoes">
+            <a class="store" href="https://apps.apple.com/br/app/desafia%C3%AA/id6807155371" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.7c0-2.2 1.8-3.3 1.9-3.3-1-1.5-2.6-1.7-3.2-1.7-1.4-.1-2.7.8-3.3.8-.7 0-1.7-.8-2.8-.8-1.5 0-2.8.8-3.6 2.1-1.5 2.7-.4 6.6 1.1 8.8.7 1 1.6 2.2 2.7 2.2 1.1 0 1.5-.7 2.8-.7s1.7.7 2.8.7 1.9-1.1 2.6-2.1c.8-1.2 1.2-2.4 1.2-2.4s-2.2-.9-2.2-3.6zM14.3 6.2c.6-.7 1-1.7.9-2.7-.9 0-2 .6-2.6 1.3-.6.7-1.1 1.7-.9 2.7 1 .1 2-.5 2.6-1.3z"/></svg><span><small>Baixar na</small><strong>App Store</strong></span></a>
+            <span class="store breve"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 2.4c-.3.3-.5.8-.5 1.4v16.4c0 .6.2 1.1.5 1.4l.1.1 9.2-9.2v-.2L3.6 2.4z" fill="#4ac0f2"/><path d="M16 15.3l-3.1-3.1v-.2L16 8.9l.1.1 3.6 2.1c1.1.6 1.1 1.6 0 2.2L16 15.3z" fill="#ffd400"/><path d="M16.1 15.2L12.9 12l-9.3 9.3c.4.4 1 .4 1.7 0l10.8-6.1" fill="#f14c53"/><path d="M16.1 8.8L5.3 2.7c-.7-.4-1.3-.4-1.7 0L12.9 12l3.2-3.2z" fill="#37ab6b"/></svg><span><small>Em breve no</small><strong>Google Play</strong></span></span>
           </div>
-          <div class="hero-proof">
-            <div class="level-chips"><img src="assets/categoria-d.png" alt="" loading="lazy" /><img src="assets/categoria-c.png" alt="" loading="lazy" /><img src="assets/categoria-b.png" alt="" loading="lazy" /><img src="assets/categoria-a.png" alt="" loading="lazy" /></div>
+          <div class="prova">
+            <div class="hex"><img src="assets/categoria-d.png" alt=""><img src="assets/categoria-c.png" alt=""><img src="assets/categoria-b.png" alt=""><img src="assets/categoria-a.png" alt=""></div>
             <div><strong>Jogador e arena, a mesma conta</strong><small>dá pra trocar de modo sem sair dela.</small></div>
           </div>
         </div>
-        <div class="hero-visual reveal">
-          <div class="orange-orbit"></div>
-          <div class="hero-card main-mascot"><img src="assets/mascote.png" alt="Mascote do Desafiaê segurando uma bola" /></div>
-          <div class="floating-card fc-match" data-pop-delay="900"><span class="icon-bubble"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.3l3.6 2.6-1.4 4.3h-4.4L8.4 9.9 12 7.3z"/><path d="M12 3v4.3M5 8l3.4 1.9M19 8l-3.4 1.9M7 19l1.9-5M17 19l-1.9-5"/></svg></span><div><small>Próxima partida</small><strong>Arena Central • 19h</strong></div><span class="status">Aberta</span></div>
-          <div class="floating-card fc-rank" data-pop-delay="1700"><span class="trophy"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0V4z"/><path d="M8 5H5a3 3 0 0 0 3 4M16 5h3a3 3 0 0 1-3 4"/><path d="M12 12v3M9 20h6M9.6 20c0-1.8.8-3 2.4-3s2.4 1.2 2.4 3"/></svg></span><div><small>Ranking semanal</small><strong>Você subiu 2 posições</strong></div></div>
+        <div class="visual">
+          <div class="orbita"></div>
+          <div class="masc"><img src="assets/mascote.png" alt="Mascote do Desafiaê segurando uma bola"></div>
+          <div class="fc partida"><span class="bolinha"><i data-lucide="volleyball"></i></span><div><small>Próxima partida</small><strong>Arena Central • 19h</strong></div><span class="st">Aberta</span></div>
+          <div class="fc rank"><span class="taca"><i data-lucide="trophy"></i></span><div><small>Ranking semanal</small><strong>Você subiu 2 posições</strong></div></div>
         </div>
       </div>
-      <a class="hero-scroll" href="#como-funciona" aria-label="Ver como funciona">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v13M6 12l6 6 6-6"/></svg>
-      </a>
-    </section>
+    </div>
+  </section>
 
-    <section class="section sport-picker" id="modalidades">
-      <div class="container">
-        <div class="section-heading reveal">
-          <span class="eyebrow">18 modalidades</span>
-          <h2>Qual é a sua?</h2>
-          <p>O app já sabe o formato e a regra de placar de cada uma. Escolha a sua para ver o que ele aplica.</p>
-        </div>
-        <div class="sport-chips" role="tablist" aria-label="Modalidades"><button type="button" role="tab">Futebol</button><button type="button" role="tab">Futevôlei</button><button type="button" role="tab">Beach Tennis</button><button type="button" role="tab">Vôlei</button><button type="button" role="tab">Basquete</button><button type="button" role="tab">Tênis</button><button type="button" role="tab">Padel</button><button type="button" role="tab">Corrida</button><button type="button" role="tab">Futsal</button><button type="button" role="tab">Futebol Society</button><button type="button" role="tab">Vôlei de Quadra</button><button type="button" role="tab">Basquete 3x3</button><button type="button" role="tab">Handebol</button><button type="button" role="tab">Pickleball</button><button type="button" role="tab">Squash</button><button type="button" role="tab">Tênis de Mesa</button><button type="button" role="tab">Hyrox</button><button type="button" role="tab">CrossFit</button></div>
-        <div class="sport-detail" role="tabpanel" aria-live="polite">
-          <h3>Futevôlei</h3>
-          <div class="sport-row"><small>Formato sugerido</small><p>2x2</p></div>
-          <div class="sport-row"><small>Placar em torneio</small><p>1 set até 18 pontos, com 2 de vantagem</p></div>
-          <div class="sport-row"><small>Empate</small><p>Não existe: todo jogo tem vencedor.</p></div>
+  <!-- FAIXA -->
+  <div class="lp-faixa" aria-hidden="true"><div class="corre" data-lp="faixa"></div></div>
+
+  <!-- QUAL É A SUA -->
+  <section class="lp-sua" id="modalidades">
+    <div class="in">
+      <p class="eyebrow">18 modalidades</p>
+      <h2 class="h2" style="margin-top:12px">Qual é a sua?</h2>
+      <p class="lead" style="margin-top:16px">O app já sabe o formato e a regra de placar de cada uma. Escolha a sua pra ver o que ele aplica.</p>
+      <div class="grade">
+        <div class="chips" data-lp="chips"></div>
+        <div class="ficha" data-lp="ficha" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA, com o print do celular -->
+  <section class="lp-comoapp escuro" id="como-funciona">
+    <div class="in grade">
+      <div>
+        <p class="eyebrow">Como funciona</p>
+        <h2 class="h2" style="margin-top:12px">Como o jogo acontece aqui.</h2>
+        <p class="lead" style="margin-top:16px">Jogador e arena usam o mesmo app: um acha onde e com quem jogar, o outro preenche a agenda e cobra sem planilha.</p>
+        <div class="passos">
+          <div class="ps"><span class="n num">01</span><div><h3>Ache o jogo</h3><p>A Home mostra partidas e torneios abertos perto de você, na sua modalidade.</p></div></div>
+          <div class="ps"><span class="n num">02</span><div><h3>Entre ou marque</h3><p>Entre numa partida aberta, crie a sua ou desafie alguém direto.</p></div></div>
+          <div class="ps"><span class="n num">03</span><div><h3>Lance o placar</h3><p>Cada jogo vale 3 pontos pra quem vence e 1 pra quem jogou, no ranking da modalidade.</p></div></div>
+          <div class="ps"><span class="n num">04</span><div><h3>Reserve e treine</h3><p>Quadra, aula avulsa e mensalidade da arena, pagas pelo app.</p></div></div>
         </div>
       </div>
-    </section>
+      <div class="palco"><div class="brilho"></div><div class="fone"><img src="assets/screens/player-home.png" alt="Início do app do jogador"></div></div>
+    </div>
+  </section>
 
-    <section class="section intro" id="como-funciona">
-      <div class="container">
-        <div class="section-heading reveal"><span class="eyebrow">Como funciona</span><h2>Como o jogo acontece aqui.</h2><p>Jogador e arena usam o mesmo app: um acha onde e com quem jogar, o outro preenche a agenda e cobra sem planilha.</p></div>
-        <div class="steps-grid">
-          <article class="step-card reveal"><span class="step-number">01</span><div class="feature-icon"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></div><h3>Ache o jogo</h3><p>A Home mostra partidas e torneios abertos perto de você, na sua modalidade.</p></article>
-          <article class="step-card reveal"><span class="step-number">02</span><div class="feature-icon"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><h3>Entre ou marque</h3><p>Entre numa partida aberta, crie a sua ou desafie alguém direto.</p></article>
-          <article class="step-card reveal"><span class="step-number">03</span><div class="feature-icon"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-9"/><path d="M15 6h6v6"/></svg></div><h3>Lance o placar</h3><p>Cada jogo vale 3 pontos para quem vence e 1 para quem jogou, no ranking da modalidade.</p></article>
-          <article class="step-card reveal"><span class="step-number">04</span><div class="feature-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.35-9.5-8.8C.7 7.9 2.4 4.5 6 4.5c2 0 3.4 1.1 4 2.3.6-1.2 2-2.3 4-2.3 3.6 0 5.3 3.4 3.5 6.7C19 15.65 12 20 12 20z"/></svg></div><h3>Reserve e treine</h3><p>Quadra, aula avulsa e mensalidade da arena, pagas pelo app.</p></article>
+  <!-- REGRA DOS PONTOS -->
+  <section class="lp-pontos claro">
+    <div class="in grade">
+      <div>
+        <p class="eyebrow">Ranking</p>
+        <h2 class="h2" style="margin-top:12px">Todo jogo conta. Ganhar conta mais.</h2>
+        <p class="lead" style="margin-top:16px">Cada jogo com placar lançado soma no ranking da modalidade, dentro da sua cidade e do seu nível, na semana e no mês.</p>
+        <div class="placar">
+          <div class="casa"><p class="dig num">3</p><b>pontos</b><span>pra quem vence</span></div>
+          <div class="casa dois"><p class="dig num">1</p><b>ponto</b><span>pra quem jogou</span></div>
         </div>
       </div>
-    </section>
+      <div class="fone"><img src="assets/screens/player-ranking.png" alt="Ranking do app"></div>
+    </div>
+  </section>
 
-    <section class="section split-section player-section" id="jogadores">
-      <div class="container split-grid">
-        <div class="device-showcase reveal">
-          <div class="blob"></div>
-          <div class="phone phone-left"><img src="assets/screens/player-desafio.png" alt="Desafio confirmado entre Time Bia e Time Léo no app Desafiaê" loading="lazy" /></div>
-          <div class="phone phone-right"><img src="assets/screens/player-marca.png" alt="Ranking de um desafio de marca de corrida de 5 km no app Desafiaê" loading="lazy" /></div>
-        </div>
-        <div class="split-copy reveal">
-          <span class="eyebrow">Para jogadores</span>
-          <h2>Para quem só quer jogar.</h2>
-          <p>Você entra em jogo aberto, desafia um rival, disputa torneio e acompanha o próprio histórico. O placar de cada jogo entra no ranking semanal e mensal da modalidade.</p>
-          <ul class="check-list"><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Partidas por modalidade, nível e localização — com aviso quando abre jogo perto de você</li><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Desafie jogadores e times, ou dispute a melhor marca na corrida, no Hyrox e no CrossFit</li><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Torneios com inscrição pelo app, ingresso com QR code e chaveamento ao vivo</li><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Reserve quadra, faça aulas e contrate o plano de mensalidade da arena</li><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Histórico, estatísticas, ranking e o confronto com cada rival</li><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Premium com desafios ilimitados e desconto nas taxas; Elite sem taxa, com estatísticas completas e selo</li></ul>
-          <a href="/funcionalidades" class="text-link">Ver tudo o que o app faz <span>→</span></a>
-        </div>
+  <!-- DOIS LADOS -->
+  <section class="lp-lados" id="jogadores">
+    <div class="in">
+      <div class="cab">
+        <p class="eyebrow">Um app, dois lados</p>
+        <h2 class="h2">Dois lados da mesma quadra.</h2>
+        <p class="lead">Quem joga acha partida, rival e torneio. Quem tem arena enche a agenda e recebe sem planilha.</p>
       </div>
-    </section>
-
-    <section class="section split-section arena-section" id="arenas">
-      <div class="container">
-        <div class="split-grid reverse">
-        <div class="split-copy reveal">
-          <span class="eyebrow light">Para arenas</span>
-          <h2>Sua arena fora do grupo do WhatsApp.</h2>
-          <p>Reserva, torneio, aula e mensalidade no mesmo painel — e sua arena aparecendo para quem está procurando onde jogar.</p>
-          <ul class="check-list light-list"><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Quadras com preço por horário, reservas, lista de espera e horário fixo</li><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Torneio, temporada e desafio entre arenas, com chaveamento automático</li><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Aulas e mensalidade dos alunos, pagas por Pix ou cartão</li><li><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span> Financeiro, ocupação e sua equipe avisada na hora que algo pede decisão</li></ul>
-          <div class="arena-actions">
-            <a href="/arena" class="btn btn-white">Conhecer o Desafiaê para arenas <span>→</span></a>
-            <a href="/arena#planos" class="text-link light">Ver os planos <span>→</span></a>
-          </div>
-        </div>
-        <div class="arena-panel reveal">
-          <div class="dashboard">
-            <div class="dash-head"><img src="assets/logo-simplificada.png" alt="" /><div><b>Arena Desafiaê</b><small>Painel de gestão</small></div><span>•••</span></div>
-            <div class="dash-metrics"><div><small>Reservas hoje</small><b>9</b></div><div><small>Ocupação</small><b>71%</b></div></div>
-            <div class="dash-title"><b>Agenda de hoje</b><small>Ver calendário</small></div>
-            <div class="booking"><span>18:00</span><div><b>Quadra 01</b><small>Futevôlei • Confirmada</small></div><i></i></div>
-            <div class="booking"><span>19:30</span><div><b>Quadra 02</b><small>Beach Tennis • Confirmada</small></div><i></i></div>
-            <div class="booking"><span>21:00</span><div><b>Quadra 01</b><small>Horário disponível</small></div><button>Divulgar</button></div>
-          </div>
-          <div class="arena-float"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1.5a1.5 1.5 0 0 0 0 3V14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1.5a1.5 1.5 0 0 0 0-3V8z"/><path d="M14 6.5v11" stroke-dasharray="2 2.4"/></svg><div><small>Check-ins via QR Code</small><b>83 neste mês</b></div></div>
-        </div>
-        </div>
-
-        <div class="arena-pillars">
-          <article class="arena-pillar reveal"><b>01 · Descoberta</b><h3>Achada por quem procura</h3><ul><li>Sua arena na busca de quem quer jogar perto, com foto, quadras e horário de funcionamento</li><li>Avaliação com estrelas só de quem jogou ali de verdade</li><li>Aviso para os jogadores próximos quando você abre torneio ou partida</li></ul></article>
-          <article class="arena-pillar reveal"><b>02 · Operação</b><h3>Agenda aprovada num toque</h3><ul><li>Reserva com preço por horário, aprovada ou recusada direto no painel</li><li>Lista de espera automática e horário fixo toda semana, sem duplicar</li><li>Vínculo por modalidade: você decide quem representa a arena, e em que nível</li></ul></article>
-          <article class="arena-pillar reveal"><b>03 · Competição</b><h3>Torneio sem planilha</h3><ul><li>Chaveamento automático, check-in por QR code e página ao vivo do torneio</li><li>Temporada somando as etapas num circuito, com link público que não expira</li><li>Desafio entre arenas e desafio recorrente — sua liga fixa, sorteada sozinha</li></ul></article>
-          <article class="arena-pillar reveal"><b>04 · Gestão</b><h3>Contas e equipe no lugar</h3><ul><li>Financeiro com reservas, torneios, aulas e mensalidades no mesmo extrato</li><li>Ocupação por dia e horário, e quem sumiu da arena para você chamar de volta</li><li>Equipe com papel: atendente, professor e moderador veem só o que precisam</li></ul></article>
-        </div>
-
-
-        <div class="arena-live reveal">
-          <span class="eyebrow light">Chaveamento em tempo real</span>
-          <h3>O link do torneio abre isto aqui.</h3>
-          <p>A página pública que sua arena compartilha no grupo: chaveamento, placar, status de cada jogo, quadra e horário — fora do app e sem login.</p>
-          <div class="live-demo" data-live-bracket data-live-fit></div>
-          <small>Demonstração com duplas fictícias.</small>
-        </div>
-        <div class="arena-money reveal">
-          <div>
-            <span class="eyebrow light">Como você recebe</span>
-            <h3>O dinheiro cai direto na sua conta.</h3>
-            <p>Pix e cartão caem na conta do Mercado Pago da sua arena — o Desafiaê nunca fica com ele. A taxa do app sai da sua parte, a não ser que você escolha repassar a inscrição do torneio ao atleta.</p>
-            <a href="/arena#calculadora" class="text-link light">Fazer a conta antes de assinar <span>→</span></a>
-          </div>
-          <ul class="money-rates">
-            <li>Reserva de quadra <b>10%</b></li>
-            <li>Inscrição de torneio <b>10%</b></li>
-            <li>Aula avulsa <b>10%</b></li>
-            <li>Mensalidade do plano de aulas <b>2%</b></li>
+      <div class="quadra2">
+        <div class="lado j">
+          <p class="eyebrow"><i data-lucide="user"></i>Pra quem joga</p>
+          <h3>Pra quem só quer jogar.</h3>
+          <ul>
+            <li><i data-lucide="map-pin"></i>Partidas por modalidade, nível e localização, com aviso quando abre jogo perto de você</li>
+            <li><i data-lucide="zap"></i>Desafie jogadores e times, ou dispute a melhor marca na corrida, no Hyrox e no CrossFit</li>
+            <li><i data-lucide="trophy"></i>Torneios com inscrição pelo app, ingresso com QR code e chaveamento ao vivo</li>
+            <li><i data-lucide="calendar"></i>Reserve quadra, faça aulas e contrate o plano de mensalidade da arena</li>
+            <li><i data-lucide="bar-chart-3"></i>Histórico, estatísticas, ranking e o confronto com cada rival</li>
+            <li><i data-lucide="gem"></i>Premium com desafios ilimitados e desconto nas taxas; Elite sem taxa, com estatísticas completas e selo</li>
           </ul>
+          <a class="ir" href="/funcionalidades">Ver tudo o que o app faz<i data-lucide="arrow-right"></i></a>
         </div>
-
-        <div class="arena-plans">
-          <article class="arena-plan reveal"><b>Básico</b><p>Cadastro das quadras, partidas, gerenciamento dos serviços e visibilidade no Desafiaê.</p></article>
-          <article class="arena-plan reveal"><b>Premium</b><p>Tudo do Básico, mais reservas de quadra, financeiro completo, desafio entre arenas e desafio recorrente.</p></article>
-          <article class="arena-plan is-top reveal"><b>Elite</b><p>Tudo do Premium, mais aulas e turmas, planos de mensalidade dos alunos e temporada com ranking público.</p></article>
+        <div class="lado a">
+          <p class="eyebrow"><i data-lucide="store"></i>Pra quem tem arena</p>
+          <h3>Sua arena fora do grupo do WhatsApp.</h3>
+          <ul>
+            <li><i data-lucide="calendar-clock"></i>Quadras com preço por horário, reservas, lista de espera e horário fixo</li>
+            <li><i data-lucide="trophy"></i>Torneio, temporada e desafio entre arenas, com chaveamento automático</li>
+            <li><i data-lucide="graduation-cap"></i>Aulas e mensalidade dos alunos, pagas por Pix ou cartão</li>
+            <li><i data-lucide="bell-ring"></i>Financeiro, ocupação e sua equipe avisada na hora que algo pede decisão</li>
+          </ul>
+          <a class="ir" href="#arenas">Ver o painel da arena<i data-lucide="arrow-down"></i></a>
         </div>
+        <div class="rede" aria-hidden="true"></div>
+        <div class="x" aria-hidden="true">×</div>
+      </div>
+    </div>
+  </section>
 
-        <div class="arena-foot reveal">
-          <small>Mensal ou anual — os valores de cada plano aparecem no app, na hora de assinar. Em Hyrox e CrossFit sua arena entra como vitrine e com as aulas, e essas modalidades têm níveis próprios: Iniciante, Scaled, RX e RX+ no CrossFit; Open e Pro no Hyrox.</small>
-          <a href="/arena#planos" class="text-link light">Comparar os planos <span>→</span></a>
+  <!-- PAINEL DA ARENA -->
+  <section class="lp-painelarena escuro" id="arenas">
+    <div class="in grade">
+      <div>
+        <p class="eyebrow">Para arenas</p>
+        <h2 class="h2" style="margin-top:12px">Por dentro do painel da arena.</h2>
+        <p class="lead" style="margin-top:16px">Reserva, torneio, aula e mensalidade no mesmo painel, e sua arena aparecendo pra quem está procurando onde jogar.</p>
+        <div class="frentes4">
+          <div class="f4"><span class="rot">01 · Descoberta</span><h3>Achada por quem procura</h3><ul><li>Sua arena na busca de quem quer jogar perto, com foto, quadras e horário de funcionamento</li><li>Avaliação com estrelas só de quem jogou ali de verdade</li><li>Aviso pros jogadores próximos quando você abre torneio ou partida</li></ul></div>
+          <div class="f4"><span class="rot">02 · Operação</span><h3>Agenda aprovada num toque</h3><ul><li>Reserva com preço por horário, aprovada ou recusada direto no painel</li><li>Lista de espera automática e horário fixo toda semana, sem duplicar</li><li>Vínculo por modalidade: você decide quem representa a arena, e em que nível</li></ul></div>
+          <div class="f4"><span class="rot">03 · Competição</span><h3>Torneio sem planilha</h3><ul><li>Chaveamento automático, check-in por QR code e página ao vivo do torneio</li><li>Temporada somando as etapas num circuito, com link público que não expira</li><li>Desafio entre arenas e desafio recorrente: sua liga fixa, sorteada sozinha</li></ul></div>
+          <div class="f4"><span class="rot">04 · Gestão</span><h3>Contas e equipe no lugar</h3><ul><li>Financeiro com reservas, torneios, aulas e mensalidades no mesmo extrato</li><li>Ocupação por dia e horário, e quem sumiu da arena pra você chamar de volta</li><li>Equipe com papel: atendente, professor e moderador veem só o que precisam</li></ul></div>
         </div>
       </div>
-    </section>
+      <div class="painel2" aria-label="Painel da arena, exemplo">
+        <div class="topo-p"><div><b>Arena Desafiaê</b><small>Painel de gestão</small></div><i data-lucide="ellipsis"></i></div>
+        <div class="kpis"><div class="kpi laranja"><span>Reservas hoje</span><b class="num">9</b></div><div class="kpi"><span>Ocupação</span><b class="num">71%</b></div></div>
+        <div class="ag">
+          <div class="t"><span>Agenda de hoje</span><span>Ver calendário</span></div>
+          <div class="r"><b class="num">18:00</b><span>Quadra 01<small>Futevôlei</small></span><span class="ok">Confirmada</span></div>
+          <div class="r"><b class="num">19:30</b><span>Quadra 02<small>Beach Tennis</small></span><span class="ok">Confirmada</span></div>
+          <div class="r"><b class="num">21:00</b><span>Quadra 01<small>Horário disponível</small></span><span class="livre">Divulgar</span></div>
+        </div>
+        <div class="qr"><i data-lucide="qr-code"></i><span>Check-ins via QR Code <b class="num">83</b> neste mês</span></div>
+      </div>
+    </div>
+  </section>
 
-    <section class="section resources" id="recursos">
-      <div class="container">
-        <div class="section-heading reveal"><span class="eyebrow">Além da partida</span><h2>Não é só marcar jogo.</h2></div>
-        <div class="resource-grid">
-          <article class="resource-card large reveal"><div class="resource-copy"><span class="tag">COMUNIDADE</span><h3>Encontre sua turma.</h3><p>Convide quem você já conhece, entre em partida aberta de quem você não conhece e veja o confronto contra cada rival.</p></div><div class="people-bubbles"><i></i><span style="--orbit-delay:0s"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.3l3.6 2.6-1.4 4.3h-4.4L8.4 9.9 12 7.3z"/><path d="M12 3v4.3M5 8l3.4 1.9M19 8l-3.4 1.9M7 19l1.9-5M17 19l-1.9-5"/></svg></span><span style="--orbit-delay:-5s"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 3c3 3 3 15 0 18M3 12c3-3 15-3 18 0M5.6 6.2c3 2 9.8 2 12.8 0M5.6 17.8c3-2 9.8-2 12.8 0"/></svg></span><span style="--orbit-delay:-10s"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.3l3.6 2.6-1.4 4.3h-4.4L8.4 9.9 12 7.3z"/><path d="M12 3v4.3M5 8l3.4 1.9M19 8l-3.4 1.9M7 19l1.9-5M17 19l-1.9-5"/></svg></span><span style="--orbit-delay:-15s"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 3c3 3 3 15 0 18M3 12c3-3 15-3 18 0M5.6 6.2c3 2 9.8 2 12.8 0M5.6 17.8c3-2 9.8-2 12.8 0"/></svg></span></div></article>
-          <article class="resource-card reveal"><span class="tag">EVOLUÇÃO</span><div class="mini-trophy"><svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0V4z"/><path d="M8 5H5a3 3 0 0 0 3 4M16 5h3a3 3 0 0 1-3 4"/><path d="M12 12v3M9 20h6M9.6 20c0-1.8.8-3 2.4-3s2.4 1.2 2.4 3"/></svg></div><h3>Jogue, pontue, conquiste.</h3><p>Desafio de marca na corrida, no Hyrox e no CrossFit. Torneio com chaveamento. Ranking toda semana.</p></article>
-          <article class="resource-card reveal"><span class="tag">PRATICIDADE</span><div class="calendar-art"><div class="calendar-flip" aria-hidden="true"><ul><li>23</li><li>24</li><li>25</li><li>26</li><li>27</li></ul></div><span class="sr-only">25</span><small>MAI</small></div><h3>Agenda sem complicação.</h3><p>Reserva de quadra, aula avulsa e mensalidade, com ingresso e QR code no celular.</p></article>
+  <!-- CHAVEAMENTO AO VIVO -->
+  <section class="lp-chave">
+    <div class="in">
+      <div class="cab">
+        <p class="eyebrow">Chaveamento em tempo real</p>
+        <h2 class="h2">O link do torneio abre isto aqui.</h2>
+        <p class="lead">A página pública que sua arena compartilha no grupo: chaveamento, placar, status de cada jogo, quadra e horário, fora do app e sem login.</p>
+      </div>
+      <div class="caixa"><div class="live-demo" data-live-bracket data-live-fit></div></div>
+      <p class="aviso">Demonstração com duplas fictícias.</p>
+    </div>
+  </section>
+
+  <!-- AGREGADORES -->
+  <section class="lp-agreg escuro">
+    <div class="in">
+      <p class="eyebrow">TotalPass e Wellhub</p>
+      <h2 class="h2" style="margin-top:12px">Aluno de agregador entra na aula sem ninguém digitar nada.</h2>
+      <p class="lead" style="margin-top:16px">Ele não precisa ter o Desafiaê: o check-in que ele faz no app do agregador chega na sua arena e cai sozinho na aula certa.</p>
+      <div class="fluxo3">
+        <div class="no"><span class="rot">No app do agregador</span><b>Check-in do aluno</b><span>Feito no TotalPass ou no Wellhub, como ele já faz.</span><div class="chips"><i>TotalPass</i><i>Wellhub</i></div></div>
+        <div class="seta" aria-hidden="true"><i data-lucide="arrow-right"></i></div>
+        <div class="no meio"><span class="rot">No Desafiaê</span><b>Aluno criado sozinho</b><span>Aparece na aula e em Meus atletas, sem cadastro na recepção.</span></div>
+        <div class="seta" aria-hidden="true"><i data-lucide="arrow-right"></i></div>
+        <div class="no"><span class="rot">Na turma</span><b>Cai na aula da modalidade</b><span>A que começa até 15 min antes ou depois do check-in.</span></div>
+      </div>
+      <ul class="regras4">
+        <li><i data-lucide="check"></i>Fora da janela, o check-in fica como "sem aula" pra equipe encaixar ou recusar, e o professor da turma recebe push.</li>
+        <li><i data-lucide="check"></i>A vaga do agregador conta na lotação da aula e no teto de vagas por turma, então a turma não estoura.</li>
+        <li><i data-lucide="check"></i>Aulas publicadas no app deles abrem pra reserva 24h antes e fecham no início; a reserva só é confirmada se couber.</li>
+        <li><i data-lucide="check"></i>O valor por visita é estimativa e fica fora do "Recebido": quem paga é o agregador, fora do Mercado Pago.</li>
+      </ul>
+      <span class="selo"><i data-lucide="gem"></i>Plano Elite</span>
+    </div>
+  </section>
+
+  <!-- DINHEIRO E PLANOS -->
+  <section class="lp-grana">
+    <div class="in">
+      <p class="eyebrow">Como você recebe</p>
+      <h2 class="h2" style="margin-top:12px">O dinheiro cai direto na sua conta.</h2>
+      <p class="lead" style="margin-top:16px">Pix e cartão caem na conta do Mercado Pago da sua arena, e o Desafiaê nunca fica com ele. A taxa do app sai da sua parte, a não ser que você escolha repassar a inscrição do torneio ao atleta.</p>
+      <div class="taxas">
+        <div class="tx"><b class="num">10%</b><span>Reserva de quadra</span></div>
+        <div class="tx"><b class="num">10%</b><span>Inscrição de torneio</span></div>
+        <div class="tx"><b class="num">10%</b><span>Aula avulsa</span></div>
+        <div class="tx"><b class="num">2%</b><span>Mensalidade do plano de aulas</span></div>
+      </div>
+      <div class="planos3">
+        <div class="p3"><h3>Básico</h3><p>Cadastro das quadras, partidas, gerenciamento dos serviços e visibilidade no Desafiaê.</p></div>
+        <div class="p3"><h3>Premium</h3><p>Tudo do Básico, mais reservas de quadra, financeiro completo, desafio entre arenas e desafio recorrente.</p></div>
+        <div class="p3"><h3>Elite</h3><p>Tudo do Premium, mais aulas e turmas, planos de mensalidade dos alunos, temporada com ranking público e TotalPass e Wellhub.</p></div>
+      </div>
+      <p class="miudo">Mensal ou anual: os valores de cada plano aparecem no app, na hora de assinar. Em Hyrox e CrossFit sua arena entra como vitrine e com as aulas, e essas modalidades têm níveis próprios: Iniciante, Scaled, RX e RX+ no CrossFit; Open e Pro no Hyrox.</p>
+      <a class="ir" href="/arena">Conhecer o Desafiaê pra arenas<i data-lucide="arrow-right"></i></a>
+    </div>
+  </section>
+
+  <!-- ALÉM DA PARTIDA -->
+  <section class="lp-alem" id="recursos">
+    <div class="in">
+      <p class="eyebrow">Além da partida</p>
+      <h2 class="h2" style="margin-top:12px">Não é só marcar jogo.</h2>
+      <div class="grade">
+        <div class="c"><span class="tag">COMUNIDADE</span><span class="ico"><i data-lucide="users"></i></span><h3>Encontre sua turma.</h3><p>Convide quem você já conhece, entre em partida aberta de quem você não conhece e veja o confronto contra cada rival.</p></div>
+        <div class="c"><span class="tag">EVOLUÇÃO</span><span class="ico"><i data-lucide="trophy"></i></span><h3>Jogue, pontue, conquiste.</h3><p>Desafio de marca na corrida, no Hyrox e no CrossFit. Torneio com chaveamento. Ranking toda semana.</p></div>
+        <div class="c"><span class="tag">PRATICIDADE</span><div class="dias"><span class="num">23</span><span class="num">24</span><span class="num">25</span><span class="num">26</span><span class="on num">27<small>MAI</small></span></div><h3>Agenda sem complicação.</h3><p>Reserva de quadra, aula avulsa e mensalidade, com ingresso e QR code no celular.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NÍVEIS -->
+  <section class="lp-niveis escuro" id="niveis">
+    <div class="in">
+      <p class="eyebrow">Do primeiro jogo ao profissional</p>
+      <h2 class="h2" style="margin-top:12px">Seu nível, quem define é a arena.</h2>
+      <p class="lead" style="margin-top:16px">Cinco categorias, uma por modalidade. Você pede o nível a uma arena onde joga e ela aprova ou concede outro. O nível não sobe nem desce com resultado: ele diz em que partida você cabe.</p>
+      <div class="escada">
+        <div class="deg"><img src="assets/categoria-d.png" alt=""><span class="cat">Categoria D</span><h3>Aprendiz</h3><p>O início da jornada, com os primeiros jogos e fundamentos.</p></div>
+        <div class="deg"><img src="assets/categoria-c.png" alt=""><span class="cat">Categoria C</span><h3>Iniciante</h3><p>Mais ritmo de jogo e consistência nas partidas.</p></div>
+        <div class="deg"><img src="assets/categoria-b.png" alt=""><span class="cat">Categoria B</span><h3>Intermediário</h3><p>Boa leitura de jogo e mais confiança em quadra.</p></div>
+        <div class="deg"><img src="assets/categoria-a.png" alt=""><span class="cat">Categoria A</span><h3>Avançado</h3><p>Referência entre os jogadores mais competitivos.</p></div>
+        <div class="deg"><img src="assets/categoria-p.png" alt=""><span class="cat">Categoria P</span><h3>Profissional</h3><p>O nível máximo: técnica, competitividade e resultado.</p></div>
+      </div>
+      <p class="rodape">Nível validado por uma arena aparece com o selo de quem validou e a data. Trocar de arena na modalidade ou mudar o próprio nível derruba a validação.</p>
+    </div>
+  </section>
+
+  <!-- TELAS -->
+  <section class="lp-telas">
+    <div class="in">
+      <div style="text-align:center;display:grid;gap:12px;justify-items:center">
+        <p class="eyebrow">Por dentro do app</p>
+        <h2 class="h2">As telas, sem maquiagem.</h2>
+      </div>
+      <div class="fila">
+        <figure><div class="fone"><img src="assets/screens/player-desafio.png" alt="Tela de desafio"></div><figcaption><b>Desafio</b><span>Escolha o rival, a data e provoque.</span></figcaption></figure>
+        <figure><div class="fone"><img src="assets/screens/player-home.png" alt="Início do jogador"></div><figcaption><b>Início</b><span>Partidas e torneios abertos perto de você.</span></figcaption></figure>
+        <figure><div class="fone"><img src="assets/screens/player-profile.png" alt="Perfil do jogador"></div><figcaption><b>Perfil</b><span>Nível por modalidade, histórico e conquistas.</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAMADA -->
+  <section class="lp-cta" id="baixar">
+    <div class="in grade">
+      <div>
+        <h2>Chegou a hora de entrar em jogo.</h2>
+        <p>O Desafiaê é grátis pra jogar: partida, desafio, torneio e ranking não custam nada. Premium e Elite são opcionais.</p>
+        <div class="lojas">
+          <a class="loja" href="https://apps.apple.com/br/app/desafia%C3%AA/id6807155371" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg><span><small>Baixar na</small><b>App Store</b></span></a>
+          <span class="loja breve"><i data-lucide="play"></i><span><small>Em breve no</small><b>Google Play</b></span></span>
+          <p class="miudo">Pra arenas, o cadastro é pelo mesmo app: é só escolher "represento uma arena".</p>
         </div>
       </div>
-    </section>
+      <img class="mascote" src="assets/mascote-em-acao.png" alt="">
+    </div>
+  </section>
 
-    <section class="section levels-section" id="niveis">
-      <div class="container">
-        <div class="section-heading reveal"><span class="eyebrow">Do primeiro jogo ao profissional</span><h2>Seu nível, quem define é a arena.</h2><p>São cinco categorias, uma por modalidade. Você pede o nível a uma arena onde joga e ela aprova ou concede outro. O nível não sobe nem desce com resultado: ele diz em que partida você cabe.</p></div>
-        <div class="levels-grid">
-          <article class="level-card reveal" style="--flare-delay:0s"><span class="icon-flare" style="--icon-src:url(assets/categoria-d.png)"><img src="assets/categoria-d.png" alt="Selo da categoria D" width="88" height="88" loading="lazy" /></span><span class="level-tag">Categoria D</span><h3>Aprendiz</h3><p>O início da jornada, com os primeiros jogos e fundamentos.</p></article>
-          <article class="level-card reveal" style="--flare-delay:.6s"><span class="icon-flare" style="--icon-src:url(assets/categoria-c.png)"><img src="assets/categoria-c.png" alt="Selo da categoria C" width="88" height="88" loading="lazy" /></span><span class="level-tag">Categoria C</span><h3>Iniciante</h3><p>Mais ritmo de jogo e consistência nas partidas.</p></article>
-          <article class="level-card reveal" style="--flare-delay:1.2s"><span class="icon-flare" style="--icon-src:url(assets/categoria-b.png)"><img src="assets/categoria-b.png" alt="Selo da categoria B" width="88" height="88" loading="lazy" /></span><span class="level-tag">Categoria B</span><h3>Intermediário</h3><p>Boa leitura de jogo e mais confiança em quadra.</p></article>
-          <article class="level-card reveal" style="--flare-delay:1.8s"><span class="icon-flare" style="--icon-src:url(assets/categoria-a.png)"><img src="assets/categoria-a.png" alt="Selo da categoria A" width="88" height="88" loading="lazy" /></span><span class="level-tag">Categoria A</span><h3>Avançado</h3><p>Referência entre os jogadores mais competitivos.</p></article>
-          <article class="level-card reveal level-pro" style="--flare-delay:2.4s"><span class="icon-flare" style="--icon-src:url(assets/categoria-p.png)"><img src="assets/categoria-p.png" alt="Selo da categoria Profissional" width="88" height="88" loading="lazy" /></span><span class="level-tag">Categoria P</span><h3>Profissional</h3><p>O nível máximo: técnica, competitividade e resultado.</p></article>
-        </div>
+  <!-- RODAPÉ -->
+  <footer class="lp-rodape">
+    <div class="in">
+      <div class="grade">
+        <div><a class="logo" href="#inicio"><img src="assets/logo-simbolo-laranja.png" alt="">Desafiaê</a><p class="lema">Conecte. Jogue. Evolua.</p></div>
+        <div><h4>Desafiaê</h4><ul><li><a href="#como-funciona">Como funciona</a></li><li><a href="/funcionalidades">Funcionalidades</a></li><li><a href="/regras">Regras</a></li><li><a href="/pagamentos">Pagamentos</a></li></ul></div>
+        <div><h4>Perfis</h4><ul><li><a href="#jogadores">Jogadores</a></li><li><a href="#arenas">Arenas</a></li><li><a href="/arena">Desafiaê pra arenas</a></li></ul></div>
+        <div><h4>Contato</h4><ul><li><a href="mailto:suporte@desafiae.com">suporte@desafiae.com</a></li><li><a href="https://www.instagram.com/desafiaeh" target="_blank" rel="noopener">Instagram</a></li><li><a href="/termos">Termos de Uso</a></li><li><a href="/privacidade">Privacidade</a></li><li><a href="/excluir-conta">Excluir conta</a></li></ul></div>
       </div>
-    </section>
-
-    <section class="section app-preview">
-      <div class="container preview-wrap reveal">
-        <div class="preview-copy"><span class="eyebrow">Por dentro do app</span><h2>As telas, sem maquiagem.</h2><p>O app do jogador e o painel da arena, do jeito que aparecem no celular.</p></div>
-        <div class="tour">
-          <div class="tour-modes" role="tablist" aria-label="Modo"></div>
-          <div class="tour-shots" role="tabpanel" aria-live="polite">
-            <figure class="tour-shot"><img src="assets/screens/player-home.png" alt="Home — App do jogador do Desafiaê" loading="lazy" /><figcaption><b>Home</b>Partidas e torneios abertos perto de você.</figcaption></figure>
-            <figure class="tour-shot"><img src="assets/screens/player-ranking.png" alt="Ranking — App do jogador do Desafiaê" loading="lazy" /><figcaption><b>Ranking</b>Ranking semanal e mensal, por modalidade.</figcaption></figure>
-            <figure class="tour-shot"><img src="assets/screens/player-profile.png" alt="Perfil — App do jogador do Desafiaê" loading="lazy" /><figcaption><b>Perfil</b>Nível por modalidade, histórico e conquistas.</figcaption></figure>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section cta-section" id="baixar">
-      <div class="container cta-box reveal">
-        <div class="cta-ball ball-1"></div><div class="cta-ball ball-2"></div>
-        <div class="cta-content"><img src="assets/logo-simplificada.png" alt="" /><span class="eyebrow light">Baixar</span><h2>Chegou a hora de entrar em jogo.</h2><p>O Desafiaê é grátis para jogar: partida, desafio, torneio e ranking não custam nada. Premium e Elite são opcionais.</p>
-          <div class="store-buttons">
-            <a class="store-btn" href="https://apps.apple.com/br/app/desafia%C3%AA/id6807155371" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M16.4 12.7c0-2.2 1.8-3.3 1.9-3.3-1-1.5-2.6-1.7-3.2-1.7-1.4-.1-2.7.8-3.3.8-.7 0-1.7-.8-2.8-.8-1.5 0-2.8.8-3.6 2.1-1.5 2.7-.4 6.6 1.1 8.8.7 1 1.6 2.2 2.7 2.2 1.1 0 1.5-.7 2.8-.7s1.7.7 2.8.7 1.9-1.1 2.6-2.1c.8-1.2 1.2-2.4 1.2-2.4s-2.2-.9-2.2-3.6zM14.3 6.2c.6-.7 1-1.7.9-2.7-.9 0-2 .6-2.6 1.3-.6.7-1.1 1.7-.9 2.7 1 .1 2-.5 2.6-1.3z"/></svg>
-              <span><small>Baixar na</small><strong>App Store</strong></span>
-            </a>
-            <span class="store-btn is-soon" aria-label="Em breve no Google Play">
-              <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M3.6 2.4c-.3.3-.5.8-.5 1.4v16.4c0 .6.2 1.1.5 1.4l.1.1 9.2-9.2v-.2L3.6 2.4z" fill="#4ac0f2"/><path d="M16 15.3l-3.1-3.1v-.2L16 8.9l.1.1 3.6 2.1c1.1.6 1.1 1.6 0 2.2L16 15.3z" fill="#ffd400"/><path d="M16.1 15.2L12.9 12l-9.3 9.3c.4.4 1 .4 1.7 0l10.8-6.1" fill="#f14c53"/><path d="M16.1 8.8L5.3 2.7c-.7-.4-1.3-.4-1.7 0L12.9 12l3.2-3.2z" fill="#37ab6b"/></svg>
-              <span><small>Em breve no</small><strong>Google Play</strong></span>
-            </span>
-          </div>
-          <small class="form-note">Para arenas, o cadastro é pelo mesmo app — é só escolher "represento uma arena".</small>
-        </div>
-      </div>
-    </section>    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container footer-grid"><div class="footer-brand"><img src="assets/logo-completa.png" alt="Desafiaê" /><p>Conecte. Jogue. Evolua.</p></div><div class="footer-links"><div><b>Desafiaê</b><a href="#como-funciona">Como funciona</a><a href="#recursos">Recursos</a><a href="#niveis">Níveis</a><a href="/funcionalidades">Funcionalidades</a><a href="/regras">Regras</a><a href="/pagamentos">Pagamentos</a><a href="#baixar">Baixar o app</a></div><div><b>Perfis</b><a href="#jogadores">Jogadores</a><a href="#arenas">Arenas</a><a href="/arena">Desafiaê para arenas</a></div><div><b>Contato</b><a href="mailto:suporte@desafiae.com">suporte@desafiae.com</a><a href="https://www.instagram.com/desafiaeh" target="_blank" rel="noopener">Instagram</a><a href="/termos">Termos de Uso</a><a href="/privacidade">Privacidade</a><a href="/excluir-conta">Excluir conta</a></div></div></div>
-    <div class="container footer-bottom"><span>© 2026 Desafiaê. Todos os direitos reservados.</span></div>
+      <p class="fim">© 2026 Desafiaê. Todos os direitos reservados.</p>
+    </div>
   </footer>
-  <script src="script.js"></script>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+  <script src="lp.js"></script>
   <script src="bracket-live.js"></script>
 </body>
 </html>
