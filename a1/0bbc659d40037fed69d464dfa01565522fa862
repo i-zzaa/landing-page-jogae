@@ -1,0 +1,55 @@
+desafiae/3d.html
+  s_66c4df9f869022::t_88167dfb7f1bf6 89,98,146,168,593
+  s_66c4df9f869022::t_c78da316df59f1 1-88,90-97,99-143,145,147-148,150-158,162-167,169-170,199-202,204-207,209-387,389-392,394-589,594-609,612-678
+  s_66c4df9f869022::t_a83a2639fc2b5d 144,203
+  s_66c4df9f869022::t_dbc8db0edf7aa1 149,171-184,186-189,191-198,590-592,610-611
+  s_66c4df9f869022::t_f96b065062968d 159-161,208
+  s_66c4df9f869022::t_8919899e2444a5 185,190
+  s_66c4df9f869022::t_d6793adc230bcf 388,393
+funcionalidades.html
+  s_89310aa78d55e4::t_7bddfc124ad0ae 158,170,174,181,183-184,235-236,247,260,297,314
+interno/comparativo-f129406331.html
+  s_f6e731dae6f7a1::t_df3f2cbb7d8dff 264,266
+regras.html
+  s_ae0775e356d363::t_3261790721ac7f 6,78,84,149,255-266,338-339,452-456,545-617
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "a10bbc659d40037fed69d464dfa01565522fa862",
+  "prompts": {},
+  "sessions": {
+    "s_66c4df9f869022": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4fdc3440-1981-40e2-9611-ebbf0d16f79f",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_89310aa78d55e4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1b07f3cc-d9fb-47c7-b06b-03bc66701f06",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_ae0775e356d363": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6448bc17-3769-40ce-8b20-aecb39e71aba",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_f6e731dae6f7a1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "73142b9c-fb8c-4f6f-8a4f-9751188cbf1d",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
