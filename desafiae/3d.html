@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="description" content="Proposta de landing page do Desafiaê em tema escuro com cenas 3D." />
+<meta name="theme-color" content="#101010" />
+<title>Desafiaê — proposta 3D</title>
+<link rel="icon" href="/assets/logo-simplificada.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#101010;
+  --bg-2:#0b0b0b;
+  --surface:#1a1a1a;
+  --surface-2:#202020;
+  --border:#2b2b2b;
+  --border-soft:#232323;
+  --ink:#f4f1ee;
+  --ink-soft:#a6a09b;
+  --ink-faint:#6f6a66;
+  --orange:#ff6a00;
+  --orange-soft:#ff8c3a;
+  --cream:#f7f2ec;
+  --radius:26px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Poppins",Arial,sans-serif;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.container{width:min(1180px,calc(100% - 40px));margin:auto}
+.section{padding:120px 0}
+
+/* ---------------------------------------------- tipografia */
+h1,h2,h3{margin:0;letter-spacing:-.045em;line-height:1.08}
+h1{font-size:clamp(40px,5.4vw,64px);font-weight:800}
+h2{font-size:clamp(32px,4vw,46px);font-weight:800}
+.lede{color:var(--ink-soft);font-size:16px;max-width:520px;margin:18px 0 0}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+  color:var(--orange);
+}
+.pill-eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  border:1px solid rgba(255,106,0,.32);background:rgba(255,106,0,.09);
+  color:var(--orange-soft);border-radius:999px;padding:7px 15px;
+  font-size:12px;font-weight:600;letter-spacing:.01em;
+}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--orange);flex:0 0 7px}
+
+/* ---------------------------------------------- botoes */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  border-radius:999px;padding:13px 24px;font-size:14px;font-weight:600;
+  border:1px solid transparent;cursor:pointer;transition:.22s;white-space:nowrap;
+}
+.btn-sm{padding:10px 19px;font-size:13px}
+.btn-orange{background:var(--orange);color:#fff}
+.btn-orange:hover{background:#ff7d20;transform:translateY(-2px)}
+.btn-ghost{border-color:var(--border);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink-faint)}
+.btn-light{background:var(--cream);color:#151515}
+.btn-light:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,0,0,.4)}
+.btn-dark{background:#151515;color:var(--cream)}
+.btn-dark:hover{transform:translateY(-2px)}
+.soon{color:var(--ink-faint);font-size:13px;font-weight:500}
+.cta-block .soon{color:rgba(255,255,255,.72)}
+
+/* ---------------------------------------------- header */
+.header{
+  position:fixed;inset:0 0 auto;z-index:60;height:78px;display:flex;align-items:center;
+  background:rgba(16,16,16,.82);backdrop-filter:blur(16px);
+  border-bottom:1px solid transparent;transition:border-color .3s ease,background .3s ease;
+}
+.header.stuck{border-bottom-color:var(--border-soft);background:rgba(16,16,16,.94)}
+.nav-wrap{display:flex;align-items:center;justify-content:space-between;gap:28px}
+.brand{font-size:23px;font-weight:800;letter-spacing:-.04em}
+.brand i{font-style:normal;color:var(--orange)}
+.nav{display:flex;align-items:center;gap:26px;font-size:13.5px;font-weight:500;color:var(--ink-soft)}
+.nav>a{white-space:nowrap;transition:color .2s}
+.nav>a:hover{color:var(--ink)}
+.nav-cta{display:flex;align-items:center;gap:10px}
+.menu-toggle{
+  display:none;width:44px;height:44px;border-radius:14px;
+  border:1px solid var(--border);background:var(--surface);
+  flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;
+}
+.menu-toggle span{width:17px;height:1.7px;background:var(--ink);border-radius:2px}
+.mobile-menu{display:none}
+
+/* ---------------------------------------------- hero */
+.hero{padding:150px 0 90px;position:relative;overflow:hidden}
+.hero::before{
+  content:"";position:absolute;width:760px;height:760px;border-radius:50%;
+  top:-330px;right:-200px;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,106,0,.14),transparent 62%);
+}
+.hero-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:56px;align-items:center;position:relative}
+.hero h1{margin:22px 0 0}
+.hero-ctas{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:34px}
+
+/* ---------------------------------------------- cena 3d (base) */
+.scene{
+  position:relative;perspective:1100px;perspective-origin:50% 42%;
+}
+.stage{
+  position:relative;border-radius:var(--radius);
+  background:linear-gradient(170deg,#1c1c1c,#141414 62%);
+  border:1px solid var(--border-soft);
+  transform-style:preserve-3d;
+  transition:transform .35s cubic-bezier(.2,.8,.3,1);
+  overflow:hidden;
+}
+.stage::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 70% at 50% 0%,rgba(255,255,255,.055),transparent 60%);
+}
+.hero-stage{height:415px}
+
+/* holofotes */
+.spot{
+  position:absolute;top:-6%;width:30%;height:78%;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(255,236,214,.22),rgba(255,236,214,0) 78%);
+  filter:blur(7px);
+}
+.spot-a{left:14%;clip-path:polygon(44% 0,56% 0,100% 100%,0 100%)}
+.spot-b{right:14%;clip-path:polygon(44% 0,56% 0,100% 100%,0 100%)}
+.light-dot{
+  position:absolute;top:13%;left:23%;width:13px;height:13px;border-radius:50%;
+  background:#ffe7cd;box-shadow:0 0 26px 9px rgba(255,214,166,.4);
+}
+
+/* quadra em perspectiva */
+.court-wrap{
+  position:absolute;left:50%;bottom:9%;width:60%;height:74%;
+  transform:translateX(-50%);
+  perspective:620px;perspective-origin:50% 100%;
+}
+.court{
+  position:absolute;inset:0;transform:rotateX(60deg);transform-origin:50% 100%;transform-style:preserve-3d;
+  border:2px solid rgba(255,255,255,.72);border-radius:3px;
+  transition:background .4s ease,border-color .4s ease;
+}
+.court .mid{position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;background:rgba(255,255,255,.72)}
+.court .circle{
+  position:absolute;left:50%;top:50%;width:26%;aspect-ratio:1;transform:translate(-50%,-50%);
+  border:2px solid rgba(255,255,255,.72);border-radius:50%;
+}
+.court .spot-mark{
+  position:absolute;left:50%;top:46%;width:22%;height:14%;transform:translate(-50%,-50%);
+  background:radial-gradient(ellipse,rgba(0,0,0,.5),transparent 70%);border-radius:50%;
+  animation:bobShadow 4.2s ease-in-out infinite;
+}
+/* pisos */
+.court.grass{background:linear-gradient(#2c5d3c,#1e4029)}
+.court.sand{background:linear-gradient(#d8bc93,#c2a077)}
+.court.wood{background:linear-gradient(#b98a52,#96683a)}
+.court.hard{background:linear-gradient(#2a5f7a,#1c4256)}
+.court.gym{background:repeating-linear-gradient(90deg,#333 0 22%,#3d3d3d 22% calc(22% + 3px)),linear-gradient(#333,#232323)}
+.court.grass,.court.gym{border-color:rgba(255,255,255,.6)}
+
+/* rede / trave / cesta: filhas da quadra, giradas de volta para ficarem de pe */
+.court .mark{position:absolute;transform-origin:50% 100%;transform:rotateX(-60deg)}
+.court .net{
+  left:5%;right:5%;bottom:50%;height:48px;
+  border-top:2px solid rgba(255,255,255,.9);border-bottom:1px solid rgba(255,255,255,.45);
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.34) 0 1px,transparent 1px 8px),
+             repeating-linear-gradient(0deg,rgba(255,255,255,.34) 0 1px,transparent 1px 8px);
+}
+.court .net::before,.court .net::after{
+  content:"";position:absolute;top:-7px;bottom:-5px;width:2px;background:rgba(255,255,255,.9);
+}
+.court .net::before{left:-2px}
+.court .net::after{right:-2px}
+.court .goal{
+  left:33%;right:33%;bottom:99%;height:42px;
+  border:2px solid rgba(255,255,255,.9);border-bottom:0;border-radius:3px 3px 0 0;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.22) 0 1px,transparent 1px 7px),
+             repeating-linear-gradient(0deg,rgba(255,255,255,.22) 0 1px,transparent 1px 7px);
+}
+.court .hoop{left:40%;right:40%;bottom:99%;height:66px}
+.court .hoop i{position:absolute;left:50%;top:26px;bottom:0;width:3px;margin-left:-1.5px;background:rgba(255,255,255,.5)}
+.court .hoop b{
+  position:absolute;left:50%;top:0;width:48px;height:29px;margin-left:-24px;
+  border:2px solid rgba(255,255,255,.9);border-radius:3px;background:rgba(255,255,255,.07);
+}
+.court .hoop u{
+  position:absolute;left:50%;top:27px;width:24px;height:14px;margin-left:-12px;
+  border:2px solid var(--orange);border-top:0;border-radius:0 0 48% 48%;
+}
+
+/* bola */
+.ball{
+  position:absolute;left:50%;top:16%;width:74px;height:74px;margin-left:-37px;border-radius:50%;
+  animation:bob 4.2s ease-in-out infinite;
+  box-shadow:inset -9px -11px 20px rgba(0,0,0,.36),inset 7px 8px 16px rgba(255,255,255,.18);
+}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+@keyframes bobShadow{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.85}50%{transform:translate(-50%,-50%) scale(.78);opacity:.5}}
+.ball.basket{background:radial-gradient(circle at 34% 28%,#ff9245,#ff6a00 52%,#d24e00)}
+.ball.basket::before,.ball.basket::after{
+  content:"";position:absolute;inset:0;border-radius:50%;border:2px solid rgba(90,30,0,.5);
+}
+.ball.basket::before{border-left-color:transparent;border-right-color:transparent;transform:scaleX(.42)}
+.ball.basket::after{border-top-color:transparent;border-bottom-color:transparent;transform:scaleY(.42)}
+.ball.foot{background:radial-gradient(circle at 34% 28%,#fff,#e2ded8 55%,#b8b2aa)}
+.ball.foot::before{
+  content:"";position:absolute;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;
+  background:#1c1c1c;clip-path:polygon(50% 0,100% 38%,81% 100%,19% 100%,0 38%);
+}
+.ball.volley{background:conic-gradient(#fff 0 25%,#2f7fc4 0 50%,#fff 0 75%,#2f7fc4 0)}
+.ball.tennis{background:radial-gradient(circle at 34% 28%,#e4fa5a,#c8e01f 58%,#9cb000)}
+.ball.tennis::before{
+  content:"";position:absolute;inset:-18% 30%;border-radius:50%;
+  border:2px solid rgba(255,255,255,.85);border-top:0;border-bottom:0;
+}
+.ball.none{display:none}
+
+/* cartoes flutuantes */
+.float-card{
+  position:absolute;z-index:4;display:flex;align-items:center;gap:11px;
+  background:var(--cream);color:#151515;border-radius:16px;padding:11px 15px;
+  box-shadow:0 22px 44px rgba(0,0,0,.5);
+}
+.float-card small{display:block;font-size:10px;color:#6f6a66;line-height:1.3}
+.float-card strong{display:block;font-size:12.5px;line-height:1.3}
+.float-card .tag{
+  font-size:9px;font-weight:700;background:#ffe2cc;color:#c24f00;
+  border-radius:99px;padding:3px 8px;margin-left:4px;
+}
+.fc-match{top:8%;right:-14px}
+.fc-rank{bottom:6%;left:-18px}
+
+/* ---------------------------------------------- modalidades */
+.sports-head{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:34px}
+.sports-head p{color:var(--ink-soft);margin:0;font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:34px}
+.chips button{
+  font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;
+  border:1px solid var(--border);background:transparent;color:var(--ink-soft);
+  border-radius:999px;padding:8px 16px;transition:.2s;
+}
+.chips button:hover{border-color:var(--ink-faint);color:var(--ink)}
+.chips button.on{background:var(--orange);border-color:var(--orange);color:#fff;font-weight:600}
+.sports-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:44px;align-items:center}
+.sport-stage{height:330px}
+.sport-detail h3{font-size:30px;margin-bottom:6px}
+.sport-flag{
+  display:inline-block;vertical-align:middle;font-size:10px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--orange);background:rgba(255,106,0,.12);
+  border-radius:99px;padding:4px 10px;margin-left:8px;
+}
+.sport-row{border-bottom:1px solid var(--border-soft);padding:15px 0}
+.sport-row:last-child{border-bottom:0}
+.sport-row small{display:block;font-size:11px;color:var(--ink-faint);margin-bottom:3px}
+.sport-row p{margin:0;font-size:15px;font-weight:500}
+
+/* ---------------------------------------------- como funciona */
+.how{background:var(--bg-2)}
+.how-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:70px;align-items:center}
+.steps{margin-top:36px;border-top:1px solid var(--border-soft)}
+.step{
+  width:100%;text-align:left;font-family:inherit;cursor:pointer;
+  display:grid;grid-template-columns:34px 1fr;gap:14px;align-items:start;
+  background:none;border:0;border-bottom:1px solid var(--border-soft);
+  padding:18px 0;color:var(--ink-faint);transition:color .25s ease;
+}
+.step:hover{color:var(--ink-soft)}
+.step em{font-style:normal;font-size:12px;font-weight:700;padding-top:2px}
+.step b{display:block;font-size:17px;font-weight:600;letter-spacing:-.02em}
+.step p{margin:6px 0 0;font-size:14px;color:var(--ink-soft);display:none}
+.step.on{color:var(--orange);border-bottom-color:rgba(255,106,0,.45)}
+.step.on b{color:var(--ink)}
+.step.on p{display:block}
+
+/* telefone 3d */
+.phone-scene{perspective:1300px;display:grid;place-items:center;position:relative}
+.phone-scene::before{
+  content:"";position:absolute;width:330px;height:330px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,106,0,.2),transparent 65%);
+}
+.phone{
+  position:relative;width:266px;height:520px;border-radius:38px;padding:9px;
+  background:linear-gradient(150deg,#3a3a3a,#161616);
+  box-shadow:0 44px 80px rgba(0,0,0,.6);
+  transform:rotateY(-15deg) rotateX(5deg) rotateZ(-2deg);
+  transform-style:preserve-3d;
+  transition:transform .4s cubic-bezier(.2,.8,.3,1);
+}
+.phone:hover{transform:rotateY(-6deg) rotateX(2deg)}
+.phone-screen{
+  width:100%;height:100%;border-radius:30px;overflow:hidden;
+  background:var(--cream);display:flex;flex-direction:column;
+}
+.phone-top{padding:16px 16px 12px}
+.phone-top small{display:block;font-size:10px;color:#8b857f}
+.phone-top b{display:block;font-size:19px;color:#151515;letter-spacing:-.03em;line-height:1.15}
+.versus{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:#fff;border-radius:16px;padding:12px;margin-top:12px;
+  box-shadow:0 8px 18px rgba(0,0,0,.08);
+}
+.versus div{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1}
+.versus span{width:34px;height:34px;border-radius:50%}
+.versus div:first-child span{background:linear-gradient(140deg,#ffd9b8,#ffb877)}
+.versus div:last-child span{background:linear-gradient(140deg,#cfe0f5,#9dbde4)}
+.versus small{font-size:10px;color:#3a3630;font-weight:600}
+.versus em{font-style:normal;font-size:12px;font-weight:800;color:var(--orange)}
+.phone-shot{flex:1;overflow:hidden;margin:12px 12px 0;border-radius:18px 18px 0 0;background:#e9e4dd}
+.phone-shot img{width:100%;display:block}
+
+/* ---------------------------------------------- cta final */
+.cta-block{
+  background:var(--orange);color:#fff;border-radius:34px;
+  padding:64px 60px;display:grid;grid-template-columns:1.25fr .75fr;gap:30px;align-items:center;
+  position:relative;overflow:hidden;
+}
+.cta-block h2{color:#1d1204;max-width:420px}
+.cta-block p{color:rgba(255,255,255,.92);font-size:15px;max-width:440px;margin:18px 0 0}
+.cta-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:28px}
+.de{
+  justify-self:center;font-size:104px;font-weight:800;letter-spacing:-.06em;line-height:1;
+  color:var(--cream);
+  transform:rotateY(-18deg) rotateX(9deg);
+  text-shadow:
+    1px 1px 0 #e6d8c8,2px 2px 0 #ddccb9,3px 3px 0 #d3c0ab,4px 4px 0 #c9b39c,
+    5px 5px 0 #bfa68e,6px 6px 0 #b4997f,7px 7px 0 #a98c71,8px 8px 0 #9d7f64,
+    9px 9px 0 #916f57,14px 16px 26px rgba(90,35,0,.42);
+}
+
+/* ---------------------------------------------- rodape */
+.footer{border-top:1px solid var(--border-soft);padding:46px 0 38px}
+.footer-grid{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.footer-links{display:flex;gap:22px;font-size:13px;color:var(--ink-soft);flex-wrap:wrap}
+.footer-links a:hover{color:var(--ink)}
+.footer small{color:var(--ink-faint);font-size:12px}
+.proposal-note{
+  border:1px dashed var(--border);border-radius:16px;padding:13px 18px;margin-top:26px;
+  font-size:12px;color:var(--ink-faint);
+}
+
+/* ---------------------------------------------- responsivo */
+@media(max-width:980px){
+  .section{padding:82px 0}
+  .nav,.nav-cta{display:none}
+  .menu-toggle{display:flex}
+  .mobile-menu{
+    display:none;position:absolute;top:78px;left:0;right:0;
+    background:var(--surface);border-bottom:1px solid var(--border);
+    padding:22px 26px 26px;flex-direction:column;gap:18px;
+  }
+  .mobile-menu.open{display:flex}
+  .mobile-menu a{font-size:15px;color:var(--ink-soft)}
+  .mobile-menu .btn{width:100%}
+  .hero{padding:118px 0 70px}
+  .hero-grid,.sports-grid,.how-grid,.sports-head{grid-template-columns:1fr;gap:42px}
+  .sports-head{align-items:start;gap:14px}
+  .lede{max-width:none}
+  .cta-block{grid-template-columns:1fr;padding:48px 34px;text-align:center}
+  .cta-block h2,.cta-block p{max-width:none}
+  .cta-actions{justify-content:center}
+  .de{margin-top:14px}
+  .fc-rank{left:8px}
+  .fc-match{right:8px}
+}
+@media(max-width:640px){
+  .container{width:min(100% - 28px,1180px)}
+  .section{padding:64px 0}
+  .hero-stage{height:340px}
+  .sport-stage{height:270px}
+  .hero-ctas,.cta-actions{flex-direction:column;align-items:stretch}
+  .hero-ctas .btn,.cta-actions .btn{width:100%}
+  .hero-ctas .soon,.cta-actions .soon{text-align:center}
+  .float-card{padding:9px 12px;border-radius:13px}
+  .float-card strong{font-size:11px}
+  .fc-match{top:5%;right:6px}
+  .fc-rank{bottom:4%;left:6px}
+  .ball{width:58px;height:58px;margin-left:-29px}
+  .hero .btn-light{background:var(--orange);color:#fff}
+  .de{font-size:76px}
+  .cta-block{border-radius:26px;padding:40px 22px}
+}
+@media(prefers-reduced-motion:reduce){
+  .ball,.court .spot-mark{animation:none}
+  .stage,.phone{transition:none}
+  .btn:hover{transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="header" id="topo">
+  <div class="container nav-wrap">
+    <a class="brand" href="/">Desafia<i>ê</i></a>
+    <nav class="nav">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#jogadores">Para jogadores</a>
+      <a href="/arena">Para arenas</a>
+      <a href="#modalidades">Recursos</a>
+      <a href="#niveis">Níveis</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-sm btn-ghost" href="/sign-in">Entrar</a>
+      <a class="btn btn-sm btn-orange" href="/cadastrar-arena">Cadastrar minha arena</a>
+    </div>
+    <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#como-funciona">Como funciona</a>
+    <a href="#jogadores">Para jogadores</a>
+    <a href="/arena">Para arenas</a>
+    <a href="#modalidades">Recursos</a>
+    <a href="#niveis">Níveis</a>
+    <a class="btn btn-ghost" href="/sign-in">Entrar</a>
+    <a class="btn btn-orange" href="/cadastrar-arena">Cadastrar minha arena</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============================================ hero -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="pill-eyebrow"><span class="dot"></span> 18 modalidades, de futevôlei a CrossFit</span>
+        <h1>Achar com quem jogar não devia dar tanto trabalho.</h1>
+        <p class="lede">Chega de combinar pelada por print e mensagem solta. No Desafiaê você entra em partida aberta perto de casa, desafia quem quiser, disputa torneio, reserva quadra e faz aula.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-light" href="https://apps.apple.com/br/app/desafia%C3%AA/id6807155371" target="_blank" rel="noopener">Baixar na App Store</a>
+          <span class="soon">Em breve no Google Play</span>
+        </div>
+      </div>
+
+      <div class="scene" data-tilt>
+        <div class="stage hero-stage">
+          <div class="spot spot-a"></div>
+          <div class="spot spot-b"></div>
+          <div class="light-dot"></div>
+          <div class="court-wrap">
+            <div class="court hard"><span class="mid"></span><span class="circle"></span><span class="spot-mark"></span></div>
+          </div>
+          <div class="ball basket"></div>
+        </div>
+        <div class="float-card fc-match">
+          <div><small>Próxima partida</small><strong>Arena Central • 19h</strong></div>
+          <span class="tag">Aberta</span>
+        </div>
+        <div class="float-card fc-rank">
+          <div><small>Ranking semanal</small><strong>Você subiu 2 posições</strong></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ modalidades -->
+  <section class="section" id="modalidades">
+    <div class="container">
+      <div class="sports-head">
+        <div>
+          <span class="eyebrow">18 modalidades</span>
+          <h2 style="margin-top:12px">Qual é a sua?</h2>
+        </div>
+        <p>O app já sabe o formato e a regra de placar de cada uma. Escolha a sua para ver o que ele aplica.</p>
+      </div>
+
+      <div class="chips" id="chips" role="tablist" aria-label="Modalidades"></div>
+
+      <div class="sports-grid">
+        <div class="scene" data-tilt>
+          <div class="stage sport-stage">
+            <div class="spot spot-a"></div>
+            <div class="spot spot-b"></div>
+            <div class="court-wrap">
+              <div class="court sand" id="sportCourt"><span class="mid"></span></div>
+            </div>
+            <div class="ball volley" id="sportBall"></div>
+          </div>
+        </div>
+        <div class="sport-detail" id="sportDetail" role="tabpanel" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ como funciona -->
+  <section class="section how" id="como-funciona">
+    <div class="container how-grid">
+      <div>
+        <span class="eyebrow">Como funciona</span>
+        <h2 style="margin-top:12px">Como o jogo acontece aqui.</h2>
+        <div class="steps" id="steps">
+          <button class="step on" type="button"><em>01</em><span><b>Ache o jogo</b><p>Veja partidas e torneios abertos perto de você, filtrados pela sua modalidade e pelo seu nível.</p></span></button>
+          <button class="step" type="button"><em>02</em><span><b>Entre ou marque</b><p>Entre numa partida aberta, crie a sua ou desafie alguém direto.</p></span></button>
+          <button class="step" type="button"><em>03</em><span><b>Lance o placar</b><p>Os dois lados confirmam o resultado e o ranking da modalidade se atualiza sozinho.</p></span></button>
+          <button class="step" type="button"><em>04</em><span><b>Reserve e treine</b><p>Reserve a quadra da arena e marque aula com professor pelo mesmo app.</p></span></button>
+        </div>
+      </div>
+
+      <div class="phone-scene">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-top">
+              <small>Desafio</small>
+              <b>Desafio<br>confirmado</b>
+              <div class="versus">
+                <div><span></span><small>Time Bia</small></div>
+                <em>VS</em>
+                <div><span></span><small>Time Léo</small></div>
+              </div>
+            </div>
+            <div class="phone-shot">
+              <img src="/assets/screens/player-desafio.png" alt="Tela de desafio do app Desafiaê" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ cta final -->
+  <section class="section" id="jogadores">
+    <div class="container">
+      <div class="cta-block">
+        <div>
+          <h2>Chegou a hora de entrar em jogo.</h2>
+          <p>O Desafiaê é grátis para jogar: partida, desafio, torneio e ranking não custam nada. Premium e Elite são opcionais.</p>
+          <div class="cta-actions">
+            <a class="btn btn-dark" href="https://apps.apple.com/br/app/desafia%C3%AA/id6807155371" target="_blank" rel="noopener">Baixar na App Store</a>
+            <span class="soon">Em breve no Google Play</span>
+          </div>
+        </div>
+        <span class="de" aria-hidden="true">Dê</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer" id="niveis">
+  <div class="container">
+    <div class="footer-grid">
+      <a class="brand" href="/">Desafia<i>ê</i></a>
+      <div class="footer-links">
+        <a href="/">Landing atual</a>
+        <a href="/arena">Para arenas</a>
+        <a href="/funcionalidades">Funcionalidades</a>
+        <a href="/regras">Regras</a>
+        <a href="mailto:suporte@desafiae.com">suporte@desafiae.com</a>
+      </div>
+      <small>© 2026 Desafiaê</small>
+    </div>
+    <p class="proposal-note">Proposta de direção visual — tema escuro com cenas 3D em CSS. Página não indexada, fora da navegação do site.</p>
+  </div>
+</footer>
+
+<script>
+/* ---------------------------------------------- modalidades
+   Mesmos dados de script.js (migrations 0002/0017/0148/0154/0170),
+   com piso, marcacao e bola para a cena 3d de cada uma. */
+const SPORTS=[
+ {n:'Futebol',f:'11x11',placar:'Placar de gols',empate:'Permitido em liga. No mata-mata, vai para os pênaltis.',piso:'grass',marca:'goal',bola:'foot'},
+ {n:'Futevôlei',f:'2x2',placar:'1 set até 18 pontos, com 2 de vantagem',empate:'Não existe: todo jogo tem vencedor.',piso:'sand',marca:'net',bola:'volley'},
+ {n:'Beach Tennis',f:'2x2',placar:'1 set de 6 games',empate:'Não existe: todo jogo tem vencedor.',piso:'sand',marca:'net',bola:'tennis'},
+ {n:'Vôlei',f:'2x2',placar:'Melhor de 3 sets até 21 pontos; o 3º vai até 15',empate:'Não existe: todo jogo tem vencedor.',piso:'sand',marca:'net',bola:'volley'},
+ {n:'Basquete',f:'5x5',placar:'Placar de pontos',empate:'Não existe: todo jogo tem vencedor.',piso:'wood',marca:'hoop',bola:'basket'},
+ {n:'Tênis',f:'1x1',placar:'Melhor de 3 sets; super tie-break até 10 no set decisivo',empate:'Não existe: todo jogo tem vencedor.',piso:'hard',marca:'net',bola:'tennis'},
+ {n:'Padel',f:'2x2',placar:'Melhor de 3 sets; super tie-break até 10 no set decisivo',empate:'Não existe: todo jogo tem vencedor.',piso:'hard',marca:'net',bola:'tennis'},
+ {n:'Corrida',marcaProva:true,como:'Cada um corre por si, onde e quando quiser, e lança o próprio tempo.',formatos:'3 km, 5 km, 10 km, meia maratona ou maratona',vence:'O menor tempo lançado até a data limite.',piso:'gym',marca:'lane',bola:'none'},
+ {n:'Futsal',f:'5x5',placar:'Placar de gols',empate:'Permitido em liga. No mata-mata, vai para os pênaltis.',piso:'wood',marca:'goal',bola:'foot'},
+ {n:'Futebol Society',f:'7x7',placar:'Placar de gols',empate:'Permitido em liga. No mata-mata, vai para os pênaltis.',piso:'grass',marca:'goal',bola:'foot'},
+ {n:'Vôlei de Quadra',f:'6x6',placar:'Melhor de 5 sets até 25 pontos; o 5º vai até 15',empate:'Não existe: todo jogo tem vencedor.',piso:'wood',marca:'net',bola:'volley'},
+ {n:'Basquete 3x3',f:'3x3',placar:'Placar de pontos',empate:'Não existe: todo jogo tem vencedor.',piso:'hard',marca:'hoop',bola:'basket'},
+ {n:'Handebol',f:'7x7',placar:'Placar de gols',empate:'Permitido em liga. No mata-mata, vai para os pênaltis.',piso:'wood',marca:'goal',bola:'foot'},
+ {n:'Pickleball',f:'2x2',placar:'1 set até 11 pontos, com 2 de vantagem',empate:'Não existe: todo jogo tem vencedor.',piso:'hard',marca:'net',bola:'tennis'},
+ {n:'Squash',f:'1x1',placar:'Melhor de 3 sets até 11 pontos, com 2 de vantagem',empate:'Não existe: todo jogo tem vencedor.',piso:'wood',marca:'net',bola:'tennis'},
+ {n:'Tênis de Mesa',f:'1x1',placar:'Melhor de 5 sets até 11 pontos, com 2 de vantagem',empate:'Não existe: todo jogo tem vencedor.',piso:'hard',marca:'net',bola:'tennis'},
+ {n:'Hyrox',marcaProva:true,como:'Cada um faz a prova por si, onde e quando quiser, e lança o próprio tempo.',formatos:'Individual Open, Individual Pro ou simulado',vence:'O menor tempo lançado até a data limite.',piso:'gym',marca:'lane',bola:'none'},
+ {n:'CrossFit',marcaProva:true,como:'Todo mundo faz o mesmo WOD e lança a própria marca.',formatos:'For Time, AMRAP ou carga máxima',vence:'A melhor marca. Quem fez RX fica na frente de quem fez Scaled.',piso:'gym',marca:'lane',bola:'none'}
+];
+
+const MARCAS={
+  net:'<span class="mark net"></span>',
+  goal:'<span class="mark goal"></span>',
+  hoop:'<span class="mark hoop"><i></i><b></b><u></u></span>',
+  lane:''
+};
+
+const chips=document.getElementById('chips');
+const detail=document.getElementById('sportDetail');
+const court=document.getElementById('sportCourt');
+const ball=document.getElementById('sportBall');
+
+function pintaModalidade(i){
+  const s=SPORTS[i];
+  [...chips.children].forEach((b,k)=>{
+    b.classList.toggle('on',k===i);
+    b.setAttribute('aria-selected',String(k===i));
+    b.tabIndex=k===i?0:-1;
+  });
+
+  court.className='court '+s.piso;
+  court.innerHTML='<span class="mid"></span>'+(s.marca==='hoop'?'<span class="circle"></span>':'')+
+    '<span class="spot-mark"></span>'+(MARCAS[s.marca]||'');
+  ball.className='ball '+s.bola;
+
+  const row=(k,v)=>'<div class="sport-row"><small>'+k+'</small><p>'+v+'</p></div>';
+  detail.innerHTML=
+    '<h3>'+s.n+(s.marcaProva?'<span class="sport-flag">desafio de marca</span>':'')+'</h3>'+
+    (s.marcaProva
+      ? row('Como funciona',s.como)+row('Formatos',s.formatos)+row('Quem vence',s.vence)
+      : row('Formato sugerido',s.f)+row('Placar em torneio',s.placar)+row('Empate',s.empate));
+}
+
+SPORTS.forEach((s,i)=>{
+  const b=document.createElement('button');
+  b.type='button';b.setAttribute('role','tab');b.textContent=s.n;
+  b.addEventListener('click',()=>pintaModalidade(i));
+  chips.appendChild(b);
+});
+chips.addEventListener('keydown',e=>{
+  const passo=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;
+  if(!passo)return;
+  e.preventDefault();
+  const todos=[...chips.children];
+  const prox=(todos.indexOf(document.activeElement)+passo+todos.length)%todos.length;
+  todos[prox].focus();todos[prox].click();
+});
+pintaModalidade(1);
+
+/* ---------------------------------------------- stepper */
+const steps=[...document.querySelectorAll('#steps .step')];
+steps.forEach(s=>s.addEventListener('click',()=>{
+  steps.forEach(o=>o.classList.toggle('on',o===s));
+}));
+
+/* ---------------------------------------------- menu mobile */
+const toggle=document.querySelector('.menu-toggle');
+const mobileMenu=document.getElementById('mobileMenu');
+toggle?.addEventListener('click',()=>{
+  const aberto=mobileMenu.classList.toggle('open');
+  toggle.setAttribute('aria-expanded',String(aberto));
+});
+mobileMenu?.querySelectorAll('a').forEach(a=>
+  a.addEventListener('click',()=>mobileMenu.classList.remove('open')));
+
+/* ---------------------------------------------- header ao rolar */
+const header=document.querySelector('.header');
+const aoRolar=()=>header.classList.toggle('stuck',window.scrollY>20);
+window.addEventListener('scroll',aoRolar,{passive:true});
+aoRolar();
+
+/* ---------------------------------------------- parallax das cenas
+   So em ponteiro fino: no toque o tilt atrapalha a rolagem. */
+const fino=window.matchMedia('(pointer:fine)').matches;
+const semMovimento=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+if(fino&&!semMovimento){
+  document.querySelectorAll('[data-tilt]').forEach(cena=>{
+    const palco=cena.querySelector('.stage');
+    cena.addEventListener('mousemove',e=>{
+      const r=cena.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width-.5;
+      const y=(e.clientY-r.top)/r.height-.5;
+      palco.style.transform='rotateY('+(x*9).toFixed(2)+'deg) rotateX('+(-y*7).toFixed(2)+'deg)';
+    });
+    cena.addEventListener('mouseleave',()=>{palco.style.transform=''});
+  });
+}
+</script>
+</body>
+</html>
