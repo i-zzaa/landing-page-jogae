@@ -1066,6 +1066,12 @@ if (calcValor) {
 }
 </script>
 
+<script>
+  // No Android, os botões "Assinar ... no app" levam ao Google Play em vez da App Store.
+  if (/Android/i.test(navigator.userAgent)) {
+    document.querySelectorAll('a[href="https://apps.apple.com/br/app/desafia%C3%AA/id6807155371"]').forEach(function (a) { a.href = 'https://play.google.com/store/apps/details?id=com.desafiae.app'; });
+  }
+</script>
 <script src="bracket-live.js"></script>
 </body>
 </html>
