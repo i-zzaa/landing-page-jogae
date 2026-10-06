@@ -1,0 +1,21 @@
+api/og.js
+  s_05eefc0cb164fb::t_7262d67f0eb1d3 1-27
+vercel.json
+  s_05eefc0cb164fb::t_80ed8aea2dc5d5 58,73,88
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "65605d61d1f343f361140ec2fc58dd5d66b87f75",
+  "prompts": {},
+  "sessions": {
+    "s_05eefc0cb164fb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b38947a2-de74-4705-a5cb-b2def35f8a31",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
