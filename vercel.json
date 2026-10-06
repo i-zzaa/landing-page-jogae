@@ -55,7 +55,7 @@
     },
     {
       "source": "/tournament/:id",
-      "destination": "https://ckgxcylcnkqdhalsrptz.supabase.co/functions/v1/tournament-og?id=:id"
+      "destination": "/api/og?id=:id"
     },
     {
       "source": "/arena-challenge/:id/cover",
@@ -70,7 +70,7 @@
           "value": ".*(WhatsApp|facebookexternalhit|Facebot|Twitterbot|TelegramBot|Slackbot|Discordbot|LinkedInBot|SkypeUriPreview|redditbot|Iframely|vkShare|Applebot).*"
         }
       ],
-      "destination": "https://ckgxcylcnkqdhalsrptz.supabase.co/functions/v1/tournament-og?type=:type&id=:id"
+      "destination": "/api/og?type=:type&id=:id"
     },
     {
       "source": "/:type(match|challenge|tournament|arena-challenge)/:id",
@@ -85,7 +85,7 @@
           "value": ".*(WhatsApp|facebookexternalhit|Facebot|Twitterbot|TelegramBot|Slackbot|Discordbot|LinkedInBot|SkypeUriPreview|redditbot|Iframely|vkShare|Applebot).*"
         }
       ],
-      "destination": "https://ckgxcylcnkqdhalsrptz.supabase.co/functions/v1/tournament-og?type=season&id=:id&live=https://desafiae.com/temporada/:id"
+      "destination": "/api/og?type=season&id=:id&live=https://desafiae.com/temporada/:id"
     },
     {
       "source": "/temporada/:id",
