@@ -1,0 +1,20 @@
+baixar.html
+  s_8d6d23fed65fb5::t_e0d8edbb4ff935 39-40
+  s_8d6d23fed65fb5::t_e8178d95d490d7 45-48,52-62,65,67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "5a55cbac6a8524180ea5853250d569ded10f0fb1",
+  "prompts": {},
+  "sessions": {
+    "s_8d6d23fed65fb5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1ef8b5d7-9e9c-4a63-822b-42ded9b54e80",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
