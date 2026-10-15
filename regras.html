@@ -337,7 +337,7 @@
           <h2><span>01</span>Criar uma partida</h2>
           <ul class="rule-list">
             <li>Jogadores e arenas podem criar partidas. É obrigatório escolher a modalidade e a data e hora.</li>
-            <li><b>Onde vai ser:</b> por endereço (digitado ou pela localização do celular, e pode ficar em branco) ou por arena, nunca os dois. Por endereço não há aprovação: a partida já sai confirmada. Corrida, CrossFit e Hyrox só podem ser marcados numa arena.</li>
+            <li><b>Onde vai ser:</b> por endereço (digitado ou pela localização do celular, e pode ficar em branco) ou por arena, nunca os dois. Por endereço não há aprovação: a partida já sai confirmada. Vale também para corrida, CrossFit e Hyrox, que acontecem no parque e na rua.</li>
             <li>Também é possível definir nível (qualquer, D, C, B ou A), visibilidade (pública ou privada), formato de 1x1 a 15x15 e como os times são formados.</li>
             <li>Em esportes de sets, escolhe-se a pontuação: <b>seguir a modalidade</b> (padrão) ou <b>livre</b> (veja <a href="#placar-partida">Placar</a>).</li>
             <li>Quem cria a partida entra como capitão confirmado.</li>
@@ -445,6 +445,7 @@
           <ul class="rule-list">
             <li>Só o desafiado responde. Ao <b>aceitar</b>, ele vira capitão do outro time. Ao <b>recusar</b>, quem desafiou é avisado.</li>
             <li>Aceitar um desafio com aposta é aceitar a aposta. Quem não tem o valor na modalidade não consegue aceitar nem ser convocado.</li>
+            <li>Quem foi desafiado não entra no time de quem desafiou: cada pessoa está ou num time, ou do outro lado.</li>
             <li>Cada capitão convoca os companheiros. Se alguém recusa, o capitão é avisado para convocar outra pessoa.</li>
             <li>Quando os dois times estão completos e ninguém está pendente, o desafio é <b>confirmado</b> e vira uma partida privada. No 1x1, isso acontece assim que o desafio é aceito.</li>
             <li>O desafio pode ser marcado por endereço ou numa arena. A arena escolhida é só o local do jogo: <b>não precisa aprovar</b> o desafio e não há quadra definida. Quando o desafio é confirmado, a arena recebe um aviso de que ele foi marcado lá.</li>
@@ -479,6 +480,7 @@
           <ul class="rule-list">
             <li>Nas modalidades de marca — <b>corrida, Hyrox e CrossFit</b> — não existem lados: cada participante faz a prova por conta própria, onde e quando quiser, e lança a própria marca até a data limite.</li>
             <li>Quem desafia define a prova e a data limite, e chama o rival e quantos participantes quiser. Cada convidado aceita ou recusa.</li>
+            <li>Quem desafia pode marcar um <b>ponto de encontro</b>, por endereço ou numa arena, nunca os dois. É opcional: a marca vale de qualquer lugar. Com arena, ela <b>não precisa aprovar</b> e é avisada assim que o desafio é lançado.</li>
             <li><b>Corrida:</b> a distância é a mesma para todos — 3 km, 5 km, 10 km, meia maratona ou maratona. Vence o menor tempo, e o ranking mostra o ritmo por km.</li>
             <li><b>Hyrox:</b> Individual Open, Individual Pro ou simulado, com a descrição da prova. Vence o menor tempo.</li>
             <li><b>CrossFit:</b> o mesmo WOD para todos, medido por For Time (vence o menor tempo), AMRAP (vencem mais rounds e, no empate, mais reps) ou carga máxima (vence a maior carga). Quem fez RX fica na frente de quem fez Scaled.</li>
@@ -575,6 +577,8 @@
             <li>A turma pode aceitar <b>um, vários ou qualquer nível</b>. Para se inscrever sozinho, você precisa ter um desses níveis na modalidade.</li>
             <li>A equipe da arena (gestão, recepção ou o professor) também pode pôr você numa aula, até ela acabar, passando por cima da janela de 24 horas e do nível. Com plano que cobre a turma, a aula conta no plano; sem plano, o acerto é com a arena, fora do app.</li>
             <li>Turma sem data final segue sem prazo: as aulas ficam sempre marcadas com um ano de antecedência.</li>
+            <li><b>Aulas perto de você</b>, na Início e no Buscar, mostram as turmas abertas da sua cidade, nas modalidades que você joga, que começam nas próximas 24 horas. Turma de outro nível aparece no fim, marcada.</li>
+            <li>Quando abre a inscrição de uma turma aberta que você frequenta (check-in em pelo menos 2 das últimas 4 aulas dela), você recebe o aviso <b>"Abriu a inscrição"</b>, se ainda não estiver na aula.</li>
             <li>Você recebe um lembrete 1 hora antes de cada aula em que está inscrito.</li>
             <li>Não dá para estar inscrito em duas aulas no mesmo horário. Aulas seguidas podem.</li>
             <li>Você pode cancelar a inscrição até o início da aula.</li>
@@ -596,6 +600,7 @@
             <li><b>Pelo plano:</b> quem tem um plano de mensalidade válido que cobre a modalidade entra pelo plano. A arena pode definir que uma turma aceita só alguns planos.</li>
             <li><b>Avulsa:</b> sem plano válido, você paga a aula avulsa pelo app, se a turma tiver preço de avulsa.</li>
             <li>Turma sem preço de avulsa é só para quem tem plano.</li>
+            <li>Cada aula já diz <b>como você entra</b>: pelo plano (com o nome dele e quantas aulas da semana você já usou), plano cheio na semana, mensalidade atrasada, plano bloqueado, aguardando a 1ª mensalidade, avulsa com o preço, só com plano, ou turma fixa.</li>
           </ul>
           <h3>Turma fixa</h3>
           <ul class="rule-list">
@@ -640,6 +645,7 @@
           <h2><span>06</span>Check-in</h2>
           <ul class="rule-list">
             <li>O check-in é feito pela gestão da arena, pela recepção ou pelo professor daquela aula, lendo o QR code do seu ingresso ou pela lista de inscritos.</li>
+            <li>Na chegada, a equipe vê o seu nível e como você entrou na aula: plano em dia ou atrasado (com os dias de atraso), uso da semana, avulsa paga ou posto pela equipe. É só um aviso: não impede o check-in.</li>
             <li>A presença pode ser marcada do dia da aula até <b>48 horas depois do fim</b>, e o ingresso de outra aula é recusado.</li>
             <li>Um check-in marcado por engano pode ser desfeito, e fica registrado quem marcou e quem desfez.</li>
           </ul>
@@ -751,6 +757,19 @@
           <li>A arena precisa de <b>plano ativo para criar</b>: torneio, evento, aula, desafio entre arenas, desafio recorrente, série de horário fixo e reserva lançada pela equipe da arena.</li>
         </ul>
         <p>Para quem joga, nada disso muda: inscrição em torneio, evento e desafio recorrente, aula avulsa, reserva, desafio entre jogadores, partida marcada numa arena e pedido de vínculo continuam funcionando, e a arena segue podendo responder a esses pedidos. O que já está publicado também segue: torneio no ar recebe equipes, chaveamento e placar normalmente.</p>
+      </article>
+
+      <article class="legal-section" id="um-por-horario" style="scroll-margin-top:100px">
+        <h2><span>—</span>Um compromisso por horário</h2>
+        <ul class="rule-list">
+          <li>Quem joga não fica em dois compromissos que começam no mesmo horário entre <b>aula, partida, torneio e reserva de quadra</b>. Duas aulas, aula e partida, torneio e reserva: o segundo é recusado, e o app diz qual compromisso já ocupa o horário.</li>
+          <li><b>Desafio fica fora</b>: dá pra marcar desafio com aula, partida, torneio, reserva ou outro desafio no mesmo horário. Desafio entre arenas é um torneio e entra na regra.</li>
+          <li>Vale o mesmo horário de início. Partida às 19h e aula às 19h30 convivem.</li>
+          <li>A regra vale para o que o próprio jogador faz: entrar, aceitar convite, se inscrever, pedir entrada numa equipe e reservar. Convite que ainda não foi aceito não ocupa o horário, e a arena pondo o aluno na aula não é barrada.</li>
+          <li>Reserva e partida na mesma arena e no mesmo horário são o mesmo compromisso, como no horário relâmpago e no Fecha jogo.</li>
+          <li>Quando bate o horário, o app mostra o compromisso que já existe e oferece <b>cancelar o outro e entrar no novo</b>. Cada cancelamento segue a própria regra de estorno: aula avulsa paga volta faltando mais de 2 horas, reserva segue a regra da reserva e quem sai do torneio recebe o estorno do que pagou pelo app.</li>
+          <li>Não dá para trocar por ali o que já começou, a partida que você mesmo criou (para sair, cancele a partida) nem o Fecha jogo (saia pelo convite).</li>
+        </ul>
       </article>
 
       <article class="legal-section" id="arenas-perto" style="scroll-margin-top:100px">
