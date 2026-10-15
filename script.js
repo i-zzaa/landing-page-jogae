@@ -75,8 +75,8 @@ if(chipBox&&detail){
 const TOUR=[
  {mode:'App do jogador',screens:[
   {label:'Home',src:'assets/screens/player-home.png',cap:'Partidas e torneios abertos perto de você.'},
-  {label:'Ranking',src:'assets/screens/player-ranking.png',cap:'Ranking semanal e mensal, por modalidade.'},
-  {label:'Perfil',src:'assets/screens/player-profile.png',cap:'Nível por modalidade, histórico e conquistas.'}]},
+  {label:'Ranking',src:'assets/screens/player-ranking-2026-10.png',cap:'Rating, divisão e posição, por modalidade.'},
+  {label:'Perfil',src:'assets/screens/player-profile-2026-10.png',cap:'Nível por modalidade, histórico e conquistas.'}]},
  {mode:'Painel da arena',screens:[
   {label:'Painel',src:'assets/screens/arena-painel.png',cap:'O dia da arena e os desafios ativos, lado a lado.'},
   {label:'Ajustes',src:'assets/screens/arena-ajustes.png',cap:'Quadras, preços, equipe e formas de pagamento.'},
