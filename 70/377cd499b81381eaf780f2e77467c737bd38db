@@ -1,0 +1,19 @@
+baixar.html
+  s_8d6d23fed65fb5::t_d749b2941c3993 1-58
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "70377cd499b81381eaf780f2e77467c737bd38db",
+  "prompts": {},
+  "sessions": {
+    "s_8d6d23fed65fb5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1ef8b5d7-9e9c-4a63-822b-42ded9b54e80",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
