@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Analytics · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  .sh { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 50px; flex: none; }
+  .sh .t { font: 600 18px/26px var(--font); }
+  .sh svg { width: 24px; height: 24px; }
+  .corpo12 { gap: 12px; }
+  .segm { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .segm span { flex: 1; text-align: center; padding: 8px 0; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); white-space: nowrap; }
+  .segm span.on { background: var(--primary); color: var(--text-inverse); }
+  .tiles { display: flex; gap: 12px; }
+  .tile { flex: 1; min-width: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+  .tile .v { font: 600 20px/28px var(--font); font-variant-numeric: tabular-nums; }
+  .tile .v.hl { color: var(--primary); }
+  .pb { height: 6px; border-radius: 999px; background: var(--surface-alt); overflow: hidden; }
+  .pb > i { display: block; height: 100%; border-radius: 999px; background: var(--primary); }
+  .pb.escura > i { background: var(--secondary); }
+  .secao { margin-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .lt { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .lin { display: flex; flex-direction: column; gap: 8px; }
+  .btn { font-weight: 500; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .lrow { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .lrow:last-child { border-bottom: 0; }
+  .lrow > svg:first-child { width: 20px; height: 20px; color: var(--text-muted); }
+  .lrow .l { flex: 1; font: 400 16px/24px var(--font); }
+  .lrow .val { font: 500 14px/20px var(--font); color: var(--primary); }
+  .lrow .chev { width: 20px; height: 20px; color: var(--text-muted); }
+  .lrow.perigo .l, .lrow.perigo > svg:first-child { color: var(--danger); }
+  .vazio { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 20px; text-align: center; }
+  .vazio.curto { padding: 16px 20px; }
+  .vazio .circ { width: 64px; height: 64px; border-radius: 999px; background: var(--surface-alt); display: flex; align-items: center; justify-content: center; color: var(--text-muted); margin-bottom: 4px; }
+  .vazio .circ svg { width: 28px; height: 28px; }
+  /* OccupancyHeatmap */
+  .hm { display: flex; flex-direction: column; gap: 4px; }
+  .hm .r { display: flex; align-items: center; gap: 4px; }
+  .hm .rot { width: 44px; flex: none; font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .hm .d { flex: 1; text-align: center; font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .hm .c { flex: 1; aspect-ratio: 1; border-radius: 8px; display: flex; align-items: center; justify-content: center; font: 400 12px/16px var(--font); background: var(--surface-alt); color: var(--text); }
+  .hm .c.forte { color: var(--text-inverse); }
+  .hm .leg { display: flex; align-items: center; justify-content: flex-end; gap: 4px; margin-top: 4px; font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .hm .leg .trilha { display: flex; gap: 2px; } .hm .leg .trilha i { width: 14px; height: 8px; border-radius: 2px; display: block; }
+  /* mix de atividade */
+  .mixb { display: flex; height: 10px; border-radius: 8px; overflow: hidden; gap: 2px; }
+  .mixl { display: flex; flex-wrap: wrap; gap: 12px; }
+  .mixl .it { display: flex; align-items: center; gap: 8px; width: 45%; min-width: 0; }
+  .mixl .pt { width: 10px; height: 10px; border-radius: 5px; flex: none; }
+  .pessoa { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .bloco-ag { display: flex; flex-direction: column; gap: 4px; padding-top: 8px; border-top: 1px solid var(--border); }
+  .bloco-ag .ln { display: flex; align-items: center; gap: 8px; padding: 2px 0; }
+  .selo { padding: 1px 8px; border-radius: 8px; background: var(--neutral-soft); font: 500 12px/16px var(--font); }
+  .acc { display: flex; align-items: center; justify-content: space-between; }
+  .acc .tt { display: flex; align-items: center; gap: 8px; font: 500 16px/24px var(--font); }
+  .acc svg { width: 20px; height: 20px; }
+  .acc .tt svg { color: var(--primary); } .acc > svg { color: var(--text-muted); }
+  .regras-app { display: flex; flex-direction: column; gap: 8px; }
+  /* navegador */
+  .wph { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .wph .tx { display: grid; gap: 4px; }
+  .wph .ac { display: flex; align-items: center; gap: 12px; }
+  .wph .sino { padding: 4px; display: flex; } .wph .sino svg { width: 24px; height: 24px; }
+  .ctopo { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .wcol { display: flex; gap: 16px; align-items: stretch; }
+  .wlista { display: flex; flex-direction: column; gap: 16px; }
+  .wmixl { display: flex; gap: 16px; } .wmixl .it { flex: 1; display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .wmixl .pt { width: 10px; height: 10px; border-radius: 5px; flex: none; }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="arena" data-fluxo="analitico"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Analytics</h1>
+  <p>Você escolhe o período e vê jogos, modalidades, ocupação por dia e horário, de onde vem o movimento, quais quadras estão paradas, quem mais frequenta, quem vem pelo agregador e a adesão de cada plano de aluno. O Analytics fica em Ajustes.</p>
+  <ul class="regras">
+    <li>O Analytics é do plano Elite da arena, e só dono, administrador e gerente abrem a tela.</li>
+    <li>A ocupação conta reserva, aula e partida. Bloqueio fica de fora, e quadra bloqueada hoje não entra no alerta.</li>
+    <li>Quadra sem uso há 14 dias é "parada", e o atalho dela leva a oferecer o horário com desconto (horário relâmpago).</li>
+    <li>Presença é check-in de aula ou reserva confirmada; inscrição sem check-in não conta. Com 3 presenças no período, a pessoa já "frequenta".</li>
+    <li>Nos planos de alunos, você vê a adesão (quantos alunos). Quanto cada plano vendeu fica no Financeiro.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Ajustes</b><span>Role a tela: "Analytics" aparece só para quem gerencia a arena.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas" style="gap:16px">
+          <div class="card sem-pad">
+            <div class="lrow"><i data-lucide="users"></i><span class="l">Usuários vinculados</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow" style="background:var(--primary-wash)"><i data-lucide="chart-line"></i><span class="l">Analytics</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="users-round"></i><span class="l">Meus atletas</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="bell"></i><span class="l">Lembretes</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="bell-ring"></i><span class="l">Notificações por categoria</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="credit-card"></i><span class="l">Plano</span><span class="val">Elite Mensal</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="wallet"></i><span class="l">Financeiro</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="link-2"></i><span class="l">Agregadores</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="globe"></i><span class="l">Idioma</span><span class="val">Automático</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="circle-help"></i><span class="l">Ajuda e suporte</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="info"></i><span class="l">Sobre o Desafiaê</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow perigo"><i data-lucide="trash-2"></i><span class="l">Excluir conta</span></div>
+          </div>
+          <button class="btn" style="background:var(--surface);color:var(--danger);border:1px solid var(--danger)"><i data-lucide="log-out"></i>Sair da conta</button>
+        </div>
+        <div class="tabbar" data-abas="arena" data-ativa="ajustes"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Analytics, topo</b><span>Escolha o período e veja os números, as modalidades mais jogadas, o mapa de ocupação por dia e faixa do dia e a barra de onde vem o movimento.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body corpo12">
+          <div class="sh"><i data-lucide="arrow-left"></i><span class="t">Analytics</span><i data-lucide="x"></i></div>
+          <div class="segm"><span class="on">Este mês</span><span>3 meses</span><span>Ano</span></div>
+          <div class="tiles">
+            <div class="tile"><span class="cap muted">Jogos no período</span><span class="v">64</span></div>
+            <div class="tile"><span class="cap muted">Jogadores ativos</span><span class="v">87</span></div>
+          </div>
+          <div class="tiles">
+            <div class="tile"><span class="cap muted">Eventos concluídos</span><span class="v">3</span></div>
+          </div>
+          <div class="secao">
+            <p class="t3">Modalidades mais jogadas</p>
+            <div class="lin"><div class="lt"><span class="b2m">Futevôlei</span><span class="cap muted">38</span></div><div class="pb"><i style="width:100%"></i></div></div>
+            <div class="lin"><div class="lt"><span class="b2m">Beach tennis</span><span class="cap muted">22</span></div><div class="pb"><i style="width:57.9%"></i></div></div>
+            <div class="lin"><div class="lt"><span class="b2m">Vôlei de praia</span><span class="cap muted">4</span></div><div class="pb"><i style="width:10.5%"></i></div></div>
+          </div>
+          <div class="secao">
+            <p class="t3">Ocupação por dia e horário</p>
+            <div class="hm"></div>
+          </div>
+          <div class="secao">
+            <p class="t3">De onde vem o movimento</p>
+            <div class="mixb"><i style="flex:42;background:var(--info)"></i><i style="flex:3;background:var(--success)"></i><i style="flex:8;background:var(--accent)"></i><i style="flex:56;background:var(--primary)"></i></div>
+            <div class="mixl">
+              <div class="it"><i class="pt" style="background:var(--info)"></i><div><p class="t3">42</p><p class="cap muted">Aulas</p></div></div>
+              <div class="it"><i class="pt" style="background:var(--success)"></i><div><p class="t3">3</p><p class="cap muted">Torneios</p></div></div>
+              <div class="it"><i class="pt" style="background:var(--accent)"></i><div><p class="t3">8</p><p class="cap muted">Desafios</p></div></div>
+              <div class="it"><i class="pt" style="background:var(--primary)"></i><div><p class="t3">56</p><p class="cap muted">Jogos</p></div></div>
+            </div>
+          </div>
+          <div style="height:12px"></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Analytics, rolando para baixo</b><span>Mais abaixo: as quadras mais paradas (em vermelho a partir de 14 dias), com "Oferecer horário", que abre as ofertas relâmpago; as visitas pelo agregador; quem mais frequenta; a comparação dos planos; e "Como o painel conta", que explica cada número.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body corpo12">
+          <div class="secao" style="margin-top:4px">
+            <p class="t3">Quadras mais paradas</p>
+            <p class="cap muted">Horas usadas nos últimos 14 dias, contando reserva, aula e partida — bloqueio não conta.</p>
+            <div class="lin"><div class="lt"><span class="b2">Quadra 3</span><span class="b2m vermelho">Parada há 15 dias</span></div><div class="pb"><i style="width:0%"></i></div><span class="cap muted">0h usadas · 0% do horário aberto</span></div>
+            <div class="lin"><div class="lt"><span class="b2">Quadra 2</span><span class="b2m">Parada há 2 dias</span></div><div class="pb"><i style="width:56%"></i></div><span class="cap muted">125h usadas · 56% do horário aberto</span></div>
+            <div class="lin"><div class="lt"><span class="b2">Quadra 1</span><span class="b2m">Parada há 1 dia</span></div><div class="pb"><i style="width:67%"></i></div><span class="cap muted">150h usadas · 67% do horário aberto</span></div>
+            <button class="btn sec"><i data-lucide="zap"></i>Oferecer horário</button>
+          </div>
+
+          <div class="secao">
+            <div class="card col">
+              <div class="row"><p class="t3 grow">Pelo agregador</p><span class="t2">32</span></div>
+              <p class="cap muted">Visitas da TotalPass e da Wellhub que ocuparam vaga em aula no período.</p>
+              <div class="col g4"><div class="row" style="gap:8px;align-items:baseline"><span class="b2 grow">TotalPass</span><span class="b2m">19</span></div><div class="pb escura"><i style="width:100%"></i></div></div>
+              <div class="col g4"><div class="row" style="gap:8px;align-items:baseline"><span class="b2 grow">Wellhub</span><span class="b2m">13</span></div><div class="pb escura"><i style="width:68.4%"></i></div></div>
+              <div class="bloco-ag">
+                <p class="capm muted">Turmas que mais recebem</p>
+                <div class="ln"><span class="b2 grow">Beach tennis iniciante</span><span class="cap muted">14 visitas</span></div>
+                <div class="ln"><span class="b2 grow">Futevôlei intermediário</span><span class="cap muted">11 visitas</span></div>
+                <div class="ln"><span class="b2 grow">Vôlei de praia funcional</span><span class="cap muted">7 visitas</span></div>
+              </div>
+              <div class="bloco-ag">
+                <p class="capm muted">Frequentam pelo agregador</p>
+                <p class="cap muted">Já vêm com frequência e ainda não têm plano — são os candidatos naturais a mensalista.</p>
+                <div class="ln"><span class="b2 grow">Marina Costa</span><span class="selo">TotalPass</span><span class="cap muted">6 presenças</span></div>
+                <div class="ln"><span class="b2 grow">Rodrigo Alves</span><span class="selo">Wellhub</span><span class="cap muted">4 presenças</span></div>
+                <div class="ln"><span class="b2 grow">Paula Nunes</span><span class="selo">TotalPass</span><span class="cap muted">3 presenças</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="secao">
+            <p class="t3">Quem mais frequenta</p>
+            <p class="b2m">Alunos</p>
+            <div class="pessoa"><span class="b2">Bia Moreira</span><span class="b2m">12 presenças</span></div>
+            <div class="pessoa"><span class="b2">Caio Ribeiro</span><span class="b2m">10 presenças</span></div>
+            <div class="pessoa"><span class="b2">Duda Lima</span><span class="b2m">9 presenças</span></div>
+            <div class="pessoa"><span class="b2">Nanda Souza</span><span class="b2m">8 presenças</span></div>
+            <div class="pessoa"><span class="b2">Leo Martins</span><span class="b2m">7 presenças</span></div>
+            <p class="b2m">Frequentam e não são alunos</p>
+            <p class="cap muted">Já vêm com frequência e ainda não têm plano — são os candidatos naturais a mensalista.</p>
+            <div class="pessoa"><div><p class="b2">Pedro Antunes</p><p class="cap muted">24/09</p></div><span class="b2m">6 presenças</span></div>
+            <div class="pessoa"><div><p class="b2">Ju Castro</p><p class="cap muted">22/09</p></div><span class="b2m">4 presenças</span></div>
+            <div class="pessoa"><div><p class="b2">Vini Rocha</p><p class="cap muted">19/09</p></div><span class="b2m">3 presenças</span></div>
+          </div>
+
+          <div class="secao">
+            <p class="t3">Comparação dos planos</p>
+            <div class="lin"><div class="lt"><span class="b2">Beach tennis 2x</span><span class="b2m">14 alunos</span></div><div class="pb"><i style="width:56%"></i></div><span class="cap muted">R$ 240,00 · 2x por semana</span></div>
+            <div class="lin"><div class="lt"><span class="b2">Futevôlei 3x</span><span class="b2m">9 alunos</span></div><div class="pb"><i style="width:36%"></i></div><span class="cap muted">R$ 240,00 · 3x por semana</span></div>
+            <div class="lin"><div class="lt"><span class="b2">Livre</span><span class="b2m">2 alunos</span></div><div class="pb"><i style="width:8%"></i></div><span class="cap muted">R$ 480,00 · 7x por semana</span></div>
+            <div class="lin"><div class="lt"><span class="b2">Futevôlei 1x · Desativado</span><span class="b2m">0 alunos</span></div><div class="pb"><i style="width:0%"></i></div><span class="cap muted">R$ 120,00 · 1x por semana</span></div>
+          </div>
+
+          <div class="secao">
+            <div class="card col">
+              <div class="acc"><span class="tt"><i data-lucide="list-checks"></i>Como o painel conta</span><i data-lucide="chevron-up"></i></div>
+              <div class="regras-app">
+                <p class="b2 muted">• A ocupação da quadra conta reserva, aula e partida. Bloqueio fica de fora: ocupa a quadra, mas não é movimento.</p>
+                <p class="b2 muted">• Quadra sem nenhum uso há 14 dias entra em "mais paradas", contando desde o cadastro dela — quadra criada agora não nasce parada. Quadra bloqueada agora fica fora do alerta — ela está fechada de propósito.</p>
+                <p class="b2 muted">• A taxa de ocupação compara as horas usadas com o horário em que a arena está aberta, não com o dia inteiro.</p>
+                <p class="b2 muted">• Presença é check-in de aula ou reserva confirmada. Inscrição sem check-in não conta.</p>
+                <p class="b2 muted">• Quem ainda não é aluno entra em "frequentam" a partir de 3 presenças no período.</p>
+                <p class="b2 muted">• Nos planos, o analítico mostra adesão (quantos alunos) e o financeiro mostra venda (quanto foi pago no período). Fatura em aberto não é venda.</p>
+                <p class="b2 muted">• O analytics é do plano Elite da arena.</p>
+              </div>
+            </div>
+          </div>
+          <div style="height:12px"></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Analytics sem movimento</b><span class="ramo">Alternativa</span><span>Numa arena nova, sem jogo, reserva nem aula no período, cada bloco avisa que ainda não há dados.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body corpo12">
+          <div class="sh"><i data-lucide="arrow-left"></i><span class="t">Analytics</span><i data-lucide="x"></i></div>
+          <div class="segm"><span class="on">Este mês</span><span>3 meses</span><span>Ano</span></div>
+          <div class="tiles">
+            <div class="tile"><span class="cap muted">Jogos no período</span><span class="v">0</span></div>
+            <div class="tile"><span class="cap muted">Jogadores ativos</span><span class="v">0</span></div>
+          </div>
+          <div class="tiles"><div class="tile"><span class="cap muted">Eventos concluídos</span><span class="v">0</span></div></div>
+          <div class="secao">
+            <p class="t3">Modalidades mais jogadas</p>
+            <div class="vazio curto"><div class="circ"><i data-lucide="chart-line"></i></div><p class="t3">Ainda sem números</p><p class="b2 muted">Rola os primeiros jogos e os gráficos ganham vida.</p></div>
+          </div>
+          <div class="secao">
+            <p class="t3">Ocupação por dia e horário</p>
+            <div class="vazio curto"><div class="circ"><i data-lucide="chart-line"></i></div><p class="t3">Ainda sem números</p><p class="b2 muted">Rola os primeiros jogos e os gráficos ganham vida.</p></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Analytics sem Elite</b><span class="ramo">Alternativa</span><span>Sem o plano Elite, a tela mostra o cadeado. Dono e gerente veem "Ver planos"; professor e atendente veem só o aviso, sem botão.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="padding-bottom:40px">
+          <div class="sh"><i data-lucide="arrow-left"></i><span class="t">Analytics</span><i data-lucide="x"></i></div>
+          <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+            <div class="vazio">
+              <div class="circ"><i data-lucide="lock"></i></div>
+              <p class="t3">Analytics é do Elite</p>
+              <p class="b2 muted">No Elite você vê a ocupação por dia e horário, de onde vem o movimento da arena e quem mais frequenta.</p>
+              <button class="btn sec" style="margin-top:12px">Ver planos</button>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- NAVEGADOR -->
+<section class="trilho-fluxo web" data-plataforma="navegador">
+  <div class="passos">
+
+    <!-- 1 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Analytics no painel</b><span>No navegador, o período fica ao lado do título. O mapa de ocupação e o movimento ocupam a coluna larga; modalidades e quem mais frequenta ficam na coluna estreita. Depois vêm o agregador, as quadras paradas (com "Oferecer horário" no topo do card) ao lado dos planos, e as regras de contagem.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-analytics</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="dinheiro" data-item="Analytics">
+            <div class="shell-conteudo">
+              <div class="wph">
+                <div class="tx"><p class="t1">Analytics</p><p class="b2 muted">Arena Maré Alta · Este mês</p></div>
+                <div class="ac"><div style="width:300px"><div class="segm"><span class="on">Este mês</span><span>3 meses</span><span>Ano</span></div></div><span class="sino"><i data-lucide="bell"></i></span></div>
+              </div>
+              <div class="col g16">
+                <div class="tiles" style="gap:16px">
+                  <div class="tile"><span class="cap muted">Jogos no período</span><span class="v hl">64</span><span class="cap muted">Este mês</span></div>
+                  <div class="tile"><span class="cap muted">Jogadores ativos</span><span class="v">87</span></div>
+                  <div class="tile"><span class="cap muted">Eventos concluídos</span><span class="v">3</span></div>
+                </div>
+                <div class="wcol">
+                  <div class="col g16 grow">
+                    <div class="card col g16" style="flex:1">
+                      <div class="ctopo"><p class="t3">Ocupação por dia e horário</p><span class="cap muted">Este mês</span></div>
+                      <div class="hm" style="width:100%;max-width:680px;align-self:center"></div>
+                    </div>
+                    <div class="card col" style="gap:12px">
+                      <div class="ctopo"><p class="t3">De onde vem o movimento</p><span class="cap muted">Este mês</span></div>
+                      <div class="col g16">
+                        <div class="mixb"><i style="flex:42;background:var(--info)"></i><i style="flex:3;background:var(--success)"></i><i style="flex:8;background:var(--accent)"></i><i style="flex:56;background:var(--primary)"></i></div>
+                        <div class="wmixl">
+                          <div class="it"><i class="pt" style="background:var(--info)"></i><div><p class="t3">42</p><p class="cap muted">Aulas</p></div></div>
+                          <div class="it"><i class="pt" style="background:var(--success)"></i><div><p class="t3">3</p><p class="cap muted">Torneios</p></div></div>
+                          <div class="it"><i class="pt" style="background:var(--accent)"></i><div><p class="t3">8</p><p class="cap muted">Desafios</p></div></div>
+                          <div class="it"><i class="pt" style="background:var(--primary)"></i><div><p class="t3">56</p><p class="cap muted">Jogos</p></div></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col g16" style="width:360px;flex:none">
+                    <div class="card col g16">
+                      <div class="ctopo"><p class="t3">Modalidades mais jogadas</p><span class="cap muted">Este mês</span></div>
+                      <div class="wlista">
+                        <div class="lin"><div class="lt"><span class="b2">Futevôlei</span><span class="b2m">38 jogos</span></div><div class="pb"><i style="width:100%"></i></div><span class="cap muted">59% dos jogos</span></div>
+                        <div class="lin"><div class="lt"><span class="b2">Beach tennis</span><span class="b2m">22 jogos</span></div><div class="pb"><i style="width:57.9%"></i></div><span class="cap muted">34% dos jogos</span></div>
+                        <div class="lin"><div class="lt"><span class="b2">Vôlei de praia</span><span class="b2m">4 jogos</span></div><div class="pb"><i style="width:10.5%"></i></div><span class="cap muted">6% dos jogos</span></div>
+                      </div>
+                    </div>
+                    <div class="card col g16">
+                      <div class="ctopo"><p class="t3">Quem mais frequenta</p><span class="cap muted">Este mês</span></div>
+                      <div class="wlista">
+                        <div class="col g8">
+                          <p class="b2m">Alunos</p>
+                          <div class="pessoa"><span class="b2">Bia Moreira</span><span class="b2m">12 presenças</span></div>
+                          <div class="pessoa"><span class="b2">Caio Ribeiro</span><span class="b2m">10 presenças</span></div>
+                          <div class="pessoa"><span class="b2">Duda Lima</span><span class="b2m">9 presenças</span></div>
+                          <div class="pessoa"><span class="b2">Nanda Souza</span><span class="b2m">8 presenças</span></div>
+                          <div class="pessoa"><span class="b2">Leo Martins</span><span class="b2m">7 presenças</span></div>
+                        </div>
+                        <div class="col g8">
+                          <p class="b2m">Frequentam e não são alunos</p>
+                          <p class="cap muted">Já vêm com frequência e ainda não têm plano — são os candidatos naturais a mensalista.</p>
+                          <div class="pessoa"><div><p class="b2">Pedro Antunes</p><p class="cap muted">24/09</p></div><span class="b2m">6 presenças</span></div>
+                          <div class="pessoa"><div><p class="b2">Ju Castro</p><p class="cap muted">22/09</p></div><span class="b2m">4 presenças</span></div>
+                          <div class="pessoa"><div><p class="b2">Vini Rocha</p><p class="cap muted">19/09</p></div><span class="b2m">3 presenças</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card col">
+                  <div class="row"><p class="t3 grow">Pelo agregador</p><span class="t2">32</span></div>
+                  <p class="cap muted">Visitas da TotalPass e da Wellhub que ocuparam vaga em aula no período.</p>
+                  <div class="col g4"><div class="row" style="gap:8px;align-items:baseline"><span class="b2 grow">TotalPass</span><span class="b2m">19</span></div><div class="pb escura"><i style="width:100%"></i></div></div>
+                  <div class="col g4"><div class="row" style="gap:8px;align-items:baseline"><span class="b2 grow">Wellhub</span><span class="b2m">13</span></div><div class="pb escura"><i style="width:68.4%"></i></div></div>
+                  <div class="bloco-ag">
+                    <p class="capm muted">Turmas que mais recebem</p>
+                    <div class="ln"><span class="b2 grow">Beach tennis iniciante</span><span class="cap muted">14 visitas</span></div>
+                    <div class="ln"><span class="b2 grow">Futevôlei intermediário</span><span class="cap muted">11 visitas</span></div>
+                    <div class="ln"><span class="b2 grow">Vôlei de praia funcional</span><span class="cap muted">7 visitas</span></div>
+                  </div>
+                  <div class="bloco-ag">
+                    <p class="capm muted">Frequentam pelo agregador</p>
+                    <p class="cap muted">Já vêm com frequência e ainda não têm plano — são os candidatos naturais a mensalista.</p>
+                    <div class="ln"><span class="b2 grow">Marina Costa</span><span class="selo">TotalPass</span><span class="cap muted">6 presenças</span></div>
+                    <div class="ln"><span class="b2 grow">Rodrigo Alves</span><span class="selo">Wellhub</span><span class="cap muted">4 presenças</span></div>
+                    <div class="ln"><span class="b2 grow">Paula Nunes</span><span class="selo">TotalPass</span><span class="cap muted">3 presenças</span></div>
+                  </div>
+                </div>
+
+                <div class="wcol">
+                  <div class="card col g16 grow">
+                    <div class="ctopo" style="align-items:center"><p class="t3">Quadras mais paradas</p><button class="btn inline sec" style="white-space:nowrap;flex:none"><i data-lucide="zap"></i>Oferecer horário</button></div>
+                    <p class="cap muted">Horas usadas nos últimos 14 dias, contando reserva, aula e partida — bloqueio não conta.</p>
+                    <div class="wlista">
+                      <div class="lin"><div class="lt"><span class="b2">Quadra 3</span><span class="b2m vermelho">Parada há 15 dias</span></div><div class="pb"><i style="width:0%"></i></div><span class="cap muted">0h usadas · 0% do horário aberto</span></div>
+                      <div class="lin"><div class="lt"><span class="b2">Quadra 2</span><span class="b2m">Parada há 2 dias</span></div><div class="pb"><i style="width:56%"></i></div><span class="cap muted">125h usadas · 56% do horário aberto</span></div>
+                      <div class="lin"><div class="lt"><span class="b2">Quadra 1</span><span class="b2m">Parada há 1 dia</span></div><div class="pb"><i style="width:67%"></i></div><span class="cap muted">150h usadas · 67% do horário aberto</span></div>
+                    </div>
+                  </div>
+                  <div class="card col g16 grow">
+                    <div class="ctopo"><p class="t3">Comparação dos planos</p><span class="cap muted">Quantos alunos ativos cada plano tem hoje.</span></div>
+                    <div class="wlista">
+                      <div class="lin"><div class="lt"><span class="b2">Beach tennis 2x</span><span class="b2m">14 alunos</span></div><div class="pb"><i style="width:56%"></i></div><span class="cap muted">R$ 240,00 · 2x por semana · 56% dos alunos</span></div>
+                      <div class="lin"><div class="lt"><span class="b2">Futevôlei 3x</span><span class="b2m">9 alunos</span></div><div class="pb"><i style="width:36%"></i></div><span class="cap muted">R$ 240,00 · 3x por semana · 36% dos alunos</span></div>
+                      <div class="lin"><div class="lt"><span class="b2">Livre</span><span class="b2m">2 alunos</span></div><div class="pb"><i style="width:8%"></i></div><span class="cap muted">R$ 480,00 · 7x por semana · 8% dos alunos</span></div>
+                      <div class="lin"><div class="lt"><span class="b2">Futevôlei 1x · Desativado</span><span class="b2m">0 alunos</span></div><div class="pb"><i style="width:0%"></i></div><span class="cap muted">R$ 120,00 · 1x por semana · 0% dos alunos</span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card"><div class="acc"><span class="tt"><i data-lucide="list-checks"></i>Como o painel conta</span><i data-lucide="chevron-down"></i></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Analytics no painel, sem Elite</b><span class="ramo">Alternativa</span><span>Aparece o mesmo cadeado do celular, com o nome da arena no subtítulo.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-analytics</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="dinheiro" data-item="Analytics">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="tx"><p class="t1">Analytics</p><p class="b2 muted">Arena Maré Alta</p></div><div class="ac"><span class="sino"><i data-lucide="bell"></i></span></div></div>
+              <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:0 20px">
+                <div class="vazio" style="width:100%">
+                  <div class="circ"><i data-lucide="lock"></i></div>
+                  <p class="t3">Analytics é do Elite</p>
+                  <p class="b2 muted">No Elite você vê a ocupação por dia e horário, de onde vem o movimento da arena e quem mais frequenta.</p>
+                  <button class="btn sec" style="margin-top:12px">Ver planos</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  /* OccupancyHeatmap: mesma conta do componente — cor de surfaceAlt (vazio) até
+     primaryDark (pico), linear; texto branco acima de 55% do pico */
+  (function () {
+    var dias = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+    var faixas = ['Madrug.', 'Manhã', 'Tarde', 'Noite'];
+    var dados = [
+      [0, 0, 0, 0, 0, 0, 0],
+      [14, 6, 9, 7, 9, 5, 16],
+      [10, 3, 4, 3, 5, 6, 12],
+      [4, 18, 21, 19, 22, 17, 8],
+    ];
+    var max = Math.max.apply(null, [1].concat(dados.flat()));
+    function cor(t) { return 'color-mix(in srgb, var(--primary-dark) ' + Math.round(t * 100) + '%, var(--surface-alt))'; }
+    var html = '<div class="r"><span class="rot"></span>' + dias.map(function (d) { return '<span class="d">' + d + '</span>'; }).join('') + '</div>';
+    dados.forEach(function (linha, i) {
+      html += '<div class="r"><span class="rot">' + faixas[i] + '</span>';
+      linha.forEach(function (n) {
+        var t = n / max;
+        html += n === 0 ? '<span class="c"></span>' : '<span class="c' + (t > 0.55 ? ' forte' : '') + '" style="background:' + cor(t) + '">' + n + '</span>';
+      });
+      html += '</div>';
+    });
+    html += '<div class="leg">Menos<span class="trilha">' + [0, .25, .5, .75, 1].map(function (s) { return '<i style="background:' + cor(s) + '"></i>'; }).join('') + '</span>Mais</div>';
+    document.querySelectorAll('.hm').forEach(function (el) { el.innerHTML = html; });
+  })();
+</script>
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Qual plano libera o Analytics?</summary><p>O plano Elite da arena. Dentro da equipe, só dono, administrador e gerente abrem a tela.</p></details>
+    <details><summary>O que entra na ocupação das quadras?</summary><p>Reserva, aula e partida. Bloqueio fica de fora, e quadra bloqueada hoje não entra no alerta de quadra parada.</p></details>
+    <details><summary>Quando uma quadra aparece como parada?</summary><p>Quando está sem uso há 14 dias. Pelo botão "Oferecer horário", você solta horários dela com desconto no horário relâmpago.</p></details>
+    <details><summary>Quem aparece entre os que mais frequentam?</summary><p>Quem tem presença na arena: check-in de aula ou reserva confirmada. Inscrição sem check-in não conta, e 3 presenças no período já bastam.</p></details>
+    <details><summary>Onde vejo quanto cada plano de aluno vendeu?</summary><p>No Financeiro. O Analytics mostra só a adesão, ou seja, quantos alunos cada plano tem.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Conta e configurações · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* CSS só desta página, sempre com as variáveis do kit (nunca cor solta) */
+  /* peças do app que o kit não tem igual (ScreenHeader, SegmentedControl, Chip, Button, Avatar, Alert do iOS) */
+  .hdr { padding: 0; min-height: 50px; }
+  .hdr > svg { width: 24px; height: 24px; flex: none; }
+  .hdr .titulo { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hdr .vazio { width: 24px; flex: none; }
+  .corpo { display: flex; flex-direction: column; gap: 12px; }
+  .segx { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .segx > span { flex: 1; text-align: center; padding: 8px 4px; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); white-space: nowrap; }
+  .segx > span.on { background: var(--primary); color: var(--text-inverse); }
+  .chip.on { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+  .btn { font-weight: 500; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.out { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+  .btn.dng { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  .btn.ter { background: transparent; color: var(--primary); height: auto; padding: 10px 0; }
+  .btn.dis { opacity: .5; }
+  .avatar { background: var(--primary); color: var(--text-inverse); font-weight: 500; }
+  .rodape { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 20px 34px; background: var(--background); display: flex; flex-direction: column; gap: 8px; z-index: 3; }
+  .grupo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .grupo .lr { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; font: 400 16px/24px var(--font); }
+  .grupo .lr + .lr { border-top: 1px solid var(--border); margin-left: 16px; padding-left: 0; }
+  .grupo .lr > svg:first-child { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .grupo .lr .rot { flex: 1; min-width: 0; }
+  .grupo .lr .val { font: 500 14px/20px var(--font); color: var(--primary); }
+  .grupo .lr .chev { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .grupo .lr.perigo, .grupo .lr.perigo > svg:first-child { color: var(--danger); }
+  .alerta-veu { position: absolute; inset: 0; background: var(--overlay); z-index: 7; display: flex; align-items: center; justify-content: center; }
+  .alerta { width: 270px; background: var(--surface-alt); border-radius: 14px; text-align: center; overflow: hidden; }
+  .alerta .al-txt { padding: 18px 16px 16px; display: grid; gap: 4px; }
+  .alerta .al-txt b { font: 600 17px/22px var(--font); }
+  .alerta .al-txt span { font: 400 13px/17px var(--font); }
+  .alerta .al-bts { display: flex; border-top: 1px solid var(--border); }
+  .alerta .al-bts > span { flex: 1; padding: 11px 8px; font: 400 17px/22px var(--font); color: var(--info); }
+  .alerta .al-bts > span + span { border-left: 1px solid var(--border); }
+  .alerta .al-bts > span.forte { font-weight: 600; }
+  .alerta .al-bts > span.perigo { color: var(--danger); }
+  .alerta.pilha .al-bts { flex-direction: column; }
+  .alerta.pilha .al-bts > span + span { border-left: 0; border-top: 1px solid var(--border); }
+  .toastx { position: absolute; left: 20px; right: 20px; top: 60px; border-radius: 14px; padding: 12px 14px; display: flex; gap: 10px; align-items: center; z-index: 9; font: 500 14px/20px var(--font); background: var(--success-soft); color: var(--text); border: 1px solid var(--success); box-shadow: var(--shadow-card); }
+  .toastx svg { color: var(--success); }
+  .toastx.erro { background: var(--danger-soft); border-color: var(--danger); }
+  .toastx.erro svg { color: var(--danger); }
+  .toastx svg { width: 20px; height: 20px; flex: none; }
+  .mh { position: relative; width: 90px; height: 90px; flex: none; }
+  .mh::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; border-left-color: var(--primary); border-bottom-color: var(--primary); transform: rotate(20deg); }
+  .mh .c { position: absolute; inset: 7px; border-radius: 50%; background: var(--primary-tint); overflow: hidden; display: flex; align-items: flex-end; justify-content: center; }
+  .mh .c img { width: 88%; }
+  .cat { height: 20px; width: auto; flex: none; }
+
+  .grupo .lr .val.cinza { color: var(--text-muted); }
+  .sel { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .sel.on { border-color: var(--primary); background: var(--primary-soft); }
+  .sel .marc { width: 22px; height: 22px; border-radius: 11px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; flex: none; }
+  .sel.on .marc { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+  .sel .marc svg { width: 12px; height: 12px; }
+  .nota-mascote { display: flex; align-items: center; gap: 12px; margin-bottom: -16px; }
+  .nota-mascote img { width: 89px; height: 79px; object-fit: contain; }
+  .nota-mascote .balao { flex: 1; background: var(--primary-wash); border-radius: 12px; padding: 12px; }
+  .contato { display: flex; align-items: center; gap: 12px; }
+  .contato .ic-box { width: 44px; height: 44px; border-radius: 12px; background: var(--primary-wash); color: var(--primary); display: flex; align-items: center; justify-content: center; }
+  .contato .ic-box svg { width: 20px; height: 20px; }
+  .faq { padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+  .faq .row svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .lista-solta .lr { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; background: var(--surface); font: 400 16px/24px var(--font); }
+  .lista-solta .lr + .lr { border-top: 1px solid var(--border); margin-left: 16px; padding-left: 0; }
+  .lista-solta .lr > svg:first-child { width: 20px; height: 20px; color: var(--text-muted); }
+  .lista-solta .rot { flex: 1; }
+  .lista-solta .val { font: 500 14px/20px var(--font); color: var(--primary); }
+  .lista-solta .val.cinza { color: var(--text-muted); }
+  .lista-solta .chev { width: 20px; height: 20px; color: var(--text-muted); }
+  .perigo-ic { width: 56px; height: 56px; border-radius: 999px; background: var(--danger-soft); color: var(--danger); display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+  .perigo-ic svg { width: 28px; height: 28px; }
+  .caixa { width: 20px; height: 20px; border-radius: 6px; border: 1px solid var(--primary); background: var(--primary); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; flex: none; }
+  .caixa svg { width: 14px; height: 14px; }
+  .folha { position: absolute; left: 0; right: 0; bottom: 0; background: var(--background); border-radius: 20px 20px 0 0; padding: 20px 20px 40px; z-index: 8; display: flex; flex-direction: column; gap: 12px; }
+  .conta-lin { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--surface); }
+  .conta-lin + .conta-lin { border-top: 1px solid var(--border); }
+  .conta-lin .ini { width: 48px; height: 48px; border-radius: 24px; background: var(--primary-tint); color: var(--primary-dark); display: flex; align-items: center; justify-content: center; font: 500 14px/20px var(--font); flex: none; }
+  .conta-lin > svg { width: 20px; height: 20px; flex: none; }
+  .saudacao { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
+  .saudacao .row { gap: 4px; }
+  .sino { position: relative; }
+  .sino .b { position: absolute; top: -4px; right: -6px; min-width: 18px; height: 18px; border-radius: 9px; background: var(--danger); color: var(--text-inverse); font: 400 12px/18px var(--font); text-align: center; padding: 0 4px; }
+
+</style>
+</head>
+<body>
+<header id="proto" data-lado="jogador" data-fluxo="conta"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Conta e configurações</h1>
+  <p>Pela engrenagem do Perfil você chega às Configurações: senha, idioma, ajuda, termos e privacidade, exclusão da conta e saída. Para trocar entre contas salvas, toque no seu nome no topo da Início.</p>
+  <ul class="regras">
+    <li>Excluir a conta apaga perfil, partidas, desafios e torneios para sempre e não cancela a assinatura da loja. Cancele antes, nas assinaturas do celular.</li>
+    <li>Se a sua conta de jogador faz parte da equipe de uma arena, aparece a linha "Gerenciar" para ir ao painel. Professor não tem essa linha: as aulas dele ficam na aba Aulas.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Configurações</b><span>Todas as opções da conta numa lista. "Sair da conta", fixo no rodapé, desconecta na hora e volta para a tela de entrar.</span><span class="ramo">Alternativa</span><span>Equipe de arena (gerente, atendente): a primeira linha é "Gerenciar" com o nome da arena. Moderador de torneio: "Torneios que modero". Professor: sem "Minhas aulas".</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body" style="padding-bottom:100px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Configurações</span><i data-lucide="x"></i></div>
+          <div class="grupo">
+            <div class="lr"><i data-lucide="user-round"></i><span class="rot">Editar perfil</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lr"><i data-lucide="user-cog"></i><span class="rot">Conta e segurança</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lr"><i data-lucide="calendar-clock"></i><span class="rot">Minhas reservas</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lr"><i data-lucide="graduation-cap"></i><span class="rot">Minhas aulas</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lr"><i data-lucide="receipt"></i><span class="rot">Meus planos</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lr"><i data-lucide="bell"></i><span class="rot">Notificações</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lr"><i data-lucide="bell-ring"></i><span class="rot">Notificações por categoria</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lr"><i data-lucide="credit-card"></i><span class="rot">Plano</span><span class="val">Elite Anual</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lr"><i data-lucide="globe"></i><span class="rot">Idioma</span><span class="val">Automático</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lr"><i data-lucide="circle-help"></i><span class="rot">Ajuda e suporte</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lr"><i data-lucide="info"></i><span class="rot">Sobre o Desafiaê</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lr perigo"><i data-lucide="trash-2"></i><span class="rot">Excluir conta</span></div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn dng"><i data-lucide="log-out"></i>Sair da conta</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Conta e segurança</b><span>Mostra o e-mail da conta e troca a senha (mínimo de 6 caracteres, digitada duas vezes). Salva a nova senha, aparece "Senha alterada com sucesso."</span><span class="ramo">Alternativa</span><span>Senhas diferentes: "As senhas não conferem."</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:16px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Conta e segurança</span><i data-lucide="x"></i></div>
+          <div>
+            <p class="t3" style="margin-bottom:12px">E-mail</p>
+            <div class="row" style="gap:8px;padding:8px 0"><i data-lucide="mail" class="muted" style="width:18px;height:18px"></i><span class="b1">bia.moreira@email.com</span></div>
+          </div>
+          <div class="col g8">
+            <p class="t3" style="margin-bottom:4px">Alterar senha</p>
+            <div class="input foco"><i data-lucide="lock"></i><span class="grow">••••••••</span><i data-lucide="eye"></i></div>
+            <div class="input"><i data-lucide="lock"></i><span class="grow">••••••••</span><i data-lucide="eye"></i></div>
+          </div>
+        </div>
+        <div class="toastx"><i data-lucide="circle-check"></i>Senha alterada com sucesso.</div>
+        <div class="rodape"><button class="btn">Salvar senha</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Idioma</b><span>Toque num idioma e você já volta para as Configurações. Automático segue o idioma do celular.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:16px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Idioma</span><i data-lucide="x"></i></div>
+          <p class="b2 muted">Escolha o idioma do app.</p>
+          <div class="col g8">
+            <div class="sel on"><p class="b1m grow laranja">Automático (idioma do aparelho)</p><span class="marc"><i data-lucide="check"></i></span></div>
+            <div class="sel"><p class="b1m grow">Português</p><span class="marc"></span></div>
+            <div class="sel"><p class="b1m grow">English</p><span class="marc"></span></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Ajuda e suporte</b><span>"Enviar e-mail" abre o seu app de e-mail para falar com o suporte. As perguntas frequentes se dividem em Jogador, Arena e Moderador e abrem uma de cada vez.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:12px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Ajuda e suporte</span><i data-lucide="x"></i></div>
+          <div class="nota-mascote"><img src="../img/mascote-desafio.png" alt=""><div class="balao"><p class="b2">Precisa de ajuda? Fala com a gente.</p></div></div>
+          <div class="card contato" style="margin-top:16px"><span class="ic-box"><i data-lucide="mail"></i></span><div class="col g4" style="gap:2px"><p class="b1m">Enviar e-mail</p><p class="b2 muted">suporte@desafiae.com</p></div></div>
+          <div class="col g8" style="margin-top:8px">
+            <p class="t3" style="margin-bottom:4px">Perguntas frequentes</p>
+            <div class="segx"><span class="on">Jogador</span><span>Arena</span><span>Moderador</span></div>
+            <div class="card faq"><div class="row sb" style="gap:8px"><p class="b1m grow">Como eu entro em um jogo?</p><i data-lucide="chevron-down"></i></div></div>
+            <div class="card faq"><div class="row sb" style="gap:8px"><p class="b1m grow">Por que não consigo entrar em um jogo?</p><i data-lucide="chevron-down"></i></div></div>
+            <div class="card faq"><div class="row sb" style="gap:8px"><p class="b1m grow">Como funciona meu nível (D, C, B, A, Profissional)?</p><i data-lucide="chevron-up"></i></div><p class="b2 muted">No cadastro você declara um nível inicial. Ele só passa a valer de verdade depois que uma arena aprova — sem uma arena favorita vinculada ao seu perfil, ninguém revisa esse nível.</p></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Sobre o Desafiaê</b><span>Instagram, Termos de Uso e Política de Privacidade, com a versão do app instalada.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:24px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Sobre o Desafiaê</span><i data-lucide="x"></i></div>
+          <div class="col g8" style="align-items:center;padding:12px 0">
+            <img src="../img/logo-completa.png" alt="Desafiaê" style="width:150px;height:46px;object-fit:contain">
+            <p class="b2 muted" style="text-align:center">O Desafiaê conecta você a arenas, jogadores e torneios perto de você. Marque partidas, desafie amigos, entre em torneios e acompanhe sua evolução — tudo em um só lugar.</p>
+          </div>
+          <div class="lista-solta">
+            <div class="lr"><i data-lucide="at-sign"></i><span class="rot">Instagram</span><span class="val">@desafiaeh</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lr"><i data-lucide="file-text"></i><span class="rot">Termos de Uso</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lr"><i data-lucide="shield-check"></i><span class="rot">Política de Privacidade</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lr"><span class="rot">Versão</span><span class="val cinza">1.0.1</span></div>
+            <div class="lr"><span class="rot">Canal</span><span class="val cinza">production</span></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Política de Privacidade</b><span>Texto dividido em seções. A mesma tela abre antes do login e pelos links das telas de assinatura; os Termos de Uso seguem o mesmo formato.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:12px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Privacidade</span><span style="width:24px"></span></div>
+          <p class="cap muted">Última atualização: setembro de 2026</p>
+          <p class="b2 muted">Esta política explica quais dados o Desafiaê coleta, por que coleta e o que você pode fazer a respeito. Se algo aqui não fizer sentido, escreva pra gente — o contato está no final.</p>
+          <div class="col g4" style="margin-top:8px"><p class="t3">Quem somos</p><p class="b2 muted">O Desafiaê é um aplicativo que conecta jogadores, arenas esportivas e torneios. Contato: suporte@desafiae.com.</p></div>
+          <div class="col g4" style="margin-top:8px"><p class="t3">Quais dados coletamos</p><p class="b2 muted">Dados de cadastro (nome, e-mail, senha, data de nascimento); dados de perfil (cidade, estado, esportes, nível, foto de perfil); dados de uso (partidas, desafios, torneios, aulas, conquistas); resultados que você lança nos desafios de marca (tempo, distância, repetições, carga); conteúdo que você escreve (avaliações, denúncias, observações, regulamentos, nomes de equipe); e o histórico de assinaturas e pagamentos (plano, valor e status). Não guardamos dados de cartão — o pagamento é feito direto na Apple ou no Mercado Pago.</p></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Excluir conta</b><span>O botão só libera depois que você marca que entende. Se você entrou com a Apple, confirma de novo com a Apple; excluída, a conta sai do celular e o app volta para o início.</span><span class="ramo">Alternativa</span><span>Se falhar: "Não foi possível excluir a conta agora. Tente de novo em instantes."</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:12px;padding-top:16px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Excluir conta</span><i data-lucide="x"></i></div>
+          <span class="perigo-ic"><i data-lucide="triangle-alert"></i></span>
+          <p class="b1m">Isso apaga sua conta pra sempre</p>
+          <p class="b2 muted">Seu perfil, partidas, desafios e torneios em que você participou serão apagados permanentemente. Não tem como desfazer essa ação.</p>
+          <p class="b2 muted">Excluir a conta não cancela assinaturas. Se você assina um plano, cancele antes nas assinaturas da loja de aplicativos do seu aparelho.</p>
+          <div class="row" style="gap:8px"><span class="caixa"><i data-lucide="check"></i></span><p class="b2 muted">Entendo que essa ação é irreversível</p></div>
+        </div>
+        <div class="rodape"><button class="btn dng">Excluir minha conta</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Trocar de conta</b><span>Na Início, toque na seta ao lado da saudação com o seu nome para ver as contas salvas no celular. Toque numa conta para trocar sem sair; o X tira a conta do celular; "Entrar em outra conta" leva para o login.</span><span class="ramo">Alternativa</span><span>Conta salva sem sessão: "Pede senha pra entrar"; o toque abre o login com o e-mail preenchido.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas">
+          <div class="saudacao"><div class="col g4"><div class="row"><p class="t1">Olá, Bia!</p><i data-lucide="chevron-down" class="ic"></i></div><div class="row"><img src="../img/categoria-b.png" alt="" style="height:18px"><span class="b2 muted">Beach tennis</span></div></div><span class="sino"><i data-lucide="bell" class="ic24"></i><span class="b">3</span></span></div>
+        </div>
+        <div class="tabbar" data-abas="jogador" data-ativa="inicio"></div>
+        <div class="sheet-veu"></div>
+        <div class="folha">
+          <div class="row sb"><p class="t3">Trocar de conta</p><i data-lucide="x" class="ic24"></i></div>
+          <div class="grupo">
+            <div class="conta-lin"><span class="ini">BM</span><div class="grow col g4" style="gap:2px"><p class="b1m">Bia Moreira</p><p class="cap muted">bia.moreira@email.com · Jogador</p><p class="capm laranja">Conta atual</p></div><i data-lucide="check" class="laranja"></i></div>
+            <div class="conta-lin"><span class="ini">AM</span><div class="grow col g4" style="gap:2px"><p class="b1m">Arena Maré Alta</p><p class="cap muted">contato@marealta.com.br · Arena</p></div><i data-lucide="x" class="muted"></i></div>
+            <div class="conta-lin"><span class="ini">BM</span><div class="grow col g4" style="gap:2px"><p class="b1m">Bia Moreira</p><p class="cap muted">bia.trabalho@email.com · Jogador</p><p class="cap muted">Pede senha pra entrar</p></div><i data-lucide="x" class="muted"></i></div>
+          </div>
+          <button class="btn sec"><i data-lucide="user-plus"></i>Entrar em outra conta</button>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Como troco minha senha?</summary><p>Em Configurações, abra "Conta e segurança", digite a nova senha duas vezes (mínimo de 6 caracteres) e salve.</p></details>
+    <details><summary>Excluir a conta cancela minha assinatura?</summary><p>Não. Cancele antes, nas assinaturas da loja do celular. A exclusão apaga perfil, partidas, desafios e torneios para sempre.</p></details>
+    <details><summary>Tenho duas contas. Preciso sair de uma para entrar na outra?</summary><p>Não. Na Início, toque na seta ao lado do seu nome e escolha a outra conta salva.</p></details>
+    <details><summary>Como falo com o suporte?</summary><p>Em Configurações, abra "Ajuda e suporte" e toque em "Enviar e-mail".</p></details>
+    <details><summary>Como mudo o idioma do app?</summary><p>Em Configurações, abra "Idioma" e toque no que quer. "Automático" segue o idioma do celular.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

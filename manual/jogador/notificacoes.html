@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Notificações e lembretes · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* CSS só desta página, sempre com as variáveis do kit (nunca cor solta) */
+  /* peças do app que o kit não tem igual (ScreenHeader, SegmentedControl, Chip, Button, Avatar, Alert do iOS) */
+  .hdr { padding: 0; min-height: 50px; }
+  .hdr > svg { width: 24px; height: 24px; flex: none; }
+  .hdr .titulo { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hdr .vazio { width: 24px; flex: none; }
+  .corpo { display: flex; flex-direction: column; gap: 12px; }
+  .segx { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .segx > span { flex: 1; text-align: center; padding: 8px 4px; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); white-space: nowrap; }
+  .segx > span.on { background: var(--primary); color: var(--text-inverse); }
+  .chip.on { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+  .btn { font-weight: 500; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.out { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+  .btn.dng { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  .btn.ter { background: transparent; color: var(--primary); height: auto; padding: 10px 0; }
+  .btn.dis { opacity: .5; }
+  .avatar { background: var(--primary); color: var(--text-inverse); font-weight: 500; }
+  .rodape { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 20px 34px; background: var(--background); display: flex; flex-direction: column; gap: 8px; z-index: 3; }
+  .grupo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .grupo .lr { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; font: 400 16px/24px var(--font); }
+  .grupo .lr + .lr { border-top: 1px solid var(--border); margin-left: 16px; padding-left: 0; }
+  .grupo .lr > svg:first-child { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .grupo .lr .rot { flex: 1; min-width: 0; }
+  .grupo .lr .val { font: 500 14px/20px var(--font); color: var(--primary); }
+  .grupo .lr .chev { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .grupo .lr.perigo, .grupo .lr.perigo > svg:first-child { color: var(--danger); }
+  .alerta-veu { position: absolute; inset: 0; background: var(--overlay); z-index: 7; display: flex; align-items: center; justify-content: center; }
+  .alerta { width: 270px; background: var(--surface-alt); border-radius: 14px; text-align: center; overflow: hidden; }
+  .alerta .al-txt { padding: 18px 16px 16px; display: grid; gap: 4px; }
+  .alerta .al-txt b { font: 600 17px/22px var(--font); }
+  .alerta .al-txt span { font: 400 13px/17px var(--font); }
+  .alerta .al-bts { display: flex; border-top: 1px solid var(--border); }
+  .alerta .al-bts > span { flex: 1; padding: 11px 8px; font: 400 17px/22px var(--font); color: var(--info); }
+  .alerta .al-bts > span + span { border-left: 1px solid var(--border); }
+  .alerta .al-bts > span.forte { font-weight: 600; }
+  .alerta .al-bts > span.perigo { color: var(--danger); }
+  .alerta.pilha .al-bts { flex-direction: column; }
+  .alerta.pilha .al-bts > span + span { border-left: 0; border-top: 1px solid var(--border); }
+  .toastx { position: absolute; left: 20px; right: 20px; top: 60px; border-radius: 14px; padding: 12px 14px; display: flex; gap: 10px; align-items: center; z-index: 9; font: 500 14px/20px var(--font); background: var(--success-soft); color: var(--text); border: 1px solid var(--success); box-shadow: var(--shadow-card); }
+  .toastx svg { color: var(--success); }
+  .toastx.erro { background: var(--danger-soft); border-color: var(--danger); }
+  .toastx.erro svg { color: var(--danger); }
+  .toastx svg { width: 20px; height: 20px; flex: none; }
+  .mh { position: relative; width: 90px; height: 90px; flex: none; }
+  .mh::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; border-left-color: var(--primary); border-bottom-color: var(--primary); transform: rotate(20deg); }
+  .mh .c { position: absolute; inset: 7px; border-radius: 50%; background: var(--primary-tint); overflow: hidden; display: flex; align-items: flex-end; justify-content: center; }
+  .mh .c img { width: 88%; }
+  .cat { height: 20px; width: auto; flex: none; }
+
+  /* tela de bloqueio do iOS com os pushes */
+  .phone > .screen.bloqueio { background: linear-gradient(170deg, var(--secondary) 0%, var(--primary-dark) 140%); }
+  .bloqueio .relogio { text-align: center; color: var(--text-inverse); margin-top: 24px; }
+  .bloqueio .relogio .d { font: 500 18px/24px var(--font); opacity: .85; }
+  .bloqueio .relogio .h { font: 600 84px/92px var(--font); letter-spacing: -2px; }
+  .push { background: var(--surface-alt); border-radius: 20px; padding: 12px 14px; display: flex; gap: 10px; align-items: flex-start; }
+  .push img { width: 38px; height: 38px; border-radius: 9px; background: var(--primary); padding: 5px; object-fit: contain; flex: none; }
+  .push .t { flex: 1; min-width: 0; display: grid; gap: 1px; }
+  .push .t .top { display: flex; justify-content: space-between; gap: 8px; }
+  .push .t b { font: 600 15px/20px var(--font); }
+  .push .t .qdo { font: 400 13px/18px var(--font); color: var(--text-muted); }
+  .push .t span { font: 400 15px/20px var(--font); }
+  /* lista de notificações */
+  .nt { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .nt .top { display: flex; align-items: flex-start; gap: 12px; }
+  .nt .top .tx { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+  .nt .top > svg { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .nt .bts { display: flex; gap: 8px; }
+  .nt .bts .btn { flex: 1; }
+  .hdr .acao-txt { font: 500 14px/20px var(--font); color: var(--primary); }
+  .hdr .dir { display: flex; gap: 12px; align-items: center; }
+  .vazio { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 20px; text-align: center; }
+  .vazio img { width: 124px; height: 95px; object-fit: contain; margin-bottom: 4px; }
+  /* lembretes */
+  .lb { display: flex; flex-direction: column; gap: 12px; }
+  .lb .acoes { display: flex; gap: 16px; }
+  .lb .acoes svg, .lr .tg { width: 20px; height: 20px; color: var(--text-muted); }
+  .dias { display: flex; flex-wrap: wrap; gap: 8px; }
+  .dias .chip { width: 40px; justify-content: center; padding: 0; }
+
+</style>
+</head>
+<body>
+<header id="proto" data-lado="jogador" data-fluxo="notificacoes"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Notificações e lembretes</h1>
+  <p>Você recebe avisos no celular e vê tudo na lista de Notificações, no sino da Início. Dá para responder convites ali mesmo, criar lembretes de treino e desligar o push por categoria sem perder as notificações no app.</p>
+  <ul class="regras">
+    <li>Toda notificação também chega como push no celular. Desligar uma categoria tira só o push: a notificação continua na lista do app.</li>
+    <li>Os lembretes ficam no seu celular. Sem permissão de notificação, eles ficam salvos mas não tocam.</li>
+    <li>Torneio e partida pública avisam quem joga a modalidade na mesma cidade; horário relâmpago avisa quem joga a modalidade na cidade da arena.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Push no aparelho</b><span>Exemplos do que chega: desafio, quadra com desconto, mensalidade, lembrete que você criou e conquista. Toque no aviso para abrir a tela certa (desafio, oferta, mensalidade…).</span></div>
+      </div>
+      <div class="phone"><div class="screen bloqueio" data-status="inversa">
+        <div class="screen-body" style="gap:10px;padding:0 12px">
+          <div class="relogio"><div class="d">segunda-feira, 28 de setembro</div><div class="h">18:04</div></div>
+          <div style="height:40px"></div>
+          <div class="push"><img src="../img/logo-simbolo.png" alt=""><div class="t"><div class="top"><b>Desafio recebido</b><span class="qdo">agora</span></div><span>Você foi desafiado para uma partida de Beach tennis.</span></div></div>
+          <div class="push"><img src="../img/logo-simbolo.png" alt=""><div class="t"><div class="top"><b>Quadra livre com desconto</b><span class="qdo">12 min</span></div><span>Arena Maré Alta liberou Quadra 3 por R$ 60.00.</span></div></div>
+          <div class="push"><img src="../img/logo-simbolo.png" alt=""><div class="t"><div class="top"><b>Mensalidade vence hoje</b><span class="qdo">9:00</span></div><span>A mensalidade do plano Beach tennis 2x (R$ 280,00) vence hoje.</span></div></div>
+          <div class="push"><img src="../img/logo-simbolo.png" alt=""><div class="t"><div class="top"><b>Treino de beach tennis</b><span class="qdo">7:00</span></div><span>Bora jogar? Seu lembrete tá na hora!</span></div></div>
+          <div class="push"><img src="../img/logo-simbolo.png" alt=""><div class="t"><div class="top"><b>Mandou bem!</b><span class="qdo">ontem</span></div><span>Você desbloqueou "5 vitórias"! Vem ver seu histórico completo.</span></div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Notificações</b><span>Toque no sino da Início (a bolinha vermelha mostra as não lidas). Não lida fica em preto, lida em cinza; convite traz Aceitar e Recusar; a lixeira apaga uma e "Limpar" apaga as do filtro.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Notificações</span><span class="dir"><span class="acao-txt">Limpar</span><i data-lucide="x"></i></span></div>
+          <div class="chips nowrap"><span class="chip on">Todas</span><span class="chip">Convites</span><span class="chip">Alertas</span></div>
+          <div class="col">
+            <div class="card nt">
+              <div class="top"><div class="tx"><p class="b1m">Desafio recebido</p><p class="b2 muted">Você foi desafiado para uma partida de Beach tennis.</p><p class="cap muted">Hoje · 18:04</p></div><i data-lucide="trash-2"></i></div>
+              <div class="bts"><button class="btn">Aceitar</button><button class="btn dng">Recusar</button></div>
+            </div>
+            <div class="card nt">
+              <div class="top"><div class="tx"><p class="b1m">Quadra livre com desconto</p><p class="b2 muted">Arena Maré Alta liberou Quadra 3 por R$ 60.00.</p><p class="cap muted">Hoje · 17:52</p></div><i data-lucide="trash-2"></i></div>
+            </div>
+            <div class="card nt">
+              <div class="top"><div class="tx"><p class="b1m">Novo torneio perto de você</p><p class="b2 muted">Arena Maré Alta abriu o torneio Open de Verão de Beach tennis, a partir de 12/12</p><p class="cap muted">Hoje · 10:15</p></div><i data-lucide="trash-2"></i></div>
+            </div>
+            <div class="card nt">
+              <div class="top"><div class="tx"><p class="b1m muted">Mensalidade vence hoje</p><p class="b2 muted">A mensalidade do plano Beach tennis 2x (R$ 280,00) vence hoje.</p><p class="cap muted">Hoje · 09:00</p></div><i data-lucide="trash-2"></i></div>
+            </div>
+            <div class="card nt">
+              <div class="top"><div class="tx"><p class="b1m muted">Convite para partida</p><p class="b2 muted">Você foi convidado para uma partida de Futevôlei.</p><p class="cap muted">26/09 · 20:31</p></div><i data-lucide="trash-2"></i></div>
+              <p class="cap muted">Resposta enviada.</p>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Filtro Convites</b><span>Convites de partida, desafio, convocação para o time, equipe de torneio, moderação e desafio recorrente. Respondido aqui ou em outro lugar, os botões dão lugar a "Resposta enviada."; aceitar desafio leva para montar o time.</span><span class="ramo">Alternativa</span><span>Se der erro: "Não foi possível responder. Tente de novo." em vermelho, e os botões continuam.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Notificações</span><span class="dir"><span class="acao-txt">Limpar</span><i data-lucide="x"></i></span></div>
+          <div class="chips nowrap"><span class="chip">Todas</span><span class="chip on">Convites</span><span class="chip">Alertas</span></div>
+          <div class="col">
+            <div class="card nt">
+              <div class="top"><div class="tx"><p class="b1m">Convocação pro time</p><p class="b2 muted">Caio Nunes te chamou pro time de Beach tennis.</p><p class="cap muted">Hoje · 18:10</p></div><i data-lucide="trash-2"></i></div>
+              <p class="cap vermelho">Não foi possível responder. Tente de novo.</p>
+              <div class="bts"><button class="btn">Aceitar</button><button class="btn dng">Recusar</button></div>
+            </div>
+            <div class="card nt">
+              <div class="top"><div class="tx"><p class="b1m muted">Desafio recebido</p><p class="b2 muted">Você foi desafiado para uma partida de Beach tennis.</p><p class="cap muted">Hoje · 18:04</p></div><i data-lucide="trash-2"></i></div>
+              <p class="cap muted">Resposta enviada.</p>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Lista vazia</b><span class="ramo">Alternativa</span><span>Sem notificação no filtro (ou depois de "Limpar"), aparece o mascote com o convite para jogar.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Notificações</span><i data-lucide="x"></i></div>
+          <div class="chips nowrap"><span class="chip">Todas</span><span class="chip">Convites</span><span class="chip on">Alertas</span></div>
+          <div class="vazio"><img src="../img/mascote-em-acao.png" alt=""><p class="t3">Tudo quieto por aqui</p><p class="b2 muted">Quando alguém te chamar pro jogo, você fica sabendo na hora.</p></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Lembretes</b><span>Abra pela linha "Notificações" das Configurações. Ligue e desligue cada lembrete no interruptor, edite no lápis e apague na lixeira; embaixo fica o formulário do novo lembrete (nome, dias, horário).</span><span class="ramo">Alternativa</span><span>Sem lembrete: "Nenhum lembrete ainda". Horário fora do formato: "Use o formato 19:00."</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="padding-bottom:110px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Lembretes</span><i data-lucide="x"></i></div>
+          <div class="card lb">
+            <div class="row"><div class="grow col g4" style="gap:2px"><p class="b1m">Treino de beach tennis</p><p class="b2 muted">seg, qua, sex · 07:00</p></div><span class="toggle on"></span></div>
+            <div class="acoes"><i data-lucide="pencil"></i><i data-lucide="trash-2"></i></div>
+          </div>
+          <div class="col g8">
+            <p class="t3" style="margin-bottom:4px">Novo lembrete</p>
+            <div class="input foco">Futevôlei com a galera</div>
+            <p class="cap muted" style="text-align:right">22/40 caracteres</p>
+            <p class="b2m muted">Dias da semana</p>
+            <div class="dias"><span class="chip">D</span><span class="chip">S</span><span class="chip on">T</span><span class="chip">Q</span><span class="chip on">Q</span><span class="chip">S</span><span class="chip">S</span></div>
+            <div class="input">19:30</div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn">Criar lembrete</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Editar lembrete sem permissão</b><span class="ramo">Alternativa</span><span>Com as notificações do celular desligadas, o aviso no topo leva para os Ajustes do iPhone. Editando um lembrete, o rodapé troca para "Salvar alterações" e "Cancelar".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="padding-bottom:170px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Lembretes</span><i data-lucide="x"></i></div>
+          <div class="card col g8">
+            <p class="b2m">Notificações desativadas</p>
+            <p class="b2 muted">Seus lembretes ficam salvos, mas não vão notificar até você reativar nas configurações do aparelho.</p>
+            <button class="btn sec">Abrir configurações</button>
+          </div>
+          <div class="card lb">
+            <div class="row"><div class="grow col g4" style="gap:2px"><p class="b1m">Treino de beach tennis</p><p class="b2 muted">seg, qua, sex · 07:00</p></div><span class="toggle on"></span></div>
+            <div class="acoes"><i data-lucide="pencil"></i><i data-lucide="trash-2"></i></div>
+          </div>
+          <div class="col g8">
+            <p class="t3" style="margin-bottom:4px">Editar lembrete</p>
+            <div class="input">Treino de beach tennis</div>
+            <p class="cap muted" style="text-align:right">22/40 caracteres</p>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn">Salvar alterações</button><button class="btn out">Cancelar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Notificações por categoria</b><span>Desligue o push de uma categoria inteira. No exemplo, o push de torneios está desligado: os avisos de torneio continuam na lista, só não tocam mais no celular.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Notificações por categoria</span><i data-lucide="x"></i></div>
+          <p class="b2 muted">Desligue o push de uma categoria sem perder a notificação — ela continua aparecendo aqui no app, só o push some.</p>
+          <div class="grupo">
+            <div class="lr"><i data-lucide="swords"></i><span class="rot">Desafios</span><span class="toggle on"></span></div>
+            <div class="lr"><i data-lucide="calendar"></i><span class="rot">Partidas</span><span class="toggle on"></span></div>
+            <div class="lr"><i data-lucide="trophy"></i><span class="rot">Torneios</span><span class="toggle"></span></div>
+            <div class="lr"><i data-lucide="calendar-clock"></i><span class="rot">Reservas de quadra</span><span class="toggle on"></span></div>
+            <div class="lr"><i data-lucide="graduation-cap"></i><span class="rot">Aulas</span><span class="toggle on"></span></div>
+            <div class="lr"><i data-lucide="receipt"></i><span class="rot">Mensalidades</span><span class="toggle on"></span></div>
+            <div class="lr"><i data-lucide="bell"></i><span class="rot">Outras (nível, etc.)</span><span class="toggle on"></span></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Se eu desligar uma categoria, perco os avisos?</summary><p>Não. Só o push deixa de tocar no celular; a notificação continua na lista do app.</p></details>
+    <details><summary>Meu lembrete não tocou. O que houve?</summary><p>Provavelmente as notificações do app estão desligadas no celular. O lembrete fica salvo, mas só toca com a permissão ligada; o aviso no topo da tela de lembretes leva aos Ajustes.</p></details>
+    <details><summary>Por que recebi aviso de um torneio de uma arena que não conheço?</summary><p>Torneio e partida pública avisam quem joga a modalidade na mesma cidade.</p></details>
+    <details><summary>Dá para responder um convite sem abrir a partida?</summary><p>Sim. Na lista de Notificações, o convite traz Aceitar e Recusar.</p></details>
+    <details><summary>Como apago notificações?</summary><p>A lixeira apaga uma; "Limpar" apaga todas as do filtro aberto.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

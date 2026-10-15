@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Desafio recorrente · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* ScreenHeader: seta de voltar, título title3, X de fechar — ícones soltos, sem círculo */
+  .sh { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 58px; padding: 0 20px; flex: none; }
+  .sh .lado { min-width: 24px; display: flex; justify-content: flex-end; }
+  .sh svg { width: 24px; height: 24px; }
+  .sh .t3 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .corpo { padding-top: 12px; }
+  .sec > .t3 { margin-bottom: 12px; }
+  /* Screen footer (botão fixo no rodapé) */
+  .rodape { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 20px 40px; background: var(--background); border-top: 1px solid var(--border); display: flex; gap: 8px; z-index: 3; }
+  .rodape .btn { flex: 1; }
+  .btn.sec-laranja { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.perigo-contorno { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  /* hero do desafio */
+  .bola-esporte { width: 48px; height: 48px; border-radius: 999px; background: var(--primary-wash); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .bola-esporte svg { width: 24px; height: 24px; }
+  .frente { display: flex; align-items: center; gap: 8px; }
+  .frente .lado-time { flex: 1; min-width: 0; padding: 16px 8px; border-radius: 8px; background: var(--surface-alt); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .versus { width: 32px; height: 32px; border-radius: 999px; background: var(--primary); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; font: 500 14px/20px var(--font); flex: none; }
+  .linha-arena { display: flex; align-items: center; gap: 8px; padding-top: 12px; border-top: 1px solid var(--border); color: var(--text-muted); }
+  .linha-arena svg { width: 16px; height: 16px; flex: none; }
+  .denunciar { display: flex; align-items: center; gap: 4px; color: var(--text-muted); }
+  .denunciar svg { width: 14px; height: 14px; }
+  .meta { display: flex; flex-wrap: wrap; column-gap: 16px; row-gap: 4px; }
+  .meta span { display: inline-flex; align-items: center; gap: 4px; color: var(--text-muted); font: 400 14px/20px var(--font); }
+  .meta svg { width: 16px; height: 16px; }
+  .passo-icone { width: 32px; height: 32px; border-radius: 999px; background: var(--primary-wash); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .passo-icone svg { width: 16px; height: 16px; }
+  .chev { width: 16px; height: 16px; color: var(--text-muted); flex: none; }
+  /* CoverCard: capa de 25% à esquerda */
+  .capa-card { display: flex; padding: 0; overflow: hidden; }
+  .capa-card .capa { width: 25%; flex: none; background: var(--primary-wash); color: var(--primary); display: flex; align-items: center; justify-content: center; }
+  .capa-card .capa svg { width: 24px; height: 24px; }
+  .capa-card .conteudo { flex: 1; min-width: 0; padding: 16px; display: grid; gap: 2px; }
+  /* notificação */
+  .lixo { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .nao-lida { position: relative; }
+  /* ReportSheet usa fundo background e raio xl */
+  .sheet.relato { background: var(--background); gap: 12px; }
+  .sheet.relato::before { display: none; }
+  .pos { width: 24px; text-align: center; }
+  /* ---- 2026-10-07: aba Ranking (RankingRow, TournamentCategoryRanking) ---- */
+  .rk-sec { display: flex; flex-direction: column; gap: 8px; }
+  .rkx { display: flex; align-items: center; gap: 12px; padding: 12px; }
+  .rkx.eu { background: var(--primary-wash); border-color: var(--primary-tint); }
+  .rkx .pos { width: 20px; flex: none; text-align: center; font: 500 16px/24px var(--font); color: var(--text-muted); }
+  .rkx .avw { position: relative; flex: none; display: inline-flex; }
+  .rkx .med { position: absolute; right: -4px; bottom: -4px; width: 22px; height: 22px; border-radius: 999px; border: 2px solid var(--surface); color: var(--text-inverse); font: 500 11px/18px var(--font); text-align: center; }
+  .rkx .med.m1 { background: var(--gold); } .rkx .med.m2 { background: var(--silver); } .rkx .med.m3 { background: var(--bronze); }
+  .rkx .coroa { position: absolute; top: -2px; right: -2px; width: 20px; height: 20px; border-radius: 10px; background: var(--gold); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; }
+  .rkx .coroa svg { width: 12px; height: 12px; fill: var(--text-inverse); }
+  .rkx .nm { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .rkx .pts { display: flex; align-items: center; gap: 4px; flex: none; }
+  .rkx .pts svg { width: 14px; height: 14px; }
+  .rkx .tr1 { color: var(--gold); } .rkx .tr2 { color: var(--silver); } .rkx .tr3 { color: var(--bronze); }
+  .podio-rk { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .podio-rk > svg { width: 24px; height: 24px; color: var(--gold); }
+  .podio-rk .degraus { display: flex; align-items: flex-end; gap: 8px; align-self: stretch; }
+  .podio-rk .lugar { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+  .podio-rk .degrau { align-self: stretch; border-radius: 12px 12px 4px 4px; display: flex; justify-content: center; padding-top: 8px; color: var(--text-inverse); font: 600 18px/26px var(--font); }
+  .podio-rk .d1 { height: 96px; background: var(--gold); } .podio-rk .d2 { height: 72px; background: var(--silver); } .podio-rk .d3 { height: 56px; background: var(--bronze); }
+  .chips-rola { display: flex; gap: 8px; flex-wrap: nowrap; overflow: hidden; }
+  /* SegmentedControl do app: raio 8, selecionado laranja */
+  .segc { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .segc > span { flex: 1; text-align: center; padding: 8px 0; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .segc > span.on { background: var(--primary); color: var(--text-inverse); }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="jogador" data-fluxo="desafio-recorrente"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Desafio recorrente</h1>
+  <p>No desafio recorrente, a arena divide a turma em dois times pelo mês inteiro. Você entra numa categoria escolhendo um lado, é sorteado toda semana numa partida, confirma presença e soma games no ranking da categoria. Os desafios ficam na aba Eventos do perfil da arena.</p>
+  <ul class="regras">
+    <li>Toda semana, no dia da categoria, o app sorteia as equipes misturando os dois times (no 2x2, cada equipe tem um jogador de cada time). Quem jogou menos no mês tem prioridade, e quem sobra fica de fora da rodada.</li>
+    <li>A partida só é confirmada quando todos os sorteados aceitam. Se alguém recusa ou sai e não aparece substituto, a rodada daquele grupo é cancelada.</li>
+    <li>O ranking do mês fica na aba Ranking da categoria: soma os games que a sua equipe marcou em cada partida confirmada, e mostra o time (lado) de cada jogador. Empate divide a posição.</li>
+    <li>Só conta de jogador participa. A conta da arena acompanha pelo painel.</li>
+    <li>O desafio recorrente depende do plano da arena: arena sem plano ativo não recebe inscrições novas.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1. perfil da arena, aba Eventos -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Perfil da arena, aba Eventos</b><span>Os desafios publicados aparecem na seção Desafios. Toque no card para abrir o desafio.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><p class="t3">Arena</p><span class="lado"><i data-lucide="x"></i></span></div>
+        <div class="screen-body corpo">
+          <div class="seg"><span>Sobre</span><span class="on">Eventos</span><span>Aulas</span></div>
+          <p class="t2">Arena Maré Alta</p>
+          <div class="sec">
+            <p class="t3">Torneios</p>
+            <div class="card capa-card">
+              <div class="capa"><i data-lucide="trophy"></i></div>
+              <div class="conteudo">
+                <p class="b2m">Open de Verão Maré Alta</p>
+                <div class="row" style="gap:8px"><p class="cap muted grow">Beach tennis · 12/12/2026</p><span class="tag ok sem-ponto">Publicado</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="sec">
+            <p class="t3">Desafios</p>
+            <div class="col g8">
+              <div class="card aro col g4">
+                <p class="b1m">Time Campeche × Time Armação</p>
+                <p class="cap muted">Beach tennis · outubro de 2026</p>
+              </div>
+              <div class="card col g4">
+                <p class="b1m">Canhotos × Destros</p>
+                <p class="cap muted">Futevôlei · outubro de 2026</p>
+              </div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="sec">
+            <p class="t3">Próximos eventos</p>
+            <p class="b2 muted">Nenhum evento agendado no momento.</p>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2. detalhe do desafio -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Desafio recorrente</b><span>Você vê os dois times frente a frente, as categorias com dia, horário e inscritos de cada lado, e como funciona.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><p class="t3">Desafio recorrente</p><span class="lado"><i data-lucide="x"></i></span></div>
+        <div class="screen-body corpo">
+          <div class="card col g16">
+            <div class="row">
+              <div class="bola-esporte"><i data-lucide="table-2"></i></div>
+              <div class="grow"><p class="b2m">Beach tennis</p><p class="cap muted">outubro de 2026</p></div>
+            </div>
+            <div class="frente">
+              <p class="t3 lado-time">Time Campeche</p>
+              <div class="versus">×</div>
+              <p class="t3 lado-time">Time Armação</p>
+            </div>
+            <div class="linha-arena"><i data-lucide="map-pin"></i><p class="b2 grow">Arena Maré Alta</p><i data-lucide="chevron-right"></i></div>
+          </div>
+          <div class="denunciar"><i data-lucide="flag"></i><span class="cap">Denunciar</span></div>
+
+          <div class="sec">
+            <p class="t3">Categorias</p>
+            <div class="col">
+              <div class="card aro col g8">
+                <div class="row" style="gap:8px"><p class="b1m grow">Categoria C</p><i data-lucide="chevron-right" class="chev"></i></div>
+                <div class="meta"><span><i data-lucide="users"></i>2x2</span><span><i data-lucide="calendar-days"></i>Quarta</span><span><i data-lucide="clock"></i>19:00</span></div>
+                <div class="divider" style="margin:4px 0"></div>
+                <div class="row" style="gap:8px">
+                  <div class="grow"><p class="cap muted">Time Campeche</p><p class="b2m">7 inscritos</p></div>
+                  <div class="grow"><p class="cap muted">Time Armação</p><p class="b2m">6 inscritos</p></div>
+                </div>
+              </div>
+              <div class="card col g8">
+                <div class="row" style="gap:8px"><p class="b1m grow">Categoria B</p><i data-lucide="chevron-right" class="chev"></i></div>
+                <div class="meta"><span><i data-lucide="users"></i>2x2</span><span><i data-lucide="calendar-days"></i>Sábado</span><span><i data-lucide="clock"></i>09:00</span></div>
+                <div class="divider" style="margin:4px 0"></div>
+                <div class="row" style="gap:8px">
+                  <div class="grow"><p class="cap muted">Time Campeche</p><p class="b2m">4 inscritos</p></div>
+                  <div class="grow"><p class="cap muted">Time Armação</p><p class="b2m">5 inscritos</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sec">
+            <p class="t3">Como funciona</p>
+            <div class="card col">
+              <div class="row"><div class="passo-icone"><i data-lucide="users"></i></div><p class="b2 grow">Escolha um lado numa categoria.</p></div>
+              <div class="row"><div class="passo-icone"><i data-lucide="shuffle"></i></div><p class="b2 grow">Toda semana, no dia da categoria, o app sorteia as equipes misturando os dois lados. Quem for sorteado confirma presença.</p></div>
+              <div class="row"><div class="passo-icone"><i data-lucide="trophy"></i></div><p class="b2 grow">Cada game que sua equipe marca soma no ranking do mês.</p></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3. denúncia -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Denunciar o desafio</b><span>Toque em "Denunciar" para escolher o motivo. A denúncia é feita contra a arena que criou o desafio, porque os nomes dos times são dela.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><p class="t3">Desafio recorrente</p><span class="lado"><i data-lucide="x"></i></span></div>
+        <div class="screen-body corpo">
+          <div class="card col g16">
+            <div class="row"><div class="bola-esporte"><i data-lucide="table-2"></i></div><div class="grow"><p class="b2m">Beach tennis</p><p class="cap muted">outubro de 2026</p></div></div>
+            <div class="frente"><p class="t3 lado-time">Time Campeche</p><div class="versus">×</div><p class="t3 lado-time">Time Armação</p></div>
+          </div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="sheet relato">
+          <div class="row sb"><p class="t3">Denunciar</p><i data-lucide="x" class="ic24"></i></div>
+          <p class="b2 muted">Conte o que aconteceu. Sua denúncia é confidencial — quem você denunciou não fica sabendo.</p>
+          <div class="input area foco"><span>Nome de time com palavrão contra outra arena.</span></div>
+          <button class="btn">Enviar denúncia</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4. categoria: escolher lado -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Categoria: escolha um lado</b><span>Toque num dos times e você já está inscrito. O ranking da categoria fica na aba Ranking, ao lado de Categoria.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><p class="t3">Categoria C</p><span class="lado"></span></div>
+        <div class="screen-body corpo">
+          <div class="segc"><span class="on">Categoria</span><span>Ranking</span></div>
+          <div class="card"><p class="b2 muted">Beach tennis · 2x2</p></div>
+          <div class="sec">
+            <p class="t3">Escolha um lado</p>
+            <div class="col g8">
+              <div class="card aro row sb" style="gap:8px"><p class="b1m grow">Time Campeche</p><p class="b2 muted">7 inscritos</p></div>
+              <div class="card row sb" style="gap:8px"><p class="b1m grow">Time Armação</p><p class="b2 muted">6 inscritos</p></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5. categoria: inscrito -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Categoria: inscrito</b><span>Inscrito, você vê o seu lado no lugar da escolha, com a opção de sair do time.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><p class="t3">Categoria C</p><span class="lado"></span></div>
+        <div class="screen-body corpo">
+          <div class="segc"><span class="on">Categoria</span><span>Ranking</span></div>
+          <div class="card"><p class="b2 muted">Beach tennis · 2x2</p></div>
+          <div class="card col g8">
+            <div class="row sb" style="gap:8px"><p class="b1m">Você está no Time Campeche</p><span class="tag ok sem-ponto">Confirmado</span></div>
+            <button class="btn perigo-contorno">Sair do time</button>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6. notificação do sorteio -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Aviso do sorteio</b><span>No dia da categoria, se você for sorteado, recebe um convite. Aceite ou recuse ali mesmo, ou toque para abrir a partida.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><p class="t3">Notificações</p><span class="lado"><span class="b2m laranja">Limpar</span><i data-lucide="x" style="margin-left:16px"></i></span></div>
+        <div class="screen-body corpo">
+          <div class="chips nowrap"><span class="chip on">Todas</span><span class="chip">Convites</span><span class="chip">Alertas</span></div>
+          <div class="card col" style="padding:16px">
+            <div class="row top">
+              <div class="grow col" style="gap:2px">
+                <p class="b1m">Você caiu no desafio recorrente dessa semana</p>
+                <p class="b2 muted">Confirme presença até o dia da partida — o time só fecha se todo mundo aceitar.</p>
+                <p class="cap muted">Hoje · 08:00</p>
+              </div>
+              <i data-lucide="trash-2" class="lixo"></i>
+            </div>
+            <div class="row" style="gap:8px"><button class="btn">Aceitar</button><button class="btn perigo-contorno">Recusar</button></div>
+          </div>
+          <div class="card col" style="padding:16px">
+            <div class="row top">
+              <div class="grow col" style="gap:2px">
+                <p class="b1m muted">Partida da semana confirmada</p>
+                <p class="b2 muted">Os dois times fecharam — hora de jogar!</p>
+                <p class="cap muted">30/09 · 17:42</p>
+              </div>
+              <i data-lucide="trash-2" class="lixo"></i>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7. partida pendente -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Partida do desafio</b><span>Você vê as duas equipes sorteadas, cada uma misturando os dois times, e a presença de cada um. Se ainda não respondeu, toque em Aceitar ou Recusar.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><p class="t3">Partida do desafio</p><span class="lado"><i data-lucide="x"></i></span></div>
+        <div class="screen-body corpo">
+          <div class="card col g4">
+            <div class="row sb" style="gap:8px"><p class="t3 grow">Categoria C</p><span class="tag aviso sem-ponto">Pendente</span></div>
+            <p class="b2 muted">07/10 · 19:00</p>
+          </div>
+          <div class="sec">
+            <p class="t3">Time Campeche</p>
+            <div class="col g8">
+              <div class="card row"><span class="avatar">B</span><p class="b1m grow">Bia Moreira</p><span class="tag aviso sem-ponto">Pendente</span></div>
+              <div class="card row"><span class="avatar">R</span><p class="b1m grow">Rafael Tavares</p><span class="tag ok sem-ponto">Confirmado</span></div>
+            </div>
+          </div>
+          <div class="sec">
+            <p class="t3">Time Armação</p>
+            <div class="col g8">
+              <div class="card row"><span class="avatar">D</span><p class="b1m grow">Duda Vieira</p><span class="tag ok sem-ponto">Confirmado</span></div>
+              <div class="card row"><span class="avatar">J</span><p class="b1m grow">Ju Castanho</p><span class="tag aviso sem-ponto">Pendente</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn perigo-contorno">Recusar</button><button class="btn">Aceitar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8. partida confirmada -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Partida confirmada</b><span>Quando todo mundo aceita, a partida é confirmada e o botão do rodapé leva até ela, onde sai o placar.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><p class="t3">Partida do desafio</p><span class="lado"><i data-lucide="x"></i></span></div>
+        <div class="screen-body corpo">
+          <div class="card col g4">
+            <div class="row sb" style="gap:8px"><p class="t3 grow">Categoria C</p><span class="tag ok sem-ponto">Confirmado</span></div>
+            <p class="b2 muted">07/10 · 19:00</p>
+          </div>
+          <div class="sec">
+            <p class="t3">Time Campeche</p>
+            <div class="col g8">
+              <div class="card row"><span class="avatar">B</span><p class="b1m grow">Bia Moreira</p><span class="tag ok sem-ponto">Confirmado</span></div>
+              <div class="card row"><span class="avatar">R</span><p class="b1m grow">Rafael Tavares</p><span class="tag ok sem-ponto">Confirmado</span></div>
+            </div>
+          </div>
+          <div class="sec">
+            <p class="t3">Time Armação</p>
+            <div class="col g8">
+              <div class="card row"><span class="avatar">D</span><p class="b1m grow">Duda Vieira</p><span class="tag ok sem-ponto">Confirmado</span></div>
+              <div class="card row"><span class="avatar">J</span><p class="b1m grow">Ju Castanho</p><span class="tag ok sem-ponto">Confirmado</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn">Ver partida</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 9. partida cancelada -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">9</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Rodada cancelada</b><span>Se alguém recusou e não houve substituto, a partida daquele grupo cai nessa semana e o botão do rodapé some.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><p class="t3">Partida do desafio</p><span class="lado"><i data-lucide="x"></i></span></div>
+        <div class="screen-body corpo">
+          <div class="card col g4">
+            <div class="row sb" style="gap:8px"><p class="t3 grow">Categoria C</p><span class="tag erro sem-ponto">Cancelada</span></div>
+            <p class="b2 muted">14/10 · 19:00</p>
+          </div>
+          <p class="b2 vermelho">Essa rodada foi cancelada.</p>
+          <div class="sec">
+            <p class="t3">Time Campeche</p>
+            <div class="col g8">
+              <div class="card row"><span class="avatar">B</span><p class="b1m grow">Bia Moreira</p><span class="tag ok sem-ponto">Confirmado</span></div>
+              <div class="card row"><span class="avatar">L</span><p class="b1m grow">Léo Farias</p><span class="tag erro sem-ponto">Rejeitado</span></div>
+            </div>
+          </div>
+          <div class="sec">
+            <p class="t3">Time Armação</p>
+            <div class="col g8">
+              <div class="card row"><span class="avatar">D</span><p class="b1m grow">Duda Vieira</p><span class="tag ok sem-ponto">Confirmado</span></div>
+              <div class="card row"><span class="avatar">M</span><p class="b1m grow">Marina Lopes</p><span class="tag aviso sem-ponto">Pendente</span></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 10. ranking -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">10</div>
+        <div class="passo-txt"><b>Aba Ranking</b><span>A soma dos games de cada jogador no mês, com o número de partidas e o time de cada um. Empate divide a posição. Toque num jogador para abrir o perfil. Enquanto ninguém pontua, aparece "Ninguém pontuou ainda".</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><p class="t3">Categoria C</p><span class="lado"><i data-lucide="x"></i></span></div>
+        <div class="screen-body corpo">
+          <div class="segc"><span>Categoria</span><span class="on">Ranking</span></div>
+          <div class="col g8">
+            <div class="card rkx"><span class="avw"><span class="avatar">D</span><span class="med m1">1</span></span><div class="nm"><p class="b1m">Duda Vieira</p><p class="cap muted">3 partidas · Time Armação</p></div><span class="pts"><i data-lucide="trophy" class="tr1"></i><span class="b2m">31 games</span></span></div>
+            <div class="card rkx eu"><span class="avw"><span class="avatar">B</span><span class="med m2">2</span></span><div class="nm"><p class="b1m">Bia Moreira</p><p class="cap laranja">Você</p><p class="cap muted">3 partidas · Time Campeche</p></div><span class="pts"><i data-lucide="trophy" class="tr2"></i><span class="b2m">28 games</span></span></div>
+            <div class="card rkx"><span class="avw"><span class="avatar">R</span><span class="med m3">3</span></span><div class="nm"><p class="b1m">Rafael Tavares</p><p class="cap muted">3 partidas · Time Campeche</p></div><span class="pts"><i data-lucide="trophy" class="tr3"></i><span class="b2m">22 games</span></span></div>
+            <div class="card rkx"><span class="avw"><span class="avatar">J</span><span class="med m3">3</span></span><div class="nm"><p class="b1m">Ju Castanho</p><p class="cap muted">2 partidas · Time Armação</p></div><span class="pts"><i data-lucide="trophy" class="tr3"></i><span class="b2m">22 games</span></span></div>
+            <div class="card rkx"><span class="pos">5</span><span class="avatar md">M</span><div class="nm"><p class="b1">Marina Lopes</p><p class="cap muted">2 partidas · Time Armação</p></div><span class="pts"><span class="b2m muted">12 games</span></span></div>
+            <div class="card rkx"><span class="pos">6</span><span class="avatar md">L</span><div class="nm"><p class="b1">Léo Farias</p><p class="cap muted">1 partida · Time Campeche</p></div><span class="pts"><span class="b2m muted">6 games</span></span></div>
+            <p class="cap muted">Soma dos games de cada um no mês. Empate divide a posição.</p>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Como entro num desafio recorrente?</summary><p>Abra o perfil da arena, vá na aba Eventos e toque no desafio. Escolha a categoria e toque num dos dois times para se inscrever.</p></details>
+    <details><summary>Fui sorteado. O que eu faço?</summary><p>Você recebe um convite nas notificações. Aceite ou recuse ali mesmo ou na tela da partida. A partida só é confirmada quando todos os sorteados aceitam.</p></details>
+    <details><summary>Por que fiquei de fora da rodada?</summary><p>O sorteio dá prioridade a quem jogou menos no mês. Quem sobra fica de fora daquela rodada.</p></details>
+    <details><summary>O que acontece se alguém recusar?</summary><p>Se não aparecer substituto, a rodada daquele grupo é cancelada naquela semana.</p></details>
+    <details><summary>Como funciona o ranking?</summary><p>Na aba Ranking da categoria, ele soma os games que a sua equipe marcou em cada partida confirmada no mês, e mostra o time de cada jogador. Quem empata em games divide a posição.</p></details>
+    <details><summary>É o mesmo ranking da aba Ranking do app?</summary><p>Não. O ranking da categoria mostra só este desafio, no mês. A aba Ranking do app é o ranking competitivo, por modalidade; as partidas do desafio recorrente também contam para o seu rating lá.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

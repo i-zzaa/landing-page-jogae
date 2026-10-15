@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Conhecer o Início · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  .corpo { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 0 20px; overflow: hidden; }
+  .corpo.abas { padding-bottom: 110px; }
+  .corpo.solto { padding: 0; }
+  .btn { font-weight: 500; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.contorno { font-weight: 500; }
+  .btn.fino { height: 44px; padding: 0 12px; width: auto; display: inline-flex; font-size: 16px; }
+  .sh { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; flex: none; }
+  .sh svg { width: 24px; height: 24px; }
+  .sh .t3 { flex: none; }
+  /* cabeçalho da Home */
+  .home-cab { display: flex; justify-content: space-between; align-items: flex-start; padding: 16px 0; }
+  .home-cab .nome { display: flex; align-items: center; gap: 4px; }
+  .home-cab .nome svg { width: 20px; height: 20px; }
+  .home-cab .nivel { display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+  .hex18 { width: 17px; height: 18px; object-fit: contain; }
+  .hex16 { width: 15px; height: 16px; object-fit: contain; }
+  .sino { position: relative; }
+  .sino svg { width: 24px; height: 24px; }
+  .sino .qtd { position: absolute; top: -4px; right: -6px; min-width: 18px; height: 18px; border-radius: 999px; background: var(--danger); color: #fff; border: 2px solid var(--background); font: 400 10px/14px var(--font); text-align: center; padding: 0 4px; }
+  .atalhos { display: flex; gap: 8px; margin-bottom: 16px; }
+  .atalhos > div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 0; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .atalhos > div svg { width: 24px; height: 24px; }
+  .atalhos > div.pri { background: var(--primary); border-color: var(--primary); color: #fff; }
+  /* HomeBanner */
+  .banner { background: var(--primary-wash); border: 1px solid var(--primary-tint); border-radius: 12px; box-shadow: var(--shadow-card); padding: 16px; margin-bottom: 16px; overflow: hidden; }
+  .banner.info { background: var(--info-soft); border-color: var(--info); }
+  .banner .cab { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .banner .cab svg { width: 20px; height: 20px; }
+  .banner .base { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 12px; }
+  .banner .base img { object-fit: contain; flex: none; }
+  .secao { margin-bottom: 24px; }
+  .sec-cab { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .carrossel { display: flex; gap: 12px; overflow: hidden; margin-right: -20px; }
+  .carrossel > * { flex: none; width: 240px; }
+  /* MatchCard / CoverCard: capa de 1/4 */
+  .mc { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .mc .capa { position: absolute; top: 0; bottom: 0; left: 0; width: 25%; display: flex; align-items: center; justify-content: center; background: var(--primary-wash); color: var(--primary); }
+  .mc .capa.verde { background: var(--success-soft); color: var(--success); }
+  .mc .capa.azul { background: var(--info-soft); color: var(--info); }
+  .mc .capa svg { width: 16px; height: 16px; }
+  .mc .capa.grande svg { width: 24px; height: 24px; }
+  .mc .conteudo { margin-left: 25%; padding: 12px; display: grid; gap: 2px; }
+  .mc.cover .conteudo { padding: 16px; }
+  .mc .linha { display: flex; align-items: center; gap: 4px; min-width: 0; }
+  .mc .linha .grow { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mc .linha svg { width: 12px; height: 12px; color: var(--text-muted); flex: none; }
+  .tag-ic { display: inline-flex; align-items: center; justify-content: center; padding: 4px; border-radius: 999px; border: 1px solid; }
+  .tag-ic svg { width: 16px; height: 16px; }
+  .tag-ic.ok { color: var(--success); background: var(--success-soft); border-color: #d9e8db; }
+  .tag-ic.info { color: var(--info); background: var(--info-soft); border-color: #dbe6f5; }
+  .tag.st { padding: 4px 8px; }
+  .tag.st::before { display: none; }
+  .gente { display: inline-flex; align-items: center; gap: 2px; padding: 1px 4px; border-radius: 999px; background: var(--surface); }
+  .gente svg { width: 12px !important; height: 12px !important; }
+  /* EmptyState */
+  .vazio { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 20px; text-align: center; }
+  .vazio .circ { width: 64px; height: 64px; border-radius: 999px; background: var(--surface-alt); color: var(--text-muted); display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+  .vazio .circ svg { width: 28px; height: 28px; }
+  /* SegmentedControl do app (laranja no selecionado) */
+  .segapp { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .segapp > span { flex: 1; text-align: center; padding: 8px 0; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); white-space: nowrap; }
+  .segapp > span.on { background: var(--primary); color: #fff; }
+  .chip.sel { background: var(--primary); border-color: var(--primary); color: #fff; }
+  /* Esportes: faixa de números */
+  .faixa { display: flex; align-items: center; gap: 16px; background: var(--primary-wash); border: 1px solid var(--primary-tint); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+  .faixa .nums { flex: 1; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .faixa .nums > div { display: grid; gap: 2px; }
+  .faixa .div { width: 1px; height: 28px; background: var(--primary-tint); }
+  /* MascotNote */
+  .fala { display: flex; align-items: center; gap: 12px; margin-bottom: -16px; }
+  .fala img { width: 89px; height: 79px; object-fit: contain; flex: none; }
+  .fala .balao { flex: 1; background: var(--primary-wash); border-radius: 12px; padding: 12px; }
+  /* ArenaCard */
+  .ac { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); }
+  .ac .foto { width: 56px; height: 56px; border-radius: 8px; flex: none; }
+  .ac .nota { display: flex; align-items: center; gap: 4px; }
+  .ac .nota svg, .estrela-mini { width: 12px; height: 12px; color: var(--accent); fill: var(--accent); }
+  .placeholder-img { background: var(--surface-alt); display: flex; align-items: center; justify-content: center; color: var(--text-muted); }
+  /* perfil da arena */
+  .galeria { height: 320px; position: relative; flex: none; border-radius: 0; }
+  .galeria .contador { position: absolute; right: 12px; bottom: 12px; padding: 4px 8px; border-radius: 999px; background: var(--overlay-strong); color: #fff; font: 500 12px/16px var(--font); }
+  .inl { display: flex; align-items: center; gap: 4px; }
+  .inl svg { width: 14px; height: 14px; flex: none; }
+  .mapa { height: 160px; border-radius: 12px; position: relative; overflow: hidden; background:
+      linear-gradient(90deg, transparent 48%, var(--surface) 48% 52%, transparent 52%),
+      linear-gradient(0deg, transparent 58%, var(--surface) 58% 61%, transparent 61%),
+      linear-gradient(35deg, transparent 30%, var(--surface) 30% 32%, transparent 32%),
+      var(--surface-alt); border: 1px solid var(--border); }
+  .mapa .pino { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -100%); color: var(--primary); }
+  .mapa .pino svg { width: 32px; height: 32px; fill: var(--primary-soft); }
+  .mapa .osm { position: absolute; right: 6px; bottom: 4px; font: 400 10px/14px var(--font); color: var(--text-muted); }
+  .grade { display: flex; flex-wrap: wrap; gap: 16px; }
+  .grade > div { width: 47%; display: flex; align-items: center; gap: 8px; }
+  .grade svg { width: 22px; height: 22px; }
+  .aval { display: flex; gap: 12px; }
+  .aval .estrelas { display: flex; gap: 2px; }
+  .resp { margin-top: 4px; padding: 8px; border-radius: 12px; background: var(--surface-alt); display: grid; gap: 2px; }
+  /* sheets do app: fundo background, raio 20, padding 20 */
+  .folha { position: absolute; left: 0; right: 0; bottom: 0; z-index: 8; background: var(--background); border-radius: 20px 20px 0 0; padding: 20px 20px 40px; display: flex; flex-direction: column; }
+  .folha .cab { display: flex; justify-content: space-between; align-items: center; }
+  .folha .cab svg { width: 24px; height: 24px; }
+  .estrelas-grandes { display: flex; justify-content: center; gap: 12px; }
+  .estrelas-grandes svg { width: 36px; height: 36px; color: var(--accent); }
+  .estrelas-grandes svg.on { fill: var(--accent); }
+  .rota { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 14px; border: 1px solid var(--border); }
+  .rota svg { width: 20px; height: 20px; color: var(--primary); }
+  /* DayStrip */
+  .dias { display: grid; gap: 8px; }
+  .dias .cab { display: flex; justify-content: space-between; align-items: center; }
+  .dias .cab svg { width: 20px; height: 20px; }
+  .dias .fila { display: flex; justify-content: space-between; }
+  .dias .d { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 40px; }
+  .dias .n { width: 36px; height: 36px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font: 500 16px/24px var(--font); }
+  .dias .n.on { background: var(--primary); color: #fff; }
+  .dias .pt { width: 4px; height: 4px; border-radius: 2px; background: var(--primary); }
+  .dias .pt.off { visibility: hidden; }
+  .jogador { display: flex; align-items: center; gap: 12px; }
+
+  /* proposta: card "Você foi desafiado" carimbado na tela, so na primeira vez */
+  /* celular de altura fixa: os itens da tela nao encolhem, a tela corta embaixo */
+  .da-phone .corpo > * { flex-shrink: 0; }
+  .da-rever { align-self: center; }
+  .da-rever svg { width: 18px; height: 18px; }
+  .da-card { position: relative; }
+  /* 1. o carimbo desce grande e torto, bate na tela e assenta */
+  .da-card.play { animation: da-carimbo .55s cubic-bezier(.55,0,.9,.45) both, da-assenta .35s cubic-bezier(.2,1.6,.4,1) .55s both; }
+  /* 2. no impacto a tela treme e sobe um anel de tinta laranja em volta do card */
+  .da-phone.play .corpo { animation: da-treme .28s ease-out .5s both; }
+  .da-card.play::before { content: ""; position: absolute; inset: -2px; border-radius: 14px; border: 3px solid var(--primary);
+    animation: da-tinta .6s ease-out .52s both; pointer-events: none; }
+  /* 3. depois do impacto o mascote salta de tras da borda */
+  .da-card.play .da-mascote { animation: da-salta .6s cubic-bezier(.2,1.4,.4,1) .8s both; transform-origin: 60% 100%; }
+  @keyframes da-carimbo { 0% { opacity: 0; transform: scale(1.9) rotate(-9deg); } 70% { opacity: 1; } 100% { opacity: 1; transform: scale(.94) rotate(1.5deg); } }
+  @keyframes da-assenta { 0% { transform: scale(.94) rotate(1.5deg); } 100% { transform: none; } }
+  @keyframes da-treme { 0%, 100% { transform: none; } 20% { transform: translate(-3px, 2px); } 40% { transform: translate(3px, -1px); } 60% { transform: translate(-2px, 1px); } 80% { transform: translate(1px, 0); } }
+  @keyframes da-tinta { 0% { opacity: .9; transform: scale(.98); } 100% { opacity: 0; transform: scale(1.12); } }
+  @keyframes da-salta { 0% { opacity: 0; transform: translateY(70px) rotate(10deg); } 60% { opacity: 1; transform: translateY(-12px) rotate(-5deg); } 100% { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .da-card.play, .da-phone.play .corpo, .da-card.play::before, .da-card.play .da-mascote { animation: none; }
+    .da-card.play::before { display: none; }
+  }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="jogador" data-fluxo="inicio"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Conhecer o Início</h1>
+  <p>O Início junta o que pede ação agora (oferta relâmpago, desafio recebido), seus próximos jogos, as partidas públicas, as arenas e os torneios perto de você. Pela barra de baixo você vai para Esportes, para o + de criar partida, para Ranking (ou Aulas, se você é professor) e para o Perfil; o atalho Buscar leva a arenas, jogadores e torneios.</p>
+  <ul class="regras">
+    <li>Horário relâmpago: quadra ociosa vira oferta com desconto sobre o preço de tabela, e quem joga a modalidade na cidade é avisado. Ao ser reservada, vira uma reserva comum.</li>
+    <li>O pedido para avaliar a arena só aparece depois de uma atividade concluída nela: torneio só no fim, aula só com check-in. Se você fechar sem avaliar, ele aparece de novo na próxima vez.</li>
+    <li>O ranking é sempre dentro de um recorte (modalidade, período, cidade e nível), e a aba é aberta a todos.</li>
+    <li>Se você é professor numa arena, a aba Ranking dá lugar à aba Aulas, e o ranking passa para dentro de Esportes.</li>
+    <li>Arenas perto de você: aparecem as arenas que alcançam a sua localização, da mais perto para a mais longe. O alcance é do plano da arena (Básico e arena sem plano 15 km, Premium 30 km, Elite 45 km), não do seu. A lista de Arenas do Buscar usa o mesmo recorte enquanto você não digita nada; digitando, a busca vale para o Brasil todo.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 Home -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Início</b><span>No topo ficam a saudação (a seta ao lado troca de conta) e o sino. Depois vêm os atalhos, os avisos do que pede ação e os carrosséis de jogos e torneios. O + da barra abre direto "Criar partida".</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="corpo abas">
+          <div class="home-cab">
+            <div>
+              <div class="nome"><p class="t1">Olá, Bia!</p><i data-lucide="chevron-down"></i></div>
+              <div class="nivel"><img class="hex18" src="../img/categoria-b.png" alt=""><span class="b2 muted">Futevôlei</span></div>
+            </div>
+            <div class="sino"><i data-lucide="bell"></i><span class="qtd">3</span></div>
+          </div>
+          <div class="atalhos">
+            <div><i data-lucide="plus"></i><span class="capm">Criar partida</span></div>
+            <div><i data-lucide="search"></i><span class="capm">Buscar</span></div>
+            <div class="pri"><i data-lucide="zap"></i><span class="capm">Desafiar jogador</span></div>
+          </div>
+
+          <div class="banner">
+            <div class="cab"><p class="t3 grow">Quadra livre com desconto</p><i data-lucide="chevron-right"></i></div>
+            <p class="b2 muted" style="margin-top:4px">Arena Maré Alta soltou um horário por R$ 60,00.</p>
+            <p class="cap muted" style="margin-top:4px">Hoje · 19:00 · Quadra 3</p>
+            <div class="base"><button class="btn fino">Ver oferta</button><img src="../img/mascote-em-acao.png" alt="" style="width:170px;height:131px;margin:-46px -46px -32px 0"></div>
+          </div>
+
+          <div class="banner">
+            <div class="cab"><p class="t3 grow">VOCÊ FOI DESAFIADO!</p><i data-lucide="chevron-right"></i></div>
+            <p class="b2 muted" style="margin-top:4px">Rafa está esperando sua resposta.</p>
+            <p class="cap muted" style="margin-top:4px">Futevôlei · B · 04/10 · 17:00</p>
+            <div class="base"><button class="btn fino">Aceitar desafio</button><img src="../img/mascote-desafiado.png" alt="" style="width:170px;height:145px;margin:-46px -46px -32px 0"></div>
+          </div>
+
+          <div class="secao">
+            <div class="sec-cab"><p class="t3">Próximos jogos</p><span class="b2m laranja">Ver todos</span></div>
+            <div class="carrossel">
+              <div class="mc"><div class="capa verde"><i data-lucide="zap"></i></div>
+                <div class="conteudo"><div class="linha"><span class="b2m grow">Futevôlei</span><span class="tag-ic info"><i data-lucide="circle-check"></i></span></div>
+                  <div class="linha"><i data-lucide="map-pin"></i><span class="b2 muted grow">Arena Maré Alta</span></div>
+                  <div class="linha"><span class="cap muted grow">04/10 · 17:00</span><span class="gente"><i data-lucide="users"></i><span class="cap muted">4</span></span></div></div></div>
+              <div class="mc"><div class="capa azul"><i data-lucide="table-2"></i></div>
+                <div class="conteudo"><div class="linha"><span class="b2m grow">Beach Tennis</span><span class="tag-ic ok"><i data-lucide="lock-open"></i></span></div>
+                  <div class="linha"><i data-lucide="map-pin"></i><span class="b2 muted grow">Arena Ponta do Sol</span></div>
+                  <div class="linha"><span class="cap muted grow">06/10 · 07:30</span><span class="gente"><i data-lucide="users"></i><span class="cap muted">2</span></span></div></div></div>
+            </div>
+          </div>
+
+          <div class="secao">
+            <div class="sec-cab"><p class="t3">Partidas públicas</p></div>
+            <div class="carrossel">
+              <div class="mc"><div class="capa verde"><i data-lucide="volleyball"></i></div>
+                <div class="conteudo"><div class="linha"><span class="b2m grow">Futevôlei</span><span class="tag-ic ok"><i data-lucide="lock-open"></i></span></div>
+                  <div class="linha"><i data-lucide="map-pin"></i><span class="b2 muted grow">Arena Maré Alta</span></div>
+                  <div class="linha"><span class="cap muted grow">Hoje · 20:00</span><span class="gente"><i data-lucide="users"></i><span class="cap muted">3</span></span></div></div></div>
+              <div class="mc"><div class="capa verde"><i data-lucide="volleyball"></i></div>
+                <div class="conteudo"><div class="linha"><span class="b2m grow">Vôlei</span><span class="tag-ic ok"><i data-lucide="lock-open"></i></span></div>
+                  <div class="linha"><i data-lucide="map-pin"></i><span class="b2 muted grow">Areia Quente</span></div>
+                  <div class="linha"><span class="cap muted grow">05/10 · 09:00</span><span class="gente"><i data-lucide="users"></i><span class="cap muted">7</span></span></div></div></div>
+            </div>
+          </div>
+
+          <div class="secao">
+            <div class="sec-cab"><p class="t3">Torneios perto de você</p><span class="b2m laranja">Ver todos</span></div>
+            <div class="carrossel">
+              <div class="mc cover"><div class="capa"><span class="tag-ic ok"><i data-lucide="trophy"></i></span></div>
+                <div class="conteudo"><span class="cap muted">Arena Maré Alta</span><span class="b2m">Open de Verão Maré Alta</span><span class="cap muted">Futevôlei · 12/12</span></div></div>
+              <div class="mc cover"><div class="capa"><span class="tag-ic ok"><i data-lucide="trophy"></i></span></div>
+                <div class="conteudo"><span class="cap muted">Arena Ponta do Sol</span><span class="b2m">Copa Campeche</span><span class="cap muted">Beach Tennis · 19/10</span></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="tabbar" data-abas="jogador" data-ativa="inicio"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Desafio carimbado na Home</b><span>Na primeira vez que o Início abre com um desafio novo, o card entra como um carimbo: desce grande, bate, a tela treme e o mascote aparece. Nas próximas visitas o card já está parado. Com "Reduzir movimento" ligado no celular, ele só aparece.</span></div>
+      </div>
+      <div class="phone da-phone"><div class="screen">
+        <div class="corpo abas">
+          <div class="home-cab">
+            <div>
+              <div class="nome"><p class="t1">Olá, Bia!</p><i data-lucide="chevron-down"></i></div>
+              <div class="nivel"><img class="hex18" src="../img/categoria-b.png" alt=""><span class="b2 muted">Futevôlei</span></div>
+            </div>
+            <div class="sino"><i data-lucide="bell"></i><span class="qtd">3</span></div>
+          </div>
+          <div class="atalhos">
+            <div><i data-lucide="plus"></i><span class="capm">Criar partida</span></div>
+            <div><i data-lucide="search"></i><span class="capm">Buscar</span></div>
+            <div class="pri"><i data-lucide="zap"></i><span class="capm">Desafiar jogador</span></div>
+          </div>
+
+          <div class="banner da-card" id="da-card">
+            <div class="cab"><p class="t3 grow">VOCÊ FOI DESAFIADO!</p><i data-lucide="chevron-right"></i></div>
+            <p class="b2 muted" style="margin-top:4px">Rafa está esperando sua resposta.</p>
+            <p class="cap muted" style="margin-top:4px">Futevôlei · B · 04/10 · 17:00</p>
+            <div class="base"><button class="btn fino">Aceitar desafio</button><img class="da-mascote" src="../img/mascote-desafiado.png" alt="" style="width:170px;height:145px;margin:-46px -46px -32px 0"></div>
+          </div>
+
+          <div class="secao">
+            <div class="sec-cab"><p class="t3">Próximos jogos</p><span class="b2m laranja">Ver todos</span></div>
+            <div class="carrossel">
+              <div class="mc"><div class="capa verde"><i data-lucide="zap"></i></div>
+                <div class="conteudo"><div class="linha"><span class="b2m grow">Futevôlei</span><span class="tag-ic info"><i data-lucide="circle-check"></i></span></div>
+                  <div class="linha"><i data-lucide="map-pin"></i><span class="b2 muted grow">Arena Maré Alta</span></div>
+                  <div class="linha"><span class="cap muted grow">04/10 · 17:00</span><span class="gente"><i data-lucide="users"></i><span class="cap muted">4</span></span></div></div></div>
+              <div class="mc"><div class="capa azul"><i data-lucide="table-2"></i></div>
+                <div class="conteudo"><div class="linha"><span class="b2m grow">Beach Tennis</span><span class="tag-ic ok"><i data-lucide="lock-open"></i></span></div>
+                  <div class="linha"><i data-lucide="map-pin"></i><span class="b2 muted grow">Arena Ponta do Sol</span></div>
+                  <div class="linha"><span class="cap muted grow">06/10 · 07:30</span><span class="gente"><i data-lucide="users"></i><span class="cap muted">2</span></span></div></div></div>
+            </div>
+          </div>
+
+          <div class="secao">
+            <div class="sec-cab"><p class="t3">Partidas públicas</p></div>
+            <div class="carrossel">
+              <div class="mc"><div class="capa verde"><i data-lucide="volleyball"></i></div>
+                <div class="conteudo"><div class="linha"><span class="b2m grow">Futevôlei</span><span class="tag-ic ok"><i data-lucide="lock-open"></i></span></div>
+                  <div class="linha"><i data-lucide="map-pin"></i><span class="b2 muted grow">Arena Maré Alta</span></div>
+                  <div class="linha"><span class="cap muted grow">Hoje · 20:00</span><span class="gente"><i data-lucide="users"></i><span class="cap muted">3</span></span></div></div></div>
+              <div class="mc"><div class="capa verde"><i data-lucide="volleyball"></i></div>
+                <div class="conteudo"><div class="linha"><span class="b2m grow">Vôlei</span><span class="tag-ic ok"><i data-lucide="lock-open"></i></span></div>
+                  <div class="linha"><i data-lucide="map-pin"></i><span class="b2 muted grow">Areia Quente</span></div>
+                  <div class="linha"><span class="cap muted grow">05/10 · 09:00</span><span class="gente"><i data-lucide="users"></i><span class="cap muted">7</span></span></div></div></div>
+            </div>
+          </div>
+
+          <div class="secao">
+            <div class="sec-cab"><p class="t3">Torneios perto de você</p><span class="b2m laranja">Ver todos</span></div>
+            <div class="carrossel">
+              <div class="mc cover"><div class="capa"><span class="tag-ic ok"><i data-lucide="trophy"></i></span></div>
+                <div class="conteudo"><span class="cap muted">Arena Maré Alta</span><span class="b2m">Open de Verão Maré Alta</span><span class="cap muted">Futevôlei · 12/12</span></div></div>
+              <div class="mc cover"><div class="capa"><span class="tag-ic ok"><i data-lucide="trophy"></i></span></div>
+                <div class="conteudo"><span class="cap muted">Arena Ponta do Sol</span><span class="b2m">Copa Campeche</span><span class="cap muted">Beach Tennis · 19/10</span></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="tabbar" data-abas="jogador" data-ativa="inicio"></div>
+      </div></div>
+    
+      <button type="button" class="btn contorno inline da-rever" id="da-rever"><i data-lucide="rotate-ccw"></i>Rever animação</button>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 Home vazia -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Início sem nada marcado</b><span>Sem desafio nem oferta, o aviso do topo convida você a lançar um desafio, e cada seção vazia explica o que vai aparecer ali.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="corpo abas">
+          <div class="home-cab">
+            <div>
+              <div class="nome"><p class="t1">Olá, Caio!</p><i data-lucide="chevron-down"></i></div>
+              <p class="b2 muted" style="margin-top:4px">Pronto para jogar hoje?</p>
+            </div>
+            <div class="sino"><i data-lucide="bell"></i></div>
+          </div>
+          <div class="atalhos">
+            <div><i data-lucide="plus"></i><span class="capm">Criar partida</span></div>
+            <div><i data-lucide="search"></i><span class="capm">Buscar</span></div>
+            <div class="pri"><i data-lucide="zap"></i><span class="capm">Desafiar jogador</span></div>
+          </div>
+          <div class="banner">
+            <div class="cab"><p class="t3 grow">Tá achando que joga muito?</p></div>
+            <p class="b2 muted" style="margin-top:4px">Escolha um rival e resolva isso na quadra.</p>
+            <div class="base"><button class="btn fino">Lançar desafio</button><img src="../img/mascote-desafio.png" alt="" style="width:142px;height:119px;margin:-32px -46px -16px 0"></div>
+          </div>
+          <div class="secao">
+            <div class="sec-cab"><p class="t3">Próximos jogos</p><span class="b2m laranja">Ver todos</span></div>
+            <div class="vazio" style="padding:16px 20px"><span class="circ"><i data-lucide="calendar-plus"></i></span><p class="t3">Nenhum jogo marcado</p><p class="b2 muted">Quando você entrar em uma partida, ela aparece aqui.</p></div>
+          </div>
+        </div>
+        <div class="tabbar" data-abas="jogador" data-ativa="inicio"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- Arenas perto de você (0305) -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Arenas perto de você</b><span>Rolando o Início, a fileira "Arenas perto de você" mostra as arenas que alcançam a sua localização, da mais perto para a mais longe, com o nome e a distância embaixo de cada uma. O círculo é o logo da arena; sem logo, a primeira foto; sem foto, as iniciais do nome. Toque numa arena para abrir a página dela. Se nenhuma arena alcança você, a seção não aparece.</span><span class="ramo">Alternativa</span><span>Sem a localização do celular, o título vira "Arenas em" mais a cidade do seu perfil, a nota aparece no lugar da distância e o aviso "Ative a localização pra ver por distância." traz o botão "Ativar".</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/arenas-perto/01-inicio-arenas-perto.jpg" alt="Início com a fileira Arenas perto de você: arenas com as iniciais no círculo, a 5 km, 7,9 km, 11,9 km e 13,9 km"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Ver mais</b><span>Arraste a fileira para o lado. Ela mostra até 10 arenas, e quanto maior o plano da arena, mais longe ela chega: aqui aparecem arenas a 26,8 km (Premium) e a 39,7 km (Elite). No fim, "Ver mais" abre a lista de Arenas do Buscar.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/arenas-perto/02-inicio-arenas-longe.jpg" alt="Fileira de arenas arrastada até o fim, com arenas a 13,9 km, 26,8 km e 39,7 km e o círculo Ver mais"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 ArenaReviewSheet -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Avalie a arena</b><span>Aparece sozinha no Início depois da sua primeira atividade concluída numa arena que você ainda não avaliou. Dê uma nota de 1 a 5 e, se quiser, um comentário.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="corpo abas">
+          <div class="home-cab"><div><div class="nome"><p class="t1">Olá, Bia!</p><i data-lucide="chevron-down"></i></div><div class="nivel"><img class="hex18" src="../img/categoria-b.png" alt=""><span class="b2 muted">Futevôlei</span></div></div><div class="sino"><i data-lucide="bell"></i></div></div>
+          <div class="atalhos"><div><i data-lucide="plus"></i><span class="capm">Criar partida</span></div><div><i data-lucide="search"></i><span class="capm">Buscar</span></div><div class="pri"><i data-lucide="zap"></i><span class="capm">Desafiar jogador</span></div></div>
+        </div>
+        <div class="tabbar" data-abas="jogador" data-ativa="inicio"></div>
+        <div class="sheet-veu"></div>
+        <div class="folha" style="gap:16px">
+          <div class="cab"><p class="t3">Avalie a arena</p><i data-lucide="x"></i></div>
+          <p class="b2 muted">Como foi jogar na Arena Maré Alta? Sua nota ajuda outros jogadores a escolher onde jogar.</p>
+          <div class="estrelas-grandes"><i data-lucide="star" class="on"></i><i data-lucide="star" class="on"></i><i data-lucide="star" class="on"></i><i data-lucide="star" class="on"></i><i data-lucide="star"></i></div>
+          <div class="input foco" style="height:auto;min-height:52px"><span style="flex:1">Quadra impecável, só faltou sombra no fim da tarde.</span></div>
+          <button class="btn">Enviar avaliação</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 Esportes -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Esportes</b><span>Seus números e seu histórico em três abas: Partidas (com filtro por modalidade), Torneios e Desafios.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="corpo abas">
+          <div class="col g4" style="padding:16px 0"><p class="t1">Minhas partidas</p><p class="b2 muted">Seu histórico de jogos e próximos jogos.</p></div>
+          <div class="faixa">
+            <div class="nums">
+              <div><p class="t2 num">42</p><p class="cap muted">Partidas</p></div><span class="div"></span>
+              <div><p class="t2 num">27</p><p class="cap muted">Vitórias</p></div><span class="div"></span>
+              <div><p class="t2 num">64%</p><p class="cap muted">Desempenho</p></div>
+            </div>
+            <img src="../img/mascote-em-acao.png" alt="" style="width:74px;height:57px;object-fit:contain;margin:-8px -4px -8px 0">
+          </div>
+          <div class="segapp" style="margin-bottom:16px"><span class="on">Partidas</span><span>Torneios</span><span>Desafios</span></div>
+          <div class="chips nowrap" style="margin-bottom:16px;margin-right:-20px"><span class="chip sel">Todas</span><span class="chip">Futebol</span><span class="chip">Futevôlei</span><span class="chip">Beach Tennis</span><span class="chip">Vôlei</span></div>
+          <div class="col">
+            <div class="mc"><div class="capa verde"><i data-lucide="volleyball"></i></div>
+              <div class="conteudo"><div class="linha"><span class="b2m grow">Futevôlei</span><span class="tag info st">Confirmada</span></div>
+                <div class="linha"><i data-lucide="map-pin"></i><span class="b2 muted grow">Arena Maré Alta</span></div>
+                <div class="linha"><span class="cap muted">04/10 · 17:00</span><i data-lucide="zap"></i><span class="grow"></span><span class="gente"><i data-lucide="users"></i><span class="cap muted">4</span></span></div></div></div>
+            <div class="mc"><div class="capa verde"><i data-lucide="volleyball"></i></div>
+              <div class="conteudo"><div class="linha"><span class="b2m grow">Futevôlei</span><span class="tag neutro st">Concluída</span></div>
+                <div class="linha"><i data-lucide="map-pin"></i><span class="b2 muted grow">Arena Maré Alta</span></div>
+                <div class="linha"><span class="cap muted">27/09 · 18:00</span><span class="grow"></span><span class="gente"><i data-lucide="users"></i><span class="cap muted">4</span></span></div></div></div>
+            <div class="mc"><div class="capa azul"><i data-lucide="table-2"></i></div>
+              <div class="conteudo"><div class="linha"><span class="b2m grow">Beach Tennis</span><span class="tag neutro st">Concluída</span></div>
+                <div class="linha"><i data-lucide="map-pin"></i><span class="b2 muted grow">Arena Ponta do Sol</span></div>
+                <div class="linha"><span class="cap muted">21/09 · 08:00</span><i data-lucide="trophy"></i><span class="grow"></span><span class="gente"><i data-lucide="users"></i><span class="cap muted">2</span></span></div></div></div>
+          </div>
+        </div>
+        <div class="tabbar" data-abas="jogador" data-ativa="esportes"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 Esportes: desafios vazio -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Esportes · Desafios vazio</b><span>Se você ainda não tem desafios, a lista convida você a lançar o primeiro.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="corpo abas">
+          <div class="col g4" style="padding:16px 0"><p class="t1">Minhas partidas</p><p class="b2 muted">Seu histórico de jogos e próximos jogos.</p></div>
+          <div class="faixa">
+            <div class="nums">
+              <div><p class="t2 num">0</p><p class="cap muted">Partidas</p></div><span class="div"></span>
+              <div><p class="t2 num">0</p><p class="cap muted">Vitórias</p></div><span class="div"></span>
+              <div><p class="t2 num">—</p><p class="cap muted">Desempenho</p></div>
+            </div>
+            <img src="../img/mascote-em-acao.png" alt="" style="width:74px;height:57px;object-fit:contain;margin:-8px -4px -8px 0">
+          </div>
+          <div class="segapp" style="margin-bottom:16px"><span>Partidas</span><span>Torneios</span><span class="on">Desafios</span></div>
+          <div class="vazio">
+            <img src="../img/mascote-em-acao.png" alt="" style="width:124px;height:95px;object-fit:contain;margin-bottom:4px">
+            <p class="t3">Ninguém foi desafiado ainda</p>
+            <p class="b2 muted">Tá esperando o quê? Escolhe um rival e resolve na quadra.</p>
+            <button class="btn sec" style="margin-top:12px">Lançar desafio</button>
+          </div>
+        </div>
+        <div class="tabbar" data-abas="jogador" data-ativa="esportes"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 Aulas (professor) -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">9</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Aba Aulas (professor)</b><span>Se você é professor numa arena, vê Aulas no lugar de Ranking: as aulas em que se inscreveu e as que dá, com a agenda da semana.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="corpo abas" style="padding:0">
+          <div class="col" style="padding:16px 20px 0"><p class="t1">Aulas</p><div class="segapp"><span>Minhas aulas</span><span class="on">Aulas que dou</span></div></div>
+          <div class="col" style="padding:12px 20px 0">
+            <div class="segapp"><span class="on">Agenda</span><span>Turmas</span></div>
+            <div class="dias">
+              <div class="cab"><p class="b1m">Outubro de 2026</p><div class="row" style="gap:8px"><i data-lucide="chevron-left"></i><i data-lucide="chevron-right"></i></div></div>
+              <div class="fila">
+                <div class="d"><span class="cap muted">dom</span><span class="n">4</span><span class="pt off"></span></div>
+                <div class="d"><span class="cap laranja">seg</span><span class="n on">5</span><span class="pt"></span></div>
+                <div class="d"><span class="cap muted">ter</span><span class="n">6</span><span class="pt off"></span></div>
+                <div class="d"><span class="cap muted">qua</span><span class="n">7</span><span class="pt"></span></div>
+                <div class="d"><span class="cap muted">qui</span><span class="n">8</span><span class="pt off"></span></div>
+                <div class="d"><span class="cap muted">sex</span><span class="n">9</span><span class="pt"></span></div>
+                <div class="d"><span class="cap muted">sáb</span><span class="n">10</span><span class="pt off"></span></div>
+              </div>
+            </div>
+            <div class="col g8">
+              <div class="card"><p class="b1m">07:00 – 08:00 · Futevôlei iniciante</p><p class="b2 muted">Futevôlei · Bia Moreira · Quadra 1</p><p class="cap muted">8/10 vagas</p></div>
+              <div class="card"><p class="b1m">18:30 – 19:30 · Futevôlei intermediário</p><p class="b2 muted">Futevôlei · Bia Moreira · Quadra 2</p><p class="cap muted">10/10 vagas · 2 na fila</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="tabbar" data-abas="jogador-aulas" data-ativa="aulas"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 Buscar arenas -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">10</div>
+        <div class="passo-txt"><b>Buscar · Arenas</b><span>Toque em Buscar no Início (ou em "Ver mais" na fileira de arenas). Sem nada digitado, a lista mostra as mesmas arenas que alcançam você, da mais perto para a mais longe, e as modalidades no alto filtram a lista. Cada card traz a foto, o nome, a cidade e a distância, e também as quadras e a nota quando a arena tem.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/arenas-perto/04-buscar-arenas.jpg" alt="Buscar na aba Arenas, sem nada digitado: arenas de Porto Velho a 5, 8, 12, 14 e 27 km"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">11</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Buscar pelo nome</b><span>Digite o nome ou o bairro em "Pesquisar arena ou bairro". Aí a busca vale para o Brasil todo, em qualquer plano: aqui aparece uma arena a 49,9 km, fora do alcance dela. O X no campo limpa a busca e a lista volta para as arenas perto de você.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/arenas-perto/05-buscar-digitando.jpg" alt="Buscar com Perto Elite Fora digitado no campo: uma arena a 49,9 km"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 Buscar jogadores -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">12</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Buscar · Jogadores</b><span>Sem digitar nada, aparecem jogadores da sua cidade e do seu nível; digitando, a busca é pelo nome.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="sh"><i data-lucide="arrow-left"></i><p class="t3">Buscar</p><i data-lucide="x"></i></div>
+        <div class="corpo" style="gap:16px;padding-top:12px">
+          <div class="fala"><img src="../img/mascote-desafio.png" alt=""><div class="balao"><p class="b2">Ache a arena certa ou encontre alguém pra jogar agora.</p></div></div>
+          <div class="segapp"><span>Arenas</span><span class="on">Jogadores</span><span>Torneios</span></div>
+          <div class="input"><i data-lucide="search"></i><span class="ph">Pesquisar jogador pelo nome</span></div>
+          <div class="col">
+            <div class="inl"><img class="hex16" src="../img/categoria-b.png" alt=""><span class="cap muted">Perto de Florianópolis · mesmo nível que você</span></div>
+            <div class="card jogador"><span class="avatar">R</span><div class="grow" style="display:grid;gap:2px"><div class="inl"><p class="b1m">Rafa Lopes</p><span class="tag ok st">Disponível</span></div><div class="inl"><img class="hex16" src="../img/categoria-b.png" alt=""><span class="cap muted">Futevôlei · Florianópolis</span></div></div></div>
+            <div class="card jogador"><span class="avatar">M</span><div class="grow" style="display:grid;gap:2px"><div class="inl"><p class="b1m">Marina Costa</p><span class="tag ok st">Disponível</span></div><div class="inl"><img class="hex16" src="../img/categoria-b.png" alt=""><span class="cap muted">Futevôlei · Florianópolis</span></div></div></div>
+            <div class="card jogador"><span class="avatar">T</span><div class="grow" style="display:grid;gap:2px"><div class="inl"><p class="b1m">Théo Campos</p><span class="tag neutro st">Indisponível</span></div><div class="inl"><img class="hex16" src="../img/categoria-b.png" alt=""><span class="cap muted">Futevôlei · Florianópolis</span></div></div></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 9 Perfil público da arena -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">13</div>
+        <div class="passo-txt"><b>Arena · Sobre</b><span>Na página da arena você vê galeria, nota, endereço, mapa, "Como chegar", diária, horário de hoje e "Reservar quadra"; depois, modalidades, serviços, formas de pagamento e avaliações. Daqui também dá para denunciar a arena.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="sh"><i data-lucide="arrow-left"></i><p class="t3">Arena</p><i data-lucide="x"></i></div>
+        <div class="corpo solto">
+          <div style="padding:8px 20px 0"><div class="segapp"><span class="on">Sobre</span><span>Eventos</span><span>Aulas</span></div></div>
+          <div class="foto quadra galeria" style="margin-top:0"><span class="contador">1/4</span></div>
+          <div class="col" style="padding:16px 20px 40px">
+            <p class="t2">Arena Maré Alta</p>
+            <div class="inl"><i data-lucide="star" style="color:var(--accent);fill:var(--accent)"></i><span class="b2m">4,8</span><span class="b2 muted">· 36 avaliações</span></div>
+            <div class="inl"><i data-lucide="map-pin" class="muted"></i><span class="b2 muted">Rua das Gaivotas, 410, Campeche, Florianópolis, SC</span></div>
+            <div class="inl"><i data-lucide="flag" class="muted"></i><span class="cap muted">Denunciar</span></div>
+            <div class="mapa"><span class="pino"><i data-lucide="map-pin"></i></span><span class="osm">© OpenStreetMap</span></div>
+            <div class="inl"><i data-lucide="navigation" class="laranja"></i><span class="b2m laranja">Como chegar</span></div>
+            <p class="b1m">R$ 40,00 / diária</p>
+            <div class="inl"><span class="b2m verde">Aberta agora</span><span class="b2 muted">· 06:00 – 22:00</span></div>
+            <button class="btn">Reservar quadra</button>
+            <div class="divider"></div>
+            <div><div class="sec-cab"><p class="t3">Sobre nós</p></div><p class="b2 muted">Três quadras de areia no Campeche, a duas quadras da praia. Futevôlei e beach tennis todos os dias, com iluminação à noite.</p></div>
+            <div class="divider"></div>
+            <div><div class="sec-cab"><p class="t3">Modalidades</p></div><div class="grade"><div><i data-lucide="volleyball"></i><span class="b2m">Futevôlei</span></div><div><i data-lucide="table-2"></i><span class="b2m">Beach Tennis</span></div></div></div>
+            <div class="divider"></div>
+            <div><div class="sec-cab"><p class="t3">O que esse lugar oferece</p></div><div class="grade"><div><i data-lucide="shirt"></i><span class="b2m">Vestiário</span></div><div><i data-lucide="circle-parking"></i><span class="b2m">Estacionamento</span></div><div><i data-lucide="utensils"></i><span class="b2m">Lanchonete</span></div><div><i data-lucide="wifi"></i><span class="b2m">Wi-Fi</span></div></div></div>
+            <div class="divider"></div>
+            <div><div class="sec-cab"><p class="t3">Formas de pagamento</p></div><div class="grade"><div><i data-lucide="qr-code"></i><span class="b2m">Pix</span></div><div><i data-lucide="credit-card"></i><span class="b2m">Cartão de crédito</span></div></div></div>
+            <div class="divider"></div>
+            <div>
+              <div class="inl" style="gap:8px;margin-bottom:12px"><i data-lucide="star" style="width:18px;height:18px;color:var(--accent);fill:var(--accent)"></i><p class="t3">4,8 · 36 avaliações</p></div>
+              <div class="aval">
+                <span class="avatar md">B</span>
+                <div class="grow col g4">
+                  <div class="row sb"><p class="b1m">Bruno Lima</p><span class="cap muted">setembro de 2026</span></div>
+                  <div class="estrelas"><i data-lucide="star" class="estrela-mini"></i><i data-lucide="star" class="estrela-mini"></i><i data-lucide="star" class="estrela-mini"></i><i data-lucide="star" class="estrela-mini"></i><i data-lucide="star" class="estrela-mini"></i></div>
+                  <p class="b2 muted">Areia fofa e rede no ponto. Voltamos toda semana.</p>
+                  <span class="cap muted">Denunciar</span>
+                  <div class="resp"><p class="capm">Resposta da arena</p><p class="b2 muted">Valeu, Bruno! Até sábado.</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 10 Como chegar -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">14</div>
+        <div class="passo-txt"><b>Como chegar</b><span>Toque no mapa ou em "Como chegar" e escolha entre Waze e Google Maps.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="sh"><i data-lucide="arrow-left"></i><p class="t3">Arena</p><i data-lucide="x"></i></div>
+        <div class="corpo solto">
+          <div style="padding:8px 20px 0"><div class="segapp"><span class="on">Sobre</span><span>Eventos</span><span>Aulas</span></div></div>
+          <div class="foto quadra galeria"><span class="contador">1/4</span></div>
+          <div class="col" style="padding:16px 20px"><p class="t2">Arena Maré Alta</p></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="folha" style="gap:12px">
+          <div class="cab"><p class="t3">Como chegar</p><i data-lucide="x"></i></div>
+          <p class="b2 muted">Rua das Gaivotas, 410, Campeche, Florianópolis, SC</p>
+          <div class="rota"><i data-lucide="navigation"></i><p class="b1m">Abrir no Waze</p></div>
+          <div class="rota"><i data-lucide="map"></i><p class="b1m">Abrir no Google Maps</p></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 11 Eventos da arena -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">15</div>
+        <div class="passo-txt"><b>Arena · Eventos</b><span>Torneios abertos, circuitos, desafios publicados e próximos eventos da arena. A aba Aulas só aparece em arena que oferece aulas pelo app.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="sh"><i data-lucide="arrow-left"></i><p class="t3">Arena</p><i data-lucide="x"></i></div>
+        <div class="corpo solto">
+          <div style="padding:8px 20px 0"><div class="segapp"><span>Sobre</span><span class="on">Eventos</span><span>Aulas</span></div></div>
+          <div class="col" style="padding:16px 20px">
+            <p class="t2">Arena Maré Alta</p>
+            <div><div class="sec-cab"><p class="t3">Torneios</p></div>
+              <div class="mc cover"><div class="capa grande"><i data-lucide="trophy"></i></div><div class="conteudo"><span class="b2m">Open de Verão Maré Alta</span><div class="linha"><span class="cap muted grow">Futevôlei · 12/12</span><span class="tag ok st">Publicado</span></div></div></div></div>
+            <div class="divider"></div>
+            <div><div class="sec-cab"><p class="t3">Circuitos</p></div>
+              <div class="mc cover"><div class="capa grande"><i data-lucide="calendar-range"></i></div><div class="conteudo"><span class="b2m">Circuito Maré Alta 2026</span><div class="linha"><span class="cap muted grow">Futevôlei · 4 etapas</span><span class="tag ok st">Publicado</span></div></div></div></div>
+            <div class="divider"></div>
+            <div><div class="sec-cab"><p class="t3">Desafios</p></div>
+              <div class="card"><p class="b1m">Maré Cheia × Areia Quente</p><p class="cap muted">Futevôlei · outubro de 2026</p></div></div>
+            <div class="divider"></div>
+            <div><div class="sec-cab"><p class="t3">Próximos eventos</p></div>
+              <p class="b2 muted">Nenhum evento agendado no momento.</p></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>O que é a oferta relâmpago que aparece no Início?</summary><p>É um horário de quadra ociosa oferecido com desconto sobre o preço de tabela da arena. Quem joga a modalidade na cidade é avisado, e ao reservar ela vira uma reserva comum.</p></details>
+    <details><summary>Por que o app me pediu para avaliar uma arena?</summary><p>O pedido aparece depois de uma atividade concluída numa arena que você ainda não avaliou: torneio só no fim, aula só com check-in. Se fechar sem avaliar, ele volta na próxima vez.</p></details>
+    <details><summary>Não vejo a aba Ranking. Onde ela foi parar?</summary><p>Se você é professor numa arena, a aba Ranking dá lugar à aba Aulas, e o ranking passa para dentro de Esportes.</p></details>
+    <details><summary>Por que uma arena da minha região não aparece em "Arenas perto de você"?</summary><p>Cada arena só aparece até onde o plano dela alcança: Básico (e arena sem plano) até 15 km, Premium até 30 km e Elite até 45 km, contados da sua localização. Uma arena Básico a 20 km de você fica de fora, mesmo sendo da sua cidade. Para achá-la, digite o nome dela em Buscar: a busca pelo nome vale para o Brasil todo.</p></details>
+    <details><summary>Como encontro uma arena ou outro jogador?</summary><p>Toque em Buscar no Início. Em Arenas, filtre por modalidade; em Jogadores, veja sugestões da sua cidade e do seu nível ou busque pelo nome.</p></details>
+    <details><summary>Como chego até a arena?</summary><p>Na página da arena, toque no mapa ou em "Como chegar" e escolha entre Waze e Google Maps.</p></details>
+  </div>
+</section>
+
+<script>
+  /* "Rever animação": tira a classe, forca o reflow e devolve, pra entrada tocar de novo */
+  (function () {
+    var card = document.getElementById('da-card'), botao = document.getElementById('da-rever');
+    if (!card) return;
+    var phone = card.closest('.phone');
+    function tocar() {
+      [card, phone].forEach(function (el) { el.classList.remove('play'); void el.offsetWidth; el.classList.add('play'); });
+    }
+    tocar();
+    if (botao) botao.addEventListener('click', tocar);
+  })();
+</script>
+<script src="../kit.js"></script>
+</body>
+</html>

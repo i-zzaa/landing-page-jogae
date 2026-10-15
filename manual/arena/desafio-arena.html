@@ -1,0 +1,1026 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Desafiar outra arena · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* CSS só desta página, sempre com as variáveis do kit (nunca cor solta) */
+  .screen-body.lista { padding: 0; gap: 0; }
+  .app-hdr { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 20px; min-height: 48px; }
+  .app-hdr .lado { min-width: 24px; display: flex; gap: 12px; align-items: center; justify-content: flex-end; }
+  .app-hdr .lado:first-child { justify-content: flex-start; }
+  .app-hdr .lado svg { width: 24px; height: 24px; }
+  .app-hdr .titulo { flex: 1; text-align: center; font: 600 18px/26px var(--font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .corpo { padding: 12px 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .corpo.g12 { gap: 12px; }
+  .rodape { flex: none; padding: 12px 20px 34px; display: flex; flex-direction: column; gap: 8px; background: var(--background); }
+  .rodape.g16 { gap: 16px; }
+  .btn { font-weight: 500; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.dng { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  .btn.out { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+  .link-recusar { align-self: center; padding: 8px 0; font: 500 16px/24px var(--font); color: var(--danger); }
+  .segapp { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .segapp span { flex: 1; text-align: center; padding: 8px 4px; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .segapp span.on { background: var(--primary); color: var(--text-inverse); }
+  .segweb { display: inline-flex; background: var(--neutral-soft); border-radius: 12px; padding: 4px; align-self: flex-start; }
+  .segweb span { height: 30px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 8px; font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .segweb span.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow-card); }
+  .card.cc { display: flex; flex-direction: column; gap: 4px; }
+  .cat { display: block; object-fit: contain; flex: none; }
+  .cat20 { width: 20px; height: 20px; } .cat32 { width: 32px; height: 32px; }
+  .chip.nivel { padding: 0 10px; }
+  .mascote-nota { display: flex; align-items: center; gap: 12px; margin-bottom: -16px; }
+  .mascote-nota img { width: 89px; height: 79px; object-fit: contain; flex: none; }
+  .mascote-nota .balao { flex: 1; background: var(--primary-wash); border-radius: 12px; padding: 12px; font: 400 14px/20px var(--font); }
+  .rival { display: flex; align-items: center; gap: 12px; }
+  .card.escolhida { border: 2px solid var(--primary); }
+  .grupo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .lrow { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; background: var(--surface); }
+  .lrow + .lrow { border-top: 1px solid var(--border); }
+  .lrow .rot { flex: 1; font: 400 16px/24px var(--font); }
+  .lrow .val { font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .lrow > svg { width: 20px; height: 20px; color: var(--primary); flex: none; }
+  .stepper { display: flex; align-items: center; justify-content: space-between; height: 52px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .stepper svg { width: 20px; height: 20px; }
+  .mp { display: flex; align-items: center; gap: 12px; }
+  .mp .ico { width: 40px; height: 40px; border-radius: 12px; background: var(--primary-wash); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .mp .ico svg { width: 20px; height: 20px; }
+  .capa-ph { height: 160px; border-radius: 12px; background: var(--surface-alt); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--text-muted); position: relative; }
+  .capa-ph svg { width: 28px; height: 28px; }
+  .capa-foto { height: 160px; border-radius: 12px; position: relative; }
+  .capa-badge { position: absolute; right: 8px; bottom: 8px; width: 28px; height: 28px; border-radius: 999px; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; }
+  .capa-badge svg { width: 14px; height: 14px; }
+  .versus-card { display: flex; align-items: center; justify-content: space-between; }
+  .versus-card .ld { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+  /* confronto do detalhe */
+  .hero { min-height: 200px; padding: 16px; border-radius: 12px; overflow: hidden; position: relative; background: var(--secondary); display: flex; flex-direction: column; justify-content: space-between; }
+  .hero.capa { background: linear-gradient(160deg, var(--primary-dark) 0%, var(--secondary) 100%); }
+  .hero::before { content: ""; position: absolute; inset: 0; background: var(--overlay-strong); }
+  .hero > * { position: relative; }
+  .hero-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .hero-top .tn { flex: 1; font: 500 12px/16px var(--font); color: #fff; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hero-top .canc { padding: 4px 12px; border-radius: 999px; background: var(--overlay); color: #fff; font: 500 14px/20px var(--font); }
+  .matchup { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; }
+  .matchup .ld { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; color: #fff; font: 500 14px/20px var(--font); }
+  .matchup .vs { color: #fff; font: 600 18px/26px var(--font); transform: rotate(-8deg); }
+  .headline { display: flex; flex-direction: column; gap: 4px; }
+  .tags { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+  .countdown { padding: 4px 12px; border-radius: 999px; background: var(--primary); color: #fff; font: 500 12px/16px var(--font); }
+  .info-c { position: relative; display: flex; flex-direction: column; gap: 8px; min-height: 96px; padding-right: 80px; overflow: hidden; }
+  .info-c .lin { display: flex; align-items: center; gap: 8px; }
+  .info-c .lin > svg { width: 20px; height: 20px; color: var(--primary); flex: none; }
+  .info-c .masc { position: absolute; right: 8px; bottom: 0; width: 64px; height: 96px; object-fit: contain; object-position: bottom; }
+  .cat-row { display: flex; align-items: center; gap: 12px; }
+  .cat-row svg { width: 16px; height: 16px; color: var(--primary); }
+  .sheet.app { background: var(--background); padding: 20px 20px 32px; gap: 12px; border-radius: 20px 20px 0 0; }
+  .sheet.app::before { display: none; }
+  .sheet-cab { display: flex; align-items: center; justify-content: space-between; }
+  .sheet-cab svg { width: 24px; height: 24px; }
+  .share-row { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 14px; border: 1px solid var(--border); font: 500 16px/24px var(--font); }
+  .share-row svg { width: 20px; height: 20px; color: var(--primary); }
+  /* story 9:16 */
+  .story { width: 370px; height: 658px; border-radius: 24px; background: var(--primary); overflow: hidden; position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 40px 24px 36px; box-shadow: 0 20px 40px rgba(31,31,31,.18); flex: none; }
+  .story .marca { position: absolute; right: -40px; top: 120px; width: 300px; opacity: .12; }
+  .story > * { position: relative; }
+  .story .hl { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; color: #fff; }
+  .story .pill-branca { padding: 4px 12px; border-radius: 999px; background: var(--surface); color: var(--primary); font: 500 12px/16px var(--font); }
+  .ticket-top { background: var(--primary-soft); opacity: .95; border-radius: 20px 20px 8px 8px; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .ticket-top img.logo { width: 110px; height: 36px; object-fit: contain; }
+  .ticket-top .mu { display: flex; align-items: center; justify-content: space-between; align-self: stretch; }
+  .ticket-top .mu .ld { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; font: 500 16px/24px var(--font); }
+  .ticket-top .mu .vs { color: var(--primary); font: 600 20px/28px var(--font); transform: rotate(-8deg); }
+  .picote { padding: 8px 16px; } .picote i { display: block; border-top: 2px dashed var(--primary-soft); }
+  .ticket-bot { background: var(--primary-soft); opacity: .95; border-radius: 8px 8px 20px 20px; padding: 16px 104px 16px 16px; min-height: 132px; position: relative; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
+  .ticket-bot .lin { display: flex; align-items: center; gap: 8px; }
+  .ticket-bot .lin svg { width: 20px; height: 20px; color: var(--primary); }
+  .ticket-bot .masc { position: absolute; right: 8px; bottom: 0; width: 88px; height: 132px; object-fit: contain; object-position: bottom; }
+  .sel-row { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .sel-row.on { border-color: var(--primary); background: var(--primary-soft); }
+  .sel-row .tx { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+  .sel-row .mk { width: 22px; height: 22px; border-radius: 11px; border: 1.5px solid var(--border); background: var(--surface); flex: none; display: flex; align-items: center; justify-content: center; }
+  .sel-row.on .mk { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .sel-row .mk svg { width: 12px; height: 12px; }
+  .empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 20px; text-align: center; }
+  .empty .ico-vazio { width: 64px; height: 64px; border-radius: 999px; background: var(--surface-alt); color: var(--text-muted); display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+  .empty .ico-vazio svg { width: 28px; height: 28px; }
+  /* painel web */
+  .shell { min-width: 0; }
+  .shell-conteudo > *, .colunas > * { min-width: 0; }
+  .sino { padding: 4px; position: relative; display: inline-flex; }
+  .sino svg { width: 24px; height: 24px; }
+  .sino .badge-dot { top: 0; right: 0; }
+  .colunas { display: flex; align-items: flex-start; gap: 16px; }
+  .lista-d { width: 340px; flex: none; display: flex; flex-direction: column; gap: 12px; }
+  .cdes { border: 1px solid var(--border); background: var(--surface); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .cdes.on { border-color: var(--primary); background: var(--primary-wash); }
+  .cdes .tp { display: flex; align-items: center; gap: 12px; }
+  .cdes .ic { width: 36px; height: 36px; border-radius: 8px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .cdes .ic svg { width: 16px; height: 16px; }
+  .cdes .rp { display: flex; align-items: center; gap: 8px; }
+  .painel-d { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+  .card-conf { padding: 0; overflow: hidden; }
+  .card-conf .hero { border-radius: 0; }
+  .corpo-conf { padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+  .infos-w { display: flex; gap: 16px; flex-wrap: wrap; }
+  .infos-w .lin { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 160px; }
+  .infos-w .lin > svg { width: 20px; height: 20px; color: var(--primary); flex: none; }
+  .provoc { display: flex; align-items: flex-start; gap: 8px; padding: 12px; border-radius: 12px; background: var(--primary-wash); }
+  .provoc svg { width: 16px; height: 16px; color: var(--primary); flex: none; margin-top: 2px; }
+  .acoes-w { display: flex; align-items: center; gap: 8px; }
+  .acoes-w .btn { flex: 1; }
+  .wizcols { display: flex; gap: 24px; align-items: flex-start; }
+  .princ { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+  .resumo { width: 320px; flex: none; display: flex; flex-direction: column; gap: 8px; }
+  .campos2 { display: flex; gap: 16px; } .campos2 > * { flex: 1; min-width: 0; }
+  .campo-rot { font: 500 12px/16px var(--font); color: var(--text-muted); }
+  .cand { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+  .lock-btn svg { width: 18px; height: 18px; }
+  /* proposta: desafio aberto pelo link, duas colunas */
+  .dl { display: flex; gap: 24px; align-items: flex-start; }
+  .dl-esq { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
+  .dl-dir { width: 360px; flex: none; display: flex; flex-direction: column; gap: 16px; }
+  .dl-migalha { display: flex; align-items: center; gap: 6px; font: 500 13px/18px var(--font); color: var(--text-muted); }
+  .dl-migalha svg { width: 14px; height: 14px; }
+  .dl-migalha .ativo { color: var(--primary); }
+  .dl .hero { min-height: 260px; padding: 20px 28px; border-radius: 20px; }
+  .dl .matchup { margin-top: 8px; padding: 0 24px; }
+  .dl .matchup .ld { font: 600 16px/22px var(--font); gap: 12px; }
+  .dl .matchup .avatar.xl { width: 88px; height: 88px; font-size: 30px; }
+  .dl .matchup .vs { font: 700 34px/40px var(--font); color: var(--primary); }
+  .dl-titulo { font: 600 34px/42px var(--font); margin: 0; letter-spacing: -.01em; }
+  .dl-decisao { display: flex; flex-direction: column; gap: 16px; }
+  .dl-contagem { display: flex; align-items: baseline; gap: 8px; }
+  .dl-contagem .n { font: 600 28px/36px var(--font); color: var(--primary); font-variant-numeric: tabular-nums; }
+  .dl-info { display: flex; flex-direction: column; gap: 10px; position: relative; padding-right: 72px; min-height: 96px; }
+  .dl-info .lin { display: flex; align-items: flex-start; gap: 10px; }
+  .dl-info .lin > svg { width: 20px; height: 20px; color: var(--primary); flex: none; }
+  .dl-info .masc { position: absolute; right: -8px; bottom: -16px; width: 72px; height: 104px; object-fit: contain; object-position: bottom; }
+  .dl-cats { display: grid; gap: 8px; }
+  .dl-cat { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
+  .dl-cat img { width: 32px; height: 32px; }
+  .dl-mp { display: flex; gap: 12px; align-items: flex-start; padding: 14px; border-radius: 12px; background: var(--info-soft); }
+  .dl-mp svg { width: 20px; height: 20px; color: var(--info); flex: none; }
+  .dl-area { min-height: 110px; align-items: flex-start; padding-top: 12px; }
+  /* ---- 2026-10-07: aba Ranking (RankingRow, TournamentCategoryRanking) ---- */
+  .rk-sec { display: flex; flex-direction: column; gap: 8px; }
+  .rkx { display: flex; align-items: center; gap: 12px; padding: 12px; }
+  .rkx.eu { background: var(--primary-wash); border-color: var(--primary-tint); }
+  .rkx .pos { width: 20px; flex: none; text-align: center; font: 500 16px/24px var(--font); color: var(--text-muted); }
+  .rkx .avw { position: relative; flex: none; display: inline-flex; }
+  .rkx .med { position: absolute; right: -4px; bottom: -4px; width: 22px; height: 22px; border-radius: 999px; border: 2px solid var(--surface); color: var(--text-inverse); font: 500 11px/18px var(--font); text-align: center; }
+  .rkx .med.m1 { background: var(--gold); } .rkx .med.m2 { background: var(--silver); } .rkx .med.m3 { background: var(--bronze); }
+  .rkx .coroa { position: absolute; top: -2px; right: -2px; width: 20px; height: 20px; border-radius: 10px; background: var(--gold); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; }
+  .rkx .coroa svg { width: 12px; height: 12px; fill: var(--text-inverse); }
+  .rkx .nm { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .rkx .pts { display: flex; align-items: center; gap: 4px; flex: none; }
+  .rkx .pts svg { width: 14px; height: 14px; }
+  .rkx .tr1 { color: var(--gold); } .rkx .tr2 { color: var(--silver); } .rkx .tr3 { color: var(--bronze); }
+  .podio-rk { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .podio-rk > svg { width: 24px; height: 24px; color: var(--gold); }
+  .podio-rk .degraus { display: flex; align-items: flex-end; gap: 8px; align-self: stretch; }
+  .podio-rk .lugar { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+  .podio-rk .degrau { align-self: stretch; border-radius: 12px 12px 4px 4px; display: flex; justify-content: center; padding-top: 8px; color: var(--text-inverse); font: 600 18px/26px var(--font); }
+  .podio-rk .d1 { height: 96px; background: var(--gold); } .podio-rk .d2 { height: 72px; background: var(--silver); } .podio-rk .d3 { height: 56px; background: var(--bronze); }
+  .chips-rola { display: flex; gap: 8px; flex-wrap: nowrap; overflow: hidden; }
+  /* placar das arenas (ArenaChallengeRanking) */
+  .placar-ar { background: var(--secondary); border-color: var(--secondary); border-radius: 20px; display: flex; flex-direction: column; gap: 12px; color: var(--text-inverse); }
+  .placar-ar .topo-p { display: flex; justify-content: space-between; gap: 8px; font: 500 12px/16px var(--font); color: var(--text-inverse-muted); }
+  .placar-ar .lados-p { display: flex; align-items: center; gap: 8px; }
+  .placar-ar .lado-p { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; font: 500 14px/20px var(--font); }
+  .placar-ar .num-p { font: 600 28px/36px var(--font); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .placar-ar .cats-p { display: flex; flex-direction: column; gap: 4px; border-top: 1px solid var(--text-inverse-muted); padding-top: 8px; }
+  .placar-ar .cat-p { display: flex; align-items: center; gap: 8px; }
+  .placar-ar .cat-p .rot { flex: 1; font: 400 14px/20px var(--font); color: var(--text-inverse-muted); }
+  .placar-ar .cat-p b { font: 500 14px/20px var(--font); }
+  .placar-ar .regra { font: 400 12px/16px var(--font); color: var(--text-inverse-muted); margin: 0; }
+  .chip .cat20 { margin-left: -4px; }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="arena" data-fluxo="desafio-arena"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Desafiar outra arena</h1>
+  <p>Você escolhe a arena rival, manda um recado pronto, define modalidade, categorias, inscrição, local e data, e envia o desafio. Quem recebe responde pelo painel: aceita, sugere alterações ou recusa. No celular, fica no Início, em Desafios de arena, e em Ajustes; no navegador, no menu Disputas.</p>
+  <ul class="regras">
+    <li>Desafiar outra arena exige o plano Premium ou Elite da arena. Desafio recebido você responde com qualquer plano.</li>
+    <li>Só dono, administrador ou gerente respondem um desafio, e só pelo painel da arena.</li>
+    <li>A conta da arena nunca joga: quem entra em quadra é o atleta, pela conta de jogador dele.</li>
+    <li>O recado é só de frase pronta, sem texto livre.</li>
+    <li>A inscrição é por atleta e tem o mesmo valor nas duas arenas. Quem a arena convidou não paga; paga só quem entra pelo link. Cada arena recebe no próprio Mercado Pago.</li>
+    <li>Com o desafio aceito, atletas entram pelo link pedindo vaga numa equipe, e o capitão aprova.</li>
+    <li>O desafio expira na data proposta: passou do dia sem resposta, não dá mais para aceitar.</li>
+    <li>Placar das arenas: cada categoria encerrada vale 1 ponto para a arena da equipe campeã. Ganha quem levar mais categorias, e empate fica empate. O placar não mexe no ranking de ninguém.</li>
+    <li>Depois do aceite, o desafio ganha a aba Ranking, aberta a qualquer jogador, mesmo com o torneio do desafio sendo privado.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 Lista -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Desafios de arena</b><span>Você vê os desafios enviados ("Desafio contra") e os recebidos ("Desafio de"), cada um com a situação. Toque num rascunho para voltar à revisão.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Desafios de arena</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo g12">
+            <div class="card cc"><div class="row sb" style="gap:8px"><p class="b1m grow">Desafio de Arena Canto da Lagoa</p><span class="tag sem-ponto aviso">Pendente</span></div><p class="b2 muted">Beach Tennis · 18/10 · 09:00</p></div>
+            <div class="card cc"><div class="row sb" style="gap:8px"><p class="b1m grow">Desafio contra Arena Ponta do Sol</p><span class="tag sem-ponto info">Aceito</span></div><p class="b2 muted">Futevôlei · 25/10 · 15:00</p></div>
+            <div class="card cc"><div class="row sb" style="gap:8px"><p class="b1m grow">Desafio contra Beach Club Jurerê</p><span class="tag sem-ponto aviso">Rascunho</span></div><p class="b2 muted">Vôlei</p></div>
+            <div class="card cc"><div class="row sb" style="gap:8px"><p class="b1m grow">Desafio contra Arena Ribeirão</p><span class="tag sem-ponto erro">Rejeitado</span></div><p class="b2 muted">Futevôlei · 30/08 · 16:00</p></div>
+          </div>
+          <div style="flex:1"></div>
+        </div>
+        <div class="rodape"><button class="btn">Desafiar arena</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 Travado -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Sem o plano</b><span>Sem o plano, o botão de desafiar vira "Ver planos", com cadeado, e um aviso lembra que desafio recebido você responde assim mesmo.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Desafios de arena</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="empty" style="margin-top:100px"><span class="ico-vazio"><i data-lucide="swords"></i></span><p class="t3">Nenhuma arena foi provocada ainda</p><p class="b2 muted">Desafie outra arena pra um confronto provocativo (mas divertido).</p></div>
+          <div style="flex:1"></div>
+        </div>
+        <div class="rodape"><p class="cap muted">Desafiar outra arena é exclusivo do plano Premium. Desafios recebidos você responde com qualquer plano.</p><button class="btn lock-btn"><i data-lucide="lock"></i>Ver planos</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 Rival -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Escolha a rival</b><span>Busque a arena e toque nela para escolher; o botão vira "Desafiar" com o nome dela.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo"></span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <p class="t2">Escolha a rival</p>
+            <p class="b2 muted" style="margin-top:-8px">Provocar com respeito é nossa especialidade.</p>
+            <div class="input"><i data-lucide="search" style="color:var(--primary)"></i><span class="ph">Buscar arena...</span></div>
+            <div class="col g8">
+              <div class="card rival escolhida"><span class="avatar">A</span><div class="grow"><p class="b1m">Arena Ponta do Sol</p><p class="cap muted">Florianópolis - SC</p></div></div>
+              <div class="card rival"><span class="avatar">A</span><div class="grow"><p class="b1m">Arena Canto da Lagoa</p><p class="cap muted">Florianópolis - SC</p></div></div>
+              <div class="card rival"><span class="avatar">B</span><div class="grow"><p class="b1m">Beach Club Jurerê</p><p class="cap muted">Florianópolis - SC</p></div></div>
+            </div>
+          </div>
+          <div style="flex:1"></div>
+        </div>
+        <div class="rodape g16"><div class="mascote-nota"><img src="../img/mascote-desafio.png" alt=""><div class="balao">“Escolhe bem… depois não vale dizer que foi sem querer.”</div></div><button class="btn">Desafiar Arena Ponta do Sol</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 Recado -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Dê o seu recado</b><span>Escolha uma das frases prontas; tocar de novo desmarca. Não existe texto livre.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo"></span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <p class="t2">Dê o seu recado</p>
+            <p class="b2 muted" style="margin-top:-8px">Provocar com respeito é nossa especialidade.</p>
+            <div class="col g8"><p class="t3">Sugestões rápidas</p>
+              <div class="grupo">
+                <div class="lrow"><span class="rot">“Prepara a quadra. A gente tá chegando.”</span><i data-lucide="check"></i></div>
+                <div class="lrow"><span class="rot">“Valendo a resenha e a moral da rodada.”</span></div>
+                <div class="lrow"><span class="rot">“Sem pressão... só não vale amarelar.”</span></div>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1"></div>
+        </div>
+        <div class="rodape g16"><div class="mascote-nota"><img src="../img/mascote-desafio.png" alt=""><div class="balao">“Pode provocar, mas com carinho… mais ou menos.”</div></div><button class="btn">Continuar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 Formato e categorias -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Formato e categorias</b><span>Defina modalidade, jogadores por time, formato, categorias, inscrição por atleta, local (na sua arena, na rival ou em lugar neutro), data e horário.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo"></span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo" style="padding-bottom:32px">
+            <p class="t2">Formato e categorias</p>
+            <div class="col g8"><p class="t3">Modalidade</p><div class="chips"><span class="chip">Beach Tennis</span><span class="chip on-laranja">Futevôlei</span><span class="chip">Vôlei</span></div></div>
+            <div class="col g8"><p class="t3">Jogadores por time</p><div class="stepper"><i data-lucide="minus"></i><span class="t3">2x2</span><i data-lucide="plus"></i></div><p class="cap muted">Cada partida de Futevôlei tem 2 titulares por time.</p></div>
+            <div class="col g8"><p class="t3">Formato</p><div class="col g8" style="align-items:flex-start"><span class="chip on-laranja">Confronto direto</span><span class="chip">Festival por rodadas</span><span class="chip">Pontos corridos</span></div></div>
+            <div class="col g8"><p class="t3">Categorias</p><p class="cap muted">Selecione as categorias do desafio — o chaveamento é separado por categoria.</p>
+              <div class="chips"><span class="chip nivel"><img class="cat cat20" src="../img/categoria-d.png" alt="D"></span><span class="chip nivel"><img class="cat cat20" src="../img/categoria-c.png" alt="C"></span><span class="chip nivel on-laranja"><img class="cat cat20" src="../img/categoria-b.png" alt="B"></span><span class="chip nivel on-laranja"><img class="cat cat20" src="../img/categoria-a.png" alt="A"></span><span class="chip nivel"><img class="cat cat20" src="../img/categoria-p.png" alt="P"></span></div></div>
+            <div class="col g8"><p class="t3">Inscrição</p><p class="cap muted">Valor por atleta, igual nas duas arenas. Quem foi convidado pela arena não paga — só quem se inscreve pelo link do desafio.</p>
+              <div class="input"><span>60,00</span></div>
+              <div class="card mp"><span class="ico"><i data-lucide="wallet"></i></span><div class="grow col" style="gap:2px"><p class="b1m">Mercado Pago</p><p class="b2 muted">arena.marealta@gmail.com</p><p class="cap muted">Recebendo pagamentos nesta conta</p></div><span class="capm laranja">Alterar</span></div>
+            </div>
+            <div class="col g8"><p class="t3">Local</p><div class="segapp"><span class="on">Nossa arena</span><span>Arena rival</span><span>Local neutro</span></div><p class="b2 muted">Arena Maré Alta · 3 quadras disponíveis</p></div>
+            <div class="field"><span class="b2m muted">Data e horário</span><div class="input"><i data-lucide="calendar" style="color:var(--primary)"></i><span>25/10/2026 às 15:00</span></div></div>
+          </div>
+          <div style="flex:1"></div>
+        </div>
+        <div class="rodape"><button class="btn">Continuar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 Capa -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Capa do desafio</b><span>Escolha a foto de capa e o título (já vem "Desafio vs" com o nome da rival). A descrição é opcional.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo"></span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <p class="t2">Capa do desafio</p>
+            <p class="b2 muted" style="margin-top:-8px">Personalize a identidade do desafio.</p>
+            <div class="capa-foto foto quadra"><span class="capa-badge"><i data-lucide="camera"></i></span></div>
+            <p class="cap muted" style="text-align:center;margin-top:-8px">Toque para trocar a capa</p>
+            <div class="input"><span>Desafio vs Arena Ponta do Sol</span></div>
+            <div class="input area"><span>Futevôlei no Campeche, valendo a moral da ilha.</span></div>
+          </div>
+          <div style="flex:1"></div>
+        </div>
+        <div class="rodape"><button class="btn">Continuar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 Revisão -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Revisar desafio</b><span>Confira confronto, detalhes, categorias e recado e toque em "Enviar desafio". O app não deixa enviar sem Mercado Pago conectado, sem valor de inscrição ou sem o plano.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo"></span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo" style="padding-bottom:32px">
+            <p class="t2">Revisar desafio</p>
+            <p class="b2 muted" style="margin-top:-8px">Confira os detalhes antes de enviar.</p>
+            <div class="card versus-card"><div class="ld"><span class="avatar">A</span><p class="b1m">Arena Maré Alta</p></div><p class="t3 muted">VS</p><div class="ld"><span class="avatar">A</span><p class="b1m">Arena Ponta do Sol</p></div></div>
+            <div class="col g8"><p class="t3">Detalhes</p>
+              <div class="grupo">
+                <div class="lrow"><span class="rot">Local</span><span class="val">Arena Maré Alta</span></div>
+                <div class="lrow"><span class="rot">Data</span><span class="val">25/10</span></div>
+                <div class="lrow"><span class="rot">Horário</span><span class="val">15:00</span></div>
+                <div class="lrow"><span class="rot">Modalidade</span><span class="val">Futevôlei</span></div>
+                <div class="lrow"><span class="rot">Formato</span><span class="val">Confronto direto</span></div>
+                <div class="lrow"><span class="rot">Inscrição por atleta</span><span class="val">R$ 60,00</span></div>
+              </div>
+            </div>
+            <div class="col g8"><p class="t3">Categorias</p><div class="row" style="gap:8px"><img class="cat cat32" src="../img/categoria-b.png" alt="B"><img class="cat cat32" src="../img/categoria-a.png" alt="A"></div></div>
+            <div class="col g8"><p class="t3">Recado</p><div class="card" style="background:var(--primary-wash)"><p class="b1">“Prepara a quadra. A gente tá chegando.”</p></div></div>
+            <div class="card" style="background:var(--info-soft)"><p class="b2 muted">Jogadores serão convidados pelas arenas. Sem inscrição e sem pagamento.</p></div>
+          </div>
+          <div style="flex:1"></div>
+        </div>
+        <div class="rodape"><button class="btn">Enviar desafio</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 Enviado -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Desafio enviado</b><span>Você acompanha a espera pela resposta e pode cancelar pelo texto em cima da capa. O ícone de compartilhar abre a divulgação.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Desafio de arena</span><span class="lado"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="corpo g12">
+            <div class="hero capa"><div class="hero-top"><span class="tn">Desafio vs Arena Ponta do Sol</span><span class="canc">Cancelar desafio</span></div><div class="matchup"><div class="ld"><span class="avatar xl">A</span>Arena Maré Alta</div><span class="vs">VS</span><div class="ld"><span class="avatar xl">A</span>Arena Ponta do Sol</div></div></div>
+            <div class="headline"><p class="t2">A BOLA TÁ COM ELES</p><p class="b2 muted">Esperando Arena Ponta do Sol criar coragem.</p><div class="tags"><span class="tag sem-ponto aviso">Pendente</span><span class="countdown">Faltam 27 dias</span></div></div>
+            <div class="card info-c"><div class="lin"><i data-lucide="calendar"></i><span class="b2">25/10 · 15:00</span></div><div class="lin"><i data-lucide="map-pin"></i><div><p class="b2">Arena Maré Alta</p><p class="cap muted">Arena Maré Alta</p></div></div><div class="lin"><i data-lucide="volleyball"></i><span class="b2">Futevôlei</span></div><img class="masc" src="../img/mascote-futevolei.png" alt=""></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 9 Recebido -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">9</div>
+        <div class="passo-txt"><b>Desafio recebido (arena desafiada)</b><span>É o que vê quem recebe o desafio. Se o Mercado Pago não estiver conectado, o card pede para conectar antes. Dono, administrador ou gerente podem aceitar, sugerir alterações ou recusar.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Desafio de arena</span><span class="lado"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="corpo g12">
+            <div class="card col g4" style="gap:4px"><p class="b1m">Conecte sua conta Mercado Pago</p><p class="b2 muted">Conecte antes de aceitar: a inscrição dos atletas da sua equipe cai direto nesta conta.</p><button class="btn out" style="margin-top:8px">Conectar</button></div>
+            <div class="hero capa"><div class="hero-top"><span class="tn">Desafio vs Arena Ponta do Sol</span></div><div class="matchup"><div class="ld"><span class="avatar xl">A</span>Arena Ponta do Sol</div><span class="vs">VS</span><div class="ld"><span class="avatar xl">A</span>Arena Maré Alta</div></div></div>
+            <div class="headline"><p class="t2">VÃO AMARELAR?</p><p class="b2 muted">Arena Maré Alta chamou vocês pra quadra.</p></div>
+          </div>
+          <div style="flex:1"></div>
+        </div>
+        <div class="rodape"><button class="btn">Aceitar</button><button class="btn sec">Sugerir alterações</button><span class="link-recusar">Recusar</span></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 10 Sugerir alterações -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">10</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Sugerir alterações</b><span>Ao sugerir alterações, os botões somem e aparece o pedido de ajuste para a arena que desafiou. "Recusar" pede confirmação, porque encerra o confronto e não dá para desfazer.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Desafio de arena</span><span class="lado"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="corpo g12">
+            <div class="hero capa" style="min-height:160px"><div class="hero-top"><span class="tn">Desafio vs Arena Ponta do Sol</span></div><div class="matchup"><div class="ld"><span class="avatar">A</span>Arena Ponta do Sol</div><span class="vs">VS</span><div class="ld"><span class="avatar">A</span>Arena Maré Alta</div></div></div>
+            <div class="headline"><p class="t2">VÃO AMARELAR?</p><p class="b2 muted">Arena Maré Alta chamou vocês pra quadra.</p><div class="tags"><span class="tag sem-ponto aviso">Pendente</span><span class="countdown">Faltam 27 dias</span></div></div>
+            <div class="card info-c"><div class="lin"><i data-lucide="calendar"></i><span class="b2">25/10 · 15:00</span></div><div class="lin"><i data-lucide="map-pin"></i><div><p class="b2">Arena Maré Alta</p><p class="cap muted">Arena Maré Alta</p></div></div><div class="lin"><i data-lucide="volleyball"></i><span class="b2">Futevôlei</span></div><img class="masc" src="../img/mascote-futevolei.png" alt=""></div>
+            <div class="card col g8"><p class="b2m">O que você quer ajustar?</p><div class="input area" style="min-height:80px"><span class="b2">Topamos, mas no sábado 26/10 às 9h — domingo à tarde a gente tem aula.</span></div><div class="row" style="gap:8px"><button class="btn sec grow">Cancelar</button><button class="btn grow">Enviar pedido</button></div></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 11 Aceito -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">11</div>
+        <div class="passo-txt"><b>Desafio aceito</b><span>Você vê a contagem até o dia e as categorias em jogo. "Convocar" leva à categoria para montar as equipes. Com o desafio aceito, aparecem as abas Desafio e Ranking.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Desafio de arena</span><span class="lado"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="corpo g12" style="padding-bottom:32px">
+            <div class="segapp"><span class="on">Desafio</span><span>Ranking</span></div>
+            <div class="hero capa"><div class="hero-top"><span class="tn">Desafio vs Arena Ponta do Sol</span></div><div class="matchup"><div class="ld"><span class="avatar xl">A</span>Arena Maré Alta</div><span class="vs">VS</span><div class="ld"><span class="avatar xl">A</span>Arena Ponta do Sol</div></div></div>
+            <div class="headline"><p class="t2">TÁ VALENDO!</p><p class="b2 muted">Agora é montar o time e honrar a camisa.</p><div class="tags"><span class="tag sem-ponto info">Aceito</span><span class="countdown">Faltam 27 dias</span></div></div>
+            <div class="card info-c"><div class="lin"><i data-lucide="calendar"></i><span class="b2">25/10 · 15:00</span></div><div class="lin"><i data-lucide="map-pin"></i><div><p class="b2">Arena Maré Alta</p><p class="cap muted">Arena Maré Alta</p></div></div><div class="lin"><i data-lucide="volleyball"></i><span class="b2">Futevôlei</span></div><img class="masc" src="../img/mascote-futevolei.png" alt=""></div>
+            <div class="col g8"><p class="t3">Categorias em jogo</p>
+              <div class="col">
+                <div class="card cat-row"><img class="cat cat32" src="../img/categoria-b.png" alt=""><p class="b1m grow">Categoria B</p><span class="b2m laranja">Convocar</span><i data-lucide="arrow-right"></i></div>
+                <div class="card cat-row"><img class="cat cat32" src="../img/categoria-a.png" alt=""><p class="b1m grow">Categoria A</p><span class="b2m laranja">Convocar</span><i data-lucide="arrow-right"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- Ranking do desafio -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">12</div>
+        <div class="passo-txt"><b>Aba Ranking: placar das arenas</b><span>Em cima, o placar das arenas: cada categoria encerrada vale 1 ponto para a arena da equipe campeã, e ganha quem levar mais categorias (empate fica empate). Embaixo, o ranking da categoria escolhida, com a arena de cada equipe. O placar não mexe no ranking de ninguém.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Desafio de arena</span><span class="lado"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="corpo g12" style="padding-bottom:32px">
+            <div class="segapp"><span>Desafio</span><span class="on">Ranking</span></div>
+            <div class="card placar-ar">
+              <div class="topo-p"><span>Placar das arenas</span><span>1 de 2 categorias</span></div>
+              <div class="lados-p"><div class="lado-p"><span class="avatar">A</span>Arena Maré Alta</div><span class="num-p">1 × 0</span><div class="lado-p"><span class="avatar">A</span>Arena Ponta do Sol</div></div>
+              <div class="cats-p">
+                <div class="cat-p"><img class="cat cat20" src="../img/categoria-b.png" alt=""><span class="rot">Categoria B</span><b>Arena Maré Alta</b></div>
+                <div class="cat-p"><img class="cat cat20" src="../img/categoria-a.png" alt=""><span class="rot">Categoria A</span><b>em jogo</b></div>
+              </div>
+              <p class="regra">Cada categoria vale 1 ponto pra arena da equipe campeã. Ganha quem levar mais categorias.</p>
+            </div>
+            <div class="chips-rola"><span class="chip on-laranja"><img class="cat cat20" src="../img/categoria-b.png" alt="">Categoria B</span><span class="chip"><img class="cat cat20" src="../img/categoria-a.png" alt="">Categoria A</span></div>
+            <div class="card podio-rk">
+              <i data-lucide="trophy"></i>
+              <div class="degraus">
+                <div class="lugar"><p class="capm">Sol Poente</p><div class="degrau d2">2</div></div>
+                <div class="lugar"><p class="capm">Maré Cheia</p><div class="degrau d1">1</div></div>
+              </div>
+            </div>
+            <div class="rk-sec">
+              <p class="t3">Classificação final</p>
+              <div class="card rkx"><span class="avw"><span class="avatar">M</span><span class="coroa"><i data-lucide="crown"></i></span><span class="med m1">1</span></span><div class="nm"><p class="b1m">Maré Cheia</p><p class="cap muted">Campeã · Arena Maré Alta</p></div><span class="pts"><i data-lucide="trophy" class="tr1"></i></span></div>
+              <div class="card rkx"><span class="avw"><span class="avatar">S</span><span class="med m2">2</span></span><div class="nm"><p class="b1m">Sol Poente</p><p class="cap muted">Vice · Arena Ponta do Sol</p></div><span class="pts"><i data-lucide="trophy" class="tr2"></i></span></div>
+              <div class="card rkx"><span class="avw"><span class="avatar">A</span><span class="med m3">3</span></span><div class="nm"><p class="b1m">Areia Quente</p><p class="cap muted">3º a 4º lugar · Arena Maré Alta</p></div><span class="pts"><i data-lucide="trophy" class="tr3"></i></span></div>
+              <div class="card rkx"><span class="avw"><span class="avatar">P</span><span class="med m3">3</span></span><div class="nm"><p class="b1m">Pontal</p><p class="cap muted">3º a 4º lugar · Arena Ponta do Sol</p></div><span class="pts"><i data-lucide="trophy" class="tr3"></i></span></div>
+            </div>
+            <p class="cap muted">No mata-mata, a posição vem da fase em que a equipe caiu. Quem cai na mesma fase divide a posição.</p>
+            <button class="btn sec"><i data-lucide="share-2"></i>Compartilhar ranking</button>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 12 Compartilhar -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">13</div>
+        <div class="passo-txt"><b>Compartilhar desafio</b><span>Mande a imagem do confronto pronta para o Instagram Stories ou para o WhatsApp. Com o desafio aceito, o link de inscrição vai junto.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Desafio de arena</span><span class="lado"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="corpo"><div class="hero capa"><div class="matchup" style="margin-top:40px"><div class="ld"><span class="avatar xl">A</span>Arena Maré Alta</div><span class="vs">VS</span><div class="ld"><span class="avatar xl">A</span>Arena Ponta do Sol</div></div></div></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="sheet app">
+          <div class="sheet-cab"><p class="t3">Compartilhar desafio</p><i data-lucide="x"></i></div>
+          <p class="b2 muted">A imagem do confronto vai pronta pra postar.</p>
+          <div class="share-row"><i data-lucide="camera"></i>Instagram Stories</div>
+          <div class="share-row"><i data-lucide="message-circle"></i>WhatsApp</div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 13 Story -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">14</div>
+        <div class="passo-txt"><b>Imagem do story</b><span>A imagem sai no formato de story (9:16), com título provocativo, contagem, o confronto com as informações e o chamado "Inscrições abertas no Desafiaê".</span></div>
+      </div>
+      <div class="story">
+        <img class="marca" src="../img/logo-simbolo.png" alt="">
+        <div class="hl"><p class="t1">TÁ VALENDO!</p><p class="b2">Agora é montar o time e honrar a camisa.</p><span class="pill-branca">Faltam 27 dias</span></div>
+        <div>
+          <div class="ticket-top"><img class="logo" src="../img/logo-completa.png" alt=""><div class="mu"><div class="ld"><span class="avatar xl">A</span>Arena Maré Alta</div><span class="vs">VS</span><div class="ld"><span class="avatar xl">A</span>Arena Ponta do Sol</div></div></div>
+          <div class="picote"><i></i></div>
+          <div class="ticket-bot"><div class="lin"><i data-lucide="calendar"></i><span class="b2">25/10 · 15:00</span></div><div class="lin"><i data-lucide="map-pin"></i><div><p class="b2">Arena Maré Alta</p><p class="cap muted">Arena Maré Alta</p></div></div><div class="lin"><i data-lucide="volleyball"></i><span class="b2">Futevôlei</span></div><img class="masc" src="../img/mascote-futevolei.png" alt=""></div>
+        </div>
+        <div class="hl"><p class="b2m">Inscrições abertas no Desafiaê</p><p class="t3">desafiae.com</p></div>
+      </div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 14 Entrar pelo link -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">15</div>
+        <div class="passo-txt"><b>Entrar pelo link (atleta)</b><span>Quem abre o link com conta de jogador escolhe por qual arena joga, a categoria e uma equipe com vaga, e pede para entrar. A inscrição é paga depois da aprovação. A aba Ranking mostra o placar das arenas e o ranking de cada categoria para qualquer jogador.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Desafio de arena</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo g12" style="padding-bottom:32px">
+            <div class="segapp"><span class="on">Desafio</span><span>Ranking</span></div>
+            <div class="hero capa" style="justify-content:center"><div class="matchup" style="margin-top:0"><div class="ld"><span class="avatar xl">A</span>Arena Maré Alta</div><span class="vs">VS</span><div class="ld"><span class="avatar xl">A</span>Arena Ponta do Sol</div></div></div>
+            <div class="headline"><p class="t2">BORA ENTRAR NESSE DESAFIO?</p><p class="b2 muted">Escolha por qual arena você joga e peça sua vaga numa equipe.</p></div>
+            <div class="card info-c"><div class="lin"><i data-lucide="calendar"></i><span class="b2">25/10 · 15:00</span></div><div class="lin"><i data-lucide="map-pin"></i><div><p class="b2">Arena Maré Alta</p><p class="cap muted">Arena Maré Alta</p></div></div><div class="lin"><i data-lucide="volleyball"></i><span class="b2">Futevôlei</span></div><div class="lin"><i data-lucide="ticket"></i><span class="b2">Inscrição: R$ 60,00 por jogador</span></div></div>
+            <div class="col g8"><p class="t3">Por qual arena você joga?</p>
+              <div class="sel-row on"><div class="tx"><span class="b1m laranja">Arena Maré Alta</span></div><span class="mk"><i data-lucide="check"></i></span></div>
+              <div class="sel-row"><div class="tx"><span class="b1m">Arena Ponta do Sol</span></div><span class="mk"></span></div>
+            </div>
+            <div class="col g8"><p class="t3">Categoria</p><div class="chips"><span class="chip on-laranja">Categoria B · R$ 60,00</span><span class="chip">Categoria A · R$ 60,00</span></div></div>
+            <div class="col g8"><p class="t3">Equipe</p>
+              <div class="sel-row on"><div class="tx"><span class="b1m laranja">Maré Cheia</span><span class="b2 muted">1 vaga</span></div><span class="mk"><i data-lucide="check"></i></span></div>
+              <div class="sel-row"><div class="tx"><span class="b1m">Areia Quente</span><span class="b2 muted">1 vaga</span></div><span class="mk"></span></div>
+              <p class="cap muted">Depois da aprovação, a inscrição é paga pelo app, igual a qualquer torneio.</p>
+            </div>
+          </div>
+          <div style="flex:1"></div>
+        </div>
+        <div class="rodape"><button class="btn">Pedir pra entrar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 15 Capitão aprova -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">16</div>
+        <div class="passo-txt"><b>Capitão aprova o pedido</b><span>Na tela da equipe, o capitão vê "Pedidos para entrar" e aprova ou recusa. Até lá, quem pediu aparece como "Aguardando o capitão", e o pedido conta em "Precisa de você" no painel da arena.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Maré Cheia</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo g12">
+            <div class="row" style="gap:8px"><span class="tag sem-ponto aviso">Em formação</span><span class="b2 muted">1 vaga</span></div>
+            <div class="col g8"><p class="b1m">Pedidos para entrar</p>
+              <div class="card col g8"><div class="row" style="gap:8px"><span class="avatar sm">T</span><p class="b1m grow">Tati Freitas</p></div><div class="row" style="gap:8px"><button class="btn grow">Aprovar</button><button class="btn dng grow">Recusar</button></div></div>
+            </div>
+            <div class="col g8">
+              <div class="card row"><span class="avatar sm">B</span><p class="b1m grow">Bia Moreira</p><span class="cap muted">Capitão · Confirmado</span></div>
+              <div class="card row"><span class="avatar sm">T</span><p class="b1m grow">Tati Freitas</p><span class="cap muted">Aguardando o capitão</span></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- NAVEGADOR -->
+<section class="trilho-fluxo web" data-plataforma="navegador">
+  <div class="passos">
+
+    <!-- W1 Lista + recebido -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Desafios de arena — responder</b><span>No navegador, a lista fica à esquerda e o desafio escolhido abre à direita, com confronto, recado da rival, informações e os botões Aceitar, Sugerir alterações e Recusar.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-challenges</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="competicoes" data-item="Desafios de arena">
+            <div class="shell-conteudo">
+              <div class="painel-cab"><div class="textos"><p class="t1">Desafios de arena</p><p class="b2 muted">Arena Maré Alta · 4 desafios · 1 esperando</p></div><div class="acoes"><button class="btn inline"><i data-lucide="swords"></i>Desafiar arena</button><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div class="colunas">
+                <div class="lista-d">
+                  <div class="cdes on"><div class="tp"><span class="ic"><i data-lucide="swords"></i></span><p class="b2m grow">Desafio de Arena Canto da Lagoa</p></div><div class="rp"><p class="cap muted grow">Beach Tennis · 18/10 · 09:00</p><span class="tag sem-ponto aviso">Pendente</span></div></div>
+                  <div class="cdes"><div class="tp"><span class="ic"><i data-lucide="swords"></i></span><p class="b2m grow">Desafio contra Arena Ponta do Sol</p></div><div class="rp"><p class="cap muted grow">Futevôlei · 25/10 · 15:00</p><span class="tag sem-ponto info">Aceito</span></div></div>
+                  <div class="cdes"><div class="tp"><span class="ic"><i data-lucide="swords"></i></span><p class="b2m grow">Desafio contra Beach Club Jurerê</p></div><div class="rp"><p class="cap muted grow">Vôlei</p><span class="tag sem-ponto aviso">Rascunho</span></div></div>
+                  <div class="cdes"><div class="tp"><span class="ic"><i data-lucide="swords"></i></span><p class="b2m grow">Desafio contra Arena Ribeirão</p></div><div class="rp"><p class="cap muted grow">Futevôlei · 30/08 · 16:00</p><span class="tag sem-ponto erro">Rejeitado</span></div></div>
+                </div>
+                <div class="painel-d">
+                  <div class="card card-conf">
+                    <div class="hero capa"><div class="hero-top"><span class="tn">Desafio vs Arena Maré Alta</span></div><div class="matchup"><div class="ld"><span class="avatar xl">A</span>Arena Maré Alta</div><span class="vs">VS</span><div class="ld"><span class="avatar xl">A</span>Arena Canto da Lagoa</div></div></div>
+                    <div class="corpo-conf">
+                      <div class="headline"><p class="t2">VÃO AMARELAR?</p><p class="b2 muted">Arena Canto da Lagoa chamou vocês pra quadra.</p><div class="tags"><span class="tag sem-ponto aviso">Pendente</span><span class="countdown">Faltam 20 dias</span></div></div>
+                      <div class="infos-w"><div class="lin"><i data-lucide="calendar"></i><span class="b2">18/10 · 09:00</span></div><div class="lin"><i data-lucide="map-pin"></i><div><p class="b2">Arena Canto da Lagoa</p><p class="cap muted">Arena Canto da Lagoa</p></div></div><div class="lin"><i data-lucide="volleyball"></i><span class="b2">Beach Tennis</span></div></div>
+                      <div class="provoc"><i data-lucide="message-circle"></i><p class="b2">“Sem pressão... só não vale amarelar.”</p></div>
+                      <div class="acoes-w"><button class="btn">Aceitar</button><button class="btn sec">Sugerir alterações</button><span class="link-recusar" style="padding:8px 16px">Recusar</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W2 Aceito -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Desafio aceito no painel</b><span>Você pode trocar de desafio na lista sem perder o que estava vendo. Com o desafio aceito, o painel mostra a contagem e as categorias para convocar.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-challenges</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="competicoes" data-item="Desafios de arena">
+            <div class="shell-conteudo">
+              <div class="painel-cab"><div class="textos"><p class="t1">Desafios de arena</p><p class="b2 muted">Arena Maré Alta · 4 desafios · 1 esperando</p></div><div class="acoes"><button class="btn inline"><i data-lucide="swords"></i>Desafiar arena</button><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div class="colunas">
+                <div class="lista-d">
+                  <div class="cdes"><div class="tp"><span class="ic"><i data-lucide="swords"></i></span><p class="b2m grow">Desafio de Arena Canto da Lagoa</p></div><div class="rp"><p class="cap muted grow">Beach Tennis · 18/10 · 09:00</p><span class="tag sem-ponto aviso">Pendente</span></div></div>
+                  <div class="cdes on"><div class="tp"><span class="ic"><i data-lucide="swords"></i></span><p class="b2m grow">Desafio contra Arena Ponta do Sol</p></div><div class="rp"><p class="cap muted grow">Futevôlei · 25/10 · 15:00</p><span class="tag sem-ponto info">Aceito</span></div></div>
+                  <div class="cdes"><div class="tp"><span class="ic"><i data-lucide="swords"></i></span><p class="b2m grow">Desafio contra Beach Club Jurerê</p></div><div class="rp"><p class="cap muted grow">Vôlei</p><span class="tag sem-ponto aviso">Rascunho</span></div></div>
+                  <div class="cdes"><div class="tp"><span class="ic"><i data-lucide="swords"></i></span><p class="b2m grow">Desafio contra Arena Ribeirão</p></div><div class="rp"><p class="cap muted grow">Futevôlei · 30/08 · 16:00</p><span class="tag sem-ponto erro">Rejeitado</span></div></div>
+                </div>
+                <div class="painel-d">
+                  <div class="card card-conf">
+                    <div class="hero capa"><div class="hero-top"><span class="tn">Desafio vs Arena Ponta do Sol</span></div><div class="matchup"><div class="ld"><span class="avatar xl">A</span>Arena Maré Alta</div><span class="vs">VS</span><div class="ld"><span class="avatar xl">A</span>Arena Ponta do Sol</div></div></div>
+                    <div class="corpo-conf">
+                      <div class="headline"><p class="t2">TÁ VALENDO!</p><p class="b2 muted">Agora é montar o time e honrar a camisa.</p><div class="tags"><span class="tag sem-ponto info">Aceito</span><span class="countdown">Faltam 27 dias</span></div></div>
+                      <div class="infos-w"><div class="lin"><i data-lucide="calendar"></i><span class="b2">25/10 · 15:00</span></div><div class="lin"><i data-lucide="map-pin"></i><div><p class="b2">Arena Maré Alta</p><p class="cap muted">Arena Maré Alta</p></div></div><div class="lin"><i data-lucide="volleyball"></i><span class="b2">Futevôlei</span></div></div>
+                      <div class="provoc"><i data-lucide="message-circle"></i><p class="b2">“Prepara a quadra. A gente tá chegando.”</p></div>
+                    </div>
+                  </div>
+                  <div class="card col">
+                    <p class="t3">Categorias em jogo</p>
+                    <div class="cat-row"><img class="cat cat32" src="../img/categoria-b.png" alt=""><p class="b1m grow">Categoria B</p><span class="b2m laranja">Convocar</span><i data-lucide="arrow-right"></i></div>
+                    <div class="cat-row"><img class="cat cat32" src="../img/categoria-a.png" alt=""><p class="b1m grow">Categoria A</p><span class="b2m laranja">Convocar</span><i data-lucide="arrow-right"></i></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W3 Travado -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Sem o plano</b><span>O botão do cabeçalho vira "Ver planos", com cadeado, e o aviso aparece embaixo do título. Os desafios recebidos continuam podendo ser respondidos.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-challenges</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="competicoes" data-item="Desafios de arena">
+            <div class="shell-conteudo" style="gap:12px">
+              <div class="painel-cab"><div class="textos"><p class="t1">Desafios de arena</p><p class="b2 muted">Arena Maré Alta · 1 desafio · 1 esperando</p></div><div class="acoes"><button class="btn inline sec lock-btn"><i data-lucide="lock"></i>Ver planos</button><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <p class="cap muted">Desafiar outra arena é exclusivo do plano Premium. Desafios recebidos você responde com qualquer plano.</p>
+              <div class="colunas" style="margin-top:12px">
+                <div class="lista-d">
+                  <div class="cdes"><div class="tp"><span class="ic"><i data-lucide="swords"></i></span><p class="b2m grow">Desafio de Arena Canto da Lagoa</p></div><div class="rp"><p class="cap muted grow">Beach Tennis · 18/10 · 09:00</p><span class="tag sem-ponto aviso">Pendente</span></div></div>
+                </div>
+                <div class="painel-d"><div class="card"><p class="b2 muted">Escolha um desafio na lista pra ver os detalhes.</p></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W4 Desafiar (montagem) -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Desafiar uma arena</b><span>No navegador, a criação é uma página só: rival, recado (só frase pronta) e informações do jogo, com o resumo e "Continuar" à direita.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-challenge-wizard/info</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="competicoes" data-item="Desafios de arena">
+            <div class="shell-conteudo">
+              <div class="painel-cab"><div class="textos"><p class="t1">Desafiar uma arena</p><p class="b2 muted">Arena Maré Alta</p></div><div class="acoes"><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div class="wizcols">
+                <div class="princ">
+                  <div class="card col"><p class="t3">Escolha a rival</p><div class="row"><span class="avatar md">A</span><div class="grow"><p class="b2m">Arena Ponta do Sol</p><p class="cap muted">Florianópolis, SC</p></div><span class="capm laranja">Escolha uma arena</span></div></div>
+                  <div class="card col"><p class="t3">Dê o seu recado</p><p class="b2 muted">Provocar com respeito é nossa especialidade.</p>
+                    <div><div class="lrow" style="padding:12px 0"><span class="rot">“Prepara a quadra. A gente tá chegando.”</span><i data-lucide="check"></i></div><div class="lrow" style="padding:12px 0"><span class="rot">“Valendo a resenha e a moral da rodada.”</span></div><div class="lrow" style="padding:12px 0"><span class="rot">“Sem pressão... só não vale amarelar.”</span></div></div>
+                  </div>
+                  <div class="card col g16"><p class="t3">Informações</p>
+                    <div class="col g8"><p class="t3">Modalidade</p><div class="chips"><span class="chip">Beach Tennis</span><span class="chip on-laranja">Futevôlei</span><span class="chip">Vôlei</span></div></div>
+                    <div class="campos2">
+                      <div class="col g8"><span class="campo-rot">Jogadores por time</span><div class="stepper"><i data-lucide="minus"></i><span class="t3">2x2</span><i data-lucide="plus"></i></div><span class="cap muted">Cada partida de Futevôlei tem 2 titulares por time.</span></div>
+                      <div class="col g8"><span class="campo-rot">Formato</span><div class="chips"><span class="chip on-laranja">Confronto direto</span><span class="chip">Festival por rodadas</span><span class="chip">Pontos corridos</span></div></div>
+                    </div>
+                    <div class="col g8"><span class="campo-rot">Categorias</span><span class="cap muted">Selecione as categorias do desafio — o chaveamento é separado por categoria.</span><div class="chips"><span class="chip nivel"><img class="cat cat20" src="../img/categoria-d.png" alt=""></span><span class="chip nivel"><img class="cat cat20" src="../img/categoria-c.png" alt=""></span><span class="chip nivel on-laranja"><img class="cat cat20" src="../img/categoria-b.png" alt=""></span><span class="chip nivel on-laranja"><img class="cat cat20" src="../img/categoria-a.png" alt=""></span><span class="chip nivel"><img class="cat cat20" src="../img/categoria-p.png" alt=""></span></div></div>
+                    <div class="campos2">
+                      <div class="col g8"><span class="campo-rot">Inscrição</span><span class="cap muted">Valor por atleta, igual nas duas arenas. Quem foi convidado pela arena não paga — só quem se inscreve pelo link do desafio.</span><div class="input"><span>60,00</span></div></div>
+                      <div class="col g8"><span class="b2m muted">Data e horário</span><div class="input"><i data-lucide="calendar" style="color:var(--primary)"></i><span>25/10/2026 às 15:00</span></div></div>
+                    </div>
+                    <div class="card mp" style="box-shadow:none"><span class="ico"><i data-lucide="wallet"></i></span><div class="grow col" style="gap:2px"><p class="b1m">Mercado Pago</p><p class="b2 muted">arena.marealta@gmail.com</p><p class="cap muted">Recebendo pagamentos nesta conta</p></div><span class="capm laranja">Alterar</span></div>
+                    <div class="col g8"><span class="campo-rot">Local</span><div class="segweb"><span class="on">Nossa arena</span><span>Arena rival</span><span>Local neutro</span></div><p class="b2 muted">Arena Maré Alta · 3 quadras disponíveis</p></div>
+                  </div>
+                </div>
+                <div class="card resumo">
+                  <p class="b1m">Desafio vs Arena Ponta do Sol</p>
+                  <p class="cap muted">Futevôlei · 2x2 · 25/10 · 15:00</p>
+                  <p class="cap laranja">“Prepara a quadra. A gente tá chegando.”</p>
+                  <button class="btn" style="margin-top:8px">Continuar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W5 Capa + enviar -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Capa e envio</b><span>Depois de criado, a página ganha a capa e o título, e o resumo troca "Continuar" por "Enviar desafio". O convite só vai para a rival quando você envia.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-challenge-wizard/info</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="competicoes" data-item="Desafios de arena">
+            <div class="shell-conteudo">
+              <div class="painel-cab"><div class="textos"><p class="t1">Desafiar uma arena</p><p class="b2 muted">Arena Maré Alta</p></div><div class="acoes"><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div class="wizcols">
+                <div class="princ">
+                  <div class="card col"><p class="t3">Escolha a rival</p><div class="row"><span class="avatar md">A</span><div class="grow"><p class="b2m">Arena Ponta do Sol</p><p class="cap muted">Florianópolis, SC</p></div></div></div>
+                  <div class="card col"><p class="t3">Capa do desafio</p><div class="capa-foto foto quadra" style="height:180px"><span class="capa-badge"><i data-lucide="camera"></i></span></div><p class="cap muted">Toque para trocar a capa</p><div class="col g8"><span class="campo-rot">Título do desafio</span><div class="input"><span>Desafio vs Arena Ponta do Sol</span></div></div></div>
+                </div>
+                <div class="card resumo">
+                  <p class="b1m">Desafio vs Arena Ponta do Sol</p>
+                  <p class="cap muted">Futevôlei · 2x2 · 25/10 · 15:00</p>
+                  <p class="cap laranja">“Prepara a quadra. A gente tá chegando.”</p>
+                  <p class="cap muted" style="margin-top:8px">Jogadores serão convidados pelas arenas. Sem inscrição e sem pagamento.</p>
+                  <button class="btn">Enviar desafio</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W6 Detalhe direto -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Desafio aberto pelo link ou notificação</b><span>Quem abre o desafio pelo link ou pela notificação vê duas colunas: o confronto e o título provocativo à esquerda; à direita, fixo, o cartão da decisão com contagem, data, local e modalidade, e os botões Aceitar, Sugerir alterações e Recusar.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser" style="height:860px">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-challenge/canto-da-lagoa</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="competicoes" data-item="Desafios de arena">
+            <div class="shell-conteudo" style="gap:16px">
+              <div class="painel-cab">
+                <div class="textos"><div class="dl-migalha"><span class="ativo">Desafios de arena</span><i data-lucide="chevron-right"></i><span>Arena Canto da Lagoa</span></div><p class="t1">Desafio de arena</p></div>
+                <div class="acoes"><button class="btn inline contorno"><i data-lucide="share-2"></i>Compartilhar desafio</button><span class="sino"><i data-lucide="bell"></i></span></div>
+              </div>
+              <div class="dl">
+                <div class="dl-esq">
+                  <div class="hero capa"><div class="hero-top"><span class="tn">DESAFIO VS ARENA MARÉ ALTA</span></div><div class="matchup"><div class="ld"><span class="avatar xl">M</span>Arena Maré Alta</div><span class="vs">VS</span><div class="ld"><span class="avatar xl">C</span>Arena Canto da Lagoa</div></div></div>
+                  <div class="headline"><p class="dl-titulo">VÃO AMARELAR?</p><p class="b1 muted">Arena Canto da Lagoa chamou vocês pra quadra.</p><div class="tags"><span class="tag aviso">Pendente</span></div></div>
+                </div>
+                <div class="dl-dir">
+                  <div class="card dl-decisao">
+                    <div class="dl-contagem"><span class="n">Faltam 20 dias</span></div>
+                    <div class="dl-info"><div class="lin"><i data-lucide="calendar"></i><span class="b2">18/10 · 09:00</span></div><div class="lin"><i data-lucide="map-pin"></i><div><p class="b2">Arena Canto da Lagoa</p><p class="cap muted">Quadras 1 e 2</p></div></div><div class="lin"><i data-lucide="volleyball"></i><span class="b2">Beach Tennis</span></div><img class="masc" src="../img/mascote-beachtennis.png" alt=""></div>
+                    <div class="divider"></div>
+                    <div class="dl-mp"><i data-lucide="wallet"></i><div class="col g4"><p class="b2m">Conecte o Mercado Pago</p><p class="cap muted">Conecte antes de aceitar: a inscrição dos atletas da sua equipe cai direto nesta conta.</p><p class="capm laranja">Conectar</p></div></div>
+                    <button class="btn">Aceitar</button>
+                    <button class="btn contorno-laranja">Sugerir alterações</button>
+                    <span class="link-recusar">Recusar</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Sugerir alterações</b><span>O formulário abre no próprio cartão da decisão, no lugar dos três botões, com o desafio sempre à vista ao lado.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser" style="height:860px">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-challenge/canto-da-lagoa</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="competicoes" data-item="Desafios de arena">
+            <div class="shell-conteudo" style="gap:16px">
+              <div class="painel-cab">
+                <div class="textos"><div class="dl-migalha"><span class="ativo">Desafios de arena</span><i data-lucide="chevron-right"></i><span>Arena Canto da Lagoa</span></div><p class="t1">Desafio de arena</p></div>
+                <div class="acoes"><button class="btn inline contorno"><i data-lucide="share-2"></i>Compartilhar desafio</button><span class="sino"><i data-lucide="bell"></i></span></div>
+              </div>
+              <div class="dl">
+                <div class="dl-esq">
+                  <div class="hero capa"><div class="hero-top"><span class="tn">DESAFIO VS ARENA MARÉ ALTA</span></div><div class="matchup"><div class="ld"><span class="avatar xl">M</span>Arena Maré Alta</div><span class="vs">VS</span><div class="ld"><span class="avatar xl">C</span>Arena Canto da Lagoa</div></div></div>
+                  <div class="headline"><p class="dl-titulo">VÃO AMARELAR?</p><p class="b1 muted">Arena Canto da Lagoa chamou vocês pra quadra.</p><div class="tags"><span class="tag aviso">Pendente</span></div></div>
+                </div>
+                <div class="dl-dir">
+                  <div class="card dl-decisao">
+                    <div class="dl-contagem"><span class="n">Faltam 20 dias</span></div>
+                    <div class="dl-info"><div class="lin"><i data-lucide="calendar"></i><span class="b2">18/10 · 09:00</span></div><div class="lin"><i data-lucide="map-pin"></i><div><p class="b2">Arena Canto da Lagoa</p><p class="cap muted">Quadras 1 e 2</p></div></div><div class="lin"><i data-lucide="volleyball"></i><span class="b2">Beach Tennis</span></div><img class="masc" src="../img/mascote-beachtennis.png" alt=""></div>
+                    <div class="divider"></div>
+                    <p class="b2m">O que você quer ajustar?</p>
+                    <div class="input area foco dl-area"><span>Topamos, mas pode ser dia 25/10 às 10h? Dia 18 a quadra 2 está em reforma.</span></div>
+                    <button class="btn">Enviar pedido</button>
+                    <button class="btn contorno">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Desafio aceito</b><span>Com o desafio aceito, o cartão fica só com a contagem e o jogo, e as categorias para convocar ficam na coluna larga, embaixo do título. Em cima aparecem as abas Desafio e Ranking.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser" style="height:860px">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-challenge/canto-da-lagoa</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="competicoes" data-item="Desafios de arena">
+            <div class="shell-conteudo" style="gap:16px">
+              <div class="painel-cab">
+                <div class="textos"><div class="dl-migalha"><span class="ativo">Desafios de arena</span><i data-lucide="chevron-right"></i><span>Arena Canto da Lagoa</span></div><p class="t1">Desafio de arena</p></div>
+                <div class="acoes"><button class="btn inline contorno"><i data-lucide="share-2"></i>Compartilhar desafio</button><span class="sino"><i data-lucide="bell"></i></span></div>
+              </div>
+              <div class="segapp" style="max-width:420px"><span class="on">Desafio</span><span>Ranking</span></div>
+              <div class="dl">
+                <div class="dl-esq">
+                  <div class="hero capa"><div class="hero-top"><span class="tn">DESAFIO VS ARENA MARÉ ALTA</span></div><div class="matchup"><div class="ld"><span class="avatar xl">M</span>Arena Maré Alta</div><span class="vs">VS</span><div class="ld"><span class="avatar xl">C</span>Arena Canto da Lagoa</div></div></div>
+                  <div class="headline"><p class="dl-titulo">TÁ VALENDO!</p><p class="b1 muted">Agora é montar o time e honrar a camisa.</p><div class="tags"><span class="tag ok">Aceito</span></div></div>
+                  <div class="col g8"><p class="t3">Categorias em jogo</p>
+                    <div class="dl-cats">
+                      <div class="card dl-cat"><img src="../img/categoria-c.png" alt=""><p class="b1m grow">Categoria C</p><span class="b2m laranja">Convocar</span><i data-lucide="arrow-right" class="ic16 laranja"></i></div>
+                      <div class="card dl-cat"><img src="../img/categoria-b.png" alt=""><p class="b1m grow">Categoria B</p><span class="b2m laranja">Convocar</span><i data-lucide="arrow-right" class="ic16 laranja"></i></div>
+                      <div class="card dl-cat"><img src="../img/categoria-d.png" alt=""><p class="b1m grow">Categoria D</p><span class="b2m laranja">Convocar</span><i data-lucide="arrow-right" class="ic16 laranja"></i></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dl-dir">
+                  <div class="card dl-decisao">
+                    <div class="dl-contagem"><span class="n">Faltam 20 dias</span></div>
+                    <div class="dl-info"><div class="lin"><i data-lucide="calendar"></i><span class="b2">18/10 · 09:00</span></div><div class="lin"><i data-lucide="map-pin"></i><div><p class="b2">Arena Canto da Lagoa</p><p class="cap muted">Quadras 1 e 2</p></div></div><div class="lin"><i data-lucide="volleyball"></i><span class="b2">Beach Tennis</span></div><img class="masc" src="../img/mascote-beachtennis.png" alt=""></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">9</div>
+        <div class="passo-txt"><b>Ranking do desafio</b><span>Na aba Ranking, o placar das arenas fica em cima, com o resultado de cada categoria; embaixo, o ranking da categoria escolhida, com a arena de cada equipe. Enquanto falta categoria, a legenda mostra quantas já terminaram; no fim, diz quem venceu ou que deu empate.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-challenge/canto-da-lagoa</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="competicoes" data-item="Desafios de arena">
+            <div class="shell-conteudo" style="gap:16px">
+              <div class="painel-cab">
+                <div class="textos"><div class="dl-migalha"><span class="ativo">Desafios de arena</span><i data-lucide="chevron-right"></i><span>Arena Canto da Lagoa</span></div><p class="t1">Desafio de arena</p></div>
+                <div class="acoes"><button class="btn inline contorno"><i data-lucide="share-2"></i>Compartilhar desafio</button><span class="sino"><i data-lucide="bell"></i></span></div>
+              </div>
+              <div class="segapp" style="max-width:420px"><span>Desafio</span><span class="on">Ranking</span></div>
+              <div class="card placar-ar">
+                <div class="topo-p"><span>Placar das arenas</span><span>Arena Maré Alta venceu</span></div>
+                <div class="lados-p"><div class="lado-p"><span class="avatar">M</span>Arena Maré Alta</div><span class="num-p">2 × 1</span><div class="lado-p"><span class="avatar">C</span>Arena Canto da Lagoa</div></div>
+                <div class="cats-p">
+                  <div class="cat-p"><img class="cat cat20" src="../img/categoria-c.png" alt=""><span class="rot">Categoria C</span><b>Arena Maré Alta</b></div>
+                  <div class="cat-p"><img class="cat cat20" src="../img/categoria-b.png" alt=""><span class="rot">Categoria B</span><b>Arena Canto da Lagoa</b></div>
+                  <div class="cat-p"><img class="cat cat20" src="../img/categoria-d.png" alt=""><span class="rot">Categoria D</span><b>Arena Maré Alta</b></div>
+                </div>
+                <p class="regra">Cada categoria vale 1 ponto pra arena da equipe campeã. Ganha quem levar mais categorias.</p>
+              </div>
+              <div class="chips-rola"><span class="chip on-laranja"><img class="cat cat20" src="../img/categoria-c.png" alt="">Categoria C</span><span class="chip"><img class="cat cat20" src="../img/categoria-b.png" alt="">Categoria B</span><span class="chip"><img class="cat cat20" src="../img/categoria-d.png" alt="">Categoria D</span></div>
+              <div class="card podio-rk"><i data-lucide="trophy"></i><div class="degraus"><div class="lugar"><p class="capm">Lagoa Beach</p><div class="degrau d2">2</div></div><div class="lugar"><p class="capm">Maré Cheia</p><div class="degrau d1">1</div></div></div></div>
+              <div class="rk-sec">
+                <p class="t3">Classificação final</p>
+                <div class="card rkx"><span class="avw"><span class="avatar">M</span><span class="coroa"><i data-lucide="crown"></i></span><span class="med m1">1</span></span><div class="nm"><p class="b1m">Maré Cheia</p><p class="cap muted">Campeã · Arena Maré Alta</p></div><span class="pts"><i data-lucide="trophy" class="tr1"></i></span></div>
+                <div class="card rkx"><span class="avw"><span class="avatar">L</span><span class="med m2">2</span></span><div class="nm"><p class="b1m">Lagoa Beach</p><p class="cap muted">Vice · Arena Canto da Lagoa</p></div><span class="pts"><i data-lucide="trophy" class="tr2"></i></span></div>
+              </div>
+              <p class="cap muted">No mata-mata, a posição vem da fase em que a equipe caiu. Quem cai na mesma fase divide a posição.</p>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Minha arena não tem o plano Premium. Posso responder a um desafio?</summary><p>Pode. Desafio recebido se responde com qualquer plano. O plano Premium ou Elite só é exigido para desafiar outra arena.</p></details>
+    <details><summary>Quem da equipe pode aceitar ou recusar?</summary><p>Só dono, administrador ou gerente, pelo painel da arena.</p></details>
+    <details><summary>Posso escrever o meu próprio recado?</summary><p>Não. O recado é sempre uma das frases prontas.</p></details>
+    <details><summary>O atleta paga para jogar?</summary><p>Quem a arena convidou não paga. Quem entra pelo link paga a inscrição depois que o capitão aprova o pedido, e cada arena recebe no próprio Mercado Pago.</p></details>
+    <details><summary>Como funciona o placar das arenas?</summary><p>Cada categoria encerrada vale 1 ponto para a arena da equipe campeã. Ganha a arena que levar mais categorias; se empatar, fica empate. O placar não mexe no ranking de nenhum jogador.</p></details>
+    <details><summary>Quem pode ver a aba Ranking do desafio?</summary><p>Qualquer jogador, depois que o desafio é aceito, inclusive quem abre pelo link. O torneio do desafio continua privado, mas o ranking e o placar ficam abertos.</p></details>
+    <details><summary>E se a outra arena não responder?</summary><p>O desafio expira na data proposta. Passou do dia sem resposta, não dá mais para aceitar.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

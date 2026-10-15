@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Recordes e relógio · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* só desta página: título curto antes de cada faixa de passos */
+  .faixa-t { max-width: 1180px; margin: 24px auto 0; padding: 0 24px; display: grid; gap: 4px; }
+  .faixa-t h2 { margin: 0; font: 600 20px/28px var(--font); }
+  .faixa-t p { margin: 0; max-width: 68ch; color: #555; font-size: 14px; line-height: 22px; }
+  @media (max-width: 640px) { .faixa-t { padding: 0 16px; } }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="jogador" data-fluxo="recordes"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Recordes e relógio</h1>
+  <p>Em corrida, Hyrox e CrossFit, cada marca que você fecha num desafio ou numa partida de marca vira histórico: o app guarda o seu recorde em cada prova e mostra quanto você melhorou. E, se você treina com relógio, conecte o Apple Saúde ou a Polar para o tempo entrar sozinho na marca, com o selo do aparelho no ranking.</p>
+  <ul class="regras">
+    <li>O recorde sai de desafio e partida de marca já encerrados.</li>
+    <li>Corrida tem um recorde por distância. Hyrox, um por formato (Individual Open e Individual Pro); o Simulado não vira recorde.</li>
+    <li>No CrossFit, só WOD de referência (Fran, Grace, Cindy, 1RM…) vira recorde. WOD livre vale para o desafio, mas não conta. O recorde é a melhor marca RX; quem só fez Scaled vê a melhor Scaled.</li>
+    <li>O recorde atual é grátis. A evolução de cada prova (gráfico e todas as marcas) é do Premium e do Elite.</li>
+    <li>O relógio preenche marcas de tempo: corrida, Hyrox e CrossFit For Time. AMRAP e carga máxima continuam digitados.</li>
+    <li>Vale só treino gravado pelo relógio entre o começo do desafio e o prazo (na partida de marca, do horário até 24 horas depois). Treino digitado à mão no Saúde ou no Polar Flow não entra.</li>
+    <li>Ninguém vê seus treinos: no ranking aparece só a marca lançada, com o selo do relógio.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<div class="faixa-t">
+  <h2>Seus recordes</h2>
+  <p>Onde ver o recorde, como ele evolui e como marcar o primeiro.</p>
+</div>
+
+<section class="trilho-fluxo">
+  <div class="passos">
+
+    <!-- 1 Início com o último recorde -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">1</div>
+        <div class="passo-txt"><b>Seu último recorde na Início</b><span>Se a sua modalidade principal é corrida, Hyrox ou CrossFit, a Início mostra o recorde mais recente em três quadros: "Recorde", o ritmo (no CrossFit, "Como fez": RX ou Scaled; no Hyrox, a data) e "Melhorou", que diz quanto você tirou do recorde anterior. Embaixo vêm a prova, a modalidade e a data.</span><span class="ramo">Alternativa</span><span>Se é a primeira marca da prova, o terceiro quadro mostra "1ª marca".</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/recordes/recordes-10-inicio.jpg" alt="Início com a seção Seu último recorde: 48:55, 4:54/km e -2:36"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 Meus recordes -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">2</div>
+        <div class="passo-txt"><b>Meus recordes</b><span>Toque em "Ver todos" para abrir Meus recordes: um recorde por prova, separado por modalidade, com a data e o ritmo (ou RX/Scaled no CrossFit). "Como funcionam os recordes" abre as regras.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/recordes/recordes-30-meus-recordes.jpg" alt="Meus recordes: Corrida com 10 km e 5 km, CrossFit com Fran 4:32 RX"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 Evolução -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">3</div>
+        <div class="passo-txt"><b>Evolução da prova</b><span>Toque numa prova (ou no recorde da Início). O topo mostra o recorde e quanto você melhorou desde a primeira marca. "Marca a marca" desenha o gráfico: ponto cheio é marca que bateu o recorde da época, ponto vazio é marca que não bateu. Em "Todas as marcas", a do recorde leva a etiqueta "Recorde".</span><span class="ramo">Plano grátis</span><span>Você vê o recorde no topo, e o gráfico e a lista dão lugar ao aviso "A evolução dos recordes é do Premium".</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/recordes/recordes-20-evolucao.jpg" alt="Evolução dos 10 km: recorde 48:55, gráfico Marca a marca e lista Todas as marcas"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 Convite do primeiro recorde -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">4</div>
+        <div class="passo-txt"><span class="ramo">Sem recorde ainda</span><b>Marque seu primeiro recorde</b><span>Sem nenhuma marca encerrada na modalidade principal, o topo da Início ganha mais um cartão no carrossel (deslize para o lado): "Marque seu primeiro recorde". O botão já sugere a prova: "Desafiar nos 5 km" na corrida, "Desafiar no Hyrox" (Individual Open) e "Desafiar no Fran" no CrossFit.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/recordes/recordes-51-convite.jpg" alt="Cartão Marque seu primeiro recorde com o botão Desafiar no Fran"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 Fran já escolhido -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">5</div>
+        <div class="passo-txt"><b>WOD de referência já escolhido</b><span>Depois de escolher o rival, as informações do desafio já vêm com a prova do convite. No CrossFit, o cartão do WOD mostra o tipo ("For Time"), o treino e "Conta pro recorde de quem participar." Falta só o "Vale até"; daí é o desafio de marca de sempre.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/recordes/recordes-52-fran-escolhido.jpg" alt="Informações do desafio com o WOD Fran escolhido"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 Lista de WODs -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">6</div>
+        <div class="passo-txt"><b>Escolher outro WOD</b><span>Toque em "WOD" para ver a lista: Fran, Grace, Helen, Diane, Isabel, Karen, Murph, Cindy e os 1RM (agachamento, levantamento terra, clean &amp; jerk e snatch), cada um com o tipo e o treino. O tipo e a descrição vêm do WOD e não se editam.</span><span class="ramo">Alternativa</span><span>"WOD livre": você escolhe o tipo (For Time, AMRAP ou carga máxima) e descreve o treino. Vale para o desafio, mas não vira recorde.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/recordes/recordes-40-lista-de-wods.jpg" alt="Lista de WODs: WOD livre, Fran, Grace, Helen, Diane, Isabel, Karen, Murph"></div></div>
+    </div>
+
+  </div>
+</section>
+
+<div class="faixa-t">
+  <h2>Marca pelo relógio</h2>
+  <p>Conecte uma vez e o tempo do treino entra na sua marca, com o selo do aparelho.</p>
+</div>
+
+<section class="trilho-fluxo">
+  <div class="passos">
+
+    <!-- 1 Configurações -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">1</div>
+        <div class="passo-txt"><b>Relógios e apps</b><span>Pela engrenagem do Perfil, abra Configurações e toque em "Relógios e apps". Do lado aparece quantas fontes você já conectou.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/relogio/relogio-10-configuracoes.jpg" alt="Configurações com a linha Relógios e apps, 1 conectado"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 Conectar -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">2</div>
+        <div class="passo-txt"><b>Conectar o relógio</b><span>Ligue "Apple Saúde" para ler os treinos do Apple Watch e dos relógios que sincronizam com o Saúde (Garmin, Coros, Suunto, Amazfit…); o iPhone pede a permissão. Ligue "Polar" para entrar na sua conta do Polar Flow. Desligar desconecta, e as marcas já lançadas ficam.</span><span class="ramo">Automático</span><span>"Lançar minha marca sozinho" vem ligado: treino que serve para um desafio aberto vira a sua marca, e você recebe um aviso. Desligue se preferir lançar você mesmo.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/relogio/relogio-20-relogios-e-apps.jpg" alt="Relógios e apps: Apple Saúde ligado, Polar, Enviar arquivo do treino e Lançar minha marca sozinho"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 Ranking do desafio -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">3</div>
+        <div class="passo-txt"><b>Lançar a marca no desafio</b><span>No desafio de marca (ou na partida de marca), toque em "Lançar minha marca". Quem lançou pelo relógio já aparece no ranking com o ícone verde do relógio e o aparelho ao lado do ritmo.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/relogio/relogio-30-ranking-com-polar.jpg" alt="Ranking do desafio de 10 km com a marca do primeiro colocado medida pela Polar"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 Sua marca -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">4</div>
+        <div class="passo-txt"><b>Importar do relógio</b><span>Na folha "Sua marca", toque em "Importar do relógio". Ou, abaixo de "ou digite", preencha o tempo como sempre.</span><span class="ramo">Alternativa</span><span>Se você ainda não conectou nada, o botão leva para Relógios e apps.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/relogio/relogio-40-sua-marca.jpg" alt="Folha Sua marca com o botão Importar do relógio e os campos de tempo"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 Escolha o treino -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">5</div>
+        <div class="passo-txt"><b>Escolha o treino</b><span>Aparecem os treinos desde o começo do desafio. O que serve mostra o tempo que vale na prova ("nos 10 km"); os outros ficam apagados com o motivo: mais curto que a prova, mais de 10% acima dela, ou Garmin pelo Saúde acima de 102% da distância.</span><span class="ramo">Alternativa</span><span>"Enviar arquivo do treino" aceita FIT, GPX ou TCX, exportado do Garmin Connect, da Coros ou da Suunto. "Digitar à mão" volta para os campos.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/relogio/relogio-50-escolha-o-treino.jpg" alt="Lista de treinos: 10,3 km válido com 48:55 nos 10 km e três treinos apagados com o motivo"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 Marca do relógio -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">6</div>
+        <div class="passo-txt"><b>Confira e salve</b><span>Na corrida, vale o melhor trecho com a distância exata da prova ("Melhor trecho de 10 km da corrida de 10,3 km"), com o ritmo e o selo "Medido pelo relógio". No Hyrox e no CrossFit For Time, vale o tempo total do treino. Toque em "Salvar marca".</span><span class="ramo">Alternativa</span><span>"Digitar à mão" também funciona, mas a marca digitada perde o selo do relógio.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/relogio/relogio-60-marca-do-relogio.jpg" alt="Folha Sua marca com 48:55, ritmo 4:54 /km e o selo Medido pelo relógio · Apple Watch"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 Ranking com selo -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">7</div>
+        <div class="passo-txt"><b>No ranking, com o selo</b><span>A sua marca entra no ranking com o ícone do relógio e o aparelho. O botão vira "Corrigir minha marca" enquanto o resultado não fecha.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/relogio/relogio-70-ranking-com-selo.jpg" alt="Ranking com a sua marca em primeiro, 48:55, medida pelo Apple Watch"></div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Quando a minha marca vira recorde?</summary><p>Quando o desafio ou a partida de marca encerra. Se ela for a sua melhor naquela prova, vira o recorde, e você recebe o aviso "Novo recorde". A primeira marca de uma prova também conta.</p></details>
+    <details><summary>Por que meu WOD não apareceu em Meus recordes?</summary><p>Só WOD de referência vira recorde. Se o desafio foi com "WOD livre", a marca vale para o desafio, mas não entra nos recordes.</p></details>
+    <details><summary>Fiz Scaled. Conta?</summary><p>Conta. O recorde do CrossFit é a melhor marca RX; enquanto você não tiver nenhuma RX naquele WOD, aparece a melhor Scaled.</p></details>
+    <details><summary>Preciso de plano para ver meus recordes?</summary><p>Não. O recorde de cada prova é grátis, na Início e em Meus recordes. O gráfico e a lista de todas as marcas são do Premium e do Elite.</p></details>
+    <details><summary>Meu relógio é Garmin, Coros ou Suunto. Funciona?</summary><p>Funciona de dois jeitos: pelo Apple Saúde, se o relógio sincroniza com ele, ou enviando o arquivo do treino (FIT, GPX ou TCX) na hora de lançar a marca. O Garmin pelo Saúde chega sem os trechos da corrida, então vale o tempo total, e só se o treino tiver de 100% a 102% da distância. Para usar o melhor trecho, envie o arquivo FIT.</p></details>
+    <details><summary>No Android aparece o Apple Saúde?</summary><p>Não. O Apple Saúde só aparece no iPhone. No Android, use a Polar ou o envio do arquivo do treino.</p></details>
+    <details><summary>Corri mais que a distância da prova. Vale?</summary><p>Vale se o treino tiver até 10% a mais que a prova: o app usa o melhor trecho com a distância exata. Mais curto que a prova ou mais de 10% acima, não vale.</p></details>
+    <details><summary>O automático apaga a marca que eu digitei?</summary><p>Não. Marca digitada nunca é apagada: o app pergunta se você quer usar o tempo do relógio. Com mais de um treino que serve, fica o melhor, e o treino vira a marca em todos os desafios abertos em que ele serve.</p></details>
+    <details><summary>Alguém vê meus treinos?</summary><p>Não. O app lê só treinos de corrida e funcional, a partir de quando você conecta. No ranking aparece só a marca lançada, com o selo do aparelho.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

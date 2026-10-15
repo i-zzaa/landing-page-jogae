@@ -1,0 +1,1352 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Perfil, serviços e modalidades · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* ScreenHeader: seta à esquerda, título no meio, ação/X à direita */
+  .sh { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; min-height: 56px; }
+  .sh .lado { min-width: 28px; display: flex; gap: 12px; align-items: center; justify-content: flex-end; }
+  .sh .lado:first-child { justify-content: flex-start; }
+  .sh svg { width: 28px; height: 28px; flex: none; }
+  .sh .t3 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .sh .acao { font: 500 14px/20px var(--font); color: var(--primary); }
+  .corpo { display: flex; flex-direction: column; gap: 16px; padding: 16px 20px 24px; }
+  .rodape { padding: 12px 20px 34px; margin-top: auto; }
+  .screen-body.sem-pad { gap: 0; }
+  /* ListRow */
+  .lg { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .lr { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; font: 400 16px/24px var(--font); position: relative; }
+  .lr + .lr::before { content: ""; position: absolute; top: 0; left: 16px; right: 0; height: 1px; background: var(--border); }
+  .lr > svg:first-child { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .lr .rot { flex: 1; min-width: 0; }
+  .lr .val { font: 500 14px/20px var(--font); color: var(--primary); white-space: nowrap; }
+  .lr .chev { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .lr.perigo, .lr.perigo > svg:first-child { color: var(--danger); }
+  .btn.perigo-contorno { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .sec-h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .sec-h a { font: 500 14px/20px var(--font); color: var(--primary); }
+  .meta { display: flex; align-items: center; gap: 4px; }
+  .meta svg { width: 14px; height: 14px; color: var(--text-muted); }
+  .estrela { color: var(--accent); fill: var(--accent); }
+  .galeria { display: flex; gap: 2px; height: 180px; overflow: hidden; flex: none; }
+  .galeria .foto { border-radius: 0; flex: none; width: 220px; height: 180px; }
+  .foto.areia { background: linear-gradient(160deg, var(--primary-tint), var(--accent) 70%); }
+  .foto.mar { background: linear-gradient(170deg, var(--info-soft), var(--info) 80%); }
+  .foto.noite { background: linear-gradient(160deg, var(--text-muted), var(--secondary)); }
+  /* ArenaMpCard conectado */
+  .mp { display: flex; align-items: center; gap: 12px; }
+  .mp .ic-box { width: 40px; height: 40px; border-radius: 12px; background: var(--primary-wash); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .mp .ic-box svg { width: 20px; height: 20px; }
+  /* Editar arena */
+  .fotos { display: flex; gap: 8px; flex-wrap: wrap; }
+  .fslot { width: 84px; height: 84px; border-radius: 12px; overflow: hidden; position: relative; }
+  .fslot .x { position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; border-radius: 999px; background: var(--overlay); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; }
+  .fslot .x svg { width: 14px; height: 14px; }
+  .fslot.add { border: 1px dashed var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; color: var(--primary); }
+  .fslot.add svg { width: 22px; height: 22px; }
+  .lugar { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; background: var(--primary-wash); }
+  .lugar .pin { width: 36px; height: 36px; border-radius: 999px; background: var(--surface); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .lugar .pin svg { width: 18px; height: 18px; }
+  .tiles { display: flex; gap: 8px; }
+  .tile { flex: 1; aspect-ratio: 1; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 0 4px; text-align: center; font: 500 12px/16px var(--font); }
+  .tile svg { width: 28px; height: 28px; color: var(--text-muted); }
+  .tile.on { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
+  .tile.on svg { color: var(--primary); }
+  .hora { display: flex; align-items: center; gap: 8px; }
+  .hora .dia { width: 78px; font: 500 14px/20px var(--font); flex: none; }
+  .hora .input { flex: 1; height: 44px; padding: 0 8px; font-size: 15px; }
+  .hora .vazio { flex: 1; }
+  .btn.terc { background: transparent; color: var(--primary); width: auto; align-self: flex-start; padding: 0 8px; }
+  /* Modalidades (acordeão) */
+  .mrow { display: flex; align-items: center; gap: 12px; padding: 12px 16px; font: 400 16px/24px var(--font); position: relative; }
+  .mbloco + .mbloco::before { content: ""; display: block; height: 1px; background: var(--border); margin-left: 16px; }
+  .mrow .rot { flex: 1; }
+  .mrow svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .mrow .off { color: var(--text); }
+  .mpainel { display: flex; flex-direction: column; gap: 8px; padding: 0 16px 16px; }
+  .niveis { display: flex; gap: 16px; }
+  .niveis .nv { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .niveis img { width: 30px; height: 32px; object-fit: contain; }
+  .aviso-nsalvo { font: 500 12px/16px var(--font); color: var(--warning); }
+  /* Perfil público */
+  .mapa { height: 140px; border-radius: 12px; background:
+    linear-gradient(90deg, transparent 48%, var(--surface) 48% 52%, transparent 52%),
+    linear-gradient(0deg, transparent 58%, var(--surface) 58% 62%, transparent 62%),
+    linear-gradient(135deg, var(--success-soft), var(--info-soft)); position: relative; }
+  .mapa::after { content: ""; position: absolute; left: 50%; top: 50%; width: 18px; height: 18px; margin: -18px 0 0 -9px; border-radius: 9px 9px 9px 0; transform: rotate(-45deg); background: var(--primary); }
+  .rev { display: flex; gap: 12px; }
+  .rev .corpo-rev { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .estrelas { display: flex; gap: 2px; }
+  .estrelas svg { width: 12px; height: 12px; color: var(--accent); }
+  .estrelas svg.f { fill: var(--accent); }
+  .resposta { padding: 8px; border-radius: 12px; background: var(--surface-alt); display: grid; gap: 2px; }
+  /* Perfil público da arena no celular (app/(app)/arena/[id].tsx, redesenho e85113f) */
+  .screen.ap { background: var(--secondary); }
+  .ap-rola { flex: 1; min-height: 0; overflow: hidden; background: var(--background); display: flex; flex-direction: column; }
+  .ap-rola.topo-escuro { background: var(--secondary); }
+  .ap-rola > .ap-conteudo:last-child { flex: 1; }
+  .ap-foto { height: 290px; flex: none; border-radius: 0; }
+  .ap-degrade { position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg,
+    color-mix(in srgb, var(--secondary) 55%, transparent) 0%, transparent 30%,
+    color-mix(in srgb, var(--secondary) 15%, transparent) 55%,
+    color-mix(in srgb, var(--secondary) 92%, transparent) 90%, var(--secondary) 100%); }
+  .ap-nav { position: absolute; top: 8px; left: 16px; right: 16px; display: flex; align-items: center; gap: 8px; z-index: 2; }
+  .ap-redondo { width: 38px; height: 38px; border-radius: 999px; background: var(--overlay); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; flex: none; }
+  .ap-redondo svg { width: 20px; height: 20px; }
+  .ap-cont { position: absolute; top: 160px; right: 16px; z-index: 2; padding: 2px 8px; border-radius: 999px; background: var(--overlay); color: var(--text-inverse); font: 500 12px/16px var(--font); }
+  .ap-ident { position: absolute; left: 20px; right: 20px; bottom: 16px; z-index: 2; display: flex; flex-direction: column; gap: 8px; color: var(--text-inverse); }
+  .ap-linha { display: flex; align-items: center; gap: 4px; }
+  .ap-linha svg { width: 14px; height: 14px; }
+  .ap-inv-muted { color: var(--text-inverse-muted); }
+  .ap-aberta { align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--text-inverse) 14%, transparent); background: color-mix(in srgb, var(--text-inverse) 8%, transparent);
+    font: 500 12px/16px var(--font); color: var(--text-inverse); }
+  .ap-ponto { width: 7px; height: 7px; border-radius: 4px; background: var(--success); flex: none; }
+  .ap-ponto.fechada { background: var(--danger); }
+  .ap-faixa { flex: none; background: var(--secondary); color: var(--text-inverse); display: flex; align-items: center; gap: 12px; padding: 4px 20px 48px; }
+  .ap-faixa .grow { display: grid; gap: 2px; }
+  .ap-ir { display: inline-flex; align-items: center; gap: 4px; padding: 8px 12px; border-radius: 999px; white-space: nowrap;
+    border: 1px solid color-mix(in srgb, var(--text-inverse) 14%, transparent); background: color-mix(in srgb, var(--text-inverse) 8%, transparent);
+    font: 500 14px/20px var(--font); color: var(--text-inverse); }
+  .ap-ir svg { width: 16px; height: 16px; color: var(--primary); }
+  /* abas: sobem 24 por cima da faixa e ficam presas no topo ao rolar */
+  .ap-abas { flex: none; margin-top: -24px; padding: 16px 20px 8px; background: var(--background); border-radius: 20px 20px 0 0; position: relative; }
+  .ap-abas.presa { margin-top: 0; }
+  .ap-seg { display: flex; gap: 4px; padding: 4px; border-radius: 8px; background: var(--surface-alt); }
+  .ap-seg span { flex: 1; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 8px 0; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .ap-seg span.on { background: var(--primary); color: var(--text-inverse); }
+  .ap-seg i.pt { width: 7px; height: 7px; border-radius: 4px; background: var(--primary); }
+  .ap-seg span.on i.pt { background: var(--text-inverse); }
+  .ap-conteudo { display: flex; flex-direction: column; gap: 24px; padding: 12px 0 32px; background: var(--background); }
+  .ap-pad { padding: 0 20px; }
+  .ap-conteudo .sec-h .t3 { font-size: 18px; }
+  /* CoverCard: capa num quarto do card, texto ao lado */
+  .cc { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); }
+  .cc-capa { position: absolute; top: 0; bottom: 0; left: 0; width: 25%; border-radius: 12px 0 0 12px; overflow: hidden; background: var(--primary-wash); color: var(--primary); display: flex; align-items: center; justify-content: center; }
+  .cc-capa > svg { width: 24px; height: 24px; }
+  .cc-capa.foto { border-radius: 12px 0 0 12px; }
+  .cc-txt { margin-left: 25%; padding: 16px; display: grid; gap: 2px; min-width: 0; }
+  .cc-lin { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .ell { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .tag.st-ic { padding: 4px; align-self: center; }
+  .tag.st-ic svg { width: 16px; height: 16px; }
+  .ap-carrossel { display: flex; gap: 12px; padding: 0 20px; overflow: hidden; }
+  .ap-carrossel .cc { width: 240px; flex: none; }
+  .cc-traco { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  .cc-traco rect { x: .75px; y: .75px; width: calc(100% - 1.5px); height: calc(100% - 1.5px); rx: 12px; fill: none; stroke: var(--primary-tint); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 30 70; animation: ap-traco 2.8s linear infinite; }
+  @keyframes ap-traco { to { stroke-dashoffset: -100; } }
+  @media (prefers-reduced-motion: reduce) { .cc-traco rect { animation: none; stroke-dasharray: none; stroke-width: 1.5; } }
+  .ap-bolinhas { display: flex; justify-content: center; margin-top: 8px; }
+  .ap-bolinhas i { width: 6px; height: 6px; border-radius: 999px; background: var(--border); margin: 4px 6px; }
+  .ap-bolinhas i.on { width: 18px; background: var(--primary); }
+  .ap-lista { display: flex; flex-direction: column; gap: 8px; }
+  .ap-mod { display: flex; align-items: center; gap: 12px; }
+  .ap-mod-ic { width: 44px; height: 44px; border-radius: 12px; background: var(--primary-wash); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .ap-mod-ic svg { width: 22px; height: 22px; }
+  .ap-hex { display: flex; align-items: center; gap: 4px; }
+  .ap-hex img { height: 18px; width: 17px; object-fit: contain; }
+  .ap-hex .cap { margin-left: 4px; }
+  .ap-quem { display: flex; align-items: center; gap: 12px; }
+  .ap-quem .grow { display: grid; gap: 2px; }
+  .ap-quem .avatars > .avatar { margin-left: -11px; }
+  .ap-quem .avatars > .avatar:first-child { margin-left: 0; }
+  .ap-serv { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .ap-serv .card { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 16px 4px; text-align: center; font: 500 12px/16px var(--font); }
+  .ap-serv svg { width: 22px; height: 22px; color: var(--primary); }
+  .ap-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ap-chips span { display: inline-flex; align-items: center; gap: 4px; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); font: 500 14px/20px var(--font); }
+  .ap-chips svg { width: 16px; height: 16px; color: var(--text-muted); }
+  .ap-mapa { overflow: hidden; }
+  .ap-mapa .mapa { height: 160px; border-radius: 12px 12px 0 0; }
+  .ap-mapa .rod { display: flex; align-items: center; gap: 12px; padding: 12px; }
+  .ap-mapa .rod .grow { display: grid; gap: 2px; }
+  .ap-nota { display: flex; align-items: center; gap: 16px; }
+  .ap-nota .grande { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .ap-nota .estrelas svg { width: 13px; height: 13px; }
+  .ap-barras { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+  .ap-barra { display: flex; align-items: center; gap: 8px; }
+  .ap-barra .cap:first-child { width: 10px; }
+  .ap-barra .cap:last-child { width: 24px; text-align: right; }
+  .ap-barra .trilho { flex: 1; height: 6px; border-radius: 999px; background: var(--surface-alt); overflow: hidden; }
+  .ap-barra .trilho i { display: block; height: 100%; border-radius: 999px; background: var(--accent); }
+  .ap-revs { display: flex; gap: 12px; padding: 0 20px; overflow: hidden; margin-top: 12px; }
+  .ap-rev { width: 280px; flex: none; display: flex; flex-direction: column; gap: 8px; }
+  .ap-rev-cab { display: flex; align-items: center; gap: 8px; }
+  .ap-rev-cab .grow { display: grid; gap: 2px; }
+  .ap-rev-acoes { display: flex; align-items: center; gap: 16px; }
+  .ap-rev .resposta { padding: 8px; }
+  /* rodapé fixo: diária e Reservar quadra */
+  .ap-rodape { flex: none; background: var(--surface); border-top: 1px solid var(--border); padding: 16px 20px 34px; display: flex; flex-direction: column; gap: 8px; position: relative; z-index: 3; }
+  .ap-rodape .row { gap: 16px; }
+  .ap-rodape .btn { flex: 1; width: auto; }
+  .ap-rodape .nota-centro { text-align: center; }
+  /* folhas (Modal com fundo escurecido) */
+  .ap-veu { position: absolute; inset: 0; background: var(--overlay); z-index: 7; }
+  .ap-folha { position: absolute; left: 0; right: 0; bottom: 0; z-index: 8; background: var(--background); border-radius: 20px 20px 0 0; }
+  .ap-folha.menu { padding: 8px 20px 32px; display: flex; flex-direction: column; }
+  .ap-folha .pega { align-self: center; width: 40px; height: 5px; border-radius: 999px; background: var(--border); margin-bottom: 12px; }
+  .ap-opcao { display: flex; align-items: center; gap: 12px; padding: 16px 0; font: 400 16px/24px var(--font); }
+  .ap-opcao + .ap-opcao { border-top: 1px solid var(--border); }
+  .ap-opcao svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .ap-folha.atletas { max-height: 80%; padding: 20px 20px 32px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
+  .ap-folha.atletas .cab { display: flex; align-items: center; justify-content: space-between; }
+  .ap-folha.atletas .cab svg { width: 28px; height: 28px; }
+  .ap-atleta { display: flex; align-items: center; gap: 12px; padding: 12px 0; }
+  .ap-atleta + .ap-atleta { border-top: 1px solid var(--border); }
+  .ap-atleta .grow { display: grid; gap: 2px; }
+  .ap-atleta .chev { width: 16px; height: 16px; color: var(--text-muted); }
+  .ap-esportes { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ap-esportes span { display: inline-flex; align-items: center; gap: 4px; font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .ap-esportes img { height: 16px; width: 15px; object-fit: contain; }
+
+  /* painel web */
+  .wph { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+  .wph .acoes { display: flex; gap: 12px; align-items: center; }
+  .sino { width: 48px; height: 48px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; position: relative; }
+  .sino svg { width: 24px; height: 24px; }
+  .aviso-salva { display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 16px; border-radius: 999px; background: var(--success-soft); color: var(--success); font: 400 14px/20px var(--font); }
+  .aviso-salva svg { width: 16px; height: 16px; }
+  .cols { display: flex; gap: 16px; align-items: flex-start; }
+  .cols > .col1 { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+  .cols > .lat { width: 340px; flex: none; display: flex; flex-direction: column; gap: 16px; }
+  .ctopo { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .card.g16 { display: flex; flex-direction: column; gap: 16px; }
+  .fotos-web { display: flex; gap: 8px; }
+  .fotos-web .foto { height: 168px; border-radius: 16px; flex: none; }
+  .fotos-web .capa-foto { width: 286px; }
+  .fotos-web .mini { width: 132px; }
+  .selo { position: absolute; left: 12px; top: 12px; padding: 2px 8px; border-radius: 999px; background: var(--overlay-strong); color: var(--text-inverse); font: 400 12px/16px var(--font); }
+  .add-web { width: 132px; height: 168px; border: 1px dashed var(--border); border-radius: 12px; background: var(--surface); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--text-muted); font: 400 12px/16px var(--font); flex: none; }
+  .add-web svg { width: 20px; height: 20px; }
+  .rotulo { font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .srow { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+  .srow + .srow { border-top: 1px solid var(--surface-alt); }
+  .srow .ib { width: 36px; height: 36px; border-radius: 12px; background: var(--surface-alt); color: var(--text-muted); display: flex; align-items: center; justify-content: center; flex: none; }
+  .srow .ib.on { background: var(--primary-wash); color: var(--primary); }
+  .srow .ib svg { width: 20px; height: 20px; }
+  .srow .ib.p { width: 32px; height: 32px; border-radius: 8px; }
+  .srow .ib.p svg { width: 16px; height: 16px; }
+  .srow .ib.p.on { background: var(--surface-alt); color: var(--text); }
+  .hweb { display: flex; align-items: center; gap: 8px; padding: 4px 8px; margin: 0 -8px; border-radius: 12px; }
+  .hweb.hoje { background: var(--primary-wash); }
+  .hweb .d { width: 78px; flex: none; font: 400 14px/20px var(--font); }
+  .hweb.hoje .d { font-weight: 500; color: var(--primary-dark); }
+  .hweb .input { flex: 1; height: 38px; padding: 0 8px; font-size: 14px; }
+  .hweb .f { width: 60px; display: flex; justify-content: flex-end; flex: none; }
+  .quadra-l { display: flex; align-items: center; gap: 8px; padding: 8px 0; font: 400 14px/20px var(--font); }
+  .quadra-l svg { width: 16px; height: 16px; color: var(--text-muted); }
+  .mlista { width: 340px; flex: none; }
+  .mlinha { display: flex; align-items: center; gap: 12px; padding: 8px 16px; position: relative; }
+  .mlinha.aberta { background: var(--primary-wash); }
+  .mlinha.aberta::before { content: ""; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px; border-radius: 0 3px 3px 0; background: var(--primary); }
+  .mlinha .t { flex: 1; min-width: 0; display: grid; gap: 2px; }
+  .nweb { display: flex; flex-wrap: wrap; gap: 12px; }
+  .nweb > div { flex: 1 1 120px; display: flex; flex-direction: column; align-items: center; gap: 8px; border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
+  .nweb img { width: 39px; height: 42px; object-fit: contain; }
+  .nweb .apagado img { opacity: .35; }
+  .ic-roda { width: 56px; height: 56px; border-radius: 999px; background: var(--primary-wash); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .ic-roda svg { width: 20px; height: 20px; }
+  .pergunta { display: grid; gap: 4px; padding-top: 8px; border-top: 1px solid var(--border); }
+  .pergunta .pq-topo { display: flex; align-items: center; gap: 8px; font: 500 14px/20px var(--font); }
+  .pergunta .pq-topo span { flex: 1; }
+  .pergunta svg { width: 16px; height: 16px; color: var(--text-muted); }
+  .coluna-leitura { max-width: 820px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; }
+
+  /* página da arena no painel web (app/(app)/arena/[id].web.tsx) */
+  .wseg { display: inline-flex; background: var(--neutral-soft); border-radius: 12px; padding: 4px; }
+  .wseg span { height: 30px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 8px; font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .wseg span.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow-card); }
+  .pa-galeria { flex: none; display: flex; gap: 8px; height: 320px; border-radius: 20px; overflow: hidden; }
+  .pa-galeria .foto { border-radius: 0; }
+  .pa-principal { flex: 2; }
+  .pa-lado { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .pa-lado .foto { flex: 1; }
+  .pa-seta { position: absolute; top: 50%; margin-top: -18px; width: 36px; height: 36px; border-radius: 999px; background: color-mix(in srgb, var(--surface) 85%, transparent); color: var(--text); display: flex; align-items: center; justify-content: center; z-index: 1; }
+  .pa-seta svg { width: 20px; height: 20px; }
+  .pa-seta.esq { left: 12px; } .pa-seta.dir { right: 12px; }
+  .pa-cont { position: absolute; right: 12px; bottom: 12px; z-index: 1; padding: 4px 8px; border-radius: 999px; background: var(--overlay-strong); color: var(--text-inverse); font: 500 12px/16px var(--font); }
+  .pa { display: flex; gap: 24px; align-items: flex-start; }
+  .pa-esq { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+  .pa-dir { width: 340px; flex: none; display: flex; flex-direction: column; gap: 16px; }
+  .pa-card { display: flex; flex-direction: column; gap: 12px; }
+  .pa-sec { display: flex; flex-direction: column; gap: 12px; }
+  .pa-mods { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pa-mod { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); font: 500 14px/20px var(--font); }
+  .pa-mod svg { width: 20px; height: 20px; color: var(--primary); }
+  .pa-grade3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 0; }
+  .pa-grade3 > div { display: flex; align-items: center; gap: 10px; font: 500 14px/20px var(--font); }
+  .pa-grade3 svg { width: 22px; height: 22px; }
+  .pa-revs { display: grid; gap: 12px; }
+  .pa-capas { display: flex; flex-wrap: wrap; gap: 12px; }
+  .pa-capas .cc { flex: 1 1 320px; }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="arena" data-fluxo="perfil"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Perfil, serviços e modalidades</h1>
+  <p>Em Ajustes você confere e edita o perfil da arena (nome, fotos, endereço, diária, formas de pagamento e horário), liga os serviços e as modalidades com os níveis aceitos e o regulamento de torneio. Também dá para ver a página da sua arena do jeito que o jogador vê.</p>
+  <ul class="regras">
+    <li>Perfil, serviços, modalidades, quadras, analytics e financeiro só aparecem para quem gerencia a arena (dono, administrador, gerente). O atendente cuida do dia a dia e não consegue alterar esses dados.</li>
+    <li>No celular, ver o perfil e editar são duas telas. No navegador é uma só: você edita os campos na própria página, e diária e horário ficam em "Serviços e estrutura".</li>
+    <li>Fora do horário de funcionamento ninguém reserva quadra, e não dá para marcar aula nem torneio.</li>
+    <li>Só a arena com vínculo aprovado do atleta naquela modalidade valida o nível dele. Os níveis permitidos que você marca barram quem está fora deles nas partidas da modalidade.</li>
+    <li>Vínculo aprovado é público nos dois lados: sua página mostra em "Quem joga aqui" os atletas com vínculo aprovado, e o perfil de cada um mostra as arenas dele. Pedido pendente ou recusado não aparece.</li>
+    <li>Para o jogador reservar quadra pela sua página, você precisa do plano com reserva e do Mercado Pago conectado. Sem um deles, o botão "Reservar quadra" fica apagado, com o aviso do motivo.</li>
+    <li>O regulamento de torneio da modalidade é copiado para os torneios novos e pode ser ajustado em cada um. Modalidade de marca (corrida, Hyrox, CrossFit) não tem regulamento, porque não entra em torneio.</li>
+    <li>Sua arena aparece em "Arenas perto de você", na Início dos jogadores, até onde o seu plano alcança: Básico (e arena sem plano) 15 km, Premium 30 km e Elite 45 km. Quem digita o nome da arena na busca acha ela em qualquer cidade, em qualquer plano.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 Ajustes -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Ajustes</b><span>Na aba Ajustes fica tudo da gestão da arena. Toque em "Perfil da arena".</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body com-abas">
+          <p class="t1" style="padding:16px 0">Configurações</p>
+          <div class="lg">
+            <div class="lr"><i data-lucide="building-2"></i><span class="rot">Perfil da arena</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="wrench"></i><span class="rot">Serviços e estrutura</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="trophy"></i><span class="rot">Modalidades e níveis</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="swords"></i><span class="rot">Desafios de arena</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="repeat"></i><span class="rot">Desafio recorrente</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="layout-grid"></i><span class="rot">Quadras</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="calendar-sync"></i><span class="rot">Horário fixo</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="graduation-cap"></i><span class="rot">Aulas</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="calendar-range"></i><span class="rot">Temporadas</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="clipboard-list"></i><span class="rot">Planos de alunos</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="calendar-clock"></i><span class="rot">Reservas</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="zap"></i><span class="rot">Ofertas relâmpago</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="users"></i><span class="rot">Usuários vinculados</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="line-chart"></i><span class="rot">Analytics</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="users-round"></i><span class="rot">Meus atletas</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="bell"></i><span class="rot">Lembretes</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="bell-ring"></i><span class="rot">Notificações por categoria</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="credit-card"></i><span class="rot">Plano</span><span class="val">Elite Mensal</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="wallet"></i><span class="rot">Financeiro</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="link-2"></i><span class="rot">Agregadores</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="globe"></i><span class="rot">Idioma</span><span class="val">Português</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="circle-help"></i><span class="rot">Ajuda e suporte</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr"><i data-lucide="info"></i><span class="rot">Sobre o Desafiaê</span><i class="chev" data-lucide="chevron-right"></i></div>
+            <div class="lr perigo"><i data-lucide="trash-2"></i><span class="rot">Excluir conta</span></div>
+          </div>
+          <button class="btn perigo-contorno"><i data-lucide="log-out"></i>Sair da conta</button>
+        </div>
+        <div class="tabbar" data-abas="arena" data-ativa="ajustes"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 Perfil da arena -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Perfil da arena</b><span>Um resumo do que o jogador vê. "Editar" no topo ou no rodapé abre a edição; o "Editar" de cada seção leva a Modalidades ou a Serviços.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Perfil da arena</span><span class="lado"><span class="acao">Editar</span><i data-lucide="x"></i></span></div>
+          <div class="galeria"><div class="foto areia"></div><div class="foto mar"></div></div>
+          <div class="corpo">
+            <p class="t2">Arena Maré Alta</p>
+            <div class="meta"><i data-lucide="map-pin"></i><span class="b2 muted">Rua das Gaivotas, 410, Florianópolis, SC</span></div>
+            <div class="meta"><i data-lucide="star" class="estrela"></i><span class="b2 muted">4,8 (37 avaliações)</span></div>
+            <div>
+              <div class="sec-h"><span class="t3">Modalidades</span><a>Editar</a></div>
+              <div class="lg">
+                <div class="lr"><i data-lucide="trophy"></i><span class="rot">Futevôlei</span></div>
+                <div class="lr"><i data-lucide="trophy"></i><span class="rot">Beach Tennis</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="sec-h"><span class="t3">Sobre nós</span></div>
+              <p class="b2 muted">Três quadras de areia a duas quadras da praia. Futevôlei e beach tennis de manhã cedo até as 22h.</p>
+            </div>
+            <div>
+              <div class="sec-h"><span class="t3">Serviços</span><a>Editar</a></div>
+              <div class="chips"><span class="chip">Vestiário</span><span class="chip">Lanchonete</span><span class="chip">Estacionamento</span><span class="chip">Wi-Fi</span></div>
+            </div>
+            <div>
+              <div class="sec-h"><span class="t3">Pagamentos</span></div>
+              <div class="card mp">
+                <div class="ic-box"><i data-lucide="wallet"></i></div>
+                <div class="grow col g4" style="gap:2px"><p class="b1m">Mercado Pago</p><p class="b2 muted">financeiro@marealta.com.br</p><p class="cap muted">Recebendo pagamentos nesta conta</p></div>
+                <span class="capm laranja">Alterar</span>
+              </div>
+              <p class="capm laranja" style="margin-top:8px">Ver tarifas do Mercado Pago</p>
+            </div>
+          </div>
+          <div class="rodape"><button class="btn sec">Editar arena</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 Editar arena -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Editar arena</b><span>Altere fotos, nome, localização, endereço, descrição, diária, formas de pagamento e horário de funcionamento. Tudo é salvo junto em "Salvar alterações".</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Editar arena</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo" style="gap:24px;padding-top:12px">
+            <div class="col">
+              <p class="t3">Fotos (3/10)</p>
+              <div class="fotos">
+                <div class="fslot foto areia"><span class="x"><i data-lucide="x"></i></span></div>
+                <div class="fslot foto mar"><span class="x"><i data-lucide="x"></i></span></div>
+                <div class="fslot foto noite"><span class="x"><i data-lucide="x"></i></span></div>
+                <div class="fslot add"><i data-lucide="plus"></i></div>
+              </div>
+            </div>
+            <div class="col">
+              <p class="t3">Informações básicas</p>
+              <div class="input">Arena Maré Alta</div>
+              <p class="b2m muted">Localização</p>
+              <div class="lugar"><span class="pin"><i data-lucide="map-pin"></i></span><div class="grow"><p class="b1m">Campeche - SC</p><p class="cap muted">Os jogadores encontram a arena por esta região.</p></div></div>
+              <button class="btn sec"><i data-lucide="map-pin"></i>Atualizar localização</button>
+              <div class="input">Rua das Gaivotas, 410</div>
+              <button class="btn terc"><i data-lucide="search"></i>Buscar</button>
+            </div>
+            <div class="col">
+              <p class="t3">Descrição</p>
+              <div class="input area" style="min-height:130px">Três quadras de areia a duas quadras da praia. Futevôlei e beach tennis de manhã cedo até as 22h.</div>
+            </div>
+            <div class="col">
+              <p class="t3">Preço e pagamento</p>
+              <div class="input">R$ 120,00</div>
+              <div class="tiles">
+                <div class="tile on"><i data-lucide="qr-code"></i>Pix</div>
+                <div class="tile on"><i data-lucide="credit-card"></i>Cartão de crédito</div>
+                <div class="tile on"><i data-lucide="landmark"></i>Cartão de débito</div>
+                <div class="tile"><i data-lucide="banknote"></i>Dinheiro</div>
+              </div>
+            </div>
+            <div class="col">
+              <p class="t3">Horário de funcionamento</p>
+              <div class="hora"><span class="dia">Domingo</span><div class="input">06:00</div><div class="input">22:00</div><span class="toggle on"></span></div>
+              <div class="hora"><span class="dia">Segunda</span><div class="input">06:00</div><div class="input">22:00</div><span class="toggle on"></span></div>
+              <div class="hora"><span class="dia">Terça</span><div class="input">06:00</div><div class="input">22:00</div><span class="toggle on"></span></div>
+              <div class="hora"><span class="dia">Quarta</span><div class="input">06:00</div><div class="input">22:00</div><span class="toggle on"></span></div>
+              <div class="hora"><span class="dia">Quinta</span><div class="input">06:00</div><div class="input">22:00</div><span class="toggle on"></span></div>
+              <div class="hora"><span class="dia">Sexta</span><div class="input">06:00</div><div class="input">22:00</div><span class="toggle on"></span></div>
+              <div class="hora"><span class="dia">Sábado</span><div class="input">06:00</div><div class="input">22:00</div><span class="toggle on"></span></div>
+            </div>
+          </div>
+          <div class="rodape"><button class="btn">Salvar alterações</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- Logo da arena (0305) -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Logo da arena</b><span>Abaixo das fotos fica o card "Logo", que é opcional. Toque em "Escolher logo" (ou no círculo) e mande uma imagem quadrada, de preferência com fundo, porque ela aparece num círculo. O logo é salvo na hora, sem precisar de "Salvar alterações". Em "Como os jogadores acham a arena" você abre as regras de alcance pelo plano.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/arenas-perto/06-editar-arena-sem-logo.jpg" alt="Editar arena com o card Logo vazio e o link Escolher logo, abaixo de Fotos (0/5)"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Logo escolhido</b><span>Com o logo enviado, o card mostra como ele fica e avisa "É assim que ele aparece na Início dos jogadores." O lápis no círculo troca o logo; "Remover logo" tira.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/arenas-perto/07-editar-arena-com-logo.jpg" alt="Editar arena com o logo da arena no círculo, o lápis para trocar e o link Remover logo"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Sua arena na Início dos jogadores</b><span>Na fileira "Arenas perto de você", sua arena aparece com o logo, o nome e a distância de quem está vendo. Sem logo, vale a primeira foto; sem foto, as iniciais do nome. Ela só aparece para quem está dentro do alcance do seu plano.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/arenas-perto/08-inicio-com-logo.jpg" alt="Início do jogador com a fileira Arenas perto de você: a arena Perto Elite com o logo no círculo e as outras com as iniciais"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 Serviços -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Serviços</b><span>Sete interruptores com o que sua arena oferece. Cada um salva na hora e aparece na página pública.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Serviços</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="lg">
+              <div class="lr"><i data-lucide="door-open"></i><span class="rot">Vestiário</span><span class="toggle on"></span></div>
+              <div class="lr"><i data-lucide="coffee"></i><span class="rot">Lanchonete</span><span class="toggle on"></span></div>
+              <div class="lr"><i data-lucide="car"></i><span class="rot">Estacionamento</span><span class="toggle on"></span></div>
+              <div class="lr"><i data-lucide="paw-print"></i><span class="rot">Pet Friendly</span><span class="toggle"></span></div>
+              <div class="lr"><i data-lucide="wifi"></i><span class="rot">Wi-Fi</span><span class="toggle on"></span></div>
+              <div class="lr"><i data-lucide="snowflake"></i><span class="rot">Ar-condicionado</span><span class="toggle"></span></div>
+              <div class="lr"><i data-lucide="accessibility"></i><span class="rot">Acessibilidade</span><span class="toggle"></span></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 Modalidades -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Modalidades</b><span>Ligue a modalidade e ela se abre: marque os níveis permitidos (D, C, B, A) e escreva o regulamento de torneio, que é salvo à parte.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Modalidades</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="card row sb" style="padding:12px 16px"><span class="capm muted">O que significa cada nível</span><i data-lucide="chevron-down" class="ic16 muted"></i></div>
+            <div class="lg">
+              <div class="mbloco"><div class="mrow"><span class="rot">Futebol</span><span class="toggle"></span></div></div>
+              <div class="mbloco">
+                <div class="mrow"><span class="rot">Futevôlei</span><i data-lucide="chevron-up"></i><span class="toggle on"></span></div>
+                <div class="mpainel">
+                  <p class="b2m">Níveis permitidos</p>
+                  <div class="niveis">
+                    <div class="nv"><img src="../img/categoria-d.png" alt="D"><span class="toggle on"></span></div>
+                    <div class="nv"><img src="../img/categoria-c.png" alt="C"><span class="toggle on"></span></div>
+                    <div class="nv"><img src="../img/categoria-b.png" alt="B"><span class="toggle on"></span></div>
+                    <div class="nv"><img src="../img/categoria-a.png" alt="A"><span class="toggle on"></span></div>
+                  </div>
+                  <div class="col g8" style="margin-top:12px">
+                    <p class="b2m">Regulamento de torneio</p>
+                    <div class="input area" style="min-height:104px">Tolerância de 10 min de atraso, depois é W.O. Bola oficial Mikasa FT-5. Set único até 18.</div>
+                    <p class="cap muted">O regulamento entra automaticamente nos torneios novos da modalidade. Dá pra ajustar em cada torneio.</p>
+                    <button class="btn sec">Salvar regulamento</button>
+                  </div>
+                </div>
+              </div>
+              <div class="mbloco"><div class="mrow"><span class="rot">Beach Tennis</span><i data-lucide="chevron-down"></i><span class="toggle on"></span></div></div>
+              <div class="mbloco"><div class="mrow"><span class="rot">Vôlei</span><span class="toggle"></span></div></div>
+              <div class="mbloco"><div class="mrow"><span class="rot">Basquete</span><span class="toggle"></span></div></div>
+              <div class="mbloco"><div class="mrow"><span class="rot">Tênis</span><span class="toggle"></span></div></div>
+              <div class="mbloco"><div class="mrow"><span class="rot">Padel</span><span class="toggle"></span></div></div>
+              <div class="mbloco"><div class="mrow"><span class="rot">Corrida</span><span class="toggle"></span></div></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">9</div>
+        <div class="passo-txt"><b>Página da arena (Sobre)</b><span>É o que o jogador vê ao abrir sua arena: a foto no topo com nome, nota e se está aberta; endereço e "Como chegar"; e as abas Sobre, Eventos e Aulas (um ponto em Eventos avisa torneio com inscrição aberta). O Sobre começa por "Acontecendo na arena", com até 4 itens entre torneio, evento e desafio, do mais próximo para o mais distante, que passam sozinhos e param quando você toca. Diária e "Reservar quadra" ficam fixos no rodapé.</span></div>
+      </div>
+      <div class="phone"><div class="screen ap" data-status="inversa">
+        <div class="ap-rola">
+          <div class="ap-foto foto quadra">
+            <div class="ap-degrade"></div>
+            <div class="ap-nav"><span class="ap-redondo"><i data-lucide="arrow-left"></i></span><span class="grow"></span><span class="ap-redondo"><i data-lucide="ellipsis"></i></span><span class="ap-redondo"><i data-lucide="x"></i></span></div>
+            <span class="ap-cont">1/3</span>
+            <div class="ap-ident">
+              <p class="t2">Arena Maré Alta</p>
+              <div class="ap-linha"><i data-lucide="star" class="estrela"></i><span class="b2m">4,8</span><span class="b2 ap-inv-muted">· 37 avaliações</span></div>
+              <span class="ap-aberta"><i class="ap-ponto"></i>Aberta agora · 06:00–22:00</span>
+            </div>
+          </div>
+          <div class="ap-faixa">
+            <div class="grow"><p class="b2m">Rua das Gaivotas, 410</p><p class="cap ap-inv-muted">Campeche · Florianópolis · SC</p></div>
+            <span class="ap-ir"><i data-lucide="navigation"></i>Como chegar</span>
+          </div>
+          <div class="ap-abas"><div class="ap-seg"><span class="on">Sobre</span><span class="">Eventos<i class="pt"></i></span><span class="">Aulas</span></div></div>
+          <div class="ap-conteudo">
+            <div>
+              <div class="ap-pad"><div class="sec-h"><span class="t3">Acontecendo na arena</span><a>Ver todos</a></div></div>
+              <div class="ap-carrossel">
+                <div class="cc"><div class="cc-capa"><span class="tag ok st-ic"><i data-lucide="repeat"></i></span></div><div class="cc-txt"><p class="cap muted ell">Desafio · outubro de 2026</p><p class="b2m ell">Maré Alta × Ponta do Sol</p><div class="cc-lin"><p class="cap muted ell grow">Futevôlei</p></div></div><svg class="cc-traco" aria-hidden="true"><rect pathLength="100"></rect></svg></div>
+                <div class="cc"><div class="cc-capa"><span class="tag info st-ic"><i data-lucide="trophy"></i></span></div><div class="cc-txt"><p class="cap muted ell">Torneio · 06/10</p><p class="b2m ell">Copa Maré Alta · Etapa 3</p><div class="cc-lin"><p class="cap muted ell grow">Beach Tennis</p></div></div></div>
+                <div class="cc"><div class="cc-capa"><span class="tag ok st-ic"><i data-lucide="calendar-days"></i></span></div><div class="cc-txt"><p class="cap muted ell">Evento · 11/10 · 08:00</p><p class="b2m ell">Aulão de beach tennis</p><div class="cc-lin"><p class="cap muted ell grow">9/16</p></div></div></div>
+                <div class="cc"><div class="cc-capa"><span class="tag ok st-ic"><i data-lucide="trophy"></i></span></div><div class="cc-txt"><p class="cap muted ell">Torneio · 12/12</p><p class="b2m ell">Open de Verão Maré Alta</p><div class="cc-lin"><p class="cap muted ell grow">Futevôlei</p></div></div></div>
+              </div>
+              <div class="ap-bolinhas"><i class="on"></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="ap-pad"><p class="b2 muted">Três quadras de areia a duas quadras da praia. Futevôlei e beach tennis de manhã cedo até as 22h.</p></div>
+            <div class="ap-pad">
+              <div class="sec-h"><span class="t3">Modalidades</span></div>
+              <div class="ap-lista">
+                <div class="card ap-mod"><span class="ap-mod-ic"><i data-lucide="volleyball"></i></span><div class="grow col g4"><p class="b2m">Futevôlei</p><div class="ap-hex"><img src="../img/categoria-d.png" alt="D"><img src="../img/categoria-c.png" alt="C"><img src="../img/categoria-b.png" alt="B"><img src="../img/categoria-a.png" alt="A"><span class="cap muted">2 quadras</span></div></div></div>
+                <div class="card ap-mod"><span class="ap-mod-ic"><i data-lucide="table-2"></i></span><div class="grow col g4"><p class="b2m">Beach Tennis</p><div class="ap-hex"><img src="../img/categoria-d.png" alt="D"><img src="../img/categoria-c.png" alt="C"><img src="../img/categoria-b.png" alt="B"><span class="cap muted">1 quadra</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ap-rodape">
+          
+          <div class="row"><div><p class="cap muted">Diária</p><p class="t3 num">R$ 120,00</p></div><button class="btn"><i data-lucide="calendar-plus"></i>Reservar quadra</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">10</div>
+        <div class="passo-txt"><b>Página da arena (Sobre, rolando)</b><span>Ao rolar, as abas ficam presas no topo. Aparecem as modalidades com os níveis aceitos e as quadras de cada uma, "Quem joga aqui" (só com atleta de vínculo aprovado), o que o lugar oferece, formas de pagamento, mapa com "Como chegar" e as avaliações, com o resumo por estrelas e os cards que correm para o lado.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen ap" data-status="inversa">
+        <div class="ap-rola topo-escuro">
+          <div class="ap-abas presa"><div class="ap-seg"><span class="on">Sobre</span><span class="">Eventos<i class="pt"></i></span><span class="">Aulas</span></div></div>
+          <div class="ap-conteudo" style="padding-top:4px">
+            <div class="ap-pad">
+              <div class="sec-h"><span class="t3">Modalidades</span></div>
+              <div class="ap-lista">
+                <div class="card ap-mod"><span class="ap-mod-ic"><i data-lucide="volleyball"></i></span><div class="grow col g4"><p class="b2m">Futevôlei</p><div class="ap-hex"><img src="../img/categoria-d.png" alt="D"><img src="../img/categoria-c.png" alt="C"><img src="../img/categoria-b.png" alt="B"><img src="../img/categoria-a.png" alt="A"><span class="cap muted">2 quadras</span></div></div></div>
+                <div class="card ap-mod"><span class="ap-mod-ic"><i data-lucide="table-2"></i></span><div class="grow col g4"><p class="b2m">Beach Tennis</p><div class="ap-hex"><img src="../img/categoria-d.png" alt="D"><img src="../img/categoria-c.png" alt="C"><img src="../img/categoria-b.png" alt="B"><span class="cap muted">1 quadra</span></div></div></div>
+              </div>
+            </div>
+            <div class="ap-pad">
+              <div class="sec-h"><span class="t3">Quem joga aqui</span></div>
+              <div class="card ap-quem">
+                <div class="avatars"><span class="avatar md">B</span><span class="avatar md">N</span><span class="avatar md">T</span><span class="avatar md">R</span><span class="avatar md">V</span></div>
+                <div class="grow"><p class="b2m">18 atletas com vínculo</p><p class="cap muted ell">Bia, Nanda, Tati e mais 15</p></div>
+                <i data-lucide="chevron-right" class="ic16 muted"></i>
+              </div>
+            </div>
+            <div class="ap-pad">
+              <div class="sec-h"><span class="t3">O que esse lugar oferece</span></div>
+              <div class="ap-serv">
+                <div class="card"><i data-lucide="shirt"></i>Vestiário</div>
+                <div class="card"><i data-lucide="utensils"></i>Lanchonete</div>
+                <div class="card"><i data-lucide="circle-parking"></i>Estacionamento</div>
+                <div class="card"><i data-lucide="wifi"></i>Wi-Fi</div>
+                <div class="card"><i data-lucide="accessibility"></i>Acessibilidade</div>
+                <div class="card"><i data-lucide="paw-print"></i>Pet Friendly</div>
+              </div>
+            </div>
+            <div class="ap-pad">
+              <div class="sec-h"><span class="t3">Formas de pagamento</span></div>
+              <div class="ap-chips"><span><i data-lucide="qr-code"></i>Pix</span><span><i data-lucide="credit-card"></i>Cartão de crédito</span><span><i data-lucide="landmark"></i>Cartão de débito</span><span><i data-lucide="banknote"></i>Dinheiro</span></div>
+            </div>
+            <div class="ap-pad">
+              <div class="sec-h"><span class="t3">Onde fica</span></div>
+              <div class="card sem-pad ap-mapa">
+                <div class="mapa"></div>
+                <div class="rod"><div class="grow"><p class="b2m">Rua das Gaivotas, 410</p><p class="cap muted">Campeche · Florianópolis · SC</p></div><span class="b2m laranja">Como chegar</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="ap-pad"><div class="sec-h"><span class="t3">Avaliações</span></div><div class="card ap-nota">
+                  <div class="grande"><p class="t1 num">4,8</p><span class="estrelas"><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i></span><p class="cap muted">37 avaliações</p></div>
+                  <div class="ap-barras"><div class="ap-barra"><span class="cap muted">5</span><span class="trilho"><i style="width:81%"></i></span><span class="cap muted num">30</span></div><div class="ap-barra"><span class="cap muted">4</span><span class="trilho"><i style="width:14%"></i></span><span class="cap muted num">5</span></div><div class="ap-barra"><span class="cap muted">3</span><span class="trilho"><i style="width:5%"></i></span><span class="cap muted num">2</span></div><div class="ap-barra"><span class="cap muted">2</span><span class="trilho"><i style="width:0%"></i></span><span class="cap muted num">0</span></div><div class="ap-barra"><span class="cap muted">1</span><span class="trilho"><i style="width:0%"></i></span><span class="cap muted num">0</span></div></div>
+                </div></div>
+              <div class="ap-revs">
+                <div class="card ap-rev">
+                  <div class="ap-rev-cab"><span class="avatar md">B</span><div class="grow"><p class="b2m ell">Bia Moreira</p><p class="cap muted">setembro de 2026</p></div><span class="estrelas"><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i></span></div>
+                  <p class="b2 muted">Quadra sempre nivelada e o pessoal da recepção é um amor. Melhor areia do Campeche.</p>
+                  <div class="resposta"><span class="capm">Resposta da arena</span><span class="b2 muted">Obrigada, Bia! Te esperamos no Open de Verão.</span></div><div class="ap-rev-acoes"><span class="cap muted">Denunciar</span></div>
+                </div>
+                <div class="card ap-rev">
+                  <div class="ap-rev-cab"><span class="avatar md">R</span><div class="grow"><p class="b2m ell">Rafa Couto</p><p class="cap muted">setembro de 2026</p></div><span class="estrelas"><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star"></i></span></div>
+                  <p class="b2 muted">Areia ótima, mas faltou luz na quadra 3 no fim da tarde.</p>
+                  <div class="ap-rev-acoes"><span class="cap muted">Denunciar</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ap-rodape">
+          
+          <div class="row"><div><p class="cap muted">Diária</p><p class="t3 num">R$ 120,00</p></div><button class="btn"><i data-lucide="calendar-plus"></i>Reservar quadra</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">11</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Quem joga aqui</b><span>Toque no card para ver todos os atletas com vínculo aprovado na arena, com as modalidades e o nível de cada um ali. Toque num atleta para abrir o perfil dele. Pedido pendente ou recusado não aparece.</span></div>
+      </div>
+      <div class="phone"><div class="screen ap" data-status="inversa">
+        <div class="ap-rola topo-escuro">
+          <div class="ap-abas presa"><div class="ap-seg"><span class="on">Sobre</span><span class="">Eventos<i class="pt"></i></span><span class="">Aulas</span></div></div>
+          <div class="ap-conteudo" style="padding-top:4px">
+            <div class="ap-pad">
+              <div class="sec-h"><span class="t3">Quem joga aqui</span></div>
+              <div class="card ap-quem">
+                <div class="avatars"><span class="avatar md">B</span><span class="avatar md">N</span><span class="avatar md">T</span><span class="avatar md">R</span><span class="avatar md">V</span></div>
+                <div class="grow"><p class="b2m">18 atletas com vínculo</p><p class="cap muted ell">Bia, Nanda, Tati e mais 15</p></div>
+                <i data-lucide="chevron-right" class="ic16 muted"></i>
+              </div>
+            </div>
+            <div class="ap-pad">
+              <div class="sec-h"><span class="t3">O que esse lugar oferece</span></div>
+              <div class="ap-serv">
+                <div class="card"><i data-lucide="shirt"></i>Vestiário</div>
+                <div class="card"><i data-lucide="utensils"></i>Lanchonete</div>
+                <div class="card"><i data-lucide="circle-parking"></i>Estacionamento</div>
+                <div class="card"><i data-lucide="wifi"></i>Wi-Fi</div>
+                <div class="card"><i data-lucide="accessibility"></i>Acessibilidade</div>
+                <div class="card"><i data-lucide="paw-print"></i>Pet Friendly</div>
+              </div>
+            </div>
+            <div class="ap-pad">
+              <div class="sec-h"><span class="t3">Formas de pagamento</span></div>
+              <div class="ap-chips"><span><i data-lucide="qr-code"></i>Pix</span><span><i data-lucide="credit-card"></i>Cartão de crédito</span><span><i data-lucide="landmark"></i>Cartão de débito</span><span><i data-lucide="banknote"></i>Dinheiro</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="ap-rodape">
+          
+          <div class="row"><div><p class="cap muted">Diária</p><p class="t3 num">R$ 120,00</p></div><button class="btn"><i data-lucide="calendar-plus"></i>Reservar quadra</button></div>
+        </div>
+        <div class="ap-veu"></div>
+        <div class="ap-folha atletas">
+          <div class="cab"><p class="t3">Atletas com vínculo</p><i data-lucide="x"></i></div>
+          <div><div class="ap-atleta"><span class="avatar">B</span><div class="grow"><p class="b1m ell">Bia Moreira</p><div class="ap-esportes"><span><img src="../img/categoria-b.png" alt="B">Futevôlei</span></div></div><i data-lucide="chevron-right" class="chev"></i></div><div class="ap-atleta"><span class="avatar">N</span><div class="grow"><p class="b1m ell">Nanda Ribeiro</p><div class="ap-esportes"><span><img src="../img/categoria-a.png" alt="A">Futevôlei</span><span><img src="../img/categoria-c.png" alt="C">Beach Tennis</span></div></div><i data-lucide="chevron-right" class="chev"></i></div><div class="ap-atleta"><span class="avatar">T</span><div class="grow"><p class="b1m ell">Tati Freitas</p><div class="ap-esportes"><span><img src="../img/categoria-c.png" alt="C">Beach Tennis</span></div></div><i data-lucide="chevron-right" class="chev"></i></div><div class="ap-atleta"><span class="avatar">R</span><div class="grow"><p class="b1m ell">Rafa Couto</p><div class="ap-esportes"><span><img src="../img/categoria-b.png" alt="B">Futevôlei</span></div></div><i data-lucide="chevron-right" class="chev"></i></div><div class="ap-atleta"><span class="avatar">V</span><div class="grow"><p class="b1m ell">Vini Prado</p><div class="ap-esportes"><span><img src="../img/categoria-d.png" alt="D">Futevôlei</span><span>Beach Tennis</span></div></div><i data-lucide="chevron-right" class="chev"></i></div><div class="ap-atleta"><span class="avatar">L</span><div class="grow"><p class="b1m ell">Lucas Amaral</p><div class="ap-esportes"><span><img src="../img/categoria-c.png" alt="C">Futevôlei</span></div></div><i data-lucide="chevron-right" class="chev"></i></div><div class="ap-atleta"><span class="avatar">M</span><div class="grow"><p class="b1m ell">Malu Torres</p><div class="ap-esportes"><span><img src="../img/categoria-b.png" alt="B">Beach Tennis</span></div></div><i data-lucide="chevron-right" class="chev"></i></div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">12</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Página da arena (Eventos)</b><span>Mostra os torneios publicados (rascunho, em análise, finalizado e cancelado não aparecem), do mais distante para o mais próximo, os circuitos e desafios recorrentes publicados e os próximos eventos com as vagas. Seção vazia avisa que não há nada no momento; a de circuito some quando não há nenhum. A aba Aulas só existe em arena com aulas (plano Elite) e está explicada no manual do jogador, em "Aulas e mensalidade".</span></div>
+      </div>
+      <div class="phone longo"><div class="screen ap" data-status="inversa">
+        <div class="ap-rola">
+          <div class="ap-foto foto quadra">
+            <div class="ap-degrade"></div>
+            <div class="ap-nav"><span class="ap-redondo"><i data-lucide="arrow-left"></i></span><span class="grow"></span><span class="ap-redondo"><i data-lucide="ellipsis"></i></span><span class="ap-redondo"><i data-lucide="x"></i></span></div>
+            <span class="ap-cont">1/3</span>
+            <div class="ap-ident">
+              <p class="t2">Arena Maré Alta</p>
+              <div class="ap-linha"><i data-lucide="star" class="estrela"></i><span class="b2m">4,8</span><span class="b2 ap-inv-muted">· 37 avaliações</span></div>
+              <span class="ap-aberta"><i class="ap-ponto"></i>Aberta agora · 06:00–22:00</span>
+            </div>
+          </div>
+          <div class="ap-faixa">
+            <div class="grow"><p class="b2m">Rua das Gaivotas, 410</p><p class="cap ap-inv-muted">Campeche · Florianópolis · SC</p></div>
+            <span class="ap-ir"><i data-lucide="navigation"></i>Como chegar</span>
+          </div>
+          <div class="ap-abas"><div class="ap-seg"><span class="">Sobre</span><span class="on">Eventos<i class="pt"></i></span><span class="">Aulas</span></div></div>
+          <div class="ap-conteudo" style="padding-top:12px">
+            <div class="ap-pad"><div class="sec-h"><span class="t3">Torneios</span></div><div class="ap-lista">
+              <div class="cc"><div class="cc-capa"><i data-lucide="trophy"></i></div><div class="cc-txt"><p class="b2m ell">Open de Verão Maré Alta</p><div class="cc-lin"><p class="cap muted ell grow">Futevôlei · 12/12</p><span class="tag ok">Inscrições abertas</span></div></div></div>
+              <div class="cc"><div class="cc-capa"><i data-lucide="trophy"></i></div><div class="cc-txt"><p class="b2m ell">Copa Maré Alta · Etapa 3</p><div class="cc-lin"><p class="cap muted ell grow">Beach Tennis · 06/10</p><span class="tag info">Em andamento</span></div></div></div>
+            </div></div>
+            <div class="ap-pad"><div class="sec-h"><span class="t3">Circuitos</span></div><div class="ap-lista">
+              <div class="cc"><div class="cc-capa"><i data-lucide="calendar-range"></i></div><div class="cc-txt"><p class="b2m ell">Circuito Maré Alta 2026</p><div class="cc-lin"><p class="cap muted ell grow">Futevôlei · 5 etapas</p><span class="tag ok">Publicado</span></div></div></div>
+            </div></div>
+            <div class="ap-pad"><div class="sec-h"><span class="t3">Desafios</span></div><div class="ap-lista">
+              <div class="card col" style="gap:2px"><p class="b1m">Maré Alta × Ponta do Sol</p><p class="cap muted">Futevôlei · outubro de 2026</p></div>
+            </div></div>
+            <div class="ap-pad"><div class="sec-h"><span class="t3">Próximos eventos</span></div><div class="ap-lista">
+              <div class="card col" style="gap:2px"><p class="b1m">Aulão de beach tennis</p><p class="cap muted">Beach Tennis · 11/10 · 08:00</p><p class="b2m muted num">9/16</p></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="ap-rodape">
+          
+          <div class="row"><div><p class="cap muted">Diária</p><p class="t3 num">R$ 120,00</p></div><button class="btn"><i data-lucide="calendar-plus"></i>Reservar quadra</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">13</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Mais opções (⋯)</b><span>O ⋯ sobre a foto abre "Como chegar" e "Denunciar" (você escolhe o motivo e toca em "Enviar denúncia"). Na sua própria arena só aparece "Como chegar"; sem endereço, o ⋯ some.</span></div>
+      </div>
+      <div class="phone"><div class="screen ap" data-status="inversa">
+        <div class="ap-rola">
+          <div class="ap-foto foto quadra">
+            <div class="ap-degrade"></div>
+            <div class="ap-nav"><span class="ap-redondo"><i data-lucide="arrow-left"></i></span><span class="grow"></span><span class="ap-redondo"><i data-lucide="ellipsis"></i></span><span class="ap-redondo"><i data-lucide="x"></i></span></div>
+            <span class="ap-cont">1/3</span>
+            <div class="ap-ident">
+              <p class="t2">Arena Maré Alta</p>
+              <div class="ap-linha"><i data-lucide="star" class="estrela"></i><span class="b2m">4,8</span><span class="b2 ap-inv-muted">· 37 avaliações</span></div>
+              <span class="ap-aberta"><i class="ap-ponto"></i>Aberta agora · 06:00–22:00</span>
+            </div>
+          </div>
+          <div class="ap-faixa">
+            <div class="grow"><p class="b2m">Rua das Gaivotas, 410</p><p class="cap ap-inv-muted">Campeche · Florianópolis · SC</p></div>
+            <span class="ap-ir"><i data-lucide="navigation"></i>Como chegar</span>
+          </div>
+          <div class="ap-abas"><div class="ap-seg"><span class="on">Sobre</span><span class="">Eventos<i class="pt"></i></span><span class="">Aulas</span></div></div>
+          <div class="ap-conteudo"><div>
+              <div class="ap-pad"><div class="sec-h"><span class="t3">Acontecendo na arena</span><a>Ver todos</a></div></div>
+              <div class="ap-carrossel">
+                <div class="cc"><div class="cc-capa"><span class="tag ok st-ic"><i data-lucide="repeat"></i></span></div><div class="cc-txt"><p class="cap muted ell">Desafio · outubro de 2026</p><p class="b2m ell">Maré Alta × Ponta do Sol</p><div class="cc-lin"><p class="cap muted ell grow">Futevôlei</p></div></div><svg class="cc-traco" aria-hidden="true"><rect pathLength="100"></rect></svg></div>
+                <div class="cc"><div class="cc-capa"><span class="tag info st-ic"><i data-lucide="trophy"></i></span></div><div class="cc-txt"><p class="cap muted ell">Torneio · 06/10</p><p class="b2m ell">Copa Maré Alta · Etapa 3</p><div class="cc-lin"><p class="cap muted ell grow">Beach Tennis</p></div></div></div>
+                <div class="cc"><div class="cc-capa"><span class="tag ok st-ic"><i data-lucide="calendar-days"></i></span></div><div class="cc-txt"><p class="cap muted ell">Evento · 11/10 · 08:00</p><p class="b2m ell">Aulão de beach tennis</p><div class="cc-lin"><p class="cap muted ell grow">9/16</p></div></div></div>
+                <div class="cc"><div class="cc-capa"><span class="tag ok st-ic"><i data-lucide="trophy"></i></span></div><div class="cc-txt"><p class="cap muted ell">Torneio · 12/12</p><p class="b2m ell">Open de Verão Maré Alta</p><div class="cc-lin"><p class="cap muted ell grow">Futevôlei</p></div></div></div>
+              </div>
+              <div class="ap-bolinhas"><i class="on"></i><i></i><i></i><i></i></div>
+            </div></div>
+        </div>
+        <div class="ap-rodape">
+          
+          <div class="row"><div><p class="cap muted">Diária</p><p class="t3 num">R$ 120,00</p></div><button class="btn"><i data-lucide="calendar-plus"></i>Reservar quadra</button></div>
+        </div>
+        <div class="ap-veu"></div>
+        <div class="ap-folha menu">
+          <span class="pega"></span>
+          <div class="ap-opcao"><i data-lucide="navigation"></i>Como chegar</div>
+          <div class="ap-opcao"><i data-lucide="flag"></i>Denunciar</div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">14</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Reserva indisponível</b><span>Sem Mercado Pago conectado, um aviso aparece no rodapé e "Reservar quadra" fica apagado. Se o plano da arena não inclui reserva, o aviso é "Essa arena não oferece reserva de quadra pelo app." Fora do horário de funcionamento, a etiqueta da foto mostra "Fechada agora".</span></div>
+      </div>
+      <div class="phone"><div class="screen ap" data-status="inversa">
+        <div class="ap-rola">
+          <div class="ap-foto foto quadra">
+            <div class="ap-degrade"></div>
+            <div class="ap-nav"><span class="ap-redondo"><i data-lucide="arrow-left"></i></span><span class="grow"></span><span class="ap-redondo"><i data-lucide="ellipsis"></i></span><span class="ap-redondo"><i data-lucide="x"></i></span></div>
+            <span class="ap-cont">1/3</span>
+            <div class="ap-ident">
+              <p class="t2">Arena Maré Alta</p>
+              <div class="ap-linha"><i data-lucide="star" class="estrela"></i><span class="b2m">4,8</span><span class="b2 ap-inv-muted">· 37 avaliações</span></div>
+              <span class="ap-aberta"><i class="ap-ponto fechada"></i>Fechada agora · 06:00–22:00</span>
+            </div>
+          </div>
+          <div class="ap-faixa">
+            <div class="grow"><p class="b2m">Rua das Gaivotas, 410</p><p class="cap ap-inv-muted">Campeche · Florianópolis · SC</p></div>
+            <span class="ap-ir"><i data-lucide="navigation"></i>Como chegar</span>
+          </div>
+          <div class="ap-abas"><div class="ap-seg"><span class="on">Sobre</span><span class="">Eventos<i class="pt"></i></span><span class="">Aulas</span></div></div>
+          <div class="ap-conteudo">
+            <div>
+              <div class="ap-pad"><div class="sec-h"><span class="t3">Acontecendo na arena</span><a>Ver todos</a></div></div>
+              <div class="ap-carrossel">
+                <div class="cc"><div class="cc-capa"><span class="tag ok st-ic"><i data-lucide="repeat"></i></span></div><div class="cc-txt"><p class="cap muted ell">Desafio · outubro de 2026</p><p class="b2m ell">Maré Alta × Ponta do Sol</p><div class="cc-lin"><p class="cap muted ell grow">Futevôlei</p></div></div><svg class="cc-traco" aria-hidden="true"><rect pathLength="100"></rect></svg></div>
+                <div class="cc"><div class="cc-capa"><span class="tag info st-ic"><i data-lucide="trophy"></i></span></div><div class="cc-txt"><p class="cap muted ell">Torneio · 06/10</p><p class="b2m ell">Copa Maré Alta · Etapa 3</p><div class="cc-lin"><p class="cap muted ell grow">Beach Tennis</p></div></div></div>
+                <div class="cc"><div class="cc-capa"><span class="tag ok st-ic"><i data-lucide="calendar-days"></i></span></div><div class="cc-txt"><p class="cap muted ell">Evento · 11/10 · 08:00</p><p class="b2m ell">Aulão de beach tennis</p><div class="cc-lin"><p class="cap muted ell grow">9/16</p></div></div></div>
+                <div class="cc"><div class="cc-capa"><span class="tag ok st-ic"><i data-lucide="trophy"></i></span></div><div class="cc-txt"><p class="cap muted ell">Torneio · 12/12</p><p class="b2m ell">Open de Verão Maré Alta</p><div class="cc-lin"><p class="cap muted ell grow">Futevôlei</p></div></div></div>
+              </div>
+              <div class="ap-bolinhas"><i class="on"></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="ap-pad"><p class="b2 muted">Três quadras de areia a duas quadras da praia. Futevôlei e beach tennis de manhã cedo até as 22h.</p></div>
+          </div>
+        </div>
+        <div class="ap-rodape">
+          <p class="cap muted nota-centro">Essa arena ainda não ativou o pagamento online pra reservas pelo app.</p>
+          <div class="row"><div><p class="cap muted">Diária</p><p class="t3 num">R$ 120,00</p></div><button class="btn off"><i data-lucide="calendar-plus"></i>Reservar quadra</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">15</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Responder avaliação</b><span>Ao abrir a própria página, você vê "Responder" em cada avaliação (ou "Editar resposta", se já respondeu); a resposta abre dentro do card. "Denunciar" só some na avaliação que você mesmo escreveu.</span></div>
+      </div>
+      <div class="phone"><div class="screen ap" data-status="inversa">
+        <div class="ap-rola topo-escuro">
+          <div class="ap-abas presa"><div class="ap-seg"><span class="on">Sobre</span><span class="">Eventos<i class="pt"></i></span><span class="">Aulas</span></div></div>
+          <div class="ap-conteudo" style="padding-top:4px">
+            <div>
+              <div class="ap-pad"><div class="sec-h"><span class="t3">Avaliações</span></div><div class="card ap-nota">
+                  <div class="grande"><p class="t1 num">4,8</p><span class="estrelas"><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i></span><p class="cap muted">37 avaliações</p></div>
+                  <div class="ap-barras"><div class="ap-barra"><span class="cap muted">5</span><span class="trilho"><i style="width:81%"></i></span><span class="cap muted num">30</span></div><div class="ap-barra"><span class="cap muted">4</span><span class="trilho"><i style="width:14%"></i></span><span class="cap muted num">5</span></div><div class="ap-barra"><span class="cap muted">3</span><span class="trilho"><i style="width:5%"></i></span><span class="cap muted num">2</span></div><div class="ap-barra"><span class="cap muted">2</span><span class="trilho"><i style="width:0%"></i></span><span class="cap muted num">0</span></div><div class="ap-barra"><span class="cap muted">1</span><span class="trilho"><i style="width:0%"></i></span><span class="cap muted num">0</span></div></div>
+                </div></div>
+              <div class="ap-revs">
+                <div class="card ap-rev">
+                  <div class="ap-rev-cab"><span class="avatar md">R</span><div class="grow"><p class="b2m ell">Rafa Couto</p><p class="cap muted">setembro de 2026</p></div><span class="estrelas"><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star"></i></span></div>
+                  <p class="b2 muted">Areia ótima, mas faltou luz na quadra 3 no fim da tarde.</p>
+                  <div class="ap-rev-acoes"><span class="cap muted">Denunciar</span></div><div class="col g8">
+                    <div class="input area" style="min-height:96px">Valeu, Rafa! Trocamos os refletores da quadra 3 nesta semana.</div>
+                    <div class="row" style="gap:8px"><button class="btn contorno sm grow" style="height:40px">Cancelar</button><button class="btn sm grow" style="height:40px">Enviar</button></div>
+                  </div>
+                </div>
+                <div class="card ap-rev">
+                  <div class="ap-rev-cab"><span class="avatar md">B</span><div class="grow"><p class="b2m ell">Bia Moreira</p><p class="cap muted">setembro de 2026</p></div><span class="estrelas"><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i></span></div>
+                  <p class="b2 muted">Quadra sempre nivelada e o pessoal da recepção é um amor. Melhor areia do Campeche.</p>
+                  <div class="resposta"><span class="capm">Resposta da arena</span><span class="b2 muted">Obrigada, Bia! Te esperamos no Open de Verão.</span></div><div class="ap-rev-acoes"><span class="cap muted">Denunciar</span><span class="capm laranja">Editar resposta</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ap-rodape">
+          
+          <div class="row"><div><p class="cap muted">Diária</p><p class="t3 num">R$ 120,00</p></div><button class="btn"><i data-lucide="calendar-plus"></i>Reservar quadra</button></div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- NAVEGADOR -->
+<section class="trilho-fluxo web" data-plataforma="navegador">
+  <div class="passos">
+
+    <!-- 1 Ajustes web -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Ajustes</b><span>No navegador, Ajustes é uma tela só: conta e plano, idioma, notificações por categoria, ajuda, sobre e sair. Perfil, serviços e modalidades ficam no menu lateral.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/settings</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="ajustes" data-item="Ajustes">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="col g4"><p class="t1">Configurações</p><p class="b2 muted">Arena Maré Alta</p></div><div class="acoes"><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">2</span></span></div></div>
+              <div class="cols">
+                <div class="col1">
+                  <div class="lg">
+                    <p class="t3" style="padding:16px 16px 0">Conta</p>
+                    <div class="lr"><i data-lucide="credit-card"></i><span class="rot">Plano</span><span class="val">Elite Mensal</span><i class="chev" data-lucide="chevron-right"></i></div>
+                    <div class="lr perigo"><i data-lucide="trash-2"></i><span class="rot">Excluir conta</span></div>
+                  </div>
+                  <div class="card col">
+                    <p class="t3">Idioma</p>
+                    <p class="b2 muted">Escolha o idioma do app.</p>
+                    <div class="select-row"><span class="grow b1">Automático (idioma do aparelho)</span><span class="radio"></span></div>
+                    <div class="select-row on"><span class="grow b1">Português</span><span class="radio on"></span></div>
+                    <div class="select-row"><span class="grow b1">English</span><span class="radio"></span></div>
+                  </div>
+                  <div class="card col">
+                    <p class="t3">Notificações por categoria</p>
+                    <p class="b2 muted">Desligue o push de uma categoria sem perder a notificação — ela continua aparecendo aqui no app, só o push some.</p>
+                    <div class="lg">
+                      <div class="lr"><i data-lucide="swords"></i><span class="rot">Desafios</span><span class="toggle on"></span></div>
+                      <div class="lr"><i data-lucide="calendar"></i><span class="rot">Partidas</span><span class="toggle on"></span></div>
+                      <div class="lr"><i data-lucide="trophy"></i><span class="rot">Torneios</span><span class="toggle on"></span></div>
+                      <div class="lr"><i data-lucide="calendar-clock"></i><span class="rot">Reservas de quadra</span><span class="toggle on"></span></div>
+                      <div class="lr"><i data-lucide="graduation-cap"></i><span class="rot">Aulas</span><span class="toggle on"></span></div>
+                      <div class="lr"><i data-lucide="receipt"></i><span class="rot">Mensalidades</span><span class="toggle"></span></div>
+                      <div class="lr"><i data-lucide="bell"></i><span class="rot">Outras (nível, etc.)</span><span class="toggle on"></span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col1">
+                  <div class="card col">
+                    <p class="t3">Ajuda e suporte</p>
+                    <div class="pergunta"><div class="pq-topo"><span>Como cadastro minha arena?</span><i data-lucide="chevron-down"></i></div></div>
+                    <div class="pergunta"><div class="pq-topo"><span>Como funciona o plano Básico?</span><i data-lucide="chevron-down"></i></div></div>
+                    <div class="pergunta"><div class="pq-topo"><span>Como aprovo ou recuso um jogo marcado na minha arena?</span><i data-lucide="chevron-down"></i></div></div>
+                    <div class="pergunta"><div class="pq-topo"><span>Como convido outras pessoas pra ajudar a administrar a arena?</span><i data-lucide="chevron-down"></i></div></div>
+                    <div class="pergunta"><div class="pq-topo"><span>Como funciona a aprovação de nível dos jogadores?</span><i data-lucide="chevron-down"></i></div></div>
+                    <div class="pergunta"><div class="pq-topo"><span>Como crio um torneio?</span><i data-lucide="chevron-down"></i></div></div>
+                    <div class="pergunta"><div class="pq-topo"><span>Como convido um moderador pro meu torneio?</span><i data-lucide="chevron-down"></i></div></div>
+                    <div class="pergunta"><div class="pq-topo"><span>Como funciona a reserva de quadra pelos jogadores?</span><i data-lucide="chevron-down"></i></div></div>
+                    <div class="pergunta"><div class="pq-topo"><span>Como crio um evento?</span><i data-lucide="chevron-down"></i></div></div>
+                    <div class="pergunta"><div class="pq-topo"><span>Como edito o perfil da minha arena (preço, fotos, endereço)?</span><i data-lucide="chevron-up"></i></div><span class="b2 muted">No Perfil da arena, toque em Editar.</span></div>
+                    <div class="row" style="gap:4px;padding-top:8px"><i data-lucide="mail" class="ic16 laranja"></i><span class="capm laranja">suporte@desafiae.com</span></div>
+                  </div>
+                  <div class="card col" style="padding-bottom:0;overflow:hidden">
+                    <p class="t3">Sobre o Desafiaê</p>
+                    <div class="col g4" style="align-items:center"><img src="../img/logo-completa.png" alt="Desafiaê" style="width:160px;height:44px;object-fit:contain"><span class="cap muted">Versão 1.0.1</span></div>
+                    <div style="margin:0 -16px">
+                      <div class="lr"><i data-lucide="at-sign"></i><span class="rot">Instagram</span><span class="val">@desafiae.app</span><i class="chev" data-lucide="chevron-right"></i></div>
+                      <div class="lr"><i data-lucide="file-text"></i><span class="rot">Termos de Uso</span><i class="chev" data-lucide="chevron-right"></i></div>
+                      <div class="lr"><i data-lucide="shield-check"></i><span class="rot">Política de Privacidade</span><i class="chev" data-lucide="chevron-right"></i></div>
+                    </div>
+                  </div>
+                  <button class="btn perigo-contorno"><i data-lucide="log-out"></i>Sair da conta</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 Perfil web -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Perfil da arena</b><span>Você vê e edita na mesma página: fotos (a primeira é a capa), logo, identidade, avaliações e endereço com mapa. "Salvar alterações" fica no topo.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-profile</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="arena" data-item="Perfil da arena">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="col g4"><p class="t1">Perfil da arena</p><p class="b2 muted">Arena Maré Alta · o que o jogador vê antes de reservar</p></div><div class="acoes"><button class="btn inline">Salvar alterações</button><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">2</span></span></div></div>
+              <div class="cols">
+                <div class="col1">
+                  <div class="card g16">
+                    <div class="ctopo"><p class="t3">Fotos</p><span class="cap muted">3 de 10 · a primeira é a capa</span></div>
+                    <div class="fotos-web">
+                      <div class="foto areia capa-foto"><span class="selo">Capa</span></div>
+                      <div class="foto mar mini"></div>
+                      <div class="foto noite mini"></div>
+                      <div class="add-web"><i data-lucide="camera"></i>Adicionar foto</div>
+                    </div>
+                  </div>
+                  <div class="card g16">
+                    <div class="ctopo"><p class="t3">Identidade</p><span class="cap muted">O que o jogador lê primeiro</span></div>
+                    <div class="col g8"><span class="rotulo">NOME DA ARENA</span><div class="input">Arena Maré Alta</div></div>
+                    <div class="col g8"><span class="rotulo">SOBRE NÓS</span><div class="input area" style="min-height:92px">Três quadras de areia a duas quadras da praia. Futevôlei e beach tennis de manhã cedo até as 22h.</div></div>
+                    <div class="col g8"><div class="row sb"><span class="rotulo">MODALIDADES ATIVAS</span><span class="b2m laranja">Editar modalidades</span></div>
+                      <div class="chips"><span class="chip">Futevôlei</span><span class="chip">Beach Tennis</span></div></div>
+                  </div>
+                </div>
+                <div class="lat">
+                  <div class="card g16">
+                    <p class="t3">Avaliações</p>
+                    <div class="row"><span class="t1">4,8</span><div class="col g4" style="gap:2px"><div class="estrelas"><i data-lucide="star" class="f" style="width:16px;height:16px"></i><i data-lucide="star" class="f" style="width:16px;height:16px"></i><i data-lucide="star" class="f" style="width:16px;height:16px"></i><i data-lucide="star" class="f" style="width:16px;height:16px"></i><i data-lucide="star" class="f" style="width:16px;height:16px"></i></div><span class="cap muted">37 avaliações de jogadores</span></div></div>
+                    <p class="cap muted">A nota aparece na busca e no perfil público. Quem joga aqui avalia ao fim da atividade.</p>
+                  </div>
+                  <div class="card g16">
+                    <div class="ctopo"><p class="t3">Endereço</p><span class="cap muted">Usado na busca por distância</span></div>
+                    <div class="mapa" style="height:118px"></div>
+                    <div class="input">Rua das Gaivotas, 410</div>
+                    <div class="col g8">
+                      <button class="btn contorno" style="height:44px"><i data-lucide="map-pin"></i>Buscar</button>
+                      <button class="btn contorno" style="height:44px">Minha localização</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 Serviços e estrutura web -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Serviços e estrutura</b><span>Serviços, horário de funcionamento, pagamento no balcão com a diária e o resumo das quadras. Não há botão de salvar: tudo grava na hora.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-services</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="arena" data-item="Serviços e estrutura">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="col g4"><p class="t1">Serviços e estrutura</p><p class="b2 muted">Arena Maré Alta · o que a arena oferece a quem joga</p></div><div class="acoes"><span class="aviso-salva"><i data-lucide="circle-check"></i>Tudo salva na hora</span><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">2</span></span></div></div>
+              <div class="cols">
+                <div class="card g16 col1">
+                  <div class="ctopo"><p class="t3">Serviços</p><span class="cap muted">4 de 7</span></div>
+                  <div>
+                    <div class="srow"><span class="ib on"><i data-lucide="door-open"></i></span><span class="b2m grow">Vestiário</span><span class="toggle on"></span></div>
+                    <div class="srow"><span class="ib on"><i data-lucide="coffee"></i></span><span class="b2m grow">Lanchonete</span><span class="toggle on"></span></div>
+                    <div class="srow"><span class="ib on"><i data-lucide="car"></i></span><span class="b2m grow">Estacionamento</span><span class="toggle on"></span></div>
+                    <div class="srow"><span class="ib on"><i data-lucide="wifi"></i></span><span class="b2m grow">Wi-Fi</span><span class="toggle on"></span></div>
+                    <div class="srow"><span class="ib"><i data-lucide="snowflake"></i></span><span class="b2m grow">Ar-condicionado</span><span class="toggle"></span></div>
+                    <div class="srow"><span class="ib"><i data-lucide="paw-print"></i></span><span class="b2m grow">Pet Friendly</span><span class="toggle"></span></div>
+                    <div class="srow"><span class="ib"><i data-lucide="accessibility"></i></span><span class="b2m grow">Acessibilidade</span><span class="toggle"></span></div>
+                  </div>
+                  <p class="cap muted">O que está marcado aparece no perfil público, pra quem está escolhendo onde jogar.</p>
+                </div>
+                <div class="card g16 col1">
+                  <p class="t3">Horário de funcionamento</p>
+                  <div>
+                    <div class="hweb"><span class="d cap muted">DIA</span><span class="grow cap muted">ABRE</span><span class="grow cap muted">FECHA</span><span class="f cap muted">FECHADO</span></div>
+                    <div class="hweb"><span class="d">Domingo</span><div class="input">06:00</div><div class="input">22:00</div><span class="f"><span class="toggle"></span></span></div>
+                    <div class="hweb hoje"><span class="d">Segunda</span><div class="input">06:00</div><div class="input">22:00</div><span class="f"><span class="toggle"></span></span></div>
+                    <div class="hweb"><span class="d">Terça</span><div class="input">06:00</div><div class="input">22:00</div><span class="f"><span class="toggle"></span></span></div>
+                    <div class="hweb"><span class="d">Quarta</span><div class="input">06:00</div><div class="input">22:00</div><span class="f"><span class="toggle"></span></span></div>
+                    <div class="hweb"><span class="d">Quinta</span><div class="input">06:00</div><div class="input">22:00</div><span class="f"><span class="toggle"></span></span></div>
+                    <div class="hweb"><span class="d">Sexta</span><div class="input">06:00</div><div class="input">22:00</div><span class="f"><span class="toggle"></span></span></div>
+                    <div class="hweb"><span class="d">Sábado</span><div class="input">06:00</div><div class="input">22:00</div><span class="f"><span class="toggle"></span></span></div>
+                  </div>
+                  <p class="cap muted">Fora dessa faixa ninguém reserva quadra, e aula e torneio não podem ser marcados.</p>
+                </div>
+                <div class="lat">
+                  <div class="card g16">
+                    <div class="ctopo"><p class="t3">Pagamento no balcão</p><span class="cap muted">Fora do app</span></div>
+                    <div>
+                      <div class="srow"><span class="ib p on"><i data-lucide="qr-code"></i></span><span class="b2 grow">Pix</span><span class="toggle on"></span></div>
+                      <div class="srow"><span class="ib p on"><i data-lucide="credit-card"></i></span><span class="b2 grow">Cartão de crédito</span><span class="toggle on"></span></div>
+                      <div class="srow"><span class="ib p on"><i data-lucide="landmark"></i></span><span class="b2 grow">Cartão de débito</span><span class="toggle on"></span></div>
+                      <div class="srow"><span class="ib p"><i data-lucide="banknote"></i></span><span class="b2 grow">Dinheiro</span><span class="toggle"></span></div>
+                    </div>
+                    <div class="col g8"><span class="rotulo">VALOR DA DIÁRIA</span><div class="input">R$ 120,00</div></div>
+                  </div>
+                  <div class="card g16">
+                    <div class="ctopo"><p class="t3">Estrutura</p><span class="cap muted">3 quadras cadastradas</span></div>
+                    <div>
+                      <div class="quadra-l"><i data-lucide="volleyball"></i><span class="grow">Quadra 1 · Futevôlei</span><span class="tag sem-ponto ok">Ativo</span></div>
+                      <div class="quadra-l"><i data-lucide="volleyball"></i><span class="grow">Quadra 2 · Futevôlei</span><span class="tag sem-ponto ok">Ativo</span></div>
+                      <div class="quadra-l"><i data-lucide="volleyball"></i><span class="grow">Quadra 3 · Beach Tennis</span><span class="tag sem-ponto ok">Ativo</span></div>
+                    </div>
+                    <span class="b2m laranja">Gerenciar quadras</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 Modalidades web -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Modalidades e níveis</b><span>Lista à esquerda, com as ativas primeiro e um interruptor em cada. Clique numa modalidade para ver à direita os níveis permitidos e o regulamento.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-modalities</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="pessoas" data-item="Modalidades e níveis">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="col g4"><p class="t1">Modalidades e níveis</p><p class="b2 muted">Arena Maré Alta · 2 de 11 modalidades ativas</p></div><div class="acoes"><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">2</span></span></div></div>
+              <div class="cols" style="gap:24px">
+                <div class="card sem-pad mlista">
+                  <div class="ctopo" style="padding:16px 16px 12px"><span class="b2m">Modalidades</span><span class="cap muted">2 ativas</span></div>
+                  <div class="mlinha aberta"><div class="t"><span class="b2m">Futevôlei</span><span class="cap muted">4 níveis · regulamento salvo</span></div><span class="toggle on"></span></div>
+                  <div class="mlinha"><div class="t"><span class="b2">Beach Tennis</span><span class="cap muted">4 níveis · sem regulamento</span></div><span class="toggle on"></span></div>
+                  <div class="mlinha"><div class="t"><span class="b2 muted">Futebol</span></div><span class="toggle"></span></div>
+                  <div class="mlinha"><div class="t"><span class="b2 muted">Vôlei</span></div><span class="toggle"></span></div>
+                  <div class="mlinha"><div class="t"><span class="b2 muted">Basquete</span></div><span class="toggle"></span></div>
+                  <div class="mlinha"><div class="t"><span class="b2 muted">Tênis</span></div><span class="toggle"></span></div>
+                  <div class="mlinha"><div class="t"><span class="b2 muted">Padel</span></div><span class="toggle"></span></div>
+                  <div class="mlinha"><div class="t"><span class="b2 muted">Corrida</span></div><span class="toggle"></span></div>
+                  <div class="mlinha"><div class="t"><span class="b2 muted">CrossFit</span></div><span class="toggle"></span></div>
+                  <div class="mlinha"><div class="t"><span class="b2 muted">Hyrox</span></div><span class="toggle"></span></div>
+                  <div class="mlinha"><div class="t"><span class="b2 muted">Pickleball</span></div><span class="toggle"></span></div>
+                </div>
+                <div class="card col1 col g24">
+                  <div class="row"><span class="ic-roda"><i data-lucide="volleyball"></i></span><div class="grow col g4" style="gap:2px"><p class="t2">Futevôlei</p><span class="cap muted">2 quadra(s) · 1 plano(s) de alunos · 1 torneio(s)</span></div><span class="tag sem-ponto ok">Ativa na arena</span></div>
+                  <div class="col">
+                    <div class="ctopo"><span class="b2m">Níveis permitidos</span><span class="cap muted">Quem está fora do nível não entra nas partidas desta modalidade</span></div>
+                    <div class="nweb">
+                      <div><img src="../img/categoria-d.png" alt="D"><span class="capm">Aprendiz</span><span class="toggle on"></span></div>
+                      <div><img src="../img/categoria-c.png" alt="C"><span class="capm">Iniciante</span><span class="toggle on"></span></div>
+                      <div><img src="../img/categoria-b.png" alt="B"><span class="capm">Intermediário</span><span class="toggle on"></span></div>
+                      <div><img src="../img/categoria-a.png" alt="A"><span class="capm">Avançado</span><span class="toggle on"></span></div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="col g4"><span class="b2m">Regulamento de torneio</span><span class="cap muted">O regulamento entra automaticamente nos torneios novos da modalidade. Dá pra ajustar em cada torneio.</span></div>
+                    <div class="input area" style="min-height:130px">Tolerância de 10 min de atraso, depois é W.O. Bola oficial Mikasa FT-5. Set único até 18.</div>
+                    <div class="row sb"><span class="cap muted">86/5000</span><button class="btn inline off" style="padding:0 24px">Salvar regulamento</button></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Página da arena</b><span>A página da arena em tela grande: nome, nota e bairro no topo e a galeria com a foto escolhida em destaque (setas e contador) e as duas seguintes ao lado; clique numa para trazê-la à frente. As abas e o conteúdo ficam na coluna larga; à direita, sempre à vista, a diária com o horário, "Reservar quadra" e o mapa com "Como chegar". Ao abrir outra arena, "Denunciar" aparece no topo. Em janela estreita, a diária sobe para cima das abas.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena/4f1c2a90</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="arena" data-item="Perfil da arena">
+            <div class="shell-conteudo" style="gap:24px">
+              <div class="painel-cab">
+                <div class="textos"><p class="t1">Arena Maré Alta</p><p class="b2 muted">4,8 · 37 avaliações · Campeche, Florianópolis</p></div>
+                <div class="acoes"><span class="sino"><i data-lucide="bell"></i></span></div>
+              </div>
+              <div class="pa-galeria">
+                <div class="pa-principal foto quadra"><span class="pa-seta esq"><i data-lucide="chevron-left"></i></span><span class="pa-seta dir"><i data-lucide="chevron-right"></i></span><span class="pa-cont">1/3</span></div>
+                <div class="pa-lado"><div class="foto mar"></div><div class="foto noite"></div></div>
+              </div>
+              <div class="pa">
+                <div class="pa-esq">
+                  <div class="wseg" style="align-self:flex-start"><span class="on">Sobre</span><span class="">Eventos</span><span class="">Aulas</span></div>
+                  <div class="pa-sec"><p class="t3">Sobre nós</p><p class="b1 muted" style="max-width:680px">Três quadras de areia a duas quadras da praia. Futevôlei e beach tennis de manhã cedo até as 22h.</p></div>
+                  <div class="divider"></div>
+                  <div class="pa-sec"><p class="t3">Modalidades</p><div class="pa-mods"><span class="pa-mod"><i data-lucide="volleyball"></i>Futevôlei</span><span class="pa-mod"><i data-lucide="table-2"></i>Beach Tennis</span></div></div>
+                  <div class="divider"></div>
+                  <div class="pa-sec"><p class="t3">O que esse lugar oferece</p><div class="pa-grade3"><div><i data-lucide="shirt"></i>Vestiário</div><div><i data-lucide="utensils"></i>Lanchonete</div><div><i data-lucide="circle-parking"></i>Estacionamento</div><div><i data-lucide="wifi"></i>Wi-Fi</div><div><i data-lucide="accessibility"></i>Acessibilidade</div><div><i data-lucide="paw-print"></i>Pet Friendly</div></div></div>
+                  <div class="divider"></div>
+                  <div class="pa-sec"><p class="t3">Formas de pagamento</p><div class="pa-grade3"><div><i data-lucide="qr-code"></i>Pix</div><div><i data-lucide="credit-card"></i>Cartão de crédito</div><div><i data-lucide="landmark"></i>Cartão de débito</div><div><i data-lucide="banknote"></i>Dinheiro</div></div></div>
+                  <div class="divider"></div>
+                  <div class="pa-sec"><div class="row" style="gap:8px"><i data-lucide="star" class="estrela" style="width:18px;height:18px"></i><p class="t3">4,8 · 37 avaliações</p></div><div class="pa-revs"><div class="card rev"><span class="avatar md">B</span><div class="corpo-rev"><div class="row sb"><span class="b1m">Bia Moreira</span><span class="cap muted">setembro de 2026</span></div><div class="estrelas"><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i></div><p class="b2 muted">Quadra sempre nivelada e o pessoal da recepção é um amor. Melhor areia do Campeche.</p><div class="resposta"><span class="capm">Resposta da arena</span><span class="b2 muted">Obrigada, Bia! Te esperamos no Open de Verão.</span></div><div class="row" style="gap:16px;margin-top:4px"><span class="capm laranja">Editar resposta</span><span class="cap muted">Denunciar</span></div></div></div><div class="card rev"><span class="avatar md">R</span><div class="corpo-rev"><div class="row sb"><span class="b1m">Rafa Couto</span><span class="cap muted">setembro de 2026</span></div><div class="estrelas"><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star"></i></div><p class="b2 muted">Areia ótima, mas faltou luz na quadra 3 no fim da tarde.</p><div class="row" style="gap:16px;margin-top:4px"><span class="capm laranja">Responder</span><span class="cap muted">Denunciar</span></div></div></div></div></div>
+                </div>
+                <div class="pa-dir">
+                  <div class="card pa-card">
+                    <p class="t2 num">R$ 120,00 / diária</p>
+                    <div class="meta"><span class="b2m verde">Aberta agora</span><span class="b2 muted">· 06:00 – 22:00</span></div>
+                    <button class="btn">Reservar quadra</button>
+                  </div>
+                  <div class="card pa-card">
+                    <div class="mapa" style="height:160px"></div>
+                    <div class="row top" style="gap:8px"><i data-lucide="map-pin" class="ic16 muted" style="margin-top:2px"></i><p class="b2">Rua das Gaivotas, 410, Campeche, Florianópolis, SC</p></div>
+                    <button class="btn sec"><i data-lucide="navigation"></i>Como chegar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Aba Eventos</b><span>Torneios e circuitos aparecem em cards com capa, lado a lado quando há espaço; desafios e próximos eventos vêm em lista. A coluna da direita continua a mesma.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena/4f1c2a90</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="arena" data-item="Perfil da arena">
+            <div class="shell-conteudo" style="gap:24px">
+              <div class="painel-cab">
+                <div class="textos"><p class="t1">Arena Maré Alta</p><p class="b2 muted">4,8 · 37 avaliações · Campeche, Florianópolis</p></div>
+                <div class="acoes"><span class="sino"><i data-lucide="bell"></i></span></div>
+              </div>
+              <div class="pa-galeria">
+                <div class="pa-principal foto quadra"><span class="pa-seta esq"><i data-lucide="chevron-left"></i></span><span class="pa-seta dir"><i data-lucide="chevron-right"></i></span><span class="pa-cont">1/3</span></div>
+                <div class="pa-lado"><div class="foto mar"></div><div class="foto noite"></div></div>
+              </div>
+              <div class="pa">
+                <div class="pa-esq">
+                  <div class="wseg" style="align-self:flex-start"><span class="">Sobre</span><span class="on">Eventos</span><span class="">Aulas</span></div>
+                  <div class="pa-sec"><p class="t3">Torneios</p><div class="pa-capas">
+                    <div class="cc"><div class="cc-capa"><i data-lucide="trophy"></i></div><div class="cc-txt"><p class="b2m ell">Open de Verão Maré Alta</p><div class="cc-lin"><p class="cap muted ell grow">Futevôlei · 12/12</p><span class="tag ok">Publicado</span></div></div></div>
+                    <div class="cc"><div class="cc-capa"><i data-lucide="trophy"></i></div><div class="cc-txt"><p class="b2m ell">Copa Maré Alta · Etapa 3</p><div class="cc-lin"><p class="cap muted ell grow">Beach Tennis · 06/10</p><span class="tag ok">Publicado</span></div></div></div>
+                  </div></div>
+                  <div class="pa-sec"><p class="t3">Circuitos</p><div class="pa-capas">
+                    <div class="cc"><div class="cc-capa"><i data-lucide="calendar-range"></i></div><div class="cc-txt"><p class="b2m ell">Circuito Maré Alta 2026</p><div class="cc-lin"><p class="cap muted ell grow">Futevôlei · 5 etapas</p><span class="tag ok">Publicado</span></div></div></div>
+                  </div></div>
+                  <div class="pa-sec"><p class="t3">Desafios</p><div class="card col" style="gap:2px"><p class="b1m">Maré Alta × Ponta do Sol</p><p class="cap muted">Futevôlei · outubro de 2026</p></div></div>
+                  <div class="pa-sec"><p class="t3">Próximos eventos</p><div class="card col" style="gap:2px"><p class="b1m">Aulão de beach tennis</p><p class="cap muted">Beach Tennis · 11/10 · 08:00</p><p class="b2m muted num">9/16</p></div></div>
+                </div>
+                <div class="pa-dir">
+                  <div class="card pa-card">
+                    <p class="t2 num">R$ 120,00 / diária</p>
+                    <div class="meta"><span class="b2m verde">Aberta agora</span><span class="b2 muted">· 06:00 – 22:00</span></div>
+                    <button class="btn">Reservar quadra</button>
+                  </div>
+                  <div class="card pa-card">
+                    <div class="mapa" style="height:160px"></div>
+                    <div class="row top" style="gap:8px"><i data-lucide="map-pin" class="ic16 muted" style="margin-top:2px"></i><p class="b2">Rua das Gaivotas, 410, Campeche, Florianópolis, SC</p></div>
+                    <button class="btn sec"><i data-lucide="navigation"></i>Como chegar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Responder avaliação</b><span>Você responde dentro da própria avaliação, que ganha um contorno laranja enquanto a resposta está aberta. Se o texto tiver palavrão, ele é barrado e a resposta continua aberta para você ajustar.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena/4f1c2a90</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="arena" data-item="Perfil da arena">
+            <div class="shell-conteudo" style="gap:24px">
+              <div class="painel-cab">
+                <div class="textos"><p class="t1">Arena Maré Alta</p><p class="b2 muted">4,8 · 37 avaliações · Campeche, Florianópolis</p></div>
+                <div class="acoes"><span class="sino"><i data-lucide="bell"></i></span></div>
+              </div>
+              <div class="pa-galeria">
+                <div class="pa-principal foto quadra"><span class="pa-seta esq"><i data-lucide="chevron-left"></i></span><span class="pa-seta dir"><i data-lucide="chevron-right"></i></span><span class="pa-cont">1/3</span></div>
+                <div class="pa-lado"><div class="foto mar"></div><div class="foto noite"></div></div>
+              </div>
+              <div class="pa">
+                <div class="pa-esq">
+                  <div class="wseg" style="align-self:flex-start"><span class="on">Sobre</span><span class="">Eventos</span><span class="">Aulas</span></div>
+                  <div class="pa-sec"><p class="t3">Sobre nós</p><p class="b1 muted" style="max-width:680px">Três quadras de areia a duas quadras da praia. Futevôlei e beach tennis de manhã cedo até as 22h.</p></div>
+                  <div class="divider"></div>
+                  <div class="pa-sec"><p class="t3">Modalidades</p><div class="pa-mods"><span class="pa-mod"><i data-lucide="volleyball"></i>Futevôlei</span><span class="pa-mod"><i data-lucide="table-2"></i>Beach Tennis</span></div></div>
+                  <div class="divider"></div>
+                  <div class="pa-sec"><p class="t3">O que esse lugar oferece</p><div class="pa-grade3"><div><i data-lucide="shirt"></i>Vestiário</div><div><i data-lucide="utensils"></i>Lanchonete</div><div><i data-lucide="circle-parking"></i>Estacionamento</div><div><i data-lucide="wifi"></i>Wi-Fi</div><div><i data-lucide="accessibility"></i>Acessibilidade</div><div><i data-lucide="paw-print"></i>Pet Friendly</div></div></div>
+                  <div class="divider"></div>
+                  <div class="pa-sec"><p class="t3">Formas de pagamento</p><div class="pa-grade3"><div><i data-lucide="qr-code"></i>Pix</div><div><i data-lucide="credit-card"></i>Cartão de crédito</div><div><i data-lucide="landmark"></i>Cartão de débito</div><div><i data-lucide="banknote"></i>Dinheiro</div></div></div>
+                  <div class="divider"></div>
+                  <div class="pa-sec"><div class="row" style="gap:8px"><i data-lucide="star" class="estrela" style="width:18px;height:18px"></i><p class="t3">4,8 · 37 avaliações</p></div><div class="pa-revs"><div class="card rev"><span class="avatar md">B</span><div class="corpo-rev"><div class="row sb"><span class="b1m">Bia Moreira</span><span class="cap muted">setembro de 2026</span></div><div class="estrelas"><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i></div><p class="b2 muted">Quadra sempre nivelada e o pessoal da recepção é um amor. Melhor areia do Campeche.</p><div class="resposta"><span class="capm">Resposta da arena</span><span class="b2 muted">Obrigada, Bia! Te esperamos no Open de Verão.</span></div><div class="row" style="gap:16px;margin-top:4px"><span class="capm laranja">Editar resposta</span><span class="cap muted">Denunciar</span></div></div></div><div class="card rev aro"><span class="avatar md">R</span><div class="corpo-rev"><div class="row sb"><span class="b1m">Rafa Couto</span><span class="cap muted">setembro de 2026</span></div><div class="estrelas"><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star" class="f"></i><i data-lucide="star"></i></div><p class="b2 muted">Areia ótima, mas faltou luz na quadra 3 no fim da tarde.</p><div class="col g8" style="margin-top:4px"><div class="input area foco" style="min-height:96px">Valeu, Rafa! Trocamos os refletores da quadra 3 nesta semana.</div><div class="row" style="gap:8px"><button class="btn inline">Enviar</button><button class="btn inline contorno">Cancelar</button></div></div></div></div></div></div>
+                </div>
+                <div class="pa-dir">
+                  <div class="card pa-card">
+                    <p class="t2 num">R$ 120,00 / diária</p>
+                    <div class="meta"><span class="b2m verde">Aberta agora</span><span class="b2 muted">· 06:00 – 22:00</span></div>
+                    <button class="btn">Reservar quadra</button>
+                  </div>
+                  <div class="card pa-card">
+                    <div class="mapa" style="height:160px"></div>
+                    <div class="row top" style="gap:8px"><i data-lucide="map-pin" class="ic16 muted" style="margin-top:2px"></i><p class="b2">Rua das Gaivotas, 410, Campeche, Florianópolis, SC</p></div>
+                    <button class="btn sec"><i data-lucide="navigation"></i>Como chegar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Por que o botão "Reservar quadra" aparece apagado na minha página?</summary><p>Falta o Mercado Pago conectado ou o plano da arena não inclui reserva. O aviso no rodapé diz qual dos dois é o motivo.</p></details>
+    <details><summary>Quem da equipe pode editar o perfil da arena?</summary><p>Só quem gerencia a arena: dono, administrador e gerente. O atendente cuida do dia a dia e não altera perfil, serviços nem modalidades.</p></details>
+    <details><summary>Por que um atleta aparece (ou não) em "Quem joga aqui"?</summary><p>Só aparece quem tem vínculo aprovado com a sua arena. Pedido pendente ou recusado não aparece.</p></details>
+    <details><summary>O regulamento que escrevo na modalidade vale para todos os torneios?</summary><p>Ele é copiado para cada torneio novo daquela modalidade, e você pode ajustar o texto em cada torneio.</p></details>
+    <details><summary>Até que distância minha arena aparece para os jogadores?</summary><p>Depende do plano da arena: Básico (e arena sem plano) até 15 km, Premium até 30 km e Elite até 45 km, contados da localização de quem está vendo. Fora disso, o jogador só acha a arena digitando o nome dela na busca.</p></details>
+    <details><summary>O que acontece fora do horário de funcionamento?</summary><p>Ninguém reserva quadra e não dá para marcar aula nem torneio. Na página da arena, a foto mostra "Fechada agora".</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

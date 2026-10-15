@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Financeiro e Mercado Pago · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* ScreenHeader: seta, título centrado, X */
+  .sh { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 50px; flex: none; }
+  .sh .t { font: 600 18px/26px var(--font); }
+  .sh svg { width: 24px; height: 24px; }
+  .corpo12 { gap: 12px; }
+  /* SegmentedControl (raio 8, selecionado laranja) */
+  .segm { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .segm span { flex: 1; text-align: center; padding: 8px 0; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); white-space: nowrap; }
+  .segm span.on { background: var(--primary); color: var(--text-inverse); }
+  /* StatTile */
+  .tiles { display: flex; gap: 12px; }
+  .tile { flex: 1; min-width: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+  .tile .v { font: 600 20px/28px var(--font); font-variant-numeric: tabular-nums; }
+  .tile .v.hl { color: var(--primary); }
+  .pb { height: 6px; border-radius: 999px; background: var(--surface-alt); overflow: hidden; }
+  .pb > i { display: block; height: 100%; border-radius: 999px; background: var(--primary); }
+  .secao { margin-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .lt { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .lin { display: flex; flex-direction: column; gap: 8px; }
+  .ic-box { width: 40px; height: 40px; border-radius: 12px; background: var(--primary-wash); display: flex; align-items: center; justify-content: center; flex: none; color: var(--primary); }
+  .ic-box svg { width: 20px; height: 20px; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn { font-weight: 500; }
+  .mp-card { display: flex; align-items: center; gap: 12px; }
+  /* ListRow de Ajustes */
+  .lrow { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .lrow:last-child { border-bottom: 0; }
+  .lrow > svg:first-child { width: 20px; height: 20px; color: var(--text-muted); }
+  .lrow .l { flex: 1; font: 400 16px/24px var(--font); }
+  .lrow .val { font: 500 14px/20px var(--font); color: var(--primary); }
+  .lrow .chev { width: 20px; height: 20px; color: var(--text-muted); }
+  .lrow.perigo .l, .lrow.perigo > svg:first-child { color: var(--danger); }
+  /* EmptyState */
+  .vazio { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 20px; text-align: center; }
+  .vazio .circ { width: 64px; height: 64px; border-radius: 999px; background: var(--surface-alt); display: flex; align-items: center; justify-content: center; color: var(--text-muted); margin-bottom: 4px; }
+  .vazio .circ svg { width: 28px; height: 28px; }
+  .vazio img { width: 124px; height: 95px; object-fit: contain; margin-bottom: 4px; }
+  /* card do agregador no financeiro */
+  .estim { font: 500 12px/16px var(--font); color: var(--info); background: var(--info-soft); border-radius: 999px; padding: 1px 8px; }
+  .pend { padding: 12px; border-radius: 12px; background: var(--warning-soft); font: 400 12px/16px var(--font); }
+  /* ArenaMpSheet (fundo background, raio 20) */
+  .sheet.mp { background: var(--background); padding: 20px 20px 40px; }
+  .sheet.mp::before { display: none; }
+  .esqueleto { background: var(--surface-alt); border-radius: 12px; }
+  /* acordeão de regras */
+  .acc { display: flex; align-items: center; justify-content: space-between; }
+  .acc .tt { display: flex; align-items: center; gap: 8px; font: 500 16px/24px var(--font); }
+  .acc svg { width: 20px; height: 20px; }
+  .acc .tt svg { color: var(--primary); } .acc > svg { color: var(--text-muted); }
+  .rodape { padding: 12px 20px 34px; border-top: 1px solid var(--border); background: var(--background); }
+
+  /* ---- navegador ---- */
+  .wph { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .wph .tx { display: grid; gap: 4px; }
+  .wph .ac { display: flex; align-items: center; gap: 12px; }
+  .wph .sino { padding: 4px; display: flex; } .wph .sino svg { width: 24px; height: 24px; }
+  .wph .periodo { width: 300px; }
+  .wcol { display: flex; gap: 16px; align-items: flex-start; }
+  .wcol > .card { flex: 1; min-width: 0; align-self: stretch; }
+  .ctopo { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .barra { display: flex; flex-direction: column; gap: 8px; }
+  .barra .rot { display: flex; align-items: center; gap: 8px; }
+  .ponto { width: 9px; height: 9px; border-radius: 4px; flex: none; }
+  .wlista { display: flex; flex-direction: column; gap: 16px; }
+  .metodos { display: flex; gap: 32px; } .metodos > * { flex: 1; min-width: 0; }
+  .st-icone { width: 56px; height: 56px; border-radius: 14px; background: var(--primary-wash); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .st-icone svg { width: 25px; height: 25px; }
+  .st-icone.con { background: var(--info-soft); color: var(--info); }
+  .chk { width: 30px; height: 30px; border-radius: 8px; background: var(--success-soft); color: var(--success); display: flex; align-items: center; justify-content: center; flex: none; }
+  .chk svg { width: 15px; height: 15px; }
+  .recebe-l { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .recebe-l:last-child { border-bottom: 0; }
+  .taxas { display: grid; grid-template-columns: 1fr 1fr; row-gap: 16px; }
+  .aviso-p { display: flex; gap: 12px; align-items: flex-start; padding: 16px; border-radius: 14px; border: 1px solid var(--danger); background: var(--danger-soft); }
+  .aviso-p > svg { width: 19px; height: 19px; color: var(--danger); flex: none; }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="arena" data-fluxo="financeiro"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Financeiro e Mercado Pago</h1>
+  <p>Você conecta a conta Mercado Pago que recebe reservas, ingressos, aulas avulsas e mensalidades. Depois acompanha no "Financeiro", em Ajustes, quanto entrou no período, por origem, quadra, plano e forma de pagamento, e pode exportar tudo em CSV.</p>
+  <ul class="regras">
+    <li>O Financeiro é do plano Premium da arena.</li>
+    <li>Só dono, administrador e gerente abrem o Financeiro. Atendente e professor voltam para o Painel.</li>
+    <li>Sem Mercado Pago conectado, a arena não publica torneio nem recebe pelas reservas.</li>
+    <li>A taxa do Desafiaê é de 10% em reserva, ingresso e aula avulsa, e de 2% em mensalidade.</li>
+    <li>Em cada categoria de torneio você escolhe quem paga a taxa: se a arena absorve, ela sai do que você recebe; se repassa, o atleta já vê o valor com a taxa somada.</li>
+    <li>O que vem de TotalPass e Wellhub é estimativa e fica fora do "Recebido", porque quem paga é o agregador, fora do Mercado Pago.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Aviso na Home: Conecte o Mercado Pago</b><span>Se a arena ainda não tem conta conectada, o Painel mostra este aviso uma vez (e de novo se uma cobrança falhar por falta da conta). Toque em "Conectar agora" para ir à tela do Mercado Pago.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas">
+          <div class="esqueleto" style="height:48px;margin-top:8px"></div>
+          <div class="esqueleto" style="height:150px"></div>
+          <div class="esqueleto" style="height:110px"></div>
+          <div class="esqueleto" style="height:110px"></div>
+        </div>
+        <div class="tabbar" data-abas="arena" data-ativa="painel"></div>
+        <div class="sheet-veu"></div>
+        <div class="sheet mp">
+          <div class="lt"><p class="t3">Conecte o Mercado Pago</p><i data-lucide="x" class="ic24"></i></div>
+          <p class="b2 muted">Todo torneio tem taxa de inscrição, e o dinheiro cai direto na conta da arena. Sem o Mercado Pago conectado não dá pra publicar torneio nem receber pelas reservas.</p>
+          <button class="btn">Conectar agora</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Mercado Pago, sem conta</b><span>Toque em "Conectar com Mercado Pago" e autorize no site do Mercado Pago. Ao voltar para o app, a conta fica gravada.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body corpo12">
+          <div class="sh"><i data-lucide="arrow-left"></i><span class="t">Mercado Pago</span><i data-lucide="x"></i></div>
+          <p class="b2 muted">Conecte a conta Mercado Pago da sua arena pra receber o valor das reservas de quadra, dos ingressos de torneio, das aulas avulsas e das mensalidades direto, com o Desafiaê ficando só com uma taxa.</p>
+          <div class="card mp-card">
+            <div class="ic-box"><i data-lucide="wallet"></i></div>
+            <div class="col g4 grow" style="gap:2px">
+              <p class="b1m">Nenhuma conta conectada</p>
+              <p class="cap muted">Sem isso, os jogadores não conseguem reservar quadra pelo app, e torneios com taxa de inscrição não conseguem cobrar o ingresso.</p>
+            </div>
+          </div>
+          <button class="btn">Conectar com Mercado Pago</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Mercado Pago, conta conectada</b><span>A tela mostra qual conta recebe. "Conectar outra conta" refaz a autorização e troca a conta.</span><span class="ramo">Alternativa</span><span>Se a autorização falhar, aparece "Não foi possível conectar. Tente de novo."</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body corpo12">
+          <div class="sh"><i data-lucide="arrow-left"></i><span class="t">Mercado Pago</span><i data-lucide="x"></i></div>
+          <p class="b2 muted">Conecte a conta Mercado Pago da sua arena pra receber o valor das reservas de quadra, dos ingressos de torneio, das aulas avulsas e das mensalidades direto, com o Desafiaê ficando só com uma taxa.</p>
+          <div class="card mp-card">
+            <div class="ic-box"><i data-lucide="circle-check" style="color:var(--success)"></i></div>
+            <div class="col grow" style="gap:2px">
+              <p class="b1m">Conta conectada</p>
+              <p class="b2 muted">financeiro@arenamarealta.com.br</p>
+              <span class="tag ok sem-ponto">Ativo</span>
+            </div>
+          </div>
+          <button class="btn contorno">Conectar outra conta</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Ajustes</b><span>Role até o fim da lista: "Financeiro" (e "Agregadores") só aparecem para quem gerencia a arena.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas" style="gap:16px">
+          <div class="card sem-pad">
+            <div class="lrow"><i data-lucide="users"></i><span class="l">Usuários vinculados</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="chart-line"></i><span class="l">Analytics</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="users-round"></i><span class="l">Meus atletas</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="bell"></i><span class="l">Lembretes</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="bell-ring"></i><span class="l">Notificações por categoria</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="credit-card"></i><span class="l">Plano</span><span class="val">Elite Mensal</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow" style="background:var(--primary-wash)"><i data-lucide="wallet"></i><span class="l">Financeiro</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="link-2"></i><span class="l">Agregadores</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="globe"></i><span class="l">Idioma</span><span class="val">Automático</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="circle-help"></i><span class="l">Ajuda e suporte</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="info"></i><span class="l">Sobre o Desafiaê</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow perigo"><i data-lucide="trash-2"></i><span class="l">Excluir conta</span></div>
+          </div>
+          <button class="btn" style="background:var(--surface);color:var(--danger);border:1px solid var(--danger)"><i data-lucide="log-out"></i>Sair da conta</button>
+        </div>
+        <div class="tabbar" data-abas="arena" data-ativa="ajustes"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Financeiro</b><span>Escolha o período e veja o recebido, o que falta receber e a divisão por origem, quadra, plano e forma de pagamento. "Exportar CSV" abre o compartilhar do celular. "Alterar" leva para o Mercado Pago.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body corpo12">
+          <div class="sh"><i data-lucide="arrow-left"></i><span class="t">Financeiro</span><i data-lucide="x"></i></div>
+          <div class="segm"><span class="on">Este mês</span><span>3 meses</span><span>Ano</span></div>
+          <div class="card mp-card">
+            <div class="ic-box"><i data-lucide="wallet"></i></div>
+            <div class="col grow" style="gap:2px">
+              <p class="b1m">Mercado Pago</p>
+              <p class="b2 muted" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">financeiro@arenamarealta.com.br</p>
+              <p class="cap muted">Recebendo pagamentos nesta conta</p>
+            </div>
+            <span class="capm laranja">Alterar</span>
+          </div>
+          <div class="tiles">
+            <div class="tile"><span class="cap muted">Recebido no período</span><span class="v">R$ 14.040,00</span></div>
+            <div class="tile"><span class="cap muted">A receber (reservas)</span><span class="v">R$ 960,00</span></div>
+          </div>
+          <div class="tiles">
+            <div class="tile"><span class="cap muted">Reservas de quadra</span><span class="v">R$ 6.840,00</span></div>
+            <div class="tile"><span class="cap muted">Inscrições de torneio</span><span class="v">R$ 2.160,00</span></div>
+          </div>
+          <div class="tiles">
+            <div class="tile"><span class="cap muted">Aulas avulsas</span><span class="v">R$ 720,00</span></div>
+            <div class="tile"><span class="cap muted">Mensalidades</span><span class="v">R$ 4.320,00</span></div>
+          </div>
+
+          <div class="secao">
+            <p class="t3">Por quadra</p>
+            <div class="lin"><div class="lt"><span class="b2m">Quadra 1</span><span class="cap muted">R$ 3.120,00</span></div><div class="pb"><i style="width:100%"></i></div><span class="cap muted">68% de ocupação no período</span></div>
+            <div class="lin"><div class="lt"><span class="b2m">Quadra 2</span><span class="cap muted">R$ 2.640,00</span></div><div class="pb"><i style="width:84.6%"></i></div><span class="cap muted">54% de ocupação no período</span></div>
+            <div class="lin"><div class="lt"><span class="b2m">Quadra 3</span><span class="cap muted">R$ 1.800,00</span></div><div class="pb"><i style="width:57.7%"></i></div><span class="cap muted">31% de ocupação no período</span></div>
+          </div>
+
+          <div class="secao">
+            <p class="t3">Planos por vendas</p>
+            <div class="lin"><div class="lt"><span class="b2m">Beach tennis 2x</span><span class="cap muted">R$ 2.400,00</span></div><div class="pb"><i style="width:100%"></i></div><span class="cap muted">10 mensalidades pagas</span></div>
+            <div class="lin"><div class="lt"><span class="b2m">Futevôlei 3x</span><span class="cap muted">R$ 1.440,00</span></div><div class="pb"><i style="width:60%"></i></div><span class="cap muted">6 mensalidades pagas</span></div>
+            <div class="lin"><div class="lt"><span class="b2m">Livre</span><span class="cap muted">R$ 480,00</span></div><div class="pb"><i style="width:20%"></i></div><span class="cap muted">1 mensalidade paga</span></div>
+          </div>
+
+          <div class="secao">
+            <p class="t3">Por forma de pagamento</p>
+            <div class="lt"><span class="b2m">Pix</span><span class="cap muted">R$ 9.360,00</span></div>
+            <div class="lt"><span class="b2m">Cartão de crédito</span><span class="cap muted">R$ 3.960,00</span></div>
+            <div class="lt"><span class="b2m">Balcão</span><span class="cap muted">R$ 720,00</span></div>
+          </div>
+
+          <button class="btn contorno" style="margin-top:4px"><i data-lucide="share-2"></i>Exportar CSV</button>
+
+          <div class="card col">
+            <div class="row top" style="flex-wrap:wrap">
+              <div class="col grow" style="gap:2px;min-width:200px">
+                <p class="t3">A receber dos agregadores</p>
+                <p class="cap muted">Visitas validadas vezes o valor por visita que você informou</p>
+              </div>
+              <div class="col" style="align-items:flex-end;gap:4px"><span class="t2 num">R$ 696,00</span><span class="estim">estimado</span></div>
+            </div>
+            <div class="col g4"><div class="row" style="gap:8px;align-items:baseline"><span class="b2 grow">TotalPass<span class="muted"> · 18 visitas × R$ 22,00</span></span><span class="b2m">R$ 396,00</span></div><div class="pb"><i style="width:100%"></i></div></div>
+            <div class="col g4"><div class="row" style="gap:8px;align-items:baseline"><span class="b2 grow">Wellhub<span class="muted"> · 12 visitas × R$ 25,00</span></span><span class="b2m">R$ 300,00</span></div><div class="pb"><i style="width:66.7%"></i></div></div>
+            <div class="pend">3 visitas ainda não contam: estão sem aula ou esperando confirmação.</div>
+            <p class="cap muted">Fica fora do recebido: quem paga é a TotalPass e a Wellhub, direto para a arena, fora do Mercado Pago.</p>
+          </div>
+          <div style="height:12px"></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Financeiro sem movimento</b><span class="ramo">Alternativa</span><span>Sem nada recebido nem a receber no período, o caixa aparece zerado. Se a arena ainda não tem Mercado Pago, o convite para conectar aparece no lugar do card da conta.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body corpo12">
+          <div class="sh"><i data-lucide="arrow-left"></i><span class="t">Financeiro</span><i data-lucide="x"></i></div>
+          <div class="segm"><span class="on">Este mês</span><span>3 meses</span><span>Ano</span></div>
+          <div class="vazio">
+            <img src="../img/mascote-em-acao.png" alt="">
+            <p class="t3">Caixa zerado por enquanto</p>
+            <p class="b2 muted">Reservas e inscrições pagas começam a entrar aqui.</p>
+          </div>
+          <p class="capm muted" style="text-transform:uppercase;letter-spacing:.06em;margin-top:8px">Com movimento e sem conta conectada</p>
+          <div class="card col g4">
+            <p class="b1m">Conecte sua conta Mercado Pago</p>
+            <p class="b2 muted">Sem isso, os torneios com taxa de inscrição não conseguem cobrar o ingresso de verdade.</p>
+            <button class="btn contorno" style="margin-top:4px">Conectar</button>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Financeiro sem Premium</b><span class="ramo">Alternativa</span><span>Sem o plano Premium, a tela mostra o cadeado. "Ver planos" leva à assinatura da arena (só dono e gerente veem o botão).</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="padding-bottom:40px">
+          <div class="sh"><i data-lucide="arrow-left"></i><span class="t">Financeiro</span><i data-lucide="x"></i></div>
+          <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+            <div class="vazio">
+              <div class="circ"><i data-lucide="lock"></i></div>
+              <p class="t3">Disponível no plano Premium</p>
+              <p class="b2 muted">Faturamento e ocupação por quadra são exclusivos de quem assina o plano Premium da arena.</p>
+              <button class="btn sec" style="margin-top:12px">Ver planos</button>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Taxa da plataforma na categoria</b><span>No formulário da categoria de torneio, escolha "Eu absorvo" ou "O atleta paga" e veja a prévia do que cada lado paga e recebe. O card do Mercado Pago também aparece aqui.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body corpo12" style="gap:16px">
+          <div class="sh"><i data-lucide="arrow-left"></i><span class="t">Categoria</span><i data-lucide="x"></i></div>
+          <div class="card"><div class="acc"><span class="tt"><i data-lucide="list-checks"></i>Regras para criar categoria</span><i data-lucide="chevron-down"></i></div></div>
+          <div class="input">Dupla mista C</div>
+          <div class="input">R$ 80,00</div>
+          <div class="col g8">
+            <p class="b2m muted">Taxa da plataforma</p>
+            <div class="row" style="gap:8px"><span class="chip">Eu absorvo</span><span class="chip on-laranja">O atleta paga</span></div>
+            <p class="cap muted">O atleta paga R$ 88,00 · você recebe R$ 80,00.</p>
+          </div>
+          <div class="card mp-card">
+            <div class="ic-box"><i data-lucide="wallet"></i></div>
+            <div class="col grow" style="gap:2px">
+              <p class="b1m">Mercado Pago</p>
+              <p class="b2 muted" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">financeiro@arenamarealta.com.br</p>
+              <p class="cap muted">Recebendo pagamentos nesta conta</p>
+            </div>
+            <span class="capm laranja">Alterar</span>
+          </div>
+          <p class="t3">Composição da equipe</p>
+          <div class="row"><div class="input grow"><span class="ph">Mínimo no elenco</span></div><div class="input grow"><span class="ph">Máximo no elenco</span></div></div>
+        </div>
+        <div class="rodape"><button class="btn">Salvar categoria</button></div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- NAVEGADOR -->
+<section class="trilho-fluxo web" data-plataforma="navegador">
+  <div class="passos">
+
+    <!-- 1 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Mercado Pago no painel, sem conta</b><span>No navegador, além do status e do botão de conectar, a tela mostra o que cai na conta e a taxa do Desafiaê por tipo de cobrança, com o aviso de que sem conta a arena não recebe.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-mercado-pago</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="dinheiro" data-item="Mercado Pago">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="tx"><p class="t1">Mercado Pago</p><p class="b2 muted">Arena Maré Alta · recebimento dos pagamentos</p></div><div class="ac"><span class="sino"><i data-lucide="bell"></i></span></div></div>
+              <div class="col g16">
+                <div class="card row" style="gap:16px">
+                  <div class="st-icone"><i data-lucide="wallet"></i></div>
+                  <div class="col grow" style="gap:4px"><p class="t3">Nenhuma conta conectada</p><p class="b2 muted">Conecte a conta Mercado Pago da sua arena pra receber o valor das reservas de quadra, dos ingressos de torneio, das aulas avulsas e das mensalidades direto, com o Desafiaê ficando só com uma taxa.</p></div>
+                  <button class="btn inline">Conectar com Mercado Pago</button>
+                </div>
+                <div class="wcol">
+                  <div class="card col" style="gap:12px">
+                    <p class="t3">O que cai nessa conta</p>
+                    <div>
+                      <div class="recebe-l"><div class="chk"><i data-lucide="check"></i></div><div class="col grow" style="gap:2px"><p class="b2m">Reservas de quadra</p><p class="cap muted">O jogador paga a reserva e o valor cai na sua conta.</p></div></div>
+                      <div class="recebe-l"><div class="chk"><i data-lucide="check"></i></div><div class="col grow" style="gap:2px"><p class="b2m">Ingressos de torneio</p><p class="cap muted">Inscrição paga entra direto, por categoria.</p></div></div>
+                      <div class="recebe-l"><div class="chk"><i data-lucide="check"></i></div><div class="col grow" style="gap:2px"><p class="b2m">Aulas avulsas</p><p class="cap muted">Aula vendida sem plano de mensalidade.</p></div></div>
+                      <div class="recebe-l"><div class="chk"><i data-lucide="check"></i></div><div class="col grow" style="gap:2px"><p class="b2m">Mensalidades</p><p class="cap muted">Plano de aluno cobrado todo mês.</p></div></div>
+                    </div>
+                  </div>
+                  <div class="col g16" style="width:380px;flex:none">
+                    <div class="card col g16">
+                      <p class="t3">Taxa do Desafiaê</p>
+                      <div class="taxas">
+                        <div class="col" style="gap:2px"><span class="t2 laranja">10%</span><span class="cap muted">Reservas de quadra</span></div>
+                        <div class="col" style="gap:2px"><span class="t2 laranja">10%</span><span class="cap muted">Ingressos de torneio</span></div>
+                        <div class="col" style="gap:2px"><span class="t2 laranja">10%</span><span class="cap muted">Aulas avulsas</span></div>
+                        <div class="col" style="gap:2px"><span class="t2 laranja">2%</span><span class="cap muted">Mensalidades</span></div>
+                      </div>
+                    </div>
+                    <div class="aviso-p"><i data-lucide="triangle-alert"></i><div class="col grow" style="gap:4px"><p class="b2m">Sem conta conectada, a arena não recebe.</p><p class="b2 muted">Sem isso, os jogadores não conseguem reservar quadra pelo app, e torneios com taxa de inscrição não conseguem cobrar o ingresso.</p></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Mercado Pago no painel, conectado</b><span>Depois da autorização, o status mostra a conta que recebe, e o botão vira "Conectar outra conta". O aviso vermelho some.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-mercado-pago</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="dinheiro" data-item="Mercado Pago">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="tx"><p class="t1">Mercado Pago</p><p class="b2 muted">Arena Maré Alta · recebimento dos pagamentos</p></div><div class="ac"><span class="sino"><i data-lucide="bell"></i></span></div></div>
+              <div class="col g16">
+                <div class="card row" style="gap:16px">
+                  <div class="st-icone con"><i data-lucide="link-2"></i></div>
+                  <div class="col grow" style="gap:4px"><div class="row" style="gap:8px"><p class="t3">Conta conectada</p><span class="tag ok sem-ponto">Ativo</span></div><p class="b2 muted">financeiro@arenamarealta.com.br</p></div>
+                  <button class="btn inline contorno">Conectar outra conta</button>
+                </div>
+                <div class="wcol">
+                  <div class="card col" style="gap:12px">
+                    <p class="t3">O que cai nessa conta</p>
+                    <div>
+                      <div class="recebe-l"><div class="chk"><i data-lucide="check"></i></div><div class="col grow" style="gap:2px"><p class="b2m">Reservas de quadra</p><p class="cap muted">O jogador paga a reserva e o valor cai na sua conta.</p></div></div>
+                      <div class="recebe-l"><div class="chk"><i data-lucide="check"></i></div><div class="col grow" style="gap:2px"><p class="b2m">Ingressos de torneio</p><p class="cap muted">Inscrição paga entra direto, por categoria.</p></div></div>
+                      <div class="recebe-l"><div class="chk"><i data-lucide="check"></i></div><div class="col grow" style="gap:2px"><p class="b2m">Aulas avulsas</p><p class="cap muted">Aula vendida sem plano de mensalidade.</p></div></div>
+                      <div class="recebe-l"><div class="chk"><i data-lucide="check"></i></div><div class="col grow" style="gap:2px"><p class="b2m">Mensalidades</p><p class="cap muted">Plano de aluno cobrado todo mês.</p></div></div>
+                    </div>
+                  </div>
+                  <div class="col g16" style="width:380px;flex:none">
+                    <div class="card col g16">
+                      <p class="t3">Taxa do Desafiaê</p>
+                      <div class="taxas">
+                        <div class="col" style="gap:2px"><span class="t2 laranja">10%</span><span class="cap muted">Reservas de quadra</span></div>
+                        <div class="col" style="gap:2px"><span class="t2 laranja">10%</span><span class="cap muted">Ingressos de torneio</span></div>
+                        <div class="col" style="gap:2px"><span class="t2 laranja">10%</span><span class="cap muted">Aulas avulsas</span></div>
+                        <div class="col" style="gap:2px"><span class="t2 laranja">2%</span><span class="cap muted">Mensalidades</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Financeiro no painel</b><span>O período e "Exportar CSV" (que baixa o arquivo) ficam ao lado do título. No topo, três números; depois origem e quadra lado a lado, planos e formas de pagamento, e os agregadores por último.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-financial</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="dinheiro" data-item="Financeiro">
+            <div class="shell-conteudo">
+              <div class="wph">
+                <div class="tx"><p class="t1">Financeiro</p><p class="b2 muted">Arena Maré Alta · Este mês</p></div>
+                <div class="ac">
+                  <div class="periodo"><div class="segm"><span class="on">Este mês</span><span>3 meses</span><span>Ano</span></div></div>
+                  <button class="btn inline contorno"><i data-lucide="download"></i>Exportar CSV</button>
+                  <span class="sino"><i data-lucide="bell"></i></span>
+                </div>
+              </div>
+              <div class="col g16">
+                <div class="tiles" style="gap:16px">
+                  <div class="tile"><span class="cap muted">Recebido no período</span><span class="v hl">R$ 14.040,00</span><span class="cap muted">Este mês</span></div>
+                  <div class="tile"><span class="cap muted">A receber (reservas)</span><span class="v">R$ 960,00</span><span class="cap muted">Reservas confirmadas aguardando pagamento</span></div>
+                  <div class="tile"><span class="cap muted">Ocupação média</span><span class="v">51%</span><span class="cap muted">das faixas disponíveis em 3 quadras</span></div>
+                </div>
+                <div class="wcol">
+                  <div class="card col g16">
+                    <div class="ctopo"><p class="t3">Por origem</p><span class="cap muted">Recebido no período</span></div>
+                    <div class="wlista">
+                      <div class="barra"><div class="lt"><span class="rot"><i class="ponto" style="background:var(--info)"></i><span class="b2">Reservas de quadra</span></span><span class="b2m">R$ 6.840,00</span></div><div class="pb"><i style="width:48.7%;background:var(--info)"></i></div><span class="cap muted">49% do recebido</span></div>
+                      <div class="barra"><div class="lt"><span class="rot"><i class="ponto" style="background:var(--primary-dark)"></i><span class="b2">Mensalidades</span></span><span class="b2m">R$ 4.320,00</span></div><div class="pb"><i style="width:30.8%;background:var(--primary-dark)"></i></div><span class="cap muted">31% do recebido</span></div>
+                      <div class="barra"><div class="lt"><span class="rot"><i class="ponto" style="background:var(--success)"></i><span class="b2">Inscrições de torneio</span></span><span class="b2m">R$ 2.160,00</span></div><div class="pb"><i style="width:15.4%;background:var(--success)"></i></div><span class="cap muted">15% do recebido</span></div>
+                      <div class="barra"><div class="lt"><span class="rot"><i class="ponto" style="background:var(--accent)"></i><span class="b2">Aulas avulsas</span></span><span class="b2m">R$ 720,00</span></div><div class="pb"><i style="width:5.1%;background:var(--accent)"></i></div><span class="cap muted">5% do recebido</span></div>
+                    </div>
+                  </div>
+                  <div class="card col g16">
+                    <div class="ctopo"><p class="t3">Por quadra</p><span class="cap muted">Reservas e aulas</span></div>
+                    <div class="wlista">
+                      <div class="barra"><div class="lt"><span class="rot"><i class="ponto" style="background:var(--primary)"></i><span class="b2">Quadra 1</span></span><span class="b2m">R$ 3.120,00</span></div><div class="pb"><i style="width:100%"></i></div><span class="cap muted">68% de ocupação no período</span></div>
+                      <div class="barra"><div class="lt"><span class="rot"><i class="ponto" style="background:var(--primary-dark)"></i><span class="b2">Quadra 2</span></span><span class="b2m">R$ 2.640,00</span></div><div class="pb"><i style="width:84.6%;background:var(--primary-dark)"></i></div><span class="cap muted">54% de ocupação no período</span></div>
+                      <div class="barra"><div class="lt"><span class="rot"><i class="ponto" style="background:var(--primary-tint)"></i><span class="b2">Quadra 3</span></span><span class="b2m">R$ 1.800,00</span></div><div class="pb"><i style="width:57.7%;background:var(--primary-tint)"></i></div><span class="cap muted">31% de ocupação no período</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card col g16">
+                  <div class="ctopo"><p class="t3">Planos por vendas</p><span class="cap muted">Mensalidades pagas no período, do plano que mais vendeu para o que menos.</span></div>
+                  <div class="wlista">
+                    <div class="barra"><div class="lt"><span class="rot"><i class="ponto" style="background:var(--primary)"></i><span class="b2">Beach tennis 2x</span></span><span class="b2m">R$ 2.400,00</span></div><div class="pb"><i style="width:100%"></i></div><span class="cap muted">10 mensalidades pagas</span></div>
+                    <div class="barra"><div class="lt"><span class="rot"><i class="ponto" style="background:var(--primary-dark)"></i><span class="b2">Futevôlei 3x</span></span><span class="b2m">R$ 1.440,00</span></div><div class="pb"><i style="width:60%;background:var(--primary-dark)"></i></div><span class="cap muted">6 mensalidades pagas</span></div>
+                    <div class="barra"><div class="lt"><span class="rot"><i class="ponto" style="background:var(--primary-tint)"></i><span class="b2">Livre</span></span><span class="b2m">R$ 480,00</span></div><div class="pb"><i style="width:20%;background:var(--primary-tint)"></i></div><span class="cap muted">1 mensalidade paga</span></div>
+                  </div>
+                </div>
+                <div class="card col g16">
+                  <div class="ctopo"><p class="t3">Por forma de pagamento</p><span class="cap muted">Todas as origens</span></div>
+                  <div class="metodos">
+                    <div class="barra"><div class="lt"><span class="rot"><i class="ponto" style="background:var(--primary)"></i><span class="b2">Pix</span></span><span class="b2m">R$ 9.360,00</span></div><div class="pb"><i style="width:100%"></i></div></div>
+                    <div class="barra"><div class="lt"><span class="rot"><i class="ponto" style="background:var(--primary-dark)"></i><span class="b2">Cartão de crédito</span></span><span class="b2m">R$ 3.960,00</span></div><div class="pb"><i style="width:42.3%;background:var(--primary-dark)"></i></div></div>
+                    <div class="barra"><div class="lt"><span class="rot"><i class="ponto" style="background:var(--primary-tint)"></i><span class="b2">Balcão</span></span><span class="b2m">R$ 720,00</span></div><div class="pb"><i style="width:7.7%;background:var(--primary-tint)"></i></div></div>
+                  </div>
+                </div>
+                <div class="card col">
+                  <div class="row top">
+                    <div class="col grow" style="gap:2px"><p class="t3">A receber dos agregadores</p><p class="cap muted">Visitas validadas vezes o valor por visita que você informou</p></div>
+                    <div class="col" style="align-items:flex-end;gap:4px"><span class="t2 num">R$ 696,00</span><span class="estim">estimado</span></div>
+                  </div>
+                  <div class="col g4"><div class="row" style="gap:8px;align-items:baseline"><span class="b2 grow">TotalPass<span class="muted"> · 18 visitas × R$ 22,00</span></span><span class="b2m">R$ 396,00</span></div><div class="pb"><i style="width:100%"></i></div></div>
+                  <div class="col g4"><div class="row" style="gap:8px;align-items:baseline"><span class="b2 grow">Wellhub<span class="muted"> · 12 visitas × R$ 25,00</span></span><span class="b2m">R$ 300,00</span></div><div class="pb"><i style="width:66.7%"></i></div></div>
+                  <div class="pend">3 visitas ainda não contam: estão sem aula ou esperando confirmação.</div>
+                  <p class="cap muted">Fica fora do recebido: quem paga é a TotalPass e a Wellhub, direto para a arena, fora do Mercado Pago.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Financeiro no painel, sem Premium</b><span class="ramo">Alternativa</span><span>O convite ao plano aparece no meio da tela. "Ver planos" abre a assinatura da arena.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-financial</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="dinheiro" data-item="Financeiro">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="tx"><p class="t1">Financeiro</p></div><div class="ac"><span class="sino"><i data-lucide="bell"></i></span></div></div>
+              <div style="flex:1;display:flex;align-items:center;justify-content:center">
+                <div class="vazio" style="max-width:520px;width:100%">
+                  <div class="circ"><i data-lucide="lock"></i></div>
+                  <p class="t3">Disponível no plano Premium</p>
+                  <p class="b2 muted">Faturamento e ocupação por quadra são exclusivos de quem assina o plano Premium da arena.</p>
+                  <button class="btn sec" style="margin-top:12px">Ver planos</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Qual taxa o Desafiaê cobra?</summary><p>10% em reserva, ingresso de torneio e aula avulsa, e 2% em mensalidade. Na categoria de torneio você escolhe se a arena absorve a taxa ou se o atleta paga.</p></details>
+    <details><summary>Preciso conectar o Mercado Pago?</summary><p>Sim. Sem conta conectada, a arena não publica torneio nem recebe pelas reservas.</p></details>
+    <details><summary>Posso trocar a conta que recebe?</summary><p>Sim. Na tela do Mercado Pago, toque em "Conectar outra conta" e autorize a nova conta.</p></details>
+    <details><summary>Por que as visitas da TotalPass e da Wellhub não entram no "Recebido"?</summary><p>Porque quem paga é o agregador, fora do Mercado Pago. O valor dessas visitas é só uma estimativa.</p></details>
+    <details><summary>Quem da equipe vê o Financeiro?</summary><p>Dono, administrador e gerente. Atendente e professor não abrem a tela.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

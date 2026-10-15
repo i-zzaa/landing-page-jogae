@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aulas e check-in · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  .btn.claro { font-weight: 500; }
+  .btn.contorno-laranja.claro { background: var(--surface); }
+  .btn.terciario { background: transparent; color: var(--primary); height: auto; padding: 8px 0; }
+  .btn.perigo-contorno { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  .btn.mini { width: auto; height: 40px; padding: 0 14px; font-size: 14px; flex: none; }
+  .chip.sel-app { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+  .chip img { width: 19px; height: 20px; object-fit: contain; }
+  .scr-hdr { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; }
+  .scr-hdr svg { width: 24px; height: 24px; }
+  .scr-hdr .t3 { flex: 1; text-align: center; }
+  .rodape-tela { margin-top: auto; display: grid; gap: 8px; padding-top: 12px; }
+  .seg-app { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .seg-app span { flex: 1; text-align: center; padding: 8px 0; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .seg-app span.on { background: var(--primary); color: var(--text-inverse); }
+  /* DayStrip */
+  .dstrip { display: grid; gap: 12px; }
+  .dstrip .cab { display: flex; align-items: center; justify-content: space-between; }
+  .dstrip .setas { display: flex; gap: 8px; }
+  .dstrip .setas span { width: 32px; height: 32px; border-radius: 999px; background: var(--surface); display: flex; align-items: center; justify-content: center; }
+  .dstrip .setas svg { width: 20px; height: 20px; }
+  .dstrip .dias { display: flex; }
+  .dstrip .dia { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .dstrip .dia .cap { color: var(--text-muted); }
+  .dstrip .dia .n { width: 40px; height: 40px; border-radius: 999px; background: var(--surface-alt); display: flex; align-items: center; justify-content: center; font: 500 16px/24px var(--font); }
+  .dstrip .dia.sel .cap { color: var(--primary); }
+  .dstrip .dia.sel .n { background: var(--primary); color: var(--text-inverse); }
+  .dstrip .dia i { width: 6px; height: 6px; border-radius: 999px; background: var(--primary); display: block; }
+  .dstrip .dia i.off { opacity: 0; }
+  .campo-sel { height: 52px; display: flex; align-items: center; gap: 8px; padding: 0 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; font: 400 16px/24px var(--font); }
+  .campo-sel span { flex: 1; }
+  .campo-sel svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .campo-sel .ic-l { color: var(--primary); }
+  .campo-sel .ph { color: var(--text-muted); }
+  .dias7 { display: flex; gap: 4px; }
+  .dias7 .chip { flex: 1; justify-content: center; padding: 0; }
+  .stepper { height: 52px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .stepper svg { width: 20px; height: 20px; }
+  .caixa { width: 20px; height: 20px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; flex: none; margin-top: 2px; }
+  .caixa.on { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+  .caixa svg { width: 14px; height: 14px; }
+  .sheet.app { background: var(--background); padding: 20px 20px 34px; gap: 12px; }
+  .sheet.app::before { display: none; }
+  .conflito { display: flex; align-items: flex-start; gap: 12px; padding: 12px; border-radius: 14px; border: 1px solid var(--border); }
+  .conflito svg { width: 20px; height: 20px; color: var(--primary); flex: none; }
+  .aluno { display: flex; align-items: center; gap: 8px; }
+  .aluno .grow { display: grid; gap: 2px; }
+  .aluno > svg { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .vazio { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 20px; text-align: center; }
+  .vazio .ic-bola { width: 64px; height: 64px; border-radius: 999px; background: var(--surface-alt); display: flex; align-items: center; justify-content: center; color: var(--text-muted); margin-bottom: 4px; }
+  .vazio .ic-bola svg { width: 28px; height: 28px; }
+  /* câmera */
+  .camera { flex: 1; border-radius: 12px; overflow: hidden; position: relative; background: linear-gradient(160deg, var(--secondary) 0%, var(--secondary-dark) 100%); }
+  .camera .mira { position: absolute; left: 50%; top: 42%; width: 200px; height: 200px; transform: translate(-50%, -50%); border: 3px solid rgba(255,255,255,.75); border-radius: 18px; }
+  .camera .mira .qr { width: 140px; height: 140px; margin: 27px auto; border: 6px solid #fff; opacity: .85; }
+  .feedback { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; align-items: center; gap: 8px; padding: 12px; border-radius: 12px; background: var(--success); color: var(--text-inverse); }
+  .feedback svg { width: 20px; height: 20px; }
+  /* aba Aulas do perfil da arena */
+  .pilula-h { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 999px; background: var(--surface-alt); }
+  .pilula-h svg, .vagas svg { width: 16px; height: 16px; color: var(--text-muted); }
+  .vagas { display: flex; align-items: center; gap: 4px; padding: 0 8px; }
+  .apagado { opacity: .45; }
+  .perfil-cab { height: 120px; margin: -4px -20px 0; position: relative; }
+  .abas-perfil { display: flex; gap: 20px; border-bottom: 1px solid var(--border); }
+  .abas-perfil span { padding: 8px 0; font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .abas-perfil span.on { color: var(--primary); border-bottom: 2px solid var(--primary); }
+
+  /* painel web */
+  .wcab { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .wcab .textos { display: grid; gap: 4px; }
+  .wcab .acoes { display: flex; align-items: center; gap: 12px; }
+  .sino { padding: 4px; position: relative; display: flex; }
+  .sino svg { width: 24px; height: 24px; }
+  .wseg { display: inline-flex; background: var(--neutral-soft); border-radius: 12px; padding: 4px; }
+  .wseg span { height: 30px; display: inline-flex; align-items: center; gap: 4px; padding: 0 12px; border-radius: 8px; font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .wseg span.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow-card); }
+  .wseg .cont { font: 500 12px/16px var(--font); color: var(--text-muted); }
+  .wcorpo { display: flex; gap: 16px; align-items: flex-start; }
+  .shell { min-width: 0; }
+  .wt { flex: 1; min-width: 0; overflow: hidden; }
+  .wl .grow { min-width: 0; }
+  .wl > [style*="width"] { flex: none; }
+  .browser.b1440 { width: 1440px; }
+  .wl { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-top: 1px solid var(--border); }
+  .wl.cab { border-top: 0; padding: 8px 16px; }
+  .wl.cab .cap { color: var(--text-muted); }
+  .wl.aberta { background: var(--primary-wash); }
+  .wl .duo { display: grid; gap: 2px; min-width: 0; }
+  .wpainel { width: 320px; flex: none; display: grid; gap: 12px; align-self: flex-start; }
+  .wpainel.w340 { width: 340px; }
+  .ptopo { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .ptopo > svg { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .dado { display: grid; gap: 2px; padding-top: 8px; border-top: 1px solid var(--border); }
+  .acoes-p { display: grid; gap: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+  .form720 { width: 100%; max-width: 720px; margin: 0 auto; display: grid; gap: 16px; }
+  .contador { display: inline-flex; align-items: center; gap: 16px; padding: 8px 12px; border-radius: 12px; border: 1px solid var(--border); justify-self: start; }
+  .contador svg { width: 20px; height: 20px; }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="arena" data-fluxo="aulas"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Aulas e check-in</h1>
+  <p>Você cria as turmas com professor, dias, horário e vagas, e as aulas aparecem na agenda da arena. No dia, você, a recepção ou o professor faz a chamada pela lista ou lendo o QR do ingresso do aluno. Tudo fica em Ajustes, em "Aulas".</p>
+  <ul class="regras">
+    <li>Aulas valem em todos os planos da arena, a partir do Básico.</li>
+    <li>Se a turma usa quadra, a aula ocupa o horário na agenda. Se a quadra já estiver ocupada em alguma data, o app mostra o que está lá e você decide se segue.</li>
+    <li>Turma aberta: quem tem plano que cobre a turma se inscreve a partir de 24 horas antes; sem plano, paga a aula avulsa pelo app, se a turma tiver preço avulso.</li>
+    <li>Turma fixa: só os alunos da lista que você monta. Eles entram sozinhos em todas as aulas, sem plano e sem a janela de 24 horas; ninguém de fora entra e não tem aula avulsa. O aluno fixo pode desmarcar uma aula e voltar para ela enquanto não começou.</li>
+    <li>A turma aceita um, vários ou qualquer nível. Quem se inscreve sozinho precisa ter um desses níveis na modalidade; quando a arena põe o aluno na lista ou na aula, o nível não é conferido.</li>
+    <li>A equipe (gestão, recepção ou o professor da aula) pode pôr um aluno na aula até ela acabar. Com plano que cobre a turma, conta no plano; sem plano, o acerto é com a arena, fora do app.</li>
+    <li>Só conta como presença quem fez check-in na aula. Estar inscrito não basta. Gestão, recepção e professor marcam a presença do dia da aula até 48 horas depois do fim.</li>
+    <li>Com TotalPass ou Wellhub (plano Elite), cada um tem um limite de vagas por turma, que conta na lotação. Na turma fixa, eles só pegam a vaga de quem desmarcou.</li>
+    <li>O professor vê só as aulas e turmas dele e não cria nem edita turma. Cobrar mensalidade vencida é com a gestão da arena.</li>
+    <li>Ao cancelar uma aula ou encerrar uma turma, os inscritos são avisados, e quem pagou aula avulsa recebe o dinheiro de volta. Quem está inscrito recebe um lembrete 1 hora antes da aula.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- ======================= CELULAR ======================= -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 Agenda -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Aulas · Agenda</b><span>Em Ajustes, toque em "Aulas". Você vê a semana a partir de hoje (as setas andam 7 dias), filtra por modalidade e professor e confere as aulas do dia.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:12px">
+          <div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Aulas</p><i data-lucide="x"></i></div>
+          <div class="seg-app"><span class="on">Agenda</span><span>Turmas</span></div>
+          <div class="dstrip">
+            <div class="cab"><p class="b1m">Setembro de 2026</p><div class="setas"><span><i data-lucide="chevron-left"></i></span><span><i data-lucide="chevron-right"></i></span></div></div>
+            <div class="dias">
+              <div class="dia sel"><span class="cap">Hoje</span><span class="n">28</span><i></i></div>
+              <div class="dia"><span class="cap">ter.</span><span class="n">29</span><i></i></div>
+              <div class="dia"><span class="cap">qua.</span><span class="n">30</span><i></i></div>
+              <div class="dia"><span class="cap">qui.</span><span class="n">1</span><i></i></div>
+              <div class="dia"><span class="cap">sex.</span><span class="n">2</span><i></i></div>
+              <div class="dia"><span class="cap">sáb.</span><span class="n">3</span><i class="off"></i></div>
+              <div class="dia"><span class="cap">dom.</span><span class="n">4</span><i class="off"></i></div>
+            </div>
+          </div>
+          <div class="chips"><span class="chip">Beach tennis</span><span class="chip">Futevôlei</span></div>
+          <div class="chips"><span class="chip">Carol Prado</span><span class="chip">Léo Andrade</span></div>
+          <div class="col g8">
+            <div class="card col g4"><p class="b1m">07:00 – 08:00 · Beach tennis iniciante</p><p class="b2 muted">Beach tennis · Carol Prado · Quadra 3</p><p class="cap muted">6/8 vagas</p></div>
+            <div class="card col g4"><p class="b1m">18:00 – 19:00 · Futevôlei iniciante</p><p class="b2 muted">Futevôlei · Léo Andrade · Quadra 1</p><p class="cap muted">8/8 vagas · 2 na fila</p></div>
+            <div class="card col g4"><p class="b1m">19:00 – 20:00 · Futevôlei intermediário</p><p class="b2 muted">Futevôlei · Léo Andrade · Quadra 2</p><p class="cap muted">6/8 vagas · 1 na fila</p></div>
+          </div>
+          <div class="rodape-tela"><button class="btn claro">Nova turma</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 Turmas -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Aulas · Turmas</b><span>Na aba "Turmas" ficam todas as turmas, com dias, horário, professor, quadra e vagas. Toque numa turma para editar (só a gestão edita).</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:12px">
+          <div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Aulas</p><i data-lucide="x"></i></div>
+          <div class="seg-app"><span>Agenda</span><span class="on">Turmas</span></div>
+          <div class="col g8">
+            <div class="card col g4"><div class="row sb"><p class="b1m grow">Beach tennis iniciante</p><span class="tag ok">Ativa</span></div><p class="b2 muted">Beach tennis · Seg, Qua, Sex · 07:00 – 08:00</p><p class="cap muted">Carol Prado · Quadra 3 · 8 vagas</p></div>
+            <div class="card col g4"><div class="row sb"><p class="b1m grow">Futevôlei iniciante</p><span class="tag ok">Ativa</span></div><p class="b2 muted">Futevôlei · Seg, Qua · 18:00 – 19:00</p><p class="cap muted">Léo Andrade · Quadra 1 · 8 vagas</p></div>
+            <div class="card col g4"><div class="row sb"><p class="b1m grow">Futevôlei intermediário</p><span class="tag ok">Ativa</span></div><p class="b2 muted">Futevôlei · Seg, Qua · 19:00 – 20:00</p><p class="cap muted">Léo Andrade · Quadra 2 · 8 vagas</p></div>
+            <div class="card col g4"><div class="row sb"><p class="b1m grow">Futevôlei avançado</p><span class="tag ok">Ativa</span></div><p class="b2 muted">Futevôlei · Ter, Qui · 19:00 – 20:30</p><p class="cap muted">Léo Andrade · Quadra 2 · 10 vagas</p></div>
+            <div class="card col g4"><div class="row sb"><p class="b1m grow">Vôlei de Praia manhã</p><span class="tag neutro">Encerrada</span></div><p class="b2 muted">Vôlei de Praia · Sáb · 08:00 – 09:30</p><p class="cap muted">Carol Prado · Sem quadra · 12 vagas</p></div>
+          </div>
+          <div class="rodape-tela"><button class="btn claro">Nova turma</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 Nova turma -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Nova turma</b><span>Preencha nome, modalidade, níveis, professor, quadra, dias, horário, período, vagas, quem entra, fila, aula avulsa e os planos que dão acesso. Se você começou pela agenda, quadra, dia e hora já vêm preenchidos.</span><span class="ramo">Alternativa</span><span>Em "Quem entra", escolha "Fixa" para a turma ser só dos alunos da lista: aparece "Alunos da turma", com "Adicionar alunos". Com TotalPass ou Wellhub conectados, a turma também tem o número de vagas que cada um pode vender (0 tira a turma daquele app).</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body" style="gap:16px">
+          <div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Nova turma</p><i data-lucide="x"></i></div>
+          <div class="input">Futevôlei intermediário</div>
+          <div class="col"><p class="t3">Modalidade</p><div class="campo-sel"><i data-lucide="volleyball" class="ic-l"></i><span>Futevôlei</span><i data-lucide="chevron-down"></i></div></div>
+          <div class="col g8"><p class="t3">Níveis</p><div class="chips"><span class="chip">Qualquer</span><span class="chip"><img src="../img/categoria-d.png" alt="Aprendiz"></span><span class="chip"><img src="../img/categoria-c.png" alt="Iniciante"></span><span class="chip sel-app"><img src="../img/categoria-b.png" alt="Intermediário"></span><span class="chip"><img src="../img/categoria-a.png" alt="Avançado"></span></div><p class="cap muted">Pode marcar mais de um. Quem não tem um desses níveis na modalidade não se inscreve; a arena pondo o aluno na mão passa por cima.</p></div>
+          <div class="col"><p class="t3">Professor</p><div class="campo-sel"><i data-lucide="graduation-cap" class="ic-l"></i><span>Léo Andrade</span><i data-lucide="chevron-down"></i></div></div>
+          <div class="col g8"><div><p class="t3" style="margin-bottom:12px">Quadra</p><p class="cap muted">Opcional. Com quadra, a aula ocupa o horário na agenda.</p></div><div class="campo-sel"><i data-lucide="map-pin" class="ic-l"></i><span>Quadra 2</span><i data-lucide="chevron-down"></i></div></div>
+          <div class="col"><p class="t3">Dias da semana</p><div class="dias7"><span class="chip">Dom</span><span class="chip sel-app">Seg</span><span class="chip">Ter</span><span class="chip sel-app">Qua</span><span class="chip">Qui</span><span class="chip">Sex</span><span class="chip">Sáb</span></div></div>
+          <div class="row" style="gap:8px"><div class="input grow">19:00</div><div class="input grow">20:00</div></div>
+          <div class="col g8"><p class="b2m muted">Começa em</p><div class="campo-sel"><i data-lucide="calendar" class="ic-l"></i><span>05/10/2026</span></div></div>
+          <div class="col g8"><p class="b2m muted">Termina em (opcional)</p><div class="campo-sel"><i data-lucide="calendar" class="ic-l"></i><span class="ph">Selecione data e hora</span></div></div>
+          <p class="cap muted" style="margin-top:-8px">Sem data final, a turma segue sem prazo: as aulas ficam sempre marcadas com um ano de antecedência.</p>
+          <div class="col"><p class="t3">Vagas</p><div class="stepper"><i data-lucide="minus"></i><p class="t3">8</p><i data-lucide="plus"></i></div></div>
+          <div class="col g8"><p class="t3" style="margin-bottom:4px">Quem entra</p><div class="seg-app"><span class="on">Aberta</span><span>Fixa</span></div><p class="cap muted">Quem tem plano se inscreve até 24h antes; sem plano, paga a aula avulsa.</p></div>
+          <div class="row top" style="gap:8px"><span class="caixa on"><i data-lucide="check"></i></span><p class="b2">Lista de espera quando lotar</p></div>
+          <div class="col g8"><div class="input">45,00</div><p class="cap muted">Quem não tem plano que cubra a turma paga a aula avulsa pelo app. Sem preço, só quem tem plano.</p></div>
+          <div class="col g8"><div><p class="t3" style="margin-bottom:12px">Planos que dão acesso</p><p class="cap muted">Sem nenhum marcado, vale qualquer plano da modalidade.</p></div><div class="chips"><span class="chip sel-app">Futevôlei 2x</span><span class="chip">Livre futevôlei</span></div></div>
+          <div class="input area"><span class="ph">Observações (opcional)</span></div>
+          <div class="rodape-tela"><button class="btn claro">Criar turma</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 Conflito -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Quadra ocupada em alguma data</b><span>Antes de salvar, o app confere a turma com a agenda. As datas em que a quadra já está ocupada aparecem, e você decide se segue.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body"><div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Nova turma</p><i data-lucide="x"></i></div></div>
+        <div class="sheet-veu"></div>
+        <div class="sheet app">
+          <div class="row sb"><p class="t3">Horário ocupado</p><i data-lucide="x" class="ic24"></i></div>
+          <p class="b2 muted">Essa quadra já tem compromisso nesse horário:</p>
+          <div class="col g8">
+            <div class="conflito"><i data-lucide="calendar-check"></i><div class="grow col" style="gap:2px"><p class="b1m">Reserva de Gui Barros</p><p class="b2 muted">07/10 · 19:00 – 20:00</p><p class="cap muted">Paga no balcão — o estorno fica por conta da arena.</p></div></div>
+            <div class="conflito"><i data-lucide="lock"></i><div class="grow col" style="gap:2px"><p class="b1m">Bloqueio de agenda</p><p class="b2 muted">12/10 · 06:00 – 23:00</p><p class="cap muted">Feriado — arena fechada — o bloqueio continua registrado.</p></div></div>
+          </div>
+          <p class="cap muted">Se seguir, o que estava nesse horário é cancelado ou tirado da quadra, e todo mundo envolvido é avisado.</p>
+          <button class="btn perigo-contorno claro">Seguir mesmo assim</button>
+          <button class="btn terciario claro">Escolher outro horário</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 Editar turma -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Editar turma</b><span>É o mesmo formulário. No fim, escolha se a mudança vale a partir de uma data ou para a turma toda. Aqui você também encerra a turma.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:16px">
+          <div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Editar turma</p><i data-lucide="x"></i></div>
+          <div class="col"><p class="t3">Vagas</p><div class="stepper"><i data-lucide="minus"></i><p class="t3">10</p><i data-lucide="plus"></i></div></div>
+          <div class="row top" style="gap:8px"><span class="caixa on"><i data-lucide="check"></i></span><p class="b2">Lista de espera quando lotar</p></div>
+          <div class="col g8"><div class="input">45,00</div><p class="cap muted">Quem não tem plano que cubra a turma paga a aula avulsa pelo app. Sem preço, só quem tem plano.</p></div>
+          <div class="input area">Trazer garrafa d'água; aula acontece com chuva fraca.</div>
+          <div class="col g8">
+            <p class="t3" style="margin-bottom:4px">Aplicar mudanças</p>
+            <div class="seg-app"><span class="on">A partir de uma data</span><span>Toda a turma</span></div>
+            <div class="col g8"><p class="b2m muted">A partir de</p><div class="campo-sel"><i data-lucide="calendar" class="ic-l"></i><span>05/10/2026</span></div></div>
+            <p class="cap muted">Aulas que já aconteceram não mudam. Alunos inscritos são avisados se horário ou quadra mudarem.</p>
+          </div>
+          <div class="rodape-tela"><button class="btn claro">Salvar</button><button class="btn terciario claro">Encerrar turma</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 Aula -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Aula</b><span>Os alunos aparecem por situação. No dia, toque em "Marcar chegada" (ou "Desfazer"); dá para acertar a presença até 48 horas depois do fim. Antes de a aula começar, o X tira o aluno. "Adicionar aluno", em Inscritos, põe na aula quem pediu no balcão ou chegou na hora: com plano que cobre a turma, entra pelo plano; sem plano, entra "Pela equipe" e o acerto é fora do app. A gestão pode editar ou cancelar só esta aula.</span><span class="ramo">Alternativa</span><span>Na turma fixa, quem desmarcou fica em "Não vão"; "Pôr de volta" devolve o aluno para a aula.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body" style="gap:12px">
+          <div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Futevôlei intermediário</p><i data-lucide="x"></i></div>
+          <div class="card col g4"><p class="t3">28/09 · 19:00 – 20:00</p><p class="b2 muted">Futevôlei · Léo Andrade · Quadra 2</p><p class="b2 muted">6/8 vagas · 1 na fila</p></div>
+          <div class="col g8">
+            <p class="t3" style="margin-bottom:4px">Inscritos (5)</p>
+            <div class="card aluno" style="padding:12px 16px"><div class="grow"><p class="b1m">Bia Moreira</p><p class="cap muted">Plano · presente às 18:52</p></div><button class="btn terciario claro" style="width:auto">Desfazer</button></div>
+            <div class="card aluno" style="padding:12px 16px"><div class="grow"><p class="b1m">Duda Martins</p><p class="cap muted">Vinculado</p></div><button class="btn contorno-laranja claro mini">Marcar chegada</button><i data-lucide="x"></i></div>
+            <div class="card aluno" style="padding:12px 16px"><div class="grow"><p class="b1m">Nanda Ribeiro</p><p class="cap muted">Plano</p></div><button class="btn contorno-laranja claro mini">Marcar chegada</button><i data-lucide="x"></i></div>
+            <div class="card aluno" style="padding:12px 16px"><div class="grow"><p class="b1m">Gui Barros</p><p class="cap muted">Avulsa</p></div><button class="btn contorno-laranja claro mini">Marcar chegada</button><i data-lucide="x"></i></div>
+            <div class="card aluno" style="padding:12px 16px"><div class="grow"><p class="b1m">Pedro Salles</p><p class="cap muted">Plano</p></div><button class="btn contorno-laranja claro mini">Marcar chegada</button><i data-lucide="x"></i></div>
+          </div>
+          <div class="col g8">
+            <p class="t3" style="margin-bottom:4px">Aguardando pagamento (1)</p>
+            <div class="card aluno" style="padding:12px 16px"><div class="grow"><p class="b1m">Vini Rocha</p><p class="cap muted">Avulsa</p></div><i data-lucide="x"></i></div>
+          </div>
+          <div class="col g8">
+            <p class="t3" style="margin-bottom:4px">Lista de espera (1)</p>
+            <div class="card aluno" style="padding:12px 16px"><div class="grow"><p class="b1m">Caio Nunes</p><p class="cap muted">Avulsa</p></div><i data-lucide="x"></i></div>
+          </div>
+          <div class="rodape-tela"><button class="btn claro"><i data-lucide="camera"></i>Check-in pela câmera</button><button class="btn contorno-laranja claro">Editar só esta aula</button><button class="btn terciario claro">Cancelar esta aula</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 Editar só esta aula -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Editar só esta aula</b><span>Troque a quadra, o horário de início (a duração continua a mesma) e as vagas só desta data. Se a quadra estiver ocupada, aparece o mesmo aviso de conflito.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body"><div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Futevôlei intermediário</p><i data-lucide="x"></i></div></div>
+        <div class="sheet-veu"></div>
+        <div class="sheet app">
+          <div class="row sb"><p class="t3">Editar só esta aula</p><i data-lucide="x" class="ic24"></i></div>
+          <p class="b2m muted">Quadra</p>
+          <div class="chips"><span class="chip">Quadra 1</span><span class="chip sel-app">Quadra 2</span><span class="chip">Quadra 3</span></div>
+          <div class="col g8"><p class="b2m muted">Começa em</p><div class="campo-sel"><i data-lucide="calendar" class="ic-l"></i><span>28/09/2026 às 19:30</span></div></div>
+          <div class="stepper"><i data-lucide="minus"></i><p class="t3">10 vagas</p><i data-lucide="plus"></i></div>
+          <button class="btn claro">Salvar</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 Câmera -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Check-in pela câmera</b><span>Aponte a câmera para o QR do ingresso do aluno. Ingresso de outra aula ou de outro dia é recusado.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:12px;padding-bottom:24px">
+          <div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Futevôlei intermediário</p><i data-lucide="x"></i></div>
+          <div class="camera">
+            <div class="mira"><div class="qr"></div></div>
+            <div class="feedback"><i data-lucide="check"></i><p class="b1m">Chegada de Duda Martins registrada.</p></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 9 Permissão -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">9</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Sem acesso à câmera</b><span>Na primeira vez, o app pede acesso à câmera. Se você negou, ele indica abrir os ajustes do celular para liberar.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:12px">
+          <div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Futevôlei intermediário</p><i data-lucide="x"></i></div>
+          <div style="flex:1;display:flex;align-items:center">
+            <div class="vazio"><span class="ic-bola"><i data-lucide="camera"></i></span><p class="t3">Permitir câmera</p><p class="b2 muted">Pra ler o ingresso do aluno, o app precisa da câmera.</p><button class="btn contorno-laranja claro" style="margin-top:12px">Permitir câmera</button></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 10 Sem plano -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">10</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Arena sem plano ativo</b><span>A tela mostra um cadeado com o convite para o plano. Quem não é dono nem gerente vê só o aviso, sem o botão.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Aulas</p><i data-lucide="x"></i></div>
+          <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+            <div class="vazio"><span class="ic-bola"><i data-lucide="lock"></i></span><p class="t3">Disponível em todos os planos da arena</p><p class="b2 muted">Turmas, agenda de aulas, inscrição de alunos e presença estão em todos os planos da arena, a partir do Básico.</p><button class="btn contorno-laranja claro" style="margin-top:12px">Ver planos</button></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 11 ArenaClassWeek -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">11</div>
+        <div class="passo-txt"><b>Aulas no perfil da arena</b><span>É o que o jogador vê: na aba "Aulas" do perfil da arena aparecem os próximos 7 dias, as vagas, o preço para ele e a situação da inscrição.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:12px">
+          <div class="abas-perfil"><span>Sobre</span><span>Eventos</span><span class="on">Aulas</span></div>
+          <div class="dstrip">
+            <div class="cab"><p class="b1m">Setembro de 2026</p></div>
+            <div class="dias">
+              <div class="dia sel"><span class="cap">Hoje</span><span class="n">28</span><i></i></div>
+              <div class="dia"><span class="cap">ter.</span><span class="n">29</span><i></i></div>
+              <div class="dia"><span class="cap">qua.</span><span class="n">30</span><i></i></div>
+              <div class="dia"><span class="cap">qui.</span><span class="n">1</span><i></i></div>
+              <div class="dia"><span class="cap">sex.</span><span class="n">2</span><i></i></div>
+              <div class="dia"><span class="cap">sáb.</span><span class="n">3</span><i class="off"></i></div>
+              <div class="dia"><span class="cap">dom.</span><span class="n">4</span><i class="off"></i></div>
+            </div>
+          </div>
+          <div class="col g8">
+            <div class="card row top" style="gap:12px">
+              <div class="col g8"><span class="pilula-h"><i data-lucide="clock"></i><span class="b2m">07:00</span></span><span class="vagas"><i data-lucide="user"></i><span class="cap muted">6/8</span></span></div>
+              <div class="grow col" style="gap:2px"><div class="row" style="gap:8px"><p class="b1m grow">Beach tennis iniciante</p><i data-lucide="chevron-right" class="ic muted"></i></div><div class="row" style="gap:8px"><p class="b2 muted">Beach tennis · Carol Prado</p><img src="../img/categoria-c.png" alt="" style="width:17px;height:18px"></div><p class="cap muted">Local: Quadra 3</p><p class="cap muted">Aula avulsa: R$ 45,00</p><p class="capm muted">Inscrições abertas</p></div>
+            </div>
+            <div class="card row top" style="gap:12px">
+              <div class="col g8 apagado"><span class="pilula-h"><i data-lucide="clock"></i><span class="b2m">18:00</span></span><span class="vagas"><i data-lucide="user"></i><span class="cap muted">8/8</span></span></div>
+              <div class="grow col" style="gap:2px"><div class="row" style="gap:8px"><p class="b1m grow apagado">Futevôlei iniciante</p><p class="capm muted">Aula lotada</p><i data-lucide="chevron-right" class="ic muted apagado"></i></div><p class="b2 muted apagado">Futevôlei · Léo Andrade</p><p class="cap muted apagado">Local: Quadra 1</p><p class="cap muted apagado">Incluída no seu plano</p><p class="capm muted">Fila de espera disponível</p></div>
+            </div>
+            <div class="card row top" style="gap:12px">
+              <div class="col g8"><span class="pilula-h"><i data-lucide="clock"></i><span class="b2m">19:00</span></span><span class="vagas"><i data-lucide="user"></i><span class="cap muted">6/8</span></span></div>
+              <div class="grow col" style="gap:2px"><div class="row" style="gap:8px"><p class="b1m grow">Futevôlei intermediário</p><i data-lucide="chevron-right" class="ic muted"></i></div><div class="row" style="gap:8px"><p class="b2 muted">Futevôlei · Léo Andrade</p><img src="../img/categoria-b.png" alt="" style="width:17px;height:18px"></div><p class="cap muted">Local: Quadra 2</p><p class="cap muted">Incluída no seu plano</p><p class="capm laranja">Inscrito</p></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ======================= NAVEGADOR ======================= -->
+<section class="trilho-fluxo web" data-plataforma="navegador">
+  <div class="passos">
+
+    <!-- W1 Agenda -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Aulas · Agenda</b><span>No navegador, as aulas do dia aparecem em tabela. Clique numa aula para abrir o painel ao lado, com "Abrir a aula" e "Fazer a chamada".</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser b1440">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-classes?scope=arena</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="agenda" data-item="Aulas">
+            <div class="shell-conteudo" style="gap:0">
+              <div class="wcab"><div class="textos"><p class="t1">Aulas</p><p class="b2 muted">Arena Maré Alta · 5 turmas · 3 aulas no dia</p></div><div class="acoes"><button class="btn inline claro">Nova turma</button><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div style="margin-top:24px"><div class="wseg"><span class="on">Agenda <span class="cont">3</span></span><span>Turmas <span class="cont">5</span></span></div></div>
+              <div class="dstrip" style="margin-top:16px">
+                <div class="cab"><p class="b1m">Setembro de 2026</p><div class="setas"><span><i data-lucide="chevron-left"></i></span><span><i data-lucide="chevron-right"></i></span></div></div>
+                <div class="dias">
+                  <div class="dia sel"><span class="cap">Hoje</span><span class="n">28</span><i></i></div>
+                  <div class="dia"><span class="cap">ter.</span><span class="n">29</span><i></i></div>
+                  <div class="dia"><span class="cap">qua.</span><span class="n">30</span><i></i></div>
+                  <div class="dia"><span class="cap">qui.</span><span class="n">1</span><i></i></div>
+                  <div class="dia"><span class="cap">sex.</span><span class="n">2</span><i></i></div>
+                  <div class="dia"><span class="cap">sáb.</span><span class="n">3</span><i class="off"></i></div>
+                  <div class="dia"><span class="cap">dom.</span><span class="n">4</span><i class="off"></i></div>
+                </div>
+              </div>
+              <div class="chips" style="margin-top:12px"><span class="chip">Beach tennis</span><span class="chip">Futevôlei</span><span class="chip">Carol Prado</span><span class="chip">Léo Andrade</span></div>
+              <div class="wcorpo" style="margin-top:16px">
+                <div class="card sem-pad wt">
+                  <div class="wl cab"><span class="cap" style="width:130px">HORÁRIO</span><span class="cap grow">TURMA</span><span class="cap" style="width:150px">PROFESSOR</span><span class="cap" style="width:120px">QUADRA</span><span class="cap" style="width:110px">VAGAS</span></div>
+                  <div class="wl"><p class="b2m" style="width:130px">07:00 – 08:00</p><div class="duo grow"><p class="b2">Beach tennis iniciante</p><p class="cap muted">Beach tennis</p></div><p class="b2 muted" style="width:150px">Carol Prado</p><p class="b2 muted" style="width:120px">Quadra 3</p><p class="b2 muted" style="width:110px">6/8</p></div>
+                  <div class="wl"><p class="b2m" style="width:130px">18:00 – 19:00</p><div class="duo grow"><p class="b2">Futevôlei iniciante</p><p class="cap muted">Futevôlei</p></div><p class="b2 muted" style="width:150px">Léo Andrade</p><p class="b2 muted" style="width:120px">Quadra 1</p><p class="b2 muted" style="width:110px">8/8</p></div>
+                  <div class="wl aberta"><p class="b2m" style="width:130px">19:00 – 20:00</p><div class="duo grow"><p class="b2">Futevôlei intermediário</p><p class="cap muted">Futevôlei</p></div><p class="b2 muted" style="width:150px">Léo Andrade</p><p class="b2 muted" style="width:120px">Quadra 2</p><p class="b2 muted" style="width:110px">6/8</p></div>
+                </div>
+                <div class="card wpainel">
+                  <div class="ptopo"><div class="grow"><p class="t3">Futevôlei intermediário</p><p class="cap muted">19:00 – 20:00</p></div><i data-lucide="x"></i></div>
+                  <div class="dado"><p class="cap muted">VAGAS</p><p class="b2">6/8 vagas · 1 na fila</p></div>
+                  <div class="dado"><p class="cap muted">QUADRA</p><p class="b2">Quadra 2</p></div>
+                  <div class="acoes-p"><button class="btn claro">Abrir a aula</button><button class="btn contorno-laranja claro">Fazer a chamada</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W2 Turmas -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Aulas · Turmas</b><span>As turmas aparecem em tabela. Clique numa para ver dias, horário e vagas ao lado, com "Editar turma".</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser b1440">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-classes?scope=arena</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="agenda" data-item="Aulas">
+            <div class="shell-conteudo" style="gap:0">
+              <div class="wcab"><div class="textos"><p class="t1">Aulas</p><p class="b2 muted">Arena Maré Alta · 5 turmas · 3 aulas no dia</p></div><div class="acoes"><button class="btn inline claro">Nova turma</button><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div style="margin-top:24px"><div class="wseg"><span>Agenda <span class="cont">3</span></span><span class="on">Turmas <span class="cont">5</span></span></div></div>
+              <div class="wcorpo" style="margin-top:16px">
+                <div class="card sem-pad wt">
+                  <div class="wl cab"><span class="cap grow">TURMA</span><span class="cap" style="width:200px">DIA E HORÁRIO</span><span class="cap" style="width:150px">PROFESSOR</span><span class="cap" style="width:120px">QUADRA</span><span class="cap" style="width:110px">SITUAÇÃO</span></div>
+                  <div class="wl"><div class="duo grow"><p class="b2m">Beach tennis iniciante</p><p class="cap muted">Beach tennis</p></div><p class="b2 muted" style="width:200px">Seg, Qua, Sex · 07:00</p><p class="b2 muted" style="width:150px">Carol Prado</p><p class="b2 muted" style="width:120px">Quadra 3</p><div style="width:110px"><span class="tag ok">Ativa</span></div></div>
+                  <div class="wl"><div class="duo grow"><p class="b2m">Futevôlei iniciante</p><p class="cap muted">Futevôlei</p></div><p class="b2 muted" style="width:200px">Seg, Qua · 18:00</p><p class="b2 muted" style="width:150px">Léo Andrade</p><p class="b2 muted" style="width:120px">Quadra 1</p><div style="width:110px"><span class="tag ok">Ativa</span></div></div>
+                  <div class="wl aberta"><div class="duo grow"><p class="b2m">Futevôlei intermediário</p><p class="cap muted">Futevôlei</p></div><p class="b2 muted" style="width:200px">Seg, Qua · 19:00</p><p class="b2 muted" style="width:150px">Léo Andrade</p><p class="b2 muted" style="width:120px">Quadra 2</p><div style="width:110px"><span class="tag ok">Ativa</span></div></div>
+                  <div class="wl"><div class="duo grow"><p class="b2m">Futevôlei avançado</p><p class="cap muted">Futevôlei</p></div><p class="b2 muted" style="width:200px">Ter, Qui · 19:00</p><p class="b2 muted" style="width:150px">Léo Andrade</p><p class="b2 muted" style="width:120px">Quadra 2</p><div style="width:110px"><span class="tag ok">Ativa</span></div></div>
+                  <div class="wl"><div class="duo grow"><p class="b2m">Vôlei de Praia manhã</p><p class="cap muted">Vôlei de Praia</p></div><p class="b2 muted" style="width:200px">Sáb · 08:00</p><p class="b2 muted" style="width:150px">Carol Prado</p><p class="b2 muted" style="width:120px">Sem quadra</p><div style="width:110px"><span class="tag neutro">Encerrada</span></div></div>
+                </div>
+                <div class="card wpainel">
+                  <div class="ptopo"><div class="grow"><p class="t3">Futevôlei intermediário</p><p class="cap muted">Futevôlei</p></div><i data-lucide="x"></i></div>
+                  <div class="dado"><p class="cap muted">DIA E HORÁRIO</p><p class="b2">Seg, Qua · 19:00 – 20:00</p></div>
+                  <div class="dado"><p class="cap muted">VAGAS</p><p class="b2">8 vagas</p></div>
+                  <div class="acoes-p"><button class="btn claro">Editar turma</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W3 Nova turma -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Nova turma</b><span>É o mesmo formulário do celular, numa coluna. O botão de criar fica no topo da página.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-class-form</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="agenda" data-item="Aulas">
+            <div class="shell-conteudo">
+              <div class="wcab"><div class="textos"><p class="t1">Nova turma</p></div><div class="acoes"><button class="btn inline claro">Criar turma</button><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div class="form720">
+                <div class="input">Futevôlei intermediário</div>
+                <div class="col"><p class="t3">Modalidade</p><div class="campo-sel"><i data-lucide="volleyball" class="ic-l"></i><span>Futevôlei</span><i data-lucide="chevron-down"></i></div></div>
+                <div class="col g8"><p class="t3">Níveis</p><div class="chips"><span class="chip">Qualquer</span><span class="chip"><img src="../img/categoria-d.png" alt="Aprendiz"></span><span class="chip"><img src="../img/categoria-c.png" alt="Iniciante"></span><span class="chip sel-app"><img src="../img/categoria-b.png" alt="Intermediário"></span><span class="chip"><img src="../img/categoria-a.png" alt="Avançado"></span></div><p class="cap muted">Pode marcar mais de um. Quem não tem um desses níveis na modalidade não se inscreve; a arena pondo o aluno na mão passa por cima.</p></div>
+                <div class="col"><p class="t3">Professor</p><div class="campo-sel"><i data-lucide="graduation-cap" class="ic-l"></i><span>Léo Andrade</span><i data-lucide="chevron-down"></i></div></div>
+                <div class="col g8"><div><p class="t3" style="margin-bottom:12px">Quadra</p><p class="cap muted">Opcional. Com quadra, a aula ocupa o horário na agenda.</p></div><div class="campo-sel"><i data-lucide="map-pin" class="ic-l"></i><span>Quadra 2</span><i data-lucide="chevron-down"></i></div></div>
+                <div class="col"><p class="t3">Dias da semana</p><div class="dias7"><span class="chip">Dom</span><span class="chip sel-app">Seg</span><span class="chip">Ter</span><span class="chip sel-app">Qua</span><span class="chip">Qui</span><span class="chip">Sex</span><span class="chip">Sáb</span></div></div>
+                <div class="row" style="gap:8px"><div class="input grow">19:00</div><div class="input grow">20:00</div></div>
+                <div class="col g8"><p class="b2m muted">Começa em</p><div class="campo-sel"><i data-lucide="calendar" class="ic-l"></i><span>05/10/2026</span></div></div>
+                <div class="col g8"><p class="b2m muted">Termina em (opcional)</p><div class="campo-sel"><i data-lucide="calendar" class="ic-l"></i><span class="ph">Selecione data e hora</span></div></div>
+                <p class="cap muted">Sem data final, a turma segue sem prazo: as aulas ficam sempre marcadas com um ano de antecedência.</p>
+                <div class="col"><p class="t3">Vagas</p><div class="stepper"><i data-lucide="minus"></i><p class="t3">8</p><i data-lucide="plus"></i></div></div>
+          <div class="col g8"><p class="t3" style="margin-bottom:4px">Quem entra</p><div class="seg-app"><span class="on">Aberta</span><span>Fixa</span></div><p class="cap muted">Quem tem plano se inscreve até 24h antes; sem plano, paga a aula avulsa.</p></div>
+                <div class="row top" style="gap:8px"><span class="caixa on"><i data-lucide="check"></i></span><p class="b2">Lista de espera quando lotar</p></div>
+                <div class="col g8"><div class="input">45,00</div><p class="cap muted">Quem não tem plano que cubra a turma paga a aula avulsa pelo app. Sem preço, só quem tem plano.</p></div>
+                <div class="col g8"><div><p class="t3" style="margin-bottom:12px">Planos que dão acesso</p><p class="cap muted">Sem nenhum marcado, vale qualquer plano da modalidade.</p></div><div class="chips"><span class="chip sel-app">Futevôlei 2x</span><span class="chip">Livre futevôlei</span></div></div>
+                <div class="input area"><span class="ph">Observações (opcional)</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W4 Aula -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Aula (e chamada)</b><span>Os alunos ficam à esquerda, separados por situação, e as vagas e ações à direita. Editar só esta aula e "Adicionar aluno" abrem ao lado. No navegador não há câmera: "Fazer a chamada" traz você para esta tela, e a presença é marcada pela lista.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-class-session/7f3c2a</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="agenda" data-item="Aulas">
+            <div class="shell-conteudo" style="gap:0">
+              <div class="wcab"><div class="textos"><p class="t1">Futevôlei intermediário</p><p class="b2 muted">28/09 · 19:00 – 20:00 · Léo Andrade · Quadra 2</p></div><div class="acoes"><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div class="wcorpo" style="margin-top:24px">
+                <div class="grow col g16">
+                  <div class="col g8">
+                    <p class="capm muted">INSCRITOS (5)</p>
+                    <div class="card aluno" style="gap:12px"><div class="grow"><p class="b1m">Bia Moreira</p><p class="cap muted">Plano · presente às 18:52</p></div><button class="btn terciario claro" style="width:auto">Desfazer</button></div>
+                    <div class="card aluno" style="gap:12px"><div class="grow"><p class="b1m">Duda Martins</p><p class="cap muted">Vinculado · presente às 18:55</p></div><button class="btn terciario claro" style="width:auto">Desfazer</button></div>
+                    <div class="card aluno" style="gap:12px"><div class="grow"><p class="b1m">Nanda Ribeiro</p><p class="cap muted">Plano</p></div><button class="btn contorno-laranja claro inline">Marcar chegada</button><i data-lucide="x"></i></div>
+                    <div class="card aluno" style="gap:12px"><div class="grow"><p class="b1m">Gui Barros</p><p class="cap muted">Avulsa</p></div><button class="btn contorno-laranja claro inline">Marcar chegada</button><i data-lucide="x"></i></div>
+                    <div class="card aluno" style="gap:12px"><div class="grow"><p class="b1m">Pedro Salles</p><p class="cap muted">Plano</p></div><button class="btn contorno-laranja claro inline">Marcar chegada</button><i data-lucide="x"></i></div>
+                  </div>
+                  <div class="col g8">
+                    <p class="capm muted">AGUARDANDO PAGAMENTO (1)</p>
+                    <div class="card aluno" style="gap:12px"><div class="grow"><p class="b1m">Vini Rocha</p><p class="cap muted">Avulsa</p></div><i data-lucide="x"></i></div>
+                  </div>
+                  <div class="col g8">
+                    <p class="capm muted">LISTA DE ESPERA (1)</p>
+                    <div class="card aluno" style="gap:12px"><div class="grow"><p class="b1m">Caio Nunes</p><p class="cap muted">Avulsa</p></div><i data-lucide="x"></i></div>
+                  </div>
+                </div>
+                <div class="col g16" style="width:340px;flex:none">
+                  <div class="card col">
+                    <p class="t3">6/8 vagas</p>
+                    <p class="b2 muted">1 na fila</p>
+                    <div class="acoes-p"><button class="btn contorno-laranja claro">Fechar</button><button class="btn terciario claro">Cancelar esta aula</button></div>
+                  </div>
+                  <div class="card col">
+                    <p class="t3">Editar só esta aula</p>
+                    <p class="capm muted">Quadra</p>
+                    <div class="chips"><span class="chip">Quadra 1</span><span class="chip sel-app">Quadra 2</span><span class="chip">Quadra 3</span></div>
+                    <div class="col g8"><p class="b2m muted">Começa em</p><div class="campo-sel"><i data-lucide="calendar" class="ic-l"></i><span>28/09/2026 às 19:00</span></div></div>
+                    <div class="contador"><i data-lucide="minus"></i><p class="t3">8 vagas</p><i data-lucide="plus"></i></div>
+                    <button class="btn claro">Salvar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W5 Sem plano -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Arena sem plano ativo</b><span>Aparece o mesmo cadeado do celular, inclusive se você abrir uma turma, aula ou chamada por um link direto.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-classes?scope=arena</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="agenda" data-item="Aulas">
+            <div class="shell-conteudo">
+              <div class="wcab"><div class="textos"><p class="t1">Aulas</p><p class="b2 muted">Arena Maré Alta</p></div><span class="sino"><i data-lucide="bell"></i></span></div>
+              <div style="flex:1;display:flex;align-items:center;justify-content:center">
+                <div class="vazio" style="max-width:520px"><span class="ic-bola"><i data-lucide="lock"></i></span><p class="t3">Disponível em todos os planos da arena</p><p class="b2 muted">Turmas, agenda de aulas, inscrição de alunos e presença estão em todos os planos da arena, a partir do Básico.</p><button class="btn contorno-laranja claro" style="margin-top:12px">Ver planos</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Qual plano libera as aulas?</summary><p>Qualquer plano da arena, a partir do Básico. Sem plano ativo, a tela de aulas mostra um cadeado com o convite para o plano.</p></details>
+    <details><summary>O professor pode criar ou editar turmas?</summary><p>Não. O professor vê só as aulas e turmas dele, faz a chamada e pode pôr um aluno na aula. Criar e editar turma é com a gestão da arena.</p></details>
+    <details><summary>Qual a diferença entre turma aberta e turma fixa?</summary><p>Na aberta, quem tem plano que cobre a turma se inscreve até 24 horas antes, e quem não tem paga a aula avulsa. Na fixa, só entram os alunos da lista que você monta: eles ficam inscritos em todas as aulas, sem plano, e podem desmarcar uma aula e voltar enquanto ela não começou.</p></details>
+    <details><summary>Esqueci de marcar a presença. E agora?</summary><p>Dá para acertar a presença até 48 horas depois do fim da aula. Gestão, recepção e professor podem marcar.</p></details>
+    <details><summary>Aluno inscrito conta como presença?</summary><p>Não. Só conta como presença quem fez check-in na aula, pela lista ou pelo QR do ingresso.</p></details>
+    <details><summary>O que acontece com os alunos se eu cancelar uma aula?</summary><p>Os inscritos são avisados, e quem pagou aula avulsa recebe o dinheiro de volta. O mesmo vale quando você encerra a turma.</p></details>
+    <details><summary>Dá para fazer a chamada pelo computador?</summary><p>Sim, pela lista de alunos da aula. A leitura do QR com a câmera é só no celular.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

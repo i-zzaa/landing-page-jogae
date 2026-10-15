@@ -1,0 +1,1030 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Desafiar alguém · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* ScreenHeader: seta sem círculo, título title3, ícones à direita e X */
+  .sh { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; min-height: 48px; flex: none; }
+  .sh .ld { min-width: 24px; display: flex; gap: 12px; align-items: center; justify-content: flex-end; }
+  .sh svg { width: 24px; height: 24px; }
+  .sh .tt { font: 600 18px/26px var(--font); flex: 1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .inversa-txt { color: var(--text-inverse); }
+  /* rodapé fixo do Screen */
+  .rodape { flex: none; padding: 12px 20px 34px; display: flex; flex-direction: column; gap: 8px; background: var(--background); }
+  .rodape.g16 { gap: 16px; }
+  .escura .rodape { background: var(--secondary); }
+  .escura { background: var(--secondary) !important; }
+  .screen-body.g12 { gap: 12px; }
+  /* Button: secundário (contorno laranja), terciário (texto), perigo (contorno vermelho); texto body1Medium */
+  .btn { font-weight: 500; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.ter { background: transparent; color: var(--primary); }
+  .btn.dng { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  /* MascotNote */
+  .mnote { display: flex; align-items: center; gap: 12px; margin-bottom: -16px; }
+  .mnote img { width: 89px; height: 79px; object-fit: contain; flex: none; }
+  .mnote .bolha { flex: 1; background: var(--primary-wash); border-radius: 12px; padding: 12px; font: 400 14px/20px var(--font); }
+  /* SelectField / DateTimeField */
+  .sel { display: flex; flex-direction: column; gap: 6px; }
+  .sel > .rot { font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .sel .input svg.lead { color: var(--primary); }
+  .sel .input .v { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* ListGroup + ListRow */
+  .lg { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .lr { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; background: var(--surface); position: relative; }
+  .lr + .lr::before { content: ""; position: absolute; top: 0; left: 16px; right: 0; height: 1px; background: var(--border); }
+  .lr .l { flex: 1; font: 400 16px/24px var(--font); }
+  .lr .v { font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .lr .v.link { color: var(--primary); }
+  .lr > svg { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  /* CategoryBadge (hexágono) */
+  .cat { height: 20px; width: auto; flex: none; display: block; }
+  .cat.c16 { height: 16px; } .cat.c24 { height: 24px; } .cat.c28 { height: 28px; }
+  .chip.cat-only { padding: 0 12px; }
+  .chip .cat { height: 20px; }
+  .sec-t { font: 600 18px/26px var(--font); margin: 0 0 12px; }
+  /* linha de jogador em card */
+  .prow { display: flex; align-items: center; gap: 12px; padding: 16px; }
+  .prow .tx { flex: 1; min-width: 0; display: grid; gap: 2px; }
+  .prow.sel-on { border: 2px solid var(--primary); padding: 15px; }
+  .perfil-btn { color: var(--text-muted); } .perfil-btn svg { width: 20px; height: 20px; }
+  .lista { display: flex; flex-direction: column; gap: 8px; }
+  .seg-rn { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .seg-rn span { flex: 1; text-align: center; height: 36px; border-radius: 6px; font: 500 14px/36px var(--font); color: var(--text-muted); }
+  .seg-rn span.on { background: var(--primary); color: var(--text-inverse); }
+  .stepper { display: flex; align-items: center; justify-content: space-between; padding: 0 16px; height: 52px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .stepper svg { width: 20px; height: 20px; }
+  .acc { display: flex; align-items: center; justify-content: space-between; padding: 16px; }
+  .acc .row svg { color: var(--primary); width: 20px; height: 20px; }
+  .acc > svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .provoc { background: var(--primary-wash); }
+  /* card de confronto da revisão */
+  .matchup { display: flex; align-items: center; justify-content: space-between; }
+  /* card escuro "Desafio confirmado" / "Desafio lançado" */
+  .dcard { background: var(--secondary); border: 1px solid var(--secondary); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 16px; color: var(--text-inverse); }
+  .dcard .div { height: 1px; background: rgba(255,255,255,.12); }
+  .times { display: flex; align-items: flex-start; justify-content: space-between; }
+  .times .lado-t { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+  .times .vs { font: 600 18px/26px var(--font); color: var(--primary); align-self: center; }
+  .dl { display: flex; flex-direction: column; gap: 8px; }
+  .dr { display: flex; align-items: center; justify-content: space-between; }
+  .dr .k { display: flex; align-items: center; gap: 4px; color: var(--text-muted); font: 400 14px/20px var(--font); }
+  .dr .k svg { width: 16px; height: 16px; }
+  .dr .val { display: flex; align-items: center; gap: 8px; font: 500 14px/20px var(--font); }
+  .acoes-d { display: flex; justify-content: space-between; }
+  .acoes-d > div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; font: 400 12px/16px var(--font); }
+  .acoes-d .q { width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; }
+  .acoes-d svg { width: 20px; height: 20px; }
+  .tchips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tchip { padding: 8px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--text); font: 500 12px/16px var(--font); }
+  .logo-pill { background: var(--surface); border-radius: 999px; padding: 4px 12px; display: inline-flex; align-self: flex-start; }
+  .logo-pill img { width: 110px; height: 36px; object-fit: contain; }
+  .brand { display: flex; align-items: center; justify-content: space-between; }
+  .brand .masc { width: 56px; height: 56px; object-fit: contain; }
+  .av-ring > .avatar { border-color: var(--secondary); }
+  /* sucesso "Desafio lançado!" */
+  .sucesso { display: flex; flex-direction: column; align-items: center; gap: 8px; padding-top: 16px; text-align: center; }
+  .sucesso .masc { width: 200px; height: 165px; object-fit: contain; margin-bottom: 12px; }
+  /* lançado (redesenho): marca d'agua do ResultBackdrop + ingresso do confirmado */
+  .lanc { position: relative; }
+  .lanc .screen-body, .lanc .rodape { position: relative; z-index: 1; }
+  .lanc .rodape { background: transparent; }
+  .lanc .dcard { background: transparent; border-color: transparent; padding-inline: 0; }
+  .lanc-fundo { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  .lanc-fundo .lf-logo { position: absolute; left: -90px; top: 30%; width: 260px; opacity: .06; transform: rotate(-14deg); }
+  .lanc-fundo .lf-masc { position: absolute; right: -70px; bottom: 110px; width: 330px; opacity: .14; }
+  .lanc-tit { display: grid; gap: 4px; text-align: center; padding-bottom: 4px; }
+  .avatar.slot { background: transparent; border-style: dashed !important; border-color: rgba(255,255,255,.4) !important; color: var(--text-inverse-muted); }
+  .avatar.slot.claro { border-color: var(--primary) !important; color: var(--primary); }
+  .avatar.slot svg { width: 14px; height: 14px; }
+  .espera { display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; border-radius: 10px; background: rgba(255,255,255,.08); font: 400 13px/18px var(--font); color: var(--text-inverse-muted); }
+  .espera b { color: var(--text-inverse); font-weight: 500; }
+  .espera svg { width: 16px; height: 16px; color: var(--primary); flex: none; margin-top: 1px; }
+  .lanc-provoc { margin: 0; padding: 10px 12px; border-radius: 10px; background: var(--accent-soft); color: var(--text); }
+  /* convocação enviada */
+  .ok-bola { width: 64px; height: 64px; border-radius: 999px; background: var(--success); color: #fff; display: flex; align-items: center; justify-content: center; }
+  .ok-bola svg { width: 28px; height: 28px; stroke-width: 3; }
+  .sentnote { display: flex; align-items: flex-end; background: var(--primary-wash); border-radius: 14px; padding-left: 16px; overflow: hidden; }
+  .sentnote p { flex: 1; align-self: center; padding: 16px 0; margin: 0; font: 400 14px/20px var(--font); }
+  .sentnote img { width: 128px; height: 107px; object-fit: contain; }
+  /* resultado */
+  .res { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .venc { display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 8px; border-top: 1px solid var(--border); align-self: stretch; }
+  .venc svg { color: var(--gold); width: 20px; height: 20px; }
+  .pts { display: flex; flex-direction: column; align-items: center; gap: 2px; background: var(--success-soft); border-color: var(--success); }
+  .h2h { display: flex; align-items: center; }
+  .h2h > div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .h2h .sep { flex: none; width: 1px; align-self: stretch; background: var(--border); }
+  /* folhas no padrão do app: fundo claro, raio 20, cabeçalho com X, sem alça */
+  .sheet.rn { background: var(--background); padding: 20px 20px 40px; }
+  .sheet.rn::before { display: none; }
+  .sheet-cab { display: flex; align-items: center; justify-content: space-between; }
+  .sheet-cab svg { width: 24px; height: 24px; }
+  /* imagem do Stories 9:16 */
+  .story { width: 330px; height: 586px; border-radius: 16px; background: var(--primary); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: 14px; padding: 40px 22px; box-shadow: 0 20px 40px rgba(31,31,31,.18); flex: none; }
+  .story .wm { position: absolute; width: 90px; opacity: .14; }
+  .story .masc-s { position: absolute; right: 40px; top: 70px; width: 110px; transform: rotate(10deg); }
+  .story h2 { margin: 0; font: 600 26px/32px var(--font); color: #fff; max-width: 160px; position: relative; }
+  .ticket { background: var(--primary-soft); border-radius: 12px; position: relative; }
+  .ticket .top { padding: 18px 16px; }
+  .ticket .bot { padding: 18px 16px 16px; border-top: 2px dashed var(--primary); display: flex; flex-direction: column; gap: 10px; position: relative; }
+  .ticket .bot::before, .ticket .bot::after { content: ""; position: absolute; top: -13px; width: 24px; height: 24px; border-radius: 12px; background: var(--primary); }
+  .ticket .bot::before { left: -12px; } .ticket .bot::after { right: -12px; }
+  .ticket .dr .val { color: var(--text); }
+  .story .tchips { justify-content: center; position: relative; }
+  /* desafio de arena (link) */
+  .hero { min-height: 200px; padding: 16px; border-radius: 12px; background: var(--secondary); display: flex; align-items: center; }
+  .hero .times { width: 100%; align-items: center; }
+  .hero .vs { color: #fff; transform: rotate(-8deg); }
+  .inforow { display: flex; align-items: center; gap: 8px; }
+  .inforow svg { width: 20px; height: 20px; color: var(--primary); flex: none; }
+  .srow { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .srow.on { border-color: var(--primary); background: var(--primary-soft); }
+  .srow .tx { flex: 1; display: grid; }
+  .srow .mk { width: 22px; height: 22px; border-radius: 11px; border: 1.5px solid var(--border); flex: none; display: flex; align-items: center; justify-content: center; }
+  .srow.on .mk { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .srow .mk svg { width: 12px; height: 12px; }
+  .limite { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; background: var(--primary-wash); border-color: var(--primary-tint); }
+  .limite > svg { width: 24px; height: 24px; color: var(--primary); }
+  .vazio { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 20px; text-align: center; }
+  .vazio img { width: 124px; height: 95px; object-fit: contain; margin-bottom: 4px; }
+  .seta-row svg { width: 14px; height: 14px; }
+  .screen .avatar { background: var(--primary); color: var(--text-inverse); font-weight: 500; }
+
+  /* animacoes de 2026-09-29 (implementadas no app) */
+  .an-rever { align-self: center; }
+  .an-rever svg { width: 18px; height: 18px; }
+  .an-phone .corpo, .an-phone .screen-body { overflow: hidden; }
+  .an-phone .screen-body > * { flex-shrink: 0; }
+  /* pontos */
+  .an-pontos { display: grid; justify-items: center; gap: 2px; padding: 16px; border-radius: 12px; background: var(--success-soft); border: 1px solid var(--success); }
+  .play .an-pontos { animation: an-pop .45s cubic-bezier(.2,1.4,.4,1) both; }
+  .an-pontos .n { font: 600 20px/28px var(--font); color: var(--success); display: inline-block; }
+  .play .an-pontos .n.bate { animation: an-bate .4s cubic-bezier(.2,1.6,.4,1) both; }
+  /* pago */
+  .an-pago { position: relative; width: 96px; height: 96px; margin: 0 auto; display: grid; place-items: center; }
+  .an-pago .anel { position: absolute; width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--success); opacity: 0; }
+  .an-pago .circ { width: 72px; height: 72px; border-radius: 50%; background: var(--success-soft); display: grid; place-items: center; color: var(--success); }
+  .an-pago .circ svg { width: 40px; height: 40px; stroke-width: 3; }
+  .play .an-pago .circ { animation: an-pop .5s cubic-bezier(.2,1.5,.4,1) both; }
+  .play .an-pago .anel { animation: an-anel .65s ease-out .12s both; }
+  .play .an-pago .circ svg { animation: an-check .5s cubic-bezier(.2,1.8,.4,1) .22s both; }
+  /* ingresso */
+  .an-fenda { overflow: hidden; }
+  .play .an-bilhete { animation: an-imprime .9s both; }
+  /* campeao */
+  .an-campeao { position: relative; overflow: hidden; display: grid; justify-items: center; gap: 4px; padding: 24px 16px; border-radius: 12px; background: var(--accent-soft); border: 1px solid var(--gold); }
+  .an-campeao .trofeu { width: 64px; height: 64px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; color: var(--gold); margin-bottom: 4px; }
+  .an-campeao .trofeu svg { width: 32px; height: 32px; }
+  .play .an-campeao .trofeu { animation: an-trofeu .7s cubic-bezier(.2,1.6,.4,1) .15s both; }
+  .an-campeao i.cf { position: absolute; top: 0; width: 6px; height: 10px; border-radius: 1px; opacity: 0; }
+  .an-campeao i.cf.l { width: 10px; height: 6px; }
+  .play .an-campeao i.cf { animation: an-confete 1.3s cubic-bezier(.55,0,1,.45) var(--d) both; }
+  @keyframes an-pop { 0% { transform: scale(.85); opacity: .4; } 100% { transform: none; opacity: 1; } }
+  @keyframes an-bate { 0% { transform: scale(1); } 35% { transform: scale(1.25); } 100% { transform: none; } }
+  @keyframes an-anel { 0% { opacity: .7; transform: scale(.8); } 100% { opacity: 0; transform: scale(1.45); } }
+  @keyframes an-check { 0% { transform: scale(0) rotate(-25deg); } 100% { transform: none; } }
+  @keyframes an-imprime { 0% { opacity: 0; transform: translateY(-220px) scale(.96); } 55% { opacity: 1; transform: translateY(14px); } 78% { transform: translateY(-4px); } 100% { opacity: 1; transform: none; } }
+  @keyframes an-trofeu { 0% { transform: scale(0) rotate(-30deg); } 100% { transform: none; } }
+  @keyframes an-confete { 0% { opacity: 0; transform: translateY(-16px) rotate(0); } 6% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; transform: translateY(200px) rotate(var(--r)); } }
+  /* "Onde vai ser?" (components/MatchPlaceField.tsx) */
+  .lugar { display: flex; flex-direction: column; gap: 8px; }
+  .lugar > .rot { font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .seg-rn span.ic { display: flex; align-items: center; justify-content: center; gap: 4px; }
+  .seg-rn span.ic svg { width: 16px; height: 16px; }
+  .lugar .input svg.lead { color: var(--primary); }
+  .lugar .input .v { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gps { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; align-self: flex-start; color: var(--primary-dark); font: 500 14px/20px var(--font); }
+  .gps svg { width: 16px; height: 16px; }
+  /* aposta de pontos (components/ChallengeStake.tsx, challenge/stake.tsx) */
+  .saldos { display: flex; flex-wrap: wrap; gap: 8px; }
+  .saldo { flex: 1 1 30%; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 8px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .saldo.rival { border-color: var(--primary-tint); background: var(--primary-wash); }
+  .chip.off { opacity: .4; color: var(--text-muted); }
+  .stk-note { display: flex; align-items: flex-start; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid var(--primary-tint); background: var(--primary-wash); color: var(--text); }
+  .stk-note .bub { width: 48px; height: 48px; border-radius: 24px; background: var(--primary); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; flex: none; }
+  .stk-note .bub svg { width: 20px; height: 20px; }
+  .stk-note .tx { flex: 1; display: grid; gap: 4px; }
+  .stk-note.neutro { border-color: var(--border); background: var(--surface-alt); }
+  .stk-note.neutro .bub { background: var(--neutral); }
+  .stk-pill { display: inline-flex; align-self: center; align-items: center; gap: 4px; padding: 4px 12px; border-radius: 999px; background: var(--primary); color: var(--text-inverse); font: 500 14px/20px var(--font); }
+  .stk-pill svg { width: 16px; height: 16px; }
+  .stk-prazo { display: flex; align-items: flex-start; gap: 8px; padding: 12px; border-radius: 12px; background: var(--warning-soft); color: var(--text); font: 400 14px/20px var(--font); }
+  .stk-prazo svg { width: 16px; height: 16px; color: var(--warning); flex: none; margin-top: 2px; }
+  .stk-soma { display: grid; gap: 8px; padding: 16px; border-radius: 12px; border: 1px solid var(--success); background: var(--success-soft); color: var(--text); }
+  .stk-soma .ln { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .stk-soma .ln.total { padding-top: 8px; border-top: 1px solid var(--success); }
+  .stk-val { display: inline-flex; align-items: center; gap: 4px; color: var(--primary); font: 500 14px/20px var(--font); }
+  .stk-val svg { width: 16px; height: 16px; }
+  .cand-off { opacity: .55; }
+  .lanc .card.res { color: var(--text); }
+  @media (prefers-reduced-motion: reduce) { .play .an-pontos, .play .an-pontos .n.bate, .play .an-pago .circ, .play .an-pago .anel, .play .an-pago .circ svg, .play .an-bilhete, .play .an-campeao .trofeu { animation: none; } .an-campeao i.cf { display: none; } }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="jogador" data-fluxo="desafio"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Desafiar alguém</h1>
+  <p>Você escolhe um rival, define modalidade, data e time, provoca com uma frase pronta, decide se o desafio vale pontos e lança. Quem recebe aceita e monta o time, e o desafio vira um confronto com placar, pontos e histórico. Pelo link de um desafio entre arenas, você também pede vaga numa equipe.</p>
+  <ul class="regras">
+    <li>O número de desafios por semana depende do seu plano. Se você já chegou ao limite, o app avisa logo na primeira tela, antes de você preencher o desafio.</li>
+    <li>A provocação sai só de uma lista de frases prontas, sem texto livre, e quem recebe pode denunciar.</li>
+    <li>O desafio vale até a data proposta. Se passar do horário sem ser aceito, as opções de aceitar e montar time somem e o desafio é cancelado.</li>
+    <li>O local é por endereço ou por arena, nunca os dois, e o endereço pode ficar em branco. A arena escolhida não precisa aprovar o desafio.</li>
+    <li>Você pode apostar 5, 10 ou 20 pontos na modalidade, ou seguir sem aposta. Só entra no desafio quem tem esse valor nos pontos da modalidade, e aceitar o desafio é aceitar a aposta. A aposta não depende de plano e não existe no desafio de marca (corrida, CrossFit, Hyrox).</li>
+    <li>Com aposta, cada um do time vencedor ganha o valor e cada um do perdedor perde o valor, sem ficar com saldo negativo. Empate não muda nada.</li>
+    <li>Se quem venceu lançou o placar, o time que perdeu tem 24h pra confirmar ou contestar. Sem resposta, vale o placar lançado. Contestou, a aposta cai, mas o placar e os pontos da partida ficam. Quem lança a própria derrota paga na hora.</li>
+    <li>A aposta sai dos pontos por partida da modalidade (3 por vitória, 1 por jogo), os mesmos das classificações de evento. O rating da aba Ranking é outra conta: o desafio entra nele, a aposta não.</li>
+    <li>Só conta de jogador entra em desafio. Se você é vinculado a uma arena, participa pela sua conta de jogador.</li>
+    <li>No desafio entre arenas, o jogo é na arena desafiante. Só paga inscrição quem entra pelo link, e a vaga só vale depois que o capitão ou a arena aprova.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 RIVAL -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">1</div>
+        <div class="passo-txt"><b>Quem você quer desafiar?</b><span>Busque o rival ou escolha em "Recentes" ou "Mesma categoria". O card escolhido fica com borda laranja, e o botão passa a mostrar o nome do rival.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="ld"><i data-lucide="x"></i></span></div>
+          <p class="t2">Quem você quer desafiar?</p>
+          <p class="b2 muted">Escolha quem vai ter a chance de provar que joga mais.</p>
+          <div class="input"><i data-lucide="search" style="color:var(--primary)"></i><span class="ph">Buscar jogador</span></div>
+          <div class="seg-rn"><span class="on">Recentes</span><span>Mesma categoria</span></div>
+          <div class="lista">
+            <div class="card prow sel-on"><span class="avatar">R</span><div class="tx"><p class="b1m">Rafa Lopes</p><div class="row" style="gap:4px"><img class="cat c16" src="../img/categoria-b.png" alt=""><span class="cap muted">Futevôlei</span></div><p class="cap laranja">3 partidas contra você</p></div><span class="perfil-btn"><i data-lucide="user-round"></i></span></div>
+            <div class="card prow"><span class="avatar">C</span><div class="tx"><p class="b1m">Caio Nunes</p><div class="row" style="gap:4px"><img class="cat c16" src="../img/categoria-b.png" alt=""><span class="cap muted">Futevôlei</span></div><p class="cap laranja">1 partida contra você</p></div><span class="perfil-btn"><i data-lucide="user-round"></i></span></div>
+            <div class="card prow"><span class="avatar">M</span><div class="tx"><p class="b1m">Marina Costa</p><div class="row" style="gap:4px"><img class="cat c16" src="../img/categoria-c.png" alt=""><span class="cap muted">Beach tennis</span></div></div><span class="perfil-btn"><i data-lucide="user-round"></i></span></div>
+          </div>
+        </div>
+        <div class="rodape g16">
+          <div class="mnote"><img src="../img/mascote-desafio.png" alt=""><div class="bolha">“Escolhe bem… depois não vale dizer que foi sem querer.”</div></div>
+          <button class="btn">Desafiar Rafa</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 1b LIMITE -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">1b</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Limite da semana atingido</b><span>Se você já usou os desafios da semana do seu plano, este card aparece no lugar do formulário e leva você a criar uma partida normal.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="card limite">
+            <i data-lucide="lock"></i>
+            <p class="t3">Limite de desafios da semana atingido</p>
+            <p class="b2 muted">No seu plano você lança 2 desafios por semana. Que tal criar uma partida normal enquanto isso?</p>
+            <button class="btn" style="margin-top:8px">Criar partida</button>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 INFO -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">2</div>
+        <div class="passo-txt"><b>Informações do desafio</b><span>Defina modalidade, categoria, onde vai ser, data e horário, formato, pontuação e duração. Em "Onde vai ser?", escolha por endereço (opcional, digitado ou pela sua localização) ou por arena, nunca os dois. A arena não precisa aprovar o desafio. Se escolher corrida, CrossFit ou Hyrox, você segue para o desafio de marca.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="card sem-pad"><div class="acc"><div class="row" style="gap:8px"><i data-lucide="list-checks"></i><span class="b1m">Regras para criar desafio</span></div><i data-lucide="chevron-down"></i></div></div>
+          <p class="t2">Informações do desafio</p>
+          <p class="b2 muted">Defina os detalhes do desafio.</p>
+          <div class="sel"><span class="rot">Modalidade</span><div class="input"><i class="lead" data-lucide="volleyball"></i><span class="v">Futevôlei</span><i data-lucide="chevron-down"></i></div></div>
+          <div><p class="sec-t">Categoria</p><div class="chips"><span class="chip cat-only"><img class="cat" src="../img/categoria-d.png" alt="D"></span><span class="chip cat-only"><img class="cat" src="../img/categoria-c.png" alt="C"></span><span class="chip cat-only on-laranja"><img class="cat" src="../img/categoria-b.png" alt="B"></span><span class="chip cat-only"><img class="cat" src="../img/categoria-a.png" alt="A"></span></div></div>
+          <div class="lugar"><span class="rot">Onde vai ser?</span>
+            <div class="seg-rn"><span class="ic"><i data-lucide="map-pin"></i>Por endereço</span><span class="ic on"><i data-lucide="building-2"></i>Por arena</span></div>
+            <div class="input"><i class="lead" data-lucide="building-2"></i><span class="v">Arena Maré Alta</span><i data-lucide="chevron-down"></i></div>
+            <p class="cap muted">Mostrando arenas que atendem essa modalidade.</p></div>
+          <div class="sel"><span class="rot">Data e horário</span><div class="input"><span class="v">04/10/2026 às 19:30</span><i data-lucide="chevron-down"></i></div></div>
+          <div><p class="sec-t">Formato</p><div class="stepper"><i data-lucide="minus"></i><span class="t3">2x2</span><i data-lucide="plus"></i></div></div>
+          <div><p class="sec-t">Pontuação</p><div class="seg-rn"><span class="on">Seguir a modalidade</span><span>Livre</span></div><p class="cap muted" style="margin-top:8px">Jogo até 18 pontos, com 2 de vantagem.</p></div>
+          <div><p class="sec-t">Duração estimada</p><div class="chips"><span class="chip">30 min</span><span class="chip on-laranja">1h</span><span class="chip">1h30</span><span class="chip">2h</span></div></div>
+          <div class="input area"><span class="ph">Algo mais pro rival saber? (opcional)</span></div>
+        </div>
+        <div class="rodape"><button class="btn">Continuar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 TIME (rascunho) -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">3</div>
+        <div class="passo-txt"><b>Monte sua tropa</b><span>Você entra como capitão. Toque no ícone de adicionar para chamar parceiros até completar as vagas do formato. Dá pra tirar quem você já escolheu.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="ld"><i data-lucide="x"></i></span></div>
+          <p class="t2">Monte sua tropa</p>
+          <p class="b2 muted">Você é o capitão. Monte sua tropa!</p>
+          <div><p class="sec-t">Capitão</p>
+            <div class="card prow"><span class="avatar">B</span><img class="cat" src="../img/categoria-b.png" alt=""><div class="tx"><p class="b1m">Bia Moreira</p><p class="cap muted">Você</p></div><i data-lucide="crown" class="ic" style="color:var(--primary)"></i></div></div>
+          <div><p class="sec-t">Time · 2/2 jogadores</p>
+            <div class="card prow"><span class="avatar">L</span><img class="cat" src="../img/categoria-b.png" alt=""><div class="tx"><p class="b1m">Lara Mendes</p><p class="cap muted">Selecionado</p></div><span class="cap vermelho">remover</span></div></div>
+          <p class="cap muted">Com o time completo, a busca e as sugestões somem.</p>
+        </div>
+        <div class="rodape g16">
+          <div class="mnote"><img src="../img/mascote-desafio.png" alt=""><div class="bolha">“Esse time mete medo ou só fica bonito na foto?”</div></div>
+          <button class="btn">Time pronto</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 PROVOCAÇÃO -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">4</div>
+        <div class="passo-txt"><b>Dê um tempero ao desafio</b><span>Toque numa frase pronta para usar como provocação, ou siga sem nenhuma. Não dá pra escrever texto livre.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="ld"><i data-lucide="x"></i></span></div>
+          <p class="t2">Dê um tempero ao desafio</p>
+          <p class="b2 muted">Provocar faz parte do jogo.</p>
+          <div><p class="sec-t">Sugestões rápidas</p>
+            <div class="lg">
+              <div class="lr"><span class="l">“Quero ver manter essa marra dentro da quadra.”</span><i data-lucide="check" style="color:var(--primary)"></i></div>
+              <div class="lr"><span class="l">“Sem desculpa, sem VAR e sem pedir revanche antes do jogo.”</span></div>
+              <div class="lr"><span class="l">“Prepare o time. A aula foi marcada.”</span></div>
+              <div class="lr"><span class="l">“Vale perder. Só não vale sumir depois.”</span></div>
+              <div class="lr"><span class="l">“Hoje o ranking muda.”</span></div>
+            </div></div>
+        </div>
+        <div class="rodape g16">
+          <div class="mnote"><img src="../img/mascote-desafio.png" alt=""><div class="bolha">“Pode provocar, mas com carinho… mais ou menos.”</div></div>
+          <button class="btn">Usar esta provocação</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 APOSTA -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">5</div>
+        <div class="passo-txt"><b>Vale pontos?</b><span>Veja o saldo de cada um na modalidade e escolha 5, 10 ou 20 pts, ou "Sem aposta". Valor maior que o menor saldo fica apagado. No desafio de marca este passo não aparece.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="ld"><i data-lucide="x"></i></span></div>
+          <p class="t2">Vale pontos?</p>
+          <p class="b2 muted">Coloque pontos do ranking de Futevôlei em jogo. Quem vencer leva.</p>
+          <div><p class="sec-t">Saldo na modalidade</p>
+            <div class="saldos">
+              <div class="saldo"><span class="avatar md">B</span><span class="capm">Você</span><span class="b2m">142 pts</span></div>
+              <div class="saldo"><span class="avatar md">L</span><span class="capm">Lara</span><span class="b2m">96 pts</span></div>
+              <div class="saldo rival"><span class="avatar md">R</span><span class="capm">Rafa</span><span class="b2m">118 pts</span></div>
+            </div></div>
+          <div><p class="sec-t">Quanto vale?</p>
+            <div class="chips"><span class="chip">Sem aposta</span><span class="chip">5 pts</span><span class="chip on-laranja"><i data-lucide="coins"></i>10 pts</span><span class="chip">20 pts</span></div></div>
+          <div class="stk-note"><span class="bub"><i data-lucide="coins"></i></span><div class="tx"><p class="b1m">Valendo 10 pts pra cada um</p><p class="b2 muted">Se o seu time vencer, cada um ganha 10 pts. Se perder, cada um perde 10. Empate não muda nada.</p></div></div>
+        </div>
+        <div class="rodape g16">
+          <div class="mnote"><img src="../img/mascote-desafio.png" alt=""><div class="bolha">“Falar é fácil. Quero ver colocar ponto na mesa.”</div></div>
+          <button class="btn">Apostar 10 pts</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5b SALDO CURTO -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">5b</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Alguém sem pontos pra apostar</b><span>Se alguém do desafio tem menos de 5 pts na modalidade, os valores ficam apagados e o desafio segue sem aposta.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="ld"><i data-lucide="x"></i></span></div>
+          <p class="t2">Vale pontos?</p>
+          <p class="b2 muted">Coloque pontos do ranking de Futevôlei em jogo. Quem vencer leva.</p>
+          <div><p class="sec-t">Saldo na modalidade</p>
+            <div class="saldos">
+              <div class="saldo"><span class="avatar md">B</span><span class="capm">Você</span><span class="b2m">142 pts</span></div>
+              <div class="saldo"><span class="avatar md">L</span><span class="capm">Lara</span><span class="b2m">96 pts</span></div>
+              <div class="saldo rival"><span class="avatar md">C</span><span class="capm">Carol</span><span class="b2m">3 pts</span></div>
+            </div></div>
+          <div><p class="sec-t">Quanto vale?</p>
+            <div class="chips"><span class="chip on-laranja">Sem aposta</span><span class="chip off">5 pts</span><span class="chip off">10 pts</span><span class="chip off">20 pts</span></div>
+            <p class="cap muted" style="margin-top:8px">Alguém do desafio tem menos de 5 pts nessa modalidade. Dá pra seguir sem aposta.</p></div>
+        </div>
+        <div class="rodape g16">
+          <div class="mnote"><img src="../img/mascote-desafio.png" alt=""><div class="bolha">“Falar é fácil. Quero ver colocar ponto na mesa.”</div></div>
+          <button class="btn">Seguir sem aposta</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 REVISAR -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">6</div>
+        <div class="passo-txt"><b>Revisar e lançar</b><span>Confira o confronto, os detalhes, a aposta e a provocação e lance o desafio. Se ele for barrado por limite do plano, bloqueio, texto proibido ou alguém sem pontos pra aposta, aparece um aviso.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="ld"><i data-lucide="x"></i></span></div>
+          <p class="t2">Revisar e lançar</p>
+          <p class="b2 muted">Revise e lance seu desafio.</p>
+          <div class="card matchup"><div class="col g4" style="gap:2px"><span class="cap muted">SEU TIME</span><span class="b1m">Bia + Lara</span></div><span class="t3 muted">VS</span><div class="col g4" style="gap:2px;align-items:flex-end"><span class="cap muted">RIVAL</span><span class="b1m">Rafa</span></div></div>
+          <div><p class="sec-t">Detalhes</p>
+            <div class="lg">
+              <div class="lr"><span class="l">Arena</span><span class="v">Arena Maré Alta</span></div>
+              <div class="lr"><span class="l">Data</span><span class="v">04/10</span></div>
+              <div class="lr"><span class="l">Horário</span><span class="v">19:30</span></div>
+              <div class="lr"><span class="l">Modalidade</span><span class="v">Futevôlei</span></div>
+              <div class="lr"><span class="l">Categoria</span><img class="cat c24" src="../img/categoria-b.png" alt="B"></div>
+              <div class="lr"><span class="l">Formato</span><span class="v">2x2</span></div>
+              <div class="lr"><span class="l">Aposta</span><span class="stk-val"><i data-lucide="coins"></i>10 pts</span></div>
+            </div></div>
+          <div><p class="sec-t">Provocação</p><div class="card provoc"><p class="b1">“Quero ver manter essa marra dentro da quadra.”</p></div></div>
+        </div>
+        <div class="rodape"><button class="btn">Lançar desafio</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 LANÇADO (redesenho: mesmo molde do Desafio confirmado) -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">7</div>
+        <div class="passo-txt"><b>Desafio lançado!</b><span>Você vê o ingresso do desafio: seu time de um lado e o do rival em espera, com a vaga do parceiro tracejada. O cartão avisa até quando o desafio vale. Toque em "Ver meus desafios" ou "Voltar para Home".</span></div>
+      </div>
+      <div class="phone longo"><div class="screen escura lanc" data-status="inversa">
+        <div class="lanc-fundo" aria-hidden="true"><img class="lf-logo" src="../img/logo-simbolo.png" alt=""><img class="lf-masc" src="../img/mascote-desafio.png" alt=""></div>
+        <div class="screen-body">
+          <div class="sh inversa-txt"><span class="ld"></span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="lanc-tit">
+            <p class="t1 inversa-txt">Desafio lançado!</p>
+            <p class="b2 muted">Agora é esperar o rival parar de tremer.</p>
+          </div>
+          <div class="dcard">
+            <div class="brand"><span class="logo-pill"><img src="../img/logo-completa.png" alt="Desafiaê"></span><img class="masc" src="../img/mascote-futevolei.png" alt=""></div>
+            <div class="times">
+              <div class="lado-t"><span class="capm">TIME BIA</span><div class="avatars av-ring"><span class="avatar md">B</span><span class="avatar md">L</span></div><span class="cap muted">Bia + Lara</span></div>
+              <span class="vs">VS</span>
+              <div class="lado-t"><span class="capm">TIME RAFA</span><div class="avatars av-ring"><span class="avatar md">R</span><span class="avatar md slot"><i data-lucide="plus"></i></span></div><span class="cap muted">Aguardando resposta</span></div>
+            </div>
+            <div class="espera"><i data-lucide="hourglass"></i><span>Se o Rafa não aceitar até <b>04/10 às 19:30</b>, o desafio expira.</span></div>
+            <div class="div"></div>
+            <div class="dl">
+              <div class="dr"><span class="k"><i data-lucide="map-pin"></i>Arena</span><span class="val">Arena Maré Alta <span class="cap laranja">Ver no mapa</span></span></div>
+              <div class="dr"><span class="k"><i data-lucide="calendar"></i>Data</span><span class="val">04/10</span></div>
+              <div class="dr"><span class="k"><i data-lucide="clock"></i>Horário</span><span class="val">19:30</span></div>
+              <div class="dr"><span class="k"><i data-lucide="volleyball"></i>Modalidade</span><span class="val">Futevôlei</span></div>
+              <div class="dr"><span class="k"><i data-lucide="bar-chart-3"></i>Categoria</span><span class="val"><img class="cat c24" src="../img/categoria-b.png" alt="B"></span></div>
+              <div class="dr"><span class="k"><i data-lucide="users"></i>Formato</span><span class="val">2x2</span></div>
+              <div class="dr"><span class="k"><i data-lucide="coins"></i>Aposta</span><span class="val">10 pts por jogador</span></div>
+            </div>
+            <div class="div"></div>
+            <div class="col g8">
+              <span class="b2m">Sua provocação</span>
+              <p class="b2 lanc-provoc">“Quero ver manter essa marra dentro da quadra.”</p>
+            </div>
+          </div>
+        </div>
+        <div class="rodape">
+          <button class="btn"><i data-lucide="share-2"></i>Compartilhar</button>
+          <button class="btn ter">Ver meus desafios</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6b STORY DO LANÇADO -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">7b</div>
+        <div class="passo-txt"><b>Imagem pro Stories do lançado</b><span>Toque em "Compartilhar" para gerar a imagem do desafio no ingresso laranja, com o rival em espera e a provocação embaixo, como um chamado público.</span></div>
+      </div>
+      <div class="story">
+        <img class="wm" src="../img/logo-simbolo.png" alt="" style="left:-20px;top:20px;transform:rotate(-12deg)">
+        <img class="wm" src="../img/logo-simbolo.png" alt="" style="right:-24px;top:230px;transform:rotate(18deg)">
+        <img class="wm" src="../img/logo-simbolo.png" alt="" style="left:30px;bottom:-20px;transform:rotate(8deg)">
+        <img class="masc-s" src="../img/mascote-futevolei.png" alt="">
+        <div class="col g8" style="position:relative"><span class="logo-pill"><img src="../img/logo-completa.png" alt="Desafiaê"></span><h2>Desafio lançado</h2></div>
+        <div class="ticket">
+          <div class="top"><div class="times">
+            <div class="lado-t"><span class="capm">TIME BIA</span><div class="avatars"><span class="avatar md">B</span><span class="avatar md">L</span></div><span class="cap muted">Bia + Lara</span></div>
+            <span class="vs">VS</span>
+            <div class="lado-t"><span class="capm">TIME RAFA</span><div class="avatars"><span class="avatar md">R</span><span class="avatar md slot claro"><i data-lucide="plus"></i></span></div><span class="cap muted">Vai encarar?</span></div>
+          </div></div>
+          <div class="bot">
+            <div class="dr"><span class="k"><i data-lucide="map-pin"></i>Arena</span><span class="val">Arena Maré Alta</span></div>
+            <div class="dr"><span class="k"><i data-lucide="calendar"></i>Data</span><span class="val">04/10</span></div>
+            <div class="dr"><span class="k"><i data-lucide="clock"></i>Horário</span><span class="val">19:30</span></div>
+            <div class="dr"><span class="k"><i data-lucide="volleyball"></i>Modalidade</span><span class="val">Futevôlei</span></div>
+            <div class="dr"><span class="k"><i data-lucide="coins"></i>Aposta</span><span class="val">10 pts</span></div>
+          </div>
+        </div>
+        <div class="tchips"><span class="tchip">“Quero ver manter essa marra dentro da quadra.”</span></div>
+      </div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 LISTA -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">8</div>
+        <div class="passo-txt"><b>Meus desafios</b><span>Aqui ficam os desafios que você enviou e recebeu. O recebido que ainda espera resposta fica destacado em pêssego, e as setas mostram se o desafio foi enviado ou recebido.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Meus desafios</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="col">
+            <div class="card prow" style="background:var(--primary-wash);border-color:var(--primary-tint)"><span class="avatar">C</span><div class="tx"><div class="row seta-row" style="gap:4px"><i data-lucide="arrow-down-left" style="color:var(--primary)"></i><span class="b1m">Caio Nunes</span></div><span class="cap muted">Beach tennis · 02/10 · 18:00</span></div><span class="tag sem-ponto aviso">Pendente</span></div>
+            <div class="card prow"><span class="avatar">R</span><div class="tx"><div class="row seta-row" style="gap:4px"><i data-lucide="arrow-up-right" style="color:var(--text-muted)"></i><span class="b1m">Rafa Lopes</span></div><span class="cap muted">Futevôlei · 04/10 · 19:30</span></div><span class="tag sem-ponto aviso">Pendente</span></div>
+            <div class="card prow"><span class="avatar">M</span><div class="tx"><div class="row seta-row" style="gap:4px"><i data-lucide="arrow-down-left" style="color:var(--primary)"></i><span class="b1m">Marina Costa</span></div><span class="cap muted">Futevôlei · 30/09 · 20:00</span></div><span class="tag sem-ponto ok">Confirmado</span></div>
+            <div class="card prow"><span class="avatar">T</span><div class="tx"><div class="row seta-row" style="gap:4px"><i data-lucide="arrow-up-right" style="color:var(--text-muted)"></i><span class="b1m">Théo Campos</span></div><span class="cap muted">Vôlei · 21/09 · 17:00</span></div><span class="tag sem-ponto erro">Cancelado</span></div>
+            <div class="card prow"><span class="avatar">G</span><div class="tx"><div class="row seta-row" style="gap:4px"><i data-lucide="arrow-down-left" style="color:var(--primary)"></i><span class="b1m">Gui Barros</span></div><span class="cap muted">Futevôlei · 14/09 · 19:00</span></div><span class="tag sem-ponto erro">Rejeitado</span></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7b VAZIO -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">8b</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Meus desafios vazio</b><span>Se você ainda não tem nenhum desafio, aparece o mascote e um atalho para lançar o primeiro.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Meus desafios</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="vazio">
+            <img src="../img/mascote-em-acao.png" alt="">
+            <p class="t3">Ninguém foi desafiado ainda</p>
+            <p class="b2 muted">Tá esperando o quê? Escolhe um rival e resolve na quadra.</p>
+            <button class="btn sec" style="margin-top:12px">Lançar desafio</button>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 DETALHE (desafiado) -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">9</div>
+        <div class="passo-txt"><b>Detalhes do desafio (quem recebeu)</b><span>Quem recebe vê a provocação, a aposta com o próprio saldo, os dois times e os detalhes, e aceita ou recusa. Aceitar o desafio é aceitar a aposta: sem pontos suficientes na modalidade, o app avisa e não deixa entrar. Passada a data proposta, os botões somem e o desafio é cancelado.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Detalhes do desafio</span><span class="ld"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <span class="tag sem-ponto aviso">Pendente</span>
+          <div class="card provoc col g4"><p class="b1">“Quero ver manter essa marra dentro da quadra.”</p><span class="cap muted">Denunciar</span></div>
+          <div class="stk-note"><span class="bub"><i data-lucide="coins"></i></span><div class="tx"><p class="b1m">Valendo 10 pts do ranking</p><p class="b2 muted">Você tem 118 pts em Futevôlei. Vencendo, cada um do seu time ganha 10. Perdendo, cada um perde 10.</p></div></div>
+          <div><p class="sec-t">Time A</p><div class="lista">
+            <div class="card prow"><span class="avatar md">B</span><img class="cat" src="../img/categoria-b.png" alt=""><span class="b1m grow">Bia Moreira (Capitão)</span></div>
+            <div class="card prow"><span class="avatar md">L</span><img class="cat" src="../img/categoria-b.png" alt=""><span class="b1m grow">Lara Mendes</span></div>
+          </div></div>
+          <div><p class="sec-t">Time B</p><p class="b2 muted">Aguardando o rival montar o time.</p></div>
+          <div><p class="sec-t">Detalhes</p><div class="lg">
+            <div class="lr"><span class="l">Arena</span><span class="v">Arena Maré Alta</span></div>
+            <div class="lr"><span class="l">Data</span><span class="v">04/10</span></div>
+            <div class="lr"><span class="l">Horário</span><span class="v">19:30</span></div>
+            <div class="lr"><span class="l">Modalidade</span><span class="v">Futevôlei</span></div>
+            <div class="lr"><span class="l">Categoria</span><img class="cat c24" src="../img/categoria-b.png" alt="B"></div>
+            <div class="lr"><span class="l">Formato</span><span class="v">2x2</span></div>
+            <div class="lr"><span class="l">Aposta</span><span class="v">10 pts</span></div>
+          </div></div>
+        </div>
+        <div class="rodape">
+          <button class="btn">Aceitar a aposta e montar meu time</button>
+          <button class="btn contorno">Recusar</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8b DENÚNCIA -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">9b</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Denunciar a provocação</b><span>Se você recebeu a provocação, conte o motivo e envie. A denúncia vai para análise sem que o autor fique sabendo.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Detalhes do desafio</span><span class="ld"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <span class="tag sem-ponto aviso">Pendente</span>
+          <div class="card provoc col g4"><p class="b1">“Quero ver manter essa marra dentro da quadra.”</p><span class="cap muted">Denunciar</span></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="sheet rn" style="gap:12px">
+          <div class="sheet-cab"><span class="t3">Denunciar</span><i data-lucide="x"></i></div>
+          <p class="b2 muted">Conte o que aconteceu. Sua denúncia é confidencial — quem você denunciou não fica sabendo.</p>
+          <div class="input area foco"><span>Provocação com ofensa pessoal no convite.</span></div>
+          <button class="btn">Enviar denúncia</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 9 DETALHE (quem desafiou) + editar -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">10</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Editar desafio (quem desafiou)</b><span>Enquanto o desafio está pendente, quem desafiou vê o lápis no cabeçalho e pode mudar o local (por endereço ou por arena), data e horário, nível, aposta e observações. Modalidade e formato não mudam. Depois do aceite, a aposta fica travada.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Editar desafio</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="lugar"><span class="rot">Onde vai ser?</span>
+            <div class="seg-rn"><span class="ic on"><i data-lucide="map-pin"></i>Por endereço</span><span class="ic"><i data-lucide="building-2"></i>Por arena</span></div>
+            <div class="input"><i data-lucide="search" style="color:var(--primary)"></i><span class="v">Praia do Campeche - Campeche</span><i data-lucide="x"></i></div>
+            <span class="gps"><i data-lucide="locate-fixed"></i>Usar minha localização</span>
+            <p class="cap muted">Vocês jogam no endereço combinado.</p></div>
+          <div class="sel"><span class="rot">Data e hora</span><div class="input"><span class="v">05/10/2026 às 18:00</span><i data-lucide="chevron-down"></i></div></div>
+          <div><p class="sec-t">Nível do jogo</p><div class="chips"><span class="chip">Qualquer</span><span class="chip cat-only"><img class="cat" src="../img/categoria-d.png" alt="D"></span><span class="chip cat-only"><img class="cat" src="../img/categoria-c.png" alt="C"></span><span class="chip cat-only on-laranja"><img class="cat" src="../img/categoria-b.png" alt="B"></span><span class="chip cat-only"><img class="cat" src="../img/categoria-a.png" alt="A"></span></div></div>
+          <div><p class="sec-t">Quanto vale?</p><div class="chips"><span class="chip">Sem aposta</span><span class="chip">5 pts</span><span class="chip on-laranja"><i data-lucide="coins"></i>10 pts</span><span class="chip">20 pts</span></div></div>
+          <div class="input area"><span class="ph">Observações (opcional)</span></div>
+        </div>
+        <div class="rodape"><button class="btn">Salvar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 10 TIME (ao vivo) -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">11</div>
+        <div class="passo-txt"><b>Monte seu time (quem aceitou)</b><span>Depois de aceitar, convoque parceiros entre os sugeridos da mesma modalidade e categoria. Com aposta, cada um mostra o saldo na modalidade, e quem não cobre o valor fica apagado, sem o botão de convocar.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="ld"><i data-lucide="x"></i></span></div>
+          <p class="t2">Monte seu time</p>
+          <p class="b2 muted">Agora é sua vez de montar o time!</p>
+          <span class="stk-pill"><i data-lucide="coins"></i>Valendo 10 pts</span>
+          <div><p class="sec-t">Capitão</p><div class="card prow"><span class="avatar">R</span><img class="cat" src="../img/categoria-b.png" alt=""><div class="tx"><p class="b1m">Rafa Lopes</p><p class="cap muted">Você</p></div><i data-lucide="crown" class="ic" style="color:var(--primary)"></i></div></div>
+          <div><p class="sec-t">Time · 1/2 jogadores</p></div>
+          <div class="input" style="margin-top:-12px"><i data-lucide="search" style="color:var(--primary)"></i><span class="ph">Buscar jogador</span></div>
+          <div><p class="sec-t">Sugeridos para o seu time</p><div class="lista">
+            <div class="card prow"><span class="avatar">V</span><div class="tx"><p class="b1m">Vini Rocha</p><div class="row" style="gap:4px"><img class="cat c16" src="../img/categoria-b.png" alt=""><span class="cap muted">Futevôlei · 64 pts</span></div></div><span class="perfil-btn"><i data-lucide="user-round"></i></span><i data-lucide="user-plus" class="ic" style="color:var(--primary)"></i></div>
+            <div class="card prow cand-off"><span class="avatar">P</span><div class="tx"><p class="b1m">Pedro Salles</p><div class="row" style="gap:4px"><img class="cat c16" src="../img/categoria-b.png" alt=""><span class="cap muted">Futevôlei · 4 pts</span></div><p class="cap vermelho">Não cobre a aposta</p></div><span class="perfil-btn"><i data-lucide="user-round"></i></span></div>
+          </div></div>
+        </div>
+        <div class="rodape g16">
+          <div class="mnote"><img src="../img/mascote-desafio.png" alt=""><div class="bolha">“Escolhe bem. O outro time já está preparando pra abusar da vitória.”</div></div>
+          <button class="btn">Confirmar convocação</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 11 CONVOCAÇÃO -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">12</div>
+        <div class="passo-txt"><b>Convocação enviada</b><span>Você vê a lista dos convocados e a situação de cada um.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="ld"><i data-lucide="x"></i></span></div>
+          <p class="t2" style="text-align:center">Convocação enviada</p>
+          <div class="col g8" style="align-items:center;padding:8px 0;text-align:center">
+            <div class="ok-bola"><i data-lucide="check"></i></div>
+            <p class="t2 verde">Time convocado!</p>
+            <p class="b2">Agora é esperar seus parceiros confirmarem.</p>
+          </div>
+          <div><p class="sec-t">Jogadores convocados</p><div class="lista">
+            <div class="card prow"><span class="avatar">V</span><div class="tx"><p class="b1m">Vini Rocha</p><p class="cap verde">Convite enviado</p></div><span class="tag sem-ponto ok">Convite enviado</span></div>
+          </div></div>
+        </div>
+        <div class="rodape g16">
+          <div class="sentnote"><p>Eles receberão uma notificação para confirmar presença.</p><img src="../img/mascote-comunicacao.png" alt=""></div>
+          <button class="btn ter">Ver desafio</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 12 CONFIRMADO -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">13</div>
+        <div class="passo-txt"><b>Desafio confirmado</b><span>Com os dois times fechados, aparece o ingresso do confronto, com o selo "Valendo 10 pts" quando tem aposta. Dali você vê a arena, compartilha, manda provocações rápidas prontas ao rival e lança o placar.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen escura" data-status="inversa">
+        <div class="screen-body">
+          <div class="sh inversa-txt"><span class="ld"></span><span class="tt">Desafio confirmado</span><span class="ld"></span></div>
+          <div class="dcard">
+            <div class="brand"><span class="logo-pill"><img src="../img/logo-completa.png" alt="Desafiaê"></span><img class="masc" src="../img/mascote-futevolei.png" alt=""></div>
+            <div class="times">
+              <div class="lado-t"><span class="capm">TIME BIA</span><div class="avatars av-ring"><span class="avatar md">B</span><span class="avatar md">L</span></div><span class="cap muted">Bia + Lara</span></div>
+              <span class="vs">VS</span>
+              <div class="lado-t"><span class="capm">TIME RAFA</span><div class="avatars av-ring"><span class="avatar md">R</span><span class="avatar md">V</span></div><span class="cap muted">Rafa + Vini</span></div>
+            </div>
+            <span class="stk-pill"><i data-lucide="coins"></i>Valendo 10 pts</span>
+            <div class="div"></div>
+            <div class="dl">
+              <div class="dr"><span class="k"><i data-lucide="map-pin"></i>Arena</span><span class="val">Arena Maré Alta <span class="cap laranja">Ver no mapa</span></span></div>
+              <div class="dr"><span class="k"><i data-lucide="calendar"></i>Data</span><span class="val">04/10</span></div>
+              <div class="dr"><span class="k"><i data-lucide="clock"></i>Horário</span><span class="val">19:30</span></div>
+              <div class="dr"><span class="k"><i data-lucide="volleyball"></i>Modalidade</span><span class="val">Futevôlei</span></div>
+              <div class="dr"><span class="k"><i data-lucide="bar-chart-3"></i>Categoria</span><span class="val">B</span></div>
+              <div class="dr"><span class="k"><i data-lucide="users"></i>Formato</span><span class="val">2x2</span></div>
+              <div class="dr"><span class="k"><i data-lucide="coins"></i>Aposta</span><span class="val">10 pts por jogador</span></div>
+            </div>
+            <div class="div"></div>
+            <div class="acoes-d"><div><span class="q"><i data-lucide="map-pin"></i></span>Ver arena</div><div><span class="q"><i data-lucide="share-2"></i></span>Compartilhar</div></div>
+            <div class="div"></div>
+            <div class="col g8">
+              <span class="b2m">Provocações rápidas</span>
+              <div class="tchips"><span class="tchip">Pode aquecer.</span><span class="tchip">Print tirado.</span><span class="tchip">Ranking muda hoje!</span><span class="tchip">Já aceitamos revanche.</span></div>
+              <span class="cap verde">“Print tirado.” enviada pro rival.</span>
+            </div>
+          </div>
+        </div>
+        <div class="rodape">
+          <button class="btn">Lançar placar</button>
+          <button class="btn ter">Voltar para Home</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 13 STORY -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">14</div>
+        <div class="passo-txt"><b>Imagem pro Stories</b><span>Toque em "Compartilhar" para gerar a imagem vertical do ingresso, com o mascote da modalidade e as provocações rápidas. Ela vai direto pro Instagram Stories ou para outro app pelo compartilhamento do celular.</span></div>
+      </div>
+      <div class="story">
+        <img class="wm" src="../img/logo-simbolo.png" alt="" style="left:-20px;top:20px;transform:rotate(-12deg)">
+        <img class="wm" src="../img/logo-simbolo.png" alt="" style="right:-24px;top:230px;transform:rotate(18deg)">
+        <img class="wm" src="../img/logo-simbolo.png" alt="" style="left:30px;bottom:-20px;transform:rotate(8deg)">
+        <img class="masc-s" src="../img/mascote-futevolei.png" alt="">
+        <div class="col g8" style="position:relative"><span class="logo-pill"><img src="../img/logo-completa.png" alt="Desafiaê"></span><h2>Desafio confirmado</h2></div>
+        <div class="ticket">
+          <div class="top"><div class="times">
+            <div class="lado-t"><span class="capm">TIME BIA</span><div class="avatars"><span class="avatar md">B</span><span class="avatar md">L</span></div><span class="cap muted">Bia + Lara</span></div>
+            <span class="vs">VS</span>
+            <div class="lado-t"><span class="capm">TIME RAFA</span><div class="avatars"><span class="avatar md">R</span><span class="avatar md">V</span></div><span class="cap muted">Rafa + Vini</span></div>
+          </div></div>
+          <div class="bot">
+            <div class="dr"><span class="k"><i data-lucide="map-pin"></i>Arena</span><span class="val">Arena Maré Alta</span></div>
+            <div class="dr"><span class="k"><i data-lucide="calendar"></i>Data</span><span class="val">04/10</span></div>
+            <div class="dr"><span class="k"><i data-lucide="clock"></i>Horário</span><span class="val">19:30</span></div>
+            <div class="dr"><span class="k"><i data-lucide="volleyball"></i>Modalidade</span><span class="val">Futevôlei</span></div>
+            <div class="dr"><span class="k"><i data-lucide="coins"></i>Aposta</span><span class="val">10 pts por jogador</span></div>
+          </div>
+        </div>
+        <div class="tchips"><span class="tchip">Pode aquecer.</span><span class="tchip">Print tirado.</span><span class="tchip">Ranking muda hoje!</span><span class="tchip">Já aceitamos revanche.</span></div>
+      </div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 15 CONFIRMAR PLACAR (aposta) -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">15</div>
+        <div class="passo-txt"><b>Confirmar placar (time que perdeu)</b><span>Com aposta, quem perdeu recebe o aviso e tem 24h pra confirmar ou contestar o placar que o vencedor lançou. Confirmou, a aposta é paga. Contestou, a aposta é cancelada. Sem resposta, vale o placar lançado. Se você lançar a própria derrota, a aposta é paga na hora.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen escura lanc" data-status="inversa">
+        <div class="lanc-fundo" aria-hidden="true"><img class="lf-logo" src="../img/logo-simbolo.png" alt=""><img class="lf-masc" src="../img/mascote-desafio.png" alt=""></div>
+        <div class="screen-body">
+          <div class="sh inversa-txt"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Confirmar placar</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="card res">
+            <div class="times" style="width:100%">
+              <div class="lado-t"><span class="capm">TIME BIA</span><div class="avatars"><span class="avatar md">B</span><span class="avatar md">L</span></div></div>
+              <span class="vs">VS</span>
+              <div class="lado-t"><span class="capm">TIME RAFA</span><div class="avatars"><span class="avatar md">R</span><span class="avatar md">V</span></div></div>
+            </div>
+            <p class="t1 num">2 x 1</p>
+            <p class="cap muted">Jogos: 18-15, 14-18, 18-16</p>
+            <div class="venc"><i data-lucide="trophy"></i><p class="t3">Vencedores</p><p class="b2 muted">Bia + Lara</p></div>
+          </div>
+          <div class="mnote" style="margin-bottom:0"><img src="../img/mascote-desafio.png" alt=""><div class="bolha">“Quero ver manter essa marra dentro da quadra.” — e a provocação foi sustentada!</div></div>
+          <div class="stk-note"><span class="bub"><i data-lucide="coins"></i></span><div class="tx"><p class="b1m">Confirmando, você e Vini perdem 10 pts</p><p class="b2 muted">A aposta só vale com o placar certo. Se não bate com o que aconteceu na quadra, conteste.</p></div></div>
+          <div class="stk-prazo"><i data-lucide="hourglass"></i><span>Sem resposta até 05/10 às 21:10, vale o placar lançado.</span></div>
+          <div><p class="sec-t inversa-txt">Histórico do confronto</p>
+            <div class="card h2h"><div><p class="t2 num">4</p><p class="cap muted">Vitórias Bia</p></div><span class="sep"></span><div><p class="t2 num">2</p><p class="cap muted">Vitórias Rafa</p></div></div></div>
+        </div>
+        <div class="rodape">
+          <button class="btn">Confirmar placar</button>
+          <button class="btn dng">Contestar</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 16 RESULTADO -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">16</div>
+        <div class="passo-txt"><b>Resultado da partida</b><span>O desafio mostra quem venceu, se a provocação colou, os pontos e o histórico do confronto. Com a aposta paga, o cartão soma os pontos da partida (3 pra quem vence, 1 pra quem perde) com os da aposta. Enquanto o rival não confirma, aparece "Aposta de 10 pts aguardando o rival" no lugar.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen escura lanc" data-status="inversa">
+        <div class="lanc-fundo" aria-hidden="true"><img class="lf-logo" src="../img/logo-simbolo.png" alt=""><img class="lf-masc" src="../img/mascote-desafio.png" alt=""></div>
+        <div class="screen-body">
+          <div class="sh inversa-txt"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Resultado da partida</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="card res">
+            <div class="times" style="width:100%">
+              <div class="lado-t"><span class="capm">TIME BIA</span><div class="avatars"><span class="avatar md">B</span><span class="avatar md">L</span></div></div>
+              <span class="vs">VS</span>
+              <div class="lado-t"><span class="capm">TIME RAFA</span><div class="avatars"><span class="avatar md">R</span><span class="avatar md">V</span></div></div>
+            </div>
+            <p class="t1 num">2 x 1</p>
+            <p class="cap muted">Jogos: 18-15, 14-18, 18-16</p>
+            <div class="venc"><i data-lucide="trophy"></i><p class="t3">Vencedores</p><p class="b2 muted">Bia + Lara</p></div>
+          </div>
+          <div class="mnote" style="margin-bottom:0"><img src="../img/mascote-desafio.png" alt=""><div class="bolha">“Quero ver manter essa marra dentro da quadra.” — e a provocação foi sustentada!</div></div>
+          <div class="stk-soma">
+            <div class="ln"><span class="b2">Partida</span><span class="b2m verde">+3 pts</span></div>
+            <div class="ln"><span class="b2">Aposta contra o Time Rafa</span><span class="b2m verde">+10 pts</span></div>
+            <div class="ln total"><span class="b2m">Total</span><span class="t2 verde">+13 pts</span></div>
+          </div>
+          <button class="btn sec"><i data-lucide="trophy"></i>Ver resultado no ranking</button>
+          <div><p class="sec-t inversa-txt">Histórico do confronto</p>
+            <div class="card h2h"><div><p class="t2 num">5</p><p class="cap muted">Vitórias Bia</p></div><span class="sep"></span><div><p class="t2 num">2</p><p class="cap muted">Vitórias Rafa</p></div></div></div>
+        </div>
+        <div class="rodape"><button class="btn sec"><i data-lucide="share-2"></i>Compartilhar resultado</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 16b APOSTA CANCELADA / EMPATE -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">16b</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Aposta cancelada ou empatada</b><span>Se o placar foi contestado, ou se deu empate, ninguém ganha nem perde os pontos da aposta. O placar e os pontos da partida continuam valendo.</span></div>
+      </div>
+      <div class="phone"><div class="screen escura lanc" data-status="inversa">
+        <div class="lanc-fundo" aria-hidden="true"><img class="lf-logo" src="../img/logo-simbolo.png" alt=""><img class="lf-masc" src="../img/mascote-desafio.png" alt=""></div>
+        <div class="screen-body">
+          <div class="sh inversa-txt"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Resultado da partida</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="card res">
+            <div class="times" style="width:100%">
+              <div class="lado-t"><span class="capm">TIME BIA</span><div class="avatars"><span class="avatar md">B</span><span class="avatar md">L</span></div></div>
+              <span class="vs">VS</span>
+              <div class="lado-t"><span class="capm">TIME RAFA</span><div class="avatars"><span class="avatar md">R</span><span class="avatar md">V</span></div></div>
+            </div>
+            <p class="t1 num">2 x 1</p>
+            <div class="venc"><i data-lucide="trophy"></i><p class="t3">Vencedores</p><p class="b2 muted">Bia + Lara</p></div>
+          </div>
+          <div class="stk-note neutro"><span class="bub"><i data-lucide="ban"></i></span><div class="tx"><p class="b1m">Aposta cancelada</p><p class="b2 muted">O placar foi contestado. Ninguém ganha nem perde os 10 pts da aposta.</p></div></div>
+          <div class="card pts"><p class="t2 verde">+3 pts</p><p class="cap muted">Pontos ganhos nessa partida</p></div>
+        </div>
+        <div class="rodape"><button class="btn sec"><i data-lucide="share-2"></i>Compartilhar resultado</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 15 DESAFIO ENTRE ARENAS -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">17</div>
+        <div class="passo-txt"><span class="ramo">Entre arenas</span><b>Desafio de arena pelo link</b><span>Abra o link de um desafio entre arenas, escolha por qual arena você joga, a categoria e uma equipe com vaga, e peça para entrar. Você paga a inscrição pelo app depois que o pedido for aprovado.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body g12">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Desafio de arena</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="hero"><div class="times">
+            <div class="lado-t" style="gap:8px"><span class="avatar xl">A</span><span class="b2m" style="color:#fff">Arena Maré Alta</span></div>
+            <span class="vs">VS</span>
+            <div class="lado-t" style="gap:8px"><span class="avatar xl">A</span><span class="b2m" style="color:#fff">Arena Ponta do Sol</span></div>
+          </div></div>
+          <div class="col g4"><p class="t2">BORA ENTRAR NESSE DESAFIO?</p><p class="b2 muted">Escolha por qual arena você joga e peça sua vaga numa equipe.</p></div>
+          <div class="card col g8">
+            <div class="inforow"><i data-lucide="calendar"></i><span class="b2">11/10 · 09:00</span></div>
+            <div class="inforow"><i data-lucide="map-pin"></i><div class="col g4" style="gap:0"><span class="b2">Arena Maré Alta</span><span class="cap muted">Quadras 1 a 3, entrada pela Rua das Gaivotas</span></div></div>
+            <div class="inforow"><i data-lucide="volleyball"></i><span class="b2">Futevôlei</span></div>
+            <div class="inforow"><i data-lucide="ticket"></i><span class="b2">Inscrição: R$ 40,00 por jogador</span></div>
+          </div>
+          <div class="col g8"><p class="sec-t" style="margin:0">Por qual arena você joga?</p>
+            <div class="srow on"><div class="tx"><span class="b1m laranja">Arena Maré Alta</span></div><span class="mk"><i data-lucide="check"></i></span></div>
+            <div class="srow"><div class="tx"><span class="b1m">Arena Ponta do Sol</span></div><span class="mk"></span></div>
+          </div>
+          <div class="col g8"><p class="sec-t" style="margin:0">Categoria</p>
+            <div class="chips"><span class="chip on-laranja">Categoria B · R$ 40,00</span><span class="chip">Categoria C · Gratuito</span></div></div>
+          <div class="col g8"><p class="sec-t" style="margin:0">Equipe</p>
+            <div class="srow on"><div class="tx"><span class="b1m laranja">Maré Cheia</span><span class="b2 muted">1 vaga</span></div><span class="mk"><i data-lucide="check"></i></span></div>
+            <div class="srow"><div class="tx"><span class="b1m">Areia Quente</span><span class="b2 muted">2 vagas</span></div><span class="mk"></span></div>
+            <p class="cap muted">Depois da aprovação, a inscrição é paga pelo app, igual a qualquer torneio.</p>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn">Pedir pra entrar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 15b APROVADO -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">17b</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Aprovado, falta pagar</b><span>Quando o capitão aprova, o card mostra a equipe e o valor, com os botões de pagar e de ver a equipe. Antes da arena desafiada aceitar, ou com o desafio já começado, aparece só o aviso de inscrições fechadas.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body g12">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Desafio de arena</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="hero" style="min-height:160px"><div class="times">
+            <div class="lado-t" style="gap:8px"><span class="avatar xl">A</span><span class="b2m" style="color:#fff">Arena Maré Alta</span></div>
+            <span class="vs">VS</span>
+            <div class="lado-t" style="gap:8px"><span class="avatar xl">A</span><span class="b2m" style="color:#fff">Arena Ponta do Sol</span></div>
+          </div></div>
+          <div class="col g4"><p class="t2">BORA ENTRAR NESSE DESAFIO?</p><p class="b2 muted">Escolha por qual arena você joga e peça sua vaga numa equipe.</p></div>
+          <div class="card col g8">
+            <div class="inforow"><i data-lucide="calendar"></i><span class="b2">11/10 · 09:00</span></div>
+            <div class="inforow"><i data-lucide="map-pin"></i><span class="b2">Arena Maré Alta</span></div>
+            <div class="inforow"><i data-lucide="ticket"></i><span class="b2">Inscrição: R$ 40,00 por jogador</span></div>
+          </div>
+          <div class="card col g8">
+            <p class="b1m">Você está no desafio</p>
+            <p class="b2 muted">Você joga pela Maré Cheia. Falta pagar a inscrição de R$ 40,00 pra garantir a vaga.</p>
+            <button class="btn">Pagar R$ 40,00</button>
+            <button class="btn sec">Ver equipe</button>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">18</div>
+        <div class="passo-txt"><b>Pontos que contam</b><span>No resultado, os pontos que você ganhou sobem de zero até o total. O mesmo cartão aparece no desafio de marca. Com aposta paga, entra no lugar o cartão com a soma (passo 16).</span></div>
+      </div>
+      <div class="phone an-phone" data-anima><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><span class="lado"><i data-lucide="arrow-left" class="ic24"></i></span><span class="titulo">Resultado da partida</span><span class="lado"><i data-lucide="x" class="ic24"></i></span></div>
+          <div class="card col g8" style="align-items:center"><div class="row" style="gap:24px"><span class="avatar md">L</span><span class="b2m laranja">VS</span><span class="avatar md">B</span></div><p class="t2 num">15 x 18</p><p class="b2m">Vencedores</p><p class="cap muted">Caio + Bia</p></div>
+          <div class="an-pontos"><span class="n" data-total="3">+0 pts</span><span class="cap muted">Pontos ganhos nessa partida</span></div>
+        </div>
+      </div></div>
+      <button type="button" class="btn contorno inline an-rever"><i data-lucide="rotate-ccw"></i>Rever animação</button>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Quantos desafios posso lançar por semana?</summary><p>Depende do seu plano. Quando você chega ao limite, o app avisa na primeira tela e oferece criar uma partida normal no lugar.</p></details>
+    <details><summary>Posso escrever minha própria provocação?</summary><p>Não. A provocação sai de uma lista de frases prontas, e você também pode seguir sem nenhuma. Quem recebe pode denunciar.</p></details>
+    <details><summary>O que acontece se o rival não responder?</summary><p>O desafio vale até a data proposta. Passou do horário sem ser aceito, ele é cancelado e as opções de aceitar somem.</p></details>
+    <details><summary>Dá pra mudar o desafio depois de lançar?</summary><p>Enquanto ele está pendente, quem desafiou pode mudar o local, data e horário, nível, aposta e observações pelo lápis no cabeçalho. Modalidade e formato não mudam.</p></details>
+    <details><summary>Preciso escolher uma arena?</summary><p>Não. Em "Onde vai ser?" você marca por endereço, que pode ficar em branco, ou por arena. Os dois juntos não dá: escolher a arena apaga o endereço. A arena não precisa aprovar o desafio.</p></details>
+    <details><summary>De onde saem os pontos da aposta?</summary><p>Dos seus pontos por partida na modalidade do desafio (3 por vitória, 1 por jogo), os mesmos das classificações de evento. A aposta não mexe no rating da aba Ranking, e ninguém fica com saldo negativo.</p></details>
+    <details><summary>Quem pode entrar num desafio com aposta?</summary><p>Só quem tem pelo menos o valor apostado na modalidade: o rival na hora de aceitar e cada parceiro na convocação. Aceitar o desafio é aceitar a aposta.</p></details>
+    <details><summary>E se o placar lançado estiver errado?</summary><p>O time que perdeu tem 24h pra contestar. Contestado, a aposta é cancelada, mas o placar e os pontos da partida ficam, e a partida sai do rating. Sem resposta em 24h, vale o placar lançado.</p></details>
+    <details><summary>Preciso de plano pago pra apostar?</summary><p>Não. A aposta vale em qualquer plano, só no desafio entre jogadores. Desafio de marca (corrida, CrossFit, Hyrox) não tem aposta.</p></details>
+    <details><summary>Quem paga no desafio entre arenas?</summary><p>Só quem entra pelo link paga a inscrição, e só depois que o capitão ou a arena aprova o pedido.</p></details>
+  </div>
+</section>
+
+<script>
+  /* "Rever animação" de cada passo novo: tira .play, forca o reflow e devolve.
+     Os pontos contam de 0 ate o total, como o PointsEarnedCard do app. */
+  (function () {
+    function contar(el) {
+      var n = el.querySelector('.n'); if (!n) return;
+      var total = +n.dataset.total, t0 = performance.now();
+      n.classList.remove('bate');
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { n.textContent = '+' + total + ' pts'; return; }
+      (function passo(t) {
+        var p = Math.min((t - t0) / 900, 1);
+        n.textContent = '+' + Math.round(total * (1 - Math.pow(1 - p, 3))) + ' pts';
+        if (p < 1) requestAnimationFrame(passo); else { void n.offsetWidth; n.classList.add('bate'); }
+      })(t0);
+    }
+    function tocar(alvo) {
+      alvo.classList.remove('play'); void alvo.offsetWidth; alvo.classList.add('play');
+      alvo.querySelectorAll('.an-pontos').forEach(contar);
+    }
+    document.querySelectorAll('[data-anima]').forEach(function (alvo) {
+      tocar(alvo);
+      var b = alvo.parentNode.querySelector('.an-rever');
+      if (b) b.addEventListener('click', function () { tocar(alvo); });
+    });
+  })();
+</script>
+<script src="../kit.js"></script>
+</body>
+</html>

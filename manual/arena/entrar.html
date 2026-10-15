@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Entrar e recuperar a senha · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* CSS só desta página, sempre com as variáveis do kit (nunca cor solta) */
+  .input svg { flex: none; }
+  .input span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .marca { width: 22px; height: 22px; flex: none; }
+  .marca.p { width: 19px; height: 19px; }
+
+  /* ScreenHeader: seta à esquerda, X à direita, ícones de 24 */
+  .sh { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; min-height: 48px; }
+  .sh svg { width: 24px; height: 24px; }
+  .sh .vazio { width: 24px; }
+  /* Screen com footer: conteúdo em cima, botão colado embaixo */
+  .tela-footer { display: flex; flex-direction: column; flex: 1; }
+  .tela-footer .miolo { flex: 1; }
+  .tela-footer .rodape { padding-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .intro-tela { display: grid; gap: 4px; padding: 16px 0 24px; }
+  .input .olho { margin-left: auto; }
+  .input .icone-laranja { color: var(--primary); }
+
+  /* welcome */
+  .welcome { flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 0 20px 24px; position: relative; }
+  .welcome .cena { position: absolute; left: 50%; top: 290px; transform: translate(-50%, -50%); width: 316px; height: 316px; border-radius: 50%; background: var(--primary-tint); }
+  .welcome .risco { position: absolute; left: 50%; top: 290px; transform: translate(-50%, -50%); width: 336px; height: 336px; border-radius: 50%; border: 3px solid transparent; border-bottom-color: var(--primary); border-right-color: var(--primary); transform: translate(-50%, -50%) rotate(-10deg); }
+  .welcome .marca-topo { position: relative; display: flex; flex-direction: column; align-items: center; gap: 16px; padding-top: 24px; }
+  .welcome .marca-topo .logo { width: 180px; height: 55px; object-fit: contain; }
+  .welcome .marca-topo .masc { height: 330px; width: auto; }
+  .welcome .copy { display: grid; gap: 8px; text-align: center; padding-bottom: 24px; position: relative; }
+
+  /* choose-path */
+  .hero-masc { width: 204px; height: 204px; margin: 0 auto; position: relative; }
+  .hero-masc .bola { position: absolute; inset: 13px; border-radius: 50%; background: var(--primary-tint); overflow: hidden; display: flex; align-items: flex-end; justify-content: center; }
+  .hero-masc .bola img { width: 100%; }
+  .hero-masc .aro { position: absolute; inset: 0; border-radius: 50%; border: 3px solid transparent; border-bottom-color: var(--primary); border-right-color: var(--primary); transform: rotate(-10deg); }
+  .sel-row { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .sel-row .ic-quadro { width: 40px; height: 40px; border-radius: 8px; background: var(--primary-wash); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .sel-row .ic-quadro svg { width: 20px; height: 20px; }
+  .titulo-destaque { font: 600 28px/36px var(--font); text-align: center; margin: 0; }
+
+  /* sign-in no aparelho */
+  .login-hero { height: 340px; padding: 16px 20px 0; position: relative; overflow: visible; }
+  .login-hero .circ { position: absolute; right: -70px; top: 30px; width: 300px; height: 300px; border-radius: 150px; background: var(--primary-tint); }
+  .login-hero .logo { width: 150px; height: 46px; object-fit: contain; object-position: left; position: relative; }
+  .login-hero .masc { position: absolute; right: -8px; top: 20px; width: 230px; height: 291px; object-fit: contain; }
+  .login-hero .t1 { margin-top: 32px; position: relative; }
+  .login-hero .b1 { margin-top: 12px; position: relative; max-width: 190px; }
+  .login-card { margin: -24px 20px 0; padding: 16px; display: flex; flex-direction: column; gap: 12px; background: var(--surface); border-radius: 20px; box-shadow: var(--shadow-card); position: relative; z-index: 1; }
+  .login-card .esq { align-self: flex-end; }
+  .divisor { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
+  .divisor i { flex: 1; height: 1px; background: var(--border); display: block; }
+  .sociais { display: flex; justify-content: center; gap: 24px; padding: 4px 0; }
+  .sociais span { width: 56px; height: 56px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-card); display: flex; align-items: center; justify-content: center; }
+  .rodape-conta { display: flex; align-items: center; justify-content: center; gap: 4px; padding: 16px 0; border-radius: 12px; background: var(--surface-alt); }
+  .rodape-conta svg { width: 16px; height: 16px; color: var(--primary); }
+
+  /* toast do ToastContext: canto direito, borda na cor do tipo */
+  .toast-app { position: absolute; left: 20px; right: 20px; top: 58px; display: flex; justify-content: flex-end; z-index: 9; }
+  .toast-app > div { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-radius: 14px; border: 1px solid; box-shadow: var(--shadow-card); font: 500 14px/20px var(--font); color: var(--text); }
+  .toast-app .erro { background: var(--danger-soft); border-color: var(--danger); }
+  .toast-app .erro svg { color: var(--danger); width: 20px; height: 20px; }
+  .toast-app .ok { background: var(--success-soft); border-color: var(--success); }
+  .toast-app .ok svg { color: var(--success); width: 20px; height: 20px; }
+
+  /* AccountSwitcherSheet: folha com fundo background, raio 20 */
+  .sheet.trocar { background: var(--background); padding: 20px 20px 32px; gap: 12px; }
+  .sheet.trocar::before { display: none; }
+  .conta { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--surface); border-bottom: 1px solid var(--border); }
+  .conta:last-child { border-bottom: 0; }
+  .conta .avatar { background: var(--primary-tint); font: 500 14px/20px var(--font); width: 48px; height: 48px; }
+  .conta .info { flex: 1; min-width: 0; display: grid; gap: 2px; }
+  .conta .info .cap { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .conta > svg { width: 20px; height: 20px; }
+
+  /* navegador: WebAuthLayout */
+  .auth-web { flex: 1; display: flex; background: var(--background); position: relative; }
+  .auth-painel { width: 600px; flex: none; background: var(--primary); padding: 46px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+  .auth-painel .dagua { position: absolute; left: -190px; bottom: -190px; width: 820px; height: 1000px; object-fit: contain; opacity: .13; }
+  .auth-painel .frase { font: 600 34px/44px var(--font); text-align: center; color: var(--text); margin: 0; position: relative; }
+  .auth-painel .folga { flex: 1; }
+  .auth-painel .masc { align-self: center; width: 370px; height: 556px; object-fit: contain; margin-bottom: -46px; position: relative; }
+  .auth-lado { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 24px 20px; }
+  .auth-col { width: 100%; max-width: 420px; align-self: center; display: flex; flex-direction: column; gap: 16px; }
+  .auth-col .logo { width: 128px; height: 42px; object-fit: contain; object-position: left; }
+  .auth-col .cab { display: grid; gap: 8px; }
+  .auth-col .campo { display: grid; gap: 8px; }
+  .auth-col .links { display: flex; align-items: center; gap: 12px; }
+  .auth-col .links .dir { margin-left: auto; }
+  .btn-social { height: 48px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; gap: 8px; font: 500 16px/24px var(--font); }
+  .voltar { display: flex; align-items: center; gap: 8px; color: var(--text-muted); }
+  .voltar svg { width: 18px; height: 18px; }
+  .browser .toast-app { top: 16px; left: 24px; right: 24px; }
+
+  /* navegador sem .web.tsx: Screen com teto de 1180 e padding 24, rodapé com padding 20 */
+  .screen-web { flex: 1; display: flex; flex-direction: column; }
+  .screen-web .miolo { width: 100%; max-width: 1180px; align-self: center; padding: 16px 24px; flex: 1; }
+  .screen-web .rodape { padding: 12px 20px 16px; }
+  .screen-web .sh { padding: 12px 20px; margin: 0 -20px; }
+
+  /* proposta: verify-otp.web.tsx — código em 6 casas */
+  .otp { display: flex; gap: 10px; }
+  .otp span { width: 56px; height: 64px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface);
+    display: flex; align-items: center; justify-content: center; font: 600 26px/1 var(--font); font-variant-numeric: tabular-nums; color: var(--text); position: relative; }
+  .otp span.foco { border: 2px solid var(--primary); }
+  .otp span.foco::after { content: ""; width: 2px; height: 28px; background: var(--primary); border-radius: 1px; }
+  .otp .traco { width: 12px; border: 0; background: none; color: var(--text-muted); font-weight: 400; }
+  .otp-email { display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; padding: 6px 6px 6px 12px; border-radius: 999px; background: var(--surface-alt); }
+  .otp-email svg { width: 16px; height: 16px; color: var(--text-muted); }
+  .otp-email .troca { font: 500 13px/18px var(--font); color: var(--primary); background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 3px 10px; }
+  .otp-reenvio { display: flex; flex-direction: column; gap: 4px; }
+  .otp-reenvio .linha { display: flex; gap: 6px; align-items: center; }
+  .otp-reenvio svg { width: 16px; height: 16px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="arena" data-fluxo="entrar"></header>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="apple" viewBox="0 0 24 24"><path fill="currentColor" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.040 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.830-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></symbol>
+  <!-- G colorido: é a marca do Google, igual ao components/BrandIcons.tsx -->
+  <symbol id="google" viewBox="0 0 24 24">
+    <path fill="#4285f4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.920 3.28-4.740 3.28-8.090z"/>
+    <path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+    <path fill="#fbbc05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.090V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+    <path fill="#ea4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+  </symbol>
+</svg>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Entrar e recuperar a senha</h1>
+  <p>Você entra na conta da arena com e-mail e senha, ou com Apple ou Google, e cai direto no Painel. Esqueceu a senha? Você recebe um código de 6 dígitos no e-mail e escolhe uma nova.</p>
+  <ul class="regras">
+    <li>No navegador, o painel é só para arenas: a tela de entrar fala com a conta da sua arena, e o link do rodapé leva ao cadastro de arena.</li>
+    <li>No navegador, depois do primeiro login, a tela volta com e-mail e senha preenchidos. “Esquecer este acesso” apaga esses dados.</li>
+    <li>Se você ainda não confirmou o e-mail, não aparece erro: o app leva você direto para a tela do código de confirmação.</li>
+    <li>Trocar de conta só existe no celular, onde ficam as contas salvas no aparelho.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 welcome -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Boas-vindas</b><span>Abra o app e toque em “Começar”.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="welcome">
+          <div class="cena"></div><div class="risco"></div>
+          <div class="marca-topo">
+            <img class="logo" src="../img/logo-completa.png" alt="Desafiaê">
+            <img class="masc" src="../img/mascote-login.png" alt="">
+          </div>
+          <div>
+            <div class="copy">
+              <p class="t2">Seja bem-vindo ao Desafiaê!</p>
+              <p class="b2 muted">O app que conecta jogadores, organiza partidas e impulsiona sua evolução.</p>
+            </div>
+            <button class="btn">Começar</button>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 choose-path -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Como você quer continuar?</b><span>Se a arena já tem cadastro, toque em “Já tenho uma conta”.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="vazio"></span><i data-lucide="x"></i></div>
+          <div class="hero-masc"><div class="bola"><img src="../img/mascote-comunicacao.png" alt=""></div><div class="aro"></div></div>
+          <div class="col g4" style="padding: 0 0 12px">
+            <p class="titulo-destaque">Como você quer <span class="laranja">continuar?</span></p>
+            <p class="b2 muted" style="text-align:center">Escolha uma opção para acessar o app.</p>
+          </div>
+          <div class="col">
+            <div class="sel-row"><span class="ic-quadro"><i data-lucide="user-plus"></i></span><div class="grow col g4" style="gap:2px"><p class="b1m">Sou novo por aqui</p><p class="b2 muted">Quero criar minha conta no Desafiaê</p></div></div>
+            <div class="sel-row" style="border-color: var(--primary)"><span class="ic-quadro"><i data-lucide="log-in"></i></span><div class="grow col g4" style="gap:2px"><p class="b1m">Já tenho uma conta</p><p class="b2 muted">Fazer login para continuar</p></div></div>
+            <div class="sel-row"><span class="ic-quadro"><i data-lucide="shield-check"></i></span><div class="grow col g4" style="gap:2px"><p class="b1m">Sou moderador de um torneio</p><p class="b2 muted">Uma arena já criou sua conta — entre com o e-mail e a senha que você recebeu</p></div></div>
+          </div>
+          <p class="cap muted" style="text-align:center; padding-top: 8px">Ao continuar, você concorda com os <span class="laranja">Termos de Uso</span> e <span class="laranja">Política de Privacidade</span>.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 sign-in -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Entrar</b><span>Digite o e-mail e a senha da arena, ou use Apple ou Google. Ao entrar, você vai para o Painel.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body sem-pad" style="padding-bottom: 32px">
+          <div class="login-hero">
+            <div class="circ"></div>
+            <img class="logo" src="../img/logo-completa.png" alt="Desafiaê">
+            <img class="masc" src="../img/mascote-login.png" alt="">
+            <p class="t1">Bem-vindo<br><span class="laranja">de volta!</span></p>
+            <p class="b1 muted">Entre para continuar<br><span class="laranja">sua jornada</span> no jogo.</p>
+          </div>
+          <div class="login-card">
+            <div class="input"><i data-lucide="mail" class="icone-laranja"></i><span>contato@arenamarealta.com.br</span></div>
+            <div class="input foco"><i data-lucide="lock" class="icone-laranja"></i><span>••••••••••</span><i data-lucide="eye" class="olho"></i></div>
+            <p class="b2 muted esq">Esqueci <span class="b2m laranja">minha senha</span></p>
+            <button class="btn">Entrar</button>
+            <button class="btn contorno-laranja" style="background:var(--surface)"><i data-lucide="users"></i>Trocar de conta</button>
+            <div class="divisor"><i></i><span class="b2 muted">ou continue com</span><i></i></div>
+            <div class="sociais">
+              <span><svg class="marca"><use href="#apple"/></svg></span>
+              <span><svg class="marca"><use href="#google"/></svg></span>
+            </div>
+            <p class="cap muted" style="text-align:center">Ao continuar com Apple ou Google, você concorda com os <span class="laranja">Termos de Uso</span> e a <span class="laranja">Política de Privacidade</span></p>
+            <div class="rodape-conta"><span class="b2 muted">Não tem uma conta? </span><span class="b2m laranja">Criar conta</span><i data-lucide="chevron-right"></i></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 erro -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Senha errada</b><span>Um aviso aparece no topo e some sozinho. Confira a senha e tente de novo.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="toast-app"><div class="erro"><i data-lucide="circle-alert"></i>E-mail ou senha incorretos.</div></div>
+        <div class="screen-body sem-pad">
+          <div class="login-hero">
+            <div class="circ"></div>
+            <img class="logo" src="../img/logo-completa.png" alt="Desafiaê">
+            <img class="masc" src="../img/mascote-login.png" alt="">
+            <p class="t1">Bem-vindo<br><span class="laranja">de volta!</span></p>
+            <p class="b1 muted">Entre para continuar<br><span class="laranja">sua jornada</span> no jogo.</p>
+          </div>
+          <div class="login-card">
+            <div class="input"><i data-lucide="mail" class="icone-laranja"></i><span>contato@arenamarealta.com.br</span></div>
+            <div class="input foco"><i data-lucide="lock" class="icone-laranja"></i><span>•••••••</span><i data-lucide="eye" class="olho"></i></div>
+            <p class="b2 muted esq">Esqueci <span class="b2m laranja">minha senha</span></p>
+            <button class="btn">Entrar</button>
+            <button class="btn contorno-laranja" style="background:var(--surface)"><i data-lucide="users"></i>Trocar de conta</button>
+            <div class="divisor"><i></i><span class="b2 muted">ou continue com</span><i></i></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 trocar de conta -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Trocar de conta</b><span>Aparece só quando há contas salvas no aparelho. Toque na conta que quer usar; se o acesso dela não valer mais, o app pede a senha de novo.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="login-hero">
+            <div class="circ"></div>
+            <img class="logo" src="../img/logo-completa.png" alt="Desafiaê">
+            <img class="masc" src="../img/mascote-login.png" alt="">
+            <p class="t1">Bem-vindo<br><span class="laranja">de volta!</span></p>
+          </div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="sheet trocar">
+          <div class="row sb"><p class="t3">Trocar de conta</p><i data-lucide="x" class="ic24"></i></div>
+          <div class="card sem-pad">
+            <div class="conta"><span class="avatar">AM</span><div class="info"><p class="b1m">Arena Maré Alta</p><p class="cap muted">contato@arenamarealta.com.br · Arena</p></div><i data-lucide="x" class="muted"></i></div>
+            <div class="conta"><span class="avatar">BM</span><div class="info"><p class="b1m">Bia Moreira</p><p class="cap muted">bia.moreira@email.com · Jogador</p><p class="cap muted">Pede senha pra entrar</p></div><i data-lucide="x" class="muted"></i></div>
+          </div>
+          <button class="btn contorno-laranja" style="background:var(--surface)"><i data-lucide="user-plus"></i>Entrar em outra conta</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 forgot -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Esqueceu a senha?</b><span>Toque em “Esqueci minha senha”, informe o e-mail e peça o código.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body tela-footer">
+          <div class="miolo">
+            <div class="sh"><i data-lucide="arrow-left"></i><i data-lucide="x"></i></div>
+            <div class="intro-tela"><p class="t1">Esqueceu a senha?</p><p class="b2 muted">Informe seu e-mail e enviamos um código de 6 dígitos para você criar uma nova.</p></div>
+            <div class="input foco"><i data-lucide="mail"></i><span>contato@arenamarealta.com.br</span></div>
+          </div>
+          <div class="rodape"><button class="btn">Enviar código</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 otp -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Digite o código</b><span>Digite os 6 dígitos que chegaram no seu e-mail. Se precisar, o reenvio libera depois de 60 segundos.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body tela-footer">
+          <div class="miolo">
+            <div class="sh"><i data-lucide="arrow-left"></i><i data-lucide="x"></i></div>
+            <div class="intro-tela"><p class="t1">Digite o código</p><p class="b2 muted">Enviamos um código de 6 dígitos para contato@arenamarealta.com.br.</p></div>
+            <div class="input foco"><i data-lucide="key-round"></i><span class="num">482913</span></div>
+          </div>
+          <div class="rodape">
+            <button class="btn">Confirmar</button>
+            <p class="b2m muted" style="text-align:center; padding: 8px 0">Reenviar código em 42s</p>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 new password -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Nova senha</b><span>Escolha a senha nova e salve. Você já entra no Painel da arena.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body tela-footer">
+          <div class="miolo">
+            <div class="sh"><span class="vazio"></span></div>
+            <div class="intro-tela"><p class="t1">Nova senha</p><p class="b2 muted">Escolha uma senha com pelo menos 6 caracteres.</p></div>
+            <div class="col">
+              <div class="input"><i data-lucide="lock"></i><span>••••••••</span><i data-lucide="eye" class="olho"></i></div>
+              <div class="input foco"><i data-lucide="lock"></i><span>••••••••</span><i data-lucide="eye" class="olho"></i></div>
+            </div>
+          </div>
+          <div class="rodape"><button class="btn">Salvar senha</button></div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- NAVEGADOR -->
+<section class="trilho-fluxo web" data-plataforma="navegador">
+  <div class="passos">
+
+    <!-- 1 sign-in web -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Entrar no painel</b><span>Digite o e-mail e a senha da arena. Se você já entrou neste navegador, os campos voltam preenchidos.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/sign-in</div></div>
+        <div class="browser-body">
+          <div class="auth-web">
+            <div class="auth-painel">
+              <img class="dagua" src="../img/logo-simbolo.png" alt="">
+              <p class="frase">Conecte. Jogue. Evolua.</p>
+              <div class="folga"></div>
+              <img class="masc" src="../img/mascote-login.png" alt="">
+            </div>
+            <div class="auth-lado">
+              <div class="auth-col">
+                <img class="logo" src="../img/logo-completa.png" alt="Desafiaê">
+                <div class="cab">
+                  <p class="t1">Bem-vindo <span class="laranja">de volta!</span></p>
+                  <p class="b1 muted">Entre com a conta da <span class="laranja">sua arena</span> para continuar.</p>
+                </div>
+                <div class="col">
+                  <div class="campo"><p class="b2m muted">E-mail</p><div class="input"><span>contato@arenamarealta.com.br</span></div></div>
+                  <div class="campo"><p class="b2m muted">Senha</p><div class="input"><span>••••••••••</span><i data-lucide="eye" class="olho"></i></div></div>
+                  <div class="links"><span class="b2m muted">Esquecer este acesso</span><span class="b2m laranja dir">Esqueci minha senha</span></div>
+                </div>
+                <button class="btn">Entrar</button>
+                <div class="divisor"><i></i><span class="b2 muted">ou continue com</span><i></i></div>
+                <div class="col g8">
+                  <div class="btn-social"><svg class="marca p"><use href="#google"/></svg>Entrar com Google</div>
+                  <div class="btn-social"><svg class="marca p"><use href="#apple"/></svg>Entrar com Apple</div>
+                </div>
+                <p class="cap muted" style="text-align:center; margin-top: -8px">Ao continuar com Apple ou Google, você concorda com os <span class="laranja">Termos de Uso</span> e a <span class="laranja">Política de Privacidade</span></p>
+                <p class="b1 muted" style="text-align:center">Ainda não tem arena no Desafiaê? <span class="b1m laranja">Cadastrar minha arena</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 erro web -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Senha errada</b><span>Na primeira visita os campos vêm vazios. Se a senha estiver errada, o aviso aparece no canto de cima e some sozinho.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/sign-in</div></div>
+        <div class="browser-body">
+          <div class="toast-app"><div class="erro"><i data-lucide="circle-alert"></i>E-mail ou senha incorretos.</div></div>
+          <div class="auth-web">
+            <div class="auth-painel">
+              <img class="dagua" src="../img/logo-simbolo.png" alt="">
+              <p class="frase">Conecte. Jogue. Evolua.</p>
+              <div class="folga"></div>
+              <img class="masc" src="../img/mascote-login.png" alt="">
+            </div>
+            <div class="auth-lado">
+              <div class="auth-col">
+                <img class="logo" src="../img/logo-completa.png" alt="Desafiaê">
+                <div class="cab">
+                  <p class="t1">Bem-vindo <span class="laranja">de volta!</span></p>
+                  <p class="b1 muted">Entre com a conta da <span class="laranja">sua arena</span> para continuar.</p>
+                </div>
+                <div class="col">
+                  <div class="campo"><p class="b2m muted">E-mail</p><div class="input"><span>contato@arenamarealta.com.br</span></div></div>
+                  <div class="campo"><p class="b2m muted">Senha</p><div class="input foco"><span>•••••••</span><i data-lucide="eye" class="olho"></i></div></div>
+                  <div class="links"><span class="b2m laranja dir">Esqueci minha senha</span></div>
+                </div>
+                <button class="btn">Entrar</button>
+                <div class="divisor"><i></i><span class="b2 muted">ou continue com</span><i></i></div>
+                <div class="col g8">
+                  <div class="btn-social"><svg class="marca p"><use href="#google"/></svg>Entrar com Google</div>
+                  <div class="btn-social"><svg class="marca p"><use href="#apple"/></svg>Entrar com Apple</div>
+                </div>
+                <p class="cap muted" style="text-align:center; margin-top: -8px">Ao continuar com Apple ou Google, você concorda com os <span class="laranja">Termos de Uso</span> e a <span class="laranja">Política de Privacidade</span></p>
+                <p class="b1 muted" style="text-align:center">Ainda não tem arena no Desafiaê? <span class="b1m laranja">Cadastrar minha arena</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 forgot web -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Esqueceu a senha?</b><span>Informe o e-mail e peça o código. Para desistir, você volta ao login.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/forgot-password</div></div>
+        <div class="browser-body">
+          <div class="auth-web">
+            <div class="auth-painel">
+              <img class="dagua" src="../img/logo-simbolo.png" alt="">
+              <p class="frase">Conecte. Jogue. Evolua.</p>
+              <div class="folga"></div>
+              <img class="masc" src="../img/mascote-login.png" alt="">
+            </div>
+            <div class="auth-lado">
+              <div class="auth-col">
+                <img class="logo" src="../img/logo-completa.png" alt="Desafiaê">
+                <div class="voltar"><i data-lucide="arrow-left"></i><span class="b2m">Voltar para o login</span></div>
+                <div class="cab">
+                  <p class="t1">Esqueceu a senha?</p>
+                  <p class="b1 muted">Informe seu e-mail e enviamos um código de 6 dígitos para você criar uma nova.</p>
+                </div>
+                <div class="campo"><p class="b2m muted">E-mail</p><div class="input foco"><span>contato@arenamarealta.com.br</span></div></div>
+                <button class="btn">Enviar código</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 otp web (proposta) -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Digite o código</b><span>Digite os 6 dígitos ou cole o código do e-mail, que preenche todas as casas. “Trocar” corrige o e-mail e “Voltar” leva ao Esqueceu a senha. Confirmado, você segue para a nova senha.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/verify-otp?type=recovery</div></div>
+        <div class="browser-body">
+          <div class="auth-web">
+            <div class="auth-painel">
+              <img class="dagua" src="../img/logo-simbolo.png" alt="">
+              <p class="frase">Conecte. Jogue. Evolua.</p>
+              <div class="folga"></div>
+              <img class="masc" src="../img/mascote-login.png" alt="">
+            </div>
+            <div class="auth-lado">
+              <div class="auth-col">
+                <img class="logo" src="../img/logo-completa.png" alt="Desafiaê">
+                <div class="voltar"><i data-lucide="arrow-left"></i><span class="b2m">Voltar</span></div>
+                <div class="cab">
+                  <p class="t1">Digite o código</p>
+                  <p class="b1 muted">Enviamos um código de 6 dígitos para criar sua nova senha.</p>
+                </div>
+                <div class="otp-email"><i data-lucide="mail"></i><span class="b2m">contato@arenamarealta.com.br</span><span class="troca">Trocar</span></div>
+                <div class="otp"><span>4</span><span>8</span><span>2</span><span class="traco">–</span><span>9</span><span class="foco"></span><span></span></div>
+                <button class="btn off">Confirmar</button>
+                <div class="otp-reenvio">
+                  <div class="linha"><i data-lucide="rotate-cw"></i><span class="b2 muted">Não chegou? <span class="b2m laranja">Reenviar código</span></span></div>
+                  <p class="cap muted">Confira também a caixa de spam.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 new password web -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Nova senha</b><span>Escolha a senha nova e salve. Você entra direto no painel da arena.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/new-password</div></div>
+        <div class="browser-body coluna">
+          <div class="screen-web">
+            <div class="miolo">
+              <div class="sh"><span class="vazio"></span></div>
+              <div class="intro-tela"><p class="t1">Nova senha</p><p class="b2 muted">Escolha uma senha com pelo menos 6 caracteres.</p></div>
+              <div class="col">
+                <div class="input"><i data-lucide="lock"></i><span>••••••••</span><i data-lucide="eye" class="olho"></i></div>
+                <div class="input foco"><i data-lucide="lock"></i><span>••••••••</span><i data-lucide="eye" class="olho"></i></div>
+              </div>
+            </div>
+            <div class="rodape"><button class="btn">Salvar senha</button></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Não recebi o código. O que faço?</summary><p>Confira se o e-mail digitado está certo e olhe a caixa de spam. Depois de 60 segundos, você pode pedir o reenvio na tela do código.</p></details>
+    <details><summary>Por que meu e-mail e senha aparecem preenchidos no navegador?</summary><p>O painel guarda o acesso depois do primeiro login naquele navegador. Para apagar, toque em “Esquecer este acesso”.</p></details>
+    <details><summary>Posso usar mais de uma conta no mesmo celular?</summary><p>Sim. Com contas salvas no aparelho, aparece a opção de trocar de conta. Se o acesso de uma delas não valer mais, o app pede a senha de novo.</p></details>
+    <details><summary>Criei a conta, mas não confirmei o e-mail. Consigo entrar?</summary><p>Sim. Ao tentar entrar, o app leva você direto para a tela do código de confirmação.</p></details>
+    <details><summary>Como cadastro uma arena nova pelo navegador?</summary><p>Na tela de entrar, toque em “Cadastrar minha arena”, no rodapé.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

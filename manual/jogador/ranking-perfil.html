@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ranking, estatísticas e perfil · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* CSS só desta página, sempre com as variáveis do kit (nunca cor solta) */
+  /* peças do app que o kit não tem igual (ScreenHeader, SegmentedControl, Chip, Button, Avatar, Alert do iOS) */
+  .hdr { padding: 0; min-height: 50px; }
+  .hdr > svg { width: 24px; height: 24px; flex: none; }
+  .hdr .titulo { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hdr .vazio { width: 24px; flex: none; }
+  .corpo { display: flex; flex-direction: column; gap: 12px; }
+  .segx { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .segx > span { flex: 1; text-align: center; padding: 8px 4px; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); white-space: nowrap; }
+  .segx > span.on { background: var(--primary); color: var(--text-inverse); }
+  .chip.on { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+  .btn { font-weight: 500; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.out { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+  .btn.dng { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  .btn.ter { background: transparent; color: var(--primary); height: auto; padding: 10px 0; }
+  .btn.dis { opacity: .5; }
+  .avatar { background: var(--primary); color: var(--text-inverse); font-weight: 500; }
+  .rodape { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 20px 34px; background: var(--background); display: flex; flex-direction: column; gap: 8px; z-index: 3; }
+  .grupo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .grupo .lr { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; font: 400 16px/24px var(--font); }
+  .grupo .lr + .lr { border-top: 1px solid var(--border); margin-left: 16px; padding-left: 0; }
+  .grupo .lr > svg:first-child { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .grupo .lr .rot { flex: 1; min-width: 0; }
+  .grupo .lr .val { font: 500 14px/20px var(--font); color: var(--primary); }
+  .grupo .lr .chev { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .grupo .lr.perigo, .grupo .lr.perigo > svg:first-child { color: var(--danger); }
+  .alerta-veu { position: absolute; inset: 0; background: var(--overlay); z-index: 7; display: flex; align-items: center; justify-content: center; }
+  .alerta { width: 270px; background: var(--surface-alt); border-radius: 14px; text-align: center; overflow: hidden; }
+  .alerta .al-txt { padding: 18px 16px 16px; display: grid; gap: 4px; }
+  .alerta .al-txt b { font: 600 17px/22px var(--font); }
+  .alerta .al-txt span { font: 400 13px/17px var(--font); }
+  .alerta .al-bts { display: flex; border-top: 1px solid var(--border); }
+  .alerta .al-bts > span { flex: 1; padding: 11px 8px; font: 400 17px/22px var(--font); color: var(--info); }
+  .alerta .al-bts > span + span { border-left: 1px solid var(--border); }
+  .alerta .al-bts > span.forte { font-weight: 600; }
+  .alerta .al-bts > span.perigo { color: var(--danger); }
+  .alerta.pilha .al-bts { flex-direction: column; }
+  .alerta.pilha .al-bts > span + span { border-left: 0; border-top: 1px solid var(--border); }
+  .toastx { position: absolute; left: 20px; right: 20px; top: 60px; border-radius: 14px; padding: 12px 14px; display: flex; gap: 10px; align-items: center; z-index: 9; font: 500 14px/20px var(--font); background: var(--success-soft); color: var(--text); border: 1px solid var(--success); box-shadow: var(--shadow-card); }
+  .toastx svg { color: var(--success); }
+  .toastx.erro { background: var(--danger-soft); border-color: var(--danger); }
+  .toastx.erro svg { color: var(--danger); }
+  .toastx svg { width: 20px; height: 20px; flex: none; }
+  .mh { position: relative; width: 90px; height: 90px; flex: none; }
+  .mh::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; border-left-color: var(--primary); border-bottom-color: var(--primary); transform: rotate(20deg); }
+  .mh .c { position: absolute; inset: 7px; border-radius: 50%; background: var(--primary-tint); overflow: hidden; display: flex; align-items: flex-end; justify-content: center; }
+  .mh .c img { width: 88%; }
+  .cat { height: 20px; width: auto; flex: none; }
+
+  /* RankingRow */
+  .rk { display: flex; align-items: center; gap: 12px; padding: 12px; }
+  .rk.eu { background: var(--primary-wash); border-color: var(--primary-tint); }
+  .rk .pos { width: 20px; text-align: center; font: 500 16px/24px var(--font); color: var(--text-muted); }
+  .rk .av-wrap { position: relative; }
+  .rk .medalha { position: absolute; right: -4px; bottom: -4px; width: 22px; height: 22px; border-radius: 11px; border: 2px solid var(--surface); display: flex; align-items: center; justify-content: center; font: 500 12px/16px var(--font); color: var(--text-inverse); }
+  .ouro { background: var(--gold); } .prata { background: var(--silver); } .bronze { background: var(--bronze); }
+  .rk .nome { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .rk .nome .l { display: flex; align-items: center; gap: 3px; }
+  .rk .nome .l img { height: 14px; width: auto; }
+  .rk .pts { display: flex; align-items: center; gap: 4px; font: 500 14px/20px var(--font); }
+  .rk .pts svg { width: 14px; height: 14px; }
+  .elite { width: 18px; height: 18px; border-radius: 999px; background: var(--primary); display: inline-flex; align-items: center; justify-content: center; color: var(--text-inverse); flex: none; }
+  .elite svg { width: 11px; height: 11px; }
+  .elite.p { width: 14px; height: 14px; } .elite.p svg { width: 8px; height: 8px; }
+  .chip img { height: 20px; width: auto; }
+  .faixa { display: flex; gap: 8px; overflow: hidden; }
+  /* StatTile */
+  .tiles { display: flex; gap: 8px; }
+  .tile { flex: 1; padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+  .tile .ico { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+  .tile .ico svg { width: 16px; height: 16px; }
+  .ti-info { background: var(--info-soft); color: var(--info); }
+  .ti-ok { background: var(--success-soft); color: var(--success); }
+  .ti-ouro { background: var(--accent-soft); color: var(--gold); }
+  .ti-laranja { background: var(--primary-wash); color: var(--primary); }
+  .ti-neutro { background: var(--neutral-soft); color: var(--neutral); }
+  .ti-erro { background: var(--danger-soft); color: var(--danger); }
+  /* perfil */
+  .cabeca { display: flex; align-items: center; gap: 12px; padding: 16px 0; }
+  .cabeca .id { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .cabeca .id .row { gap: 4px; }
+  .cabeca .id img { height: 18px; width: auto; }
+  .coroa { position: relative; }
+  .coroa .c { position: absolute; top: -2px; right: -2px; width: 27px; height: 27px; border-radius: 14px; background: var(--gold); display: flex; align-items: center; justify-content: center; color: var(--text-inverse); }
+  .coroa .c svg { width: 16px; height: 16px; fill: currentColor; }
+  .acoes { display: flex; gap: 8px; overflow: hidden; margin-right: -20px; }
+  .acoes .btn { width: auto; flex: none; }
+  .mvp { display: flex; align-items: center; gap: 12px; padding: 12px; }
+  .mvp .m { width: 44px; height: 44px; border-radius: 22px; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; color: var(--gold); }
+  .mvp .m svg { width: 22px; height: 22px; fill: currentColor; }
+  .mvp .ativa { padding: 4px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--gold); font: 500 12px/16px var(--font); }
+  .conq { display: flex; align-items: center; gap: 8px; }
+  .conq .i { width: 36px; height: 36px; border-radius: 18px; background: var(--accent); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; flex: none; }
+  .conq .i.off { background: var(--surface-alt); color: var(--text-muted); }
+  .conq .i svg { width: 18px; height: 18px; }
+  .fav { background: var(--primary-wash); border-color: var(--primary-tint); display: flex; flex-direction: column; gap: 8px; }
+  .fav .star, .star { width: 14px; height: 14px; color: var(--accent); fill: var(--accent); }
+  .prov { display: flex; align-items: center; gap: 4px; }
+  .prov svg { width: 12px; height: 12px; flex: none; }
+  .progress.cinza > i { background: var(--text-muted); }
+  .progress.verde > i { background: var(--success); }
+  .moder { display: flex; gap: 16px; }
+  .moder span { display: flex; align-items: center; gap: 4px; font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .moder svg { width: 14px; height: 14px; }
+  .resultado { width: 28px; height: 28px; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center; font: 500 12px/16px var(--font); }
+  .resultado.v { background: var(--success-soft); color: var(--success); }
+  .resultado.e { background: var(--neutral-soft); color: var(--neutral); }
+  .resultado.d { background: var(--danger-soft); color: var(--danger); }
+  /* RankingPositionCard */
+  .posc { background: var(--primary-wash); display: flex; flex-direction: column; gap: 12px; margin: 8px 0; }
+  .posc .viz { border-top: 1px solid var(--border); padding-top: 12px; display: flex; flex-direction: column; gap: 4px; }
+  .posc .viz .row { gap: 8px; }
+  .posc .viz .r { width: 26px; }
+  .posc .falta { display: flex; align-items: center; gap: 8px; background: var(--primary-wash); border-radius: 8px; padding: 8px; }
+  .posc .falta svg { width: 16px; height: 16px; color: var(--primary); }
+  .subiu { display: flex; align-items: center; gap: 4px; font: 500 12px/16px var(--font); color: var(--success); }
+  .subiu svg { width: 12px; height: 12px; }
+  .acordeao { display: flex; flex-direction: column; gap: 8px; }
+  .acordeao .row svg { width: 20px; height: 20px; }
+  .upsell { background: var(--primary-wash); border-color: var(--primary-tint); display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+  .upsell > svg { width: 24px; height: 24px; color: var(--primary); }
+  .upsell .btn { margin-top: 8px; }
+  /* Stories (StoryCanvas 540x960, reduzido) */
+  .story-wrap { width: 370px; height: 658px; overflow: hidden; border-radius: 16px; box-shadow: var(--shadow-card); }
+  .story { width: 540px; height: 960px; zoom: .685; position: relative; overflow: hidden; background: var(--primary); display: flex; flex-direction: column; justify-content: center; gap: 16px; padding: 0 88px; color: var(--text); }
+  .story .marcas { position: absolute; inset: 0; opacity: .14; }
+  .story .marcas img { position: absolute; }
+  .story .masc { position: absolute; right: -30px; bottom: 40px; width: 230px; height: 345px; object-fit: contain; }
+  .story .cab { display: flex; flex-direction: column; gap: 4px; color: var(--text-inverse); position: relative; }
+  .story .cartao { position: relative; background: var(--primary-soft); border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .story .cartao img.cat { height: 44px; }
+  .story .pe { position: relative; max-width: 220px; display: flex; flex-direction: column; gap: 8px; color: var(--text-inverse); }
+  /* folhas do app (fundo creme, raio 20) */
+  .folha { position: absolute; left: 0; right: 0; bottom: 0; background: var(--background); border-radius: 20px 20px 0 0; padding: 20px 20px 40px; z-index: 8; display: flex; flex-direction: column; gap: 12px; }
+  .opcao { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .opcao img { height: 28px; width: auto; }
+  .opcao .chev { width: 16px; height: 16px; color: var(--text-muted); }
+  /* editar perfil / modalidades */
+  .foto-wrap { position: relative; align-self: center; }
+  .foto-wrap .cam { position: absolute; right: -2px; bottom: -2px; width: 26px; height: 26px; border-radius: 13px; background: var(--primary); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; border: 2px solid var(--background); }
+  .foto-wrap .cam svg { width: 14px; height: 14px; }
+  .selx { display: flex; flex-direction: column; gap: 8px; }
+  .selx .rot { font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .selx .input svg:first-child { color: var(--primary); }
+  .selx .input .grow { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lrow { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; background: var(--surface); font: 400 16px/24px var(--font); }
+  .lrow > svg:first-child { width: 20px; height: 20px; color: var(--text-muted); }
+  .lrow .val { font: 500 14px/20px var(--font); color: var(--primary); }
+  .lrow .chev { width: 20px; height: 20px; color: var(--text-muted); }
+  .modal-card img.cat36 { height: 36px; width: auto; }
+  .icone-acao svg { width: 20px; height: 20px; color: var(--text-muted); }
+
+  /* ---------- ranking competitivo (aba Ranking, tabela, histórico, resultado) ---------- */
+  /* RankEmblem: emblema da divisão com o nível num selo no canto de cima; --s é o lado */
+  .emb { position: relative; flex: none; width: var(--s, 64px); height: var(--s, 64px); }
+  .emb > img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .emb.calib > img { opacity: .4; }
+  .emb .nv { position: absolute; top: calc(var(--s, 64px) * .04); right: calc(var(--s, 64px) * -.03); height: var(--c, 16px); min-width: calc(var(--c, 16px) * 1.3); padding: 0 4px; border-radius: 999px; border: 2px solid var(--surface); background: var(--secondary); color: var(--text-inverse); font-family: var(--font); font-weight: 600; font-size: calc(var(--c, 16px) * .48); line-height: 1; display: flex; align-items: center; justify-content: center; box-sizing: border-box; }
+  .emb.sobre-escuro .nv { border-color: var(--secondary); }
+  .emb.sobre-wash .nv { border-color: var(--primary-wash); }
+  .emb .nv.promo { background: var(--primary); }
+  .inv { color: var(--text-inverse); } .inv-m { color: var(--text-inverse-muted); }
+  .tab { font-variant-numeric: tabular-nums; }
+  .hero-rk { background: var(--secondary); border-radius: 20px; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+  .hero-rk .topo-h { display: flex; align-items: center; gap: 16px; }
+  .hero-rk .txts { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+  .hero-rk .rating { display: flex; align-items: baseline; gap: 4px; }
+  .barra-inv { height: 8px; border-radius: 4px; background: color-mix(in srgb, var(--text-inverse) 14%, transparent); overflow: hidden; }
+  .barra-inv > i { display: block; height: 100%; background: var(--primary); border-radius: 4px; }
+  .nota-prov { display: flex; align-items: center; gap: 8px; padding: 12px; border-radius: 12px; background: var(--primary-translucent); }
+  .nota-prov svg { width: 16px; height: 16px; color: var(--primary); flex: none; }
+  .grade-pos { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .grade-pos .card { display: flex; flex-direction: column; gap: 2px; }
+  .tracejado { border-style: dashed; box-shadow: none; }
+  .numeros { display: flex; padding: 16px 8px; }
+  .numeros > div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .ultima { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .ultima .q { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: var(--success-soft); color: var(--success); flex: none; }
+  .ultima svg { width: 20px; height: 20px; }
+  .ultima > svg:last-child { color: var(--text-muted); }
+  .duas { display: flex; gap: 8px; } .duas .btn { flex: 1; }
+  .nota-info { display: flex; gap: 8px; padding: 12px; border-radius: 12px; background: var(--info-soft); }
+  .nota-info svg { width: 16px; height: 16px; color: var(--info); flex: none; margin-top: 1px; }
+  .chips-rk { display: flex; gap: 8px; overflow: hidden; }
+  /* histórico */
+  .grafico { height: 160px; position: relative; }
+  .grafico svg { width: 100%; height: 160px; display: block; overflow: visible; }
+  .hist-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; }
+  .hist-row + .hist-row { border-top: 1px solid var(--border); }
+  .res-q { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font: 500 12px/16px var(--font); flex: none; }
+  .res-q.v { background: var(--success-soft); color: var(--success); } .res-q.d { background: var(--danger-soft); color: var(--danger); }
+  .hist-row .delta { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+  .zebra { padding: 0 8px; border-radius: 999px; background: var(--accent-soft); color: var(--primary-dark); font: 500 12px/16px var(--font); }
+  .nowrap { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* confirmar placar (StakeNote e StakeDeadline) */
+  .stake { display: flex; align-items: flex-start; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid var(--primary-tint); background: var(--primary-wash); }
+  .stake .bolha { width: 48px; height: 48px; border-radius: 24px; background: var(--primary); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; flex: none; }
+  .stake .bolha svg { width: 20px; height: 20px; }
+  .stake .tx { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .prazo { display: flex; align-items: flex-start; gap: 8px; padding: 12px; border-radius: 12px; background: var(--warning-soft); }
+  .prazo svg { width: 16px; height: 16px; color: var(--warning); flex: none; margin-top: 2px; }
+  .prow-m { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; background: var(--surface); }
+  .prow-m + .prow-m { border-top: 1px solid var(--border); }
+  .prow-m > svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .prow-m .avatar { background: var(--primary); color: var(--text-inverse); }
+  .rodape.dupla { gap: 8px; }
+  .screen-body > * { flex-shrink: 0; }
+  /* resultado no ranking */
+  .hero-res { background: var(--secondary); border-radius: 20px; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; position: relative; overflow: hidden; }
+  .hero-res .marca { position: absolute; left: -70px; top: 40%; width: 200px; opacity: .06; transform: rotate(-14deg); }
+  .hero-res .linha1 { align-self: stretch; display: flex; justify-content: space-between; align-items: center; position: relative; }
+  .pill-zebra { display: flex; align-items: center; gap: 4px; padding: 4px 12px; border-radius: 999px; background: var(--gold); color: var(--text-inverse); font: 500 12px/16px var(--font); }
+  .pill-zebra svg { width: 12px; height: 12px; fill: currentColor; }
+  .pill-delta { display: flex; align-items: baseline; gap: 4px; padding: 8px 16px; border-radius: 12px; border: 1px solid var(--success); background: var(--success-soft); color: var(--success); }
+  .troca { display: flex; align-items: center; gap: 12px; }
+  .troca .de { opacity: .45; }
+  .troca > svg { width: 20px; height: 20px; color: var(--primary); }
+  .pill-cidade { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--text-inverse) 14%, transparent); background: color-mix(in srgb, var(--text-inverse) 8%, transparent); }
+  .pill-cidade svg { width: 16px; height: 16px; color: var(--text-inverse); }
+  .barra-chance { height: 10px; border-radius: 5px; background: var(--secondary); overflow: hidden; }
+  .barra-chance > i { display: block; height: 100%; background: var(--primary); border-radius: 5px; }
+  .jog-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; }
+  .jog-row + .jog-row { border-top: 1px solid var(--border); }
+  .hdr .acao-txt { font: 500 14px/20px var(--font); color: var(--primary); min-width: 24px; text-align: right; }
+  /* compartilhar resultado: prévia do story 540x960 reduzida */
+  .previa { align-self: center; width: 257px; height: 457px; border-radius: 14px; overflow: hidden; background: var(--secondary); flex: none; }
+  .rstory { width: 540px; height: 960px; zoom: .476; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: 16px; padding: 150px 88px; }
+  .rstory .marcas { position: absolute; inset: 0; opacity: .06; }
+  .rstory .marcas img { position: absolute; }
+  .rstory .logo-p { align-self: flex-start; background: var(--surface); border-radius: 999px; padding: 4px 12px; position: relative; }
+  .rstory .logo-p img { width: 122px; height: 40px; object-fit: contain; display: block; }
+  .rstory .cartao { position: relative; background: var(--primary-soft); border-radius: 20px; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .rstory .cartao .pill-delta { padding: 4px 16px; }
+  .rstory .pe-r { display: flex; align-items: center; gap: 12px; align-self: stretch; }
+  .rstory .pos { display: flex; align-items: center; gap: 2px; }
+  .rstory .pos svg { width: 12px; height: 12px; color: var(--success); }
+  .amostras { display: flex; gap: 24px; }
+  .amostras > div { min-width: 64px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .amostras .bola { width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--border); }
+  .amostras .bola.on { border: 3px solid var(--primary); }
+  /* perfil de outro jogador: topo grafite */
+  .phone .screen.escura { background: var(--secondary); }
+  .topo-g { background: var(--secondary); padding: 0 20px 56px; position: relative; overflow: hidden; }
+  .topo-g .hdr { color: var(--text-inverse); }
+  .identidade { display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 8px; }
+  .anel { padding: 4px; border-radius: 999px; background: var(--text-inverse); margin-bottom: 8px; }
+  .avatar.xxl { width: 96px; height: 96px; font-size: 28px; }
+  .pill-div { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 8px 12px 8px 8px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--text-inverse) 14%, transparent); background: color-mix(in srgb, var(--text-inverse) 8%, transparent); }
+  .pill-div > svg { width: 16px; height: 16px; color: var(--text-inverse-muted); }
+  .corpo-g { flex: 1; background: var(--background); border-radius: 20px 20px 0 0; margin-top: -24px; padding: 20px 20px 110px; display: flex; flex-direction: column; gap: 24px; position: relative; }
+  .numeros-g { padding: 16px 0 12px; }
+  .numeros-g .lin { display: flex; }
+  .numeros-g .lin > div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .numeros-g .lin > div + div { border-left: 1px solid var(--border); }
+  .numeros-g .progress { margin: 12px 16px 0; }
+  .mod-card { display: flex; flex-direction: column; gap: 8px; }
+  .mod-card.fav { background: var(--primary-wash); border-color: var(--primary-tint); }
+  .folha-acoes { position: absolute; left: 0; right: 0; bottom: 0; background: var(--background); border-radius: 20px 20px 0 0; padding: 8px 20px 32px; z-index: 8; display: flex; flex-direction: column; }
+  .folha-acoes::before { content: ""; width: 40px; height: 5px; border-radius: 3px; background: var(--border); align-self: center; margin-bottom: 12px; }
+  .folha-acoes .op { display: flex; align-items: center; gap: 12px; padding: 16px 0; font: 400 16px/24px var(--font); }
+  .folha-acoes .op + .op { border-top: 1px solid var(--border); }
+  .folha-acoes .op svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .folha-acoes .op.perigo, .folha-acoes .op.perigo svg { color: var(--danger); }
+  /* card da divisão no Perfil e em Minhas estatísticas */
+  .div-card { display: flex; align-items: center; gap: 12px; }
+  .div-card > svg { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .medalha-c { display: flex; align-items: center; gap: 12px; }
+  .medalha-c > svg { width: 20px; height: 20px; color: var(--gold); flex: none; }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="jogador" data-fluxo="ranking-perfil"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Ranking, estatísticas e perfil</h1>
+  <p>A aba Ranking mostra o seu rating em cada modalidade: um número que mede habilidade, não quantidade de jogos. Ele vira uma divisão (de Bronze a Lenda) e uma posição na cidade, no estado, no Brasil, na sua arena e entre quem já jogou com você. Nesta página também estão o perfil de outro atleta, o seu perfil, as suas estatísticas e o passaporte no Stories.</p>
+  <ul class="regras">
+    <li>O rating é seu, por modalidade e por temporada, nunca da dupla. Em dupla ou time, a força da equipe sai na hora do rating de quem jogou aquele jogo. Todo mundo começa em 1.500.</li>
+    <li>Contam desafio, partida, desafio recorrente e torneio. Partida de marca, cancelada ou contestada fica de fora.</li>
+    <li>Placar lançado por quem venceu espera 24h para o outro lado confirmar ou contestar. Lançado pela arena, pelo moderador ou por quem perdeu, vale na hora. Contestar tira a partida do ranking, mas não muda o placar nem os pontos da partida.</li>
+    <li>Nas 10 primeiras partidas o ranking é provisório: você já vê o seu rating, mas ainda não entra nas tabelas.</li>
+    <li>Divisões: Bronze, Prata, Ouro, Platina, Diamante e Mestre, cada uma com III, II e I, e Lenda no topo.</li>
+    <li>Cada temporada dura um trimestre. Na virada ninguém volta para 1.500: o rating anda metade do caminho até 1.500.</li>
+    <li>A aba Ranking é paga: no Premium você vê o seu ranking (rating, posições e histórico); no Elite, também as tabelas com os outros jogadores. O emblema no perfil e o resultado de cada partida no ranking aparecem para todo mundo.</li>
+    <li>O nível de cada modalidade só aparece com vínculo aprovado de arena. O selo diz se ele foi validado por uma arena ou declarado por você.</li>
+    <li>Quem você bloqueia não acha você, não desafia, não seleciona nem abre o seu perfil.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Aba Ranking</b><span>Abre na sua modalidade favorita; os chips trocam de modalidade. No topo, o emblema da divisão, o rating e quanto falta para a próxima. Embaixo, sua posição na cidade, no estado, no Brasil e na arena, os seus números e a última partida.</span><span class="ramo">Alternativa</span><span>Sem nenhuma partida que conte: "Sem partida ranqueada ainda". Sem arena com vínculo aprovado, o quarto quadro mostra a posição entre quem já jogou com você.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body com-abas" style="gap:16px">
+          <div class="col g4" style="padding:16px 0 0"><p class="t1">Ranking</p><p class="b2 muted">Seu rating por modalidade: mede habilidade, não quantidade de jogos</p></div>
+          <p class="cap muted">Temporada 2026.4 · termina em 31/12</p>
+          <div class="chips-rk"><span class="chip on">Beach tennis</span><span class="chip">Futevôlei</span></div>
+          <div class="hero-rk">
+            <div class="topo-h">
+              <span class="emb sobre-escuro" style="--s:92px;--c:20px"><img src="../img/emblema-ouro.webp" alt="Ouro II"><span class="nv">II</span></span>
+              <div class="txts"><span class="cap inv-m">Beach tennis</span><span class="t2 inv">Ouro II</span><span class="rating"><span class="t1 inv tab">1.484</span><span class="cap inv-m">rating</span></span></div>
+            </div>
+            <div class="col g4"><div class="row sb"><span class="cap inv-m">Ouro II</span><span class="cap inv-m">faltam 50 para Ouro I</span></div><div class="barra-inv"><i style="width:26%"></i></div></div>
+          </div>
+          <div class="grade-pos">
+            <div class="card"><span class="cap muted">Cidade</span><span class="t2 tab">#5</span><span class="cap muted">Florianópolis</span></div>
+            <div class="card"><span class="cap muted">Estado</span><span class="t2 tab">#23</span><span class="cap muted">SC</span></div>
+            <div class="card"><span class="cap muted">Brasil</span><span class="t2 tab">#318</span><span class="cap muted">Nacional</span></div>
+            <div class="card"><span class="cap muted">Arena</span><span class="t2 tab">#2</span><span class="cap muted">Arena Maré Alta</span></div>
+          </div>
+          <div class="card numeros">
+            <div><span class="b1m tab">14</span><span class="cap muted">Partidas</span></div>
+            <div><span class="b1m tab">9</span><span class="cap muted">Vitórias</span></div>
+            <div><span class="b1m tab">5</span><span class="cap muted">Derrotas</span></div>
+            <div><span class="b1m tab">64,3%</span><span class="cap muted">Aproveit.</span></div>
+          </div>
+          <div class="ultima"><span class="q"><i data-lucide="trending-up"></i></span><div class="grow"><p class="b2m">Última partida: +22 pontos</p><p class="cap muted">Vitória</p></div><i data-lucide="chevron-right"></i></div>
+          <div class="duas"><button class="btn">Ver tabela</button><button class="btn sec">Histórico</button></div>
+          <div class="nota-info"><i data-lucide="info"></i><p class="cap">Na próxima temporada você começa em 1.492. O rating se aproxima de 1.500 pela metade da distância — ninguém volta ao zero.</p></div>
+          <div class="card acordeao"><div class="row sb"><div class="row" style="gap:8px"><i data-lucide="list-checks" class="laranja"></i><span class="b1m">Como funciona o ranking</span></div><i data-lucide="chevron-down" class="muted"></i></div></div>
+        </div>
+        <div class="tabbar" data-abas="jogador" data-ativa="ranking"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Ranking provisório</b><span>Nas 10 primeiras partidas na modalidade (somando todas as temporadas), o emblema fica apagado com "?" e o rating ainda muda rápido. Você vê o rating, mas fica fora das tabelas até terminar a calibração.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas" style="gap:16px">
+          <div class="col g4" style="padding:16px 0 0"><p class="t1">Ranking</p><p class="b2 muted">Seu rating por modalidade: mede habilidade, não quantidade de jogos</p></div>
+          <p class="cap muted">Temporada 2026.4 · termina em 31/12</p>
+          <div class="chips-rk"><span class="chip">Beach tennis</span><span class="chip on">Futevôlei</span></div>
+          <div class="hero-rk">
+            <div class="topo-h">
+              <span class="emb calib sobre-escuro" style="--s:92px;--c:20px"><img src="../img/emblema-ouro.webp" alt="Ouro I"><span class="nv">?</span></span>
+              <div class="txts"><span class="cap inv-m">Futevôlei</span><span class="t2 inv">Ranking provisório</span><span class="rating"><span class="t1 inv tab">1.548</span><span class="cap inv-m">rating</span></span></div>
+            </div>
+            <div class="nota-prov"><i data-lucide="clock"></i><div class="grow"><p class="capm inv">Ranking provisório</p><p class="cap inv-m">6 de 10 partidas de calibração · o rating ainda muda rápido</p></div></div>
+          </div>
+          <div class="card tracejado"><p class="b2 muted">Sua posição na cidade, no estado e no Brasil aparece quando a calibração terminar. Até lá o rating já conta, mas você não entra nas tabelas.</p></div>
+          <div class="card numeros">
+            <div><span class="b1m tab">6</span><span class="cap muted">Partidas</span></div>
+            <div><span class="b1m tab">4</span><span class="cap muted">Vitórias</span></div>
+            <div><span class="b1m tab">2</span><span class="cap muted">Derrotas</span></div>
+            <div><span class="b1m tab">66,7%</span><span class="cap muted">Aproveit.</span></div>
+          </div>
+        </div>
+        <div class="tabbar" data-abas="jogador" data-ativa="ranking"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Aba Ranking no Básico</b><span class="ramo">Alternativa</span><span>Sem plano pago, a aba mostra só o convite; "Ver planos" leva para Minha assinatura. A aba abre a partir do Premium. Mesmo assim, o seu emblema aparece no perfil e o resultado de cada partida no ranking continua aberto.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas">
+          <div class="col g4" style="padding:16px 0 0"><p class="t1">Ranking</p><p class="b2 muted">Seu rating por modalidade: mede habilidade, não quantidade de jogos</p></div>
+          <div class="card upsell">
+            <i data-lucide="lock"></i>
+            <p class="b1m">Ranking competitivo a partir do Premium</p>
+            <p class="b2 muted">Rating por modalidade que mede habilidade: zebra vale mais, divisões de Bronze a Lenda e sua posição na cidade, no estado e no Brasil.</p>
+            <button class="btn out">Ver planos</button>
+          </div>
+        </div>
+        <div class="tabbar" data-abas="jogador" data-ativa="ranking"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Tabela</b><span>"Ver tabela" abre a classificação da modalidade na temporada. Escolha o recorte: Cidade, Estado, Brasil, Arena (quem tem vínculo aprovado na sua arena) ou Quem já jogou com você. Sua linha aparece destacada; toque em alguém para abrir o perfil.</span><span class="ramo">Alternativa</span><span>Se você não está entre os primeiros, sua linha aparece no fim com quanto falta para a posição de cima. Recorte sem ninguém: "Ninguém nesta tabela ainda".</span><span class="ramo">Alternativa</span><span>As tabelas são do Elite. No Premium, "Ver tabela" mostra o convite "As tabelas do ranking são do Elite"; o seu card, as posições e o histórico continuam abertos.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:16px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Beach tennis</span><i data-lucide="x"></i></div>
+          <div class="chips-rk"><span class="chip on">Cidade</span><span class="chip">Estado</span><span class="chip">Brasil</span><span class="chip">Arena</span><span class="chip">Quem já jogou</span></div>
+          <div class="col g8">
+            <p class="cap muted">Temporada 2026.4 · 34 jogadores ranqueados</p>
+            <div class="card rk"><div class="av-wrap"><span class="avatar">C</span><span class="medalha ouro">1</span></div><div class="nome"><span class="b1m">Caio Nunes</span><span class="cap muted">Platina II</span></div><span class="pts"><i data-lucide="trophy" style="color:var(--gold)"></i>1.684</span></div>
+            <div class="card rk"><div class="av-wrap"><span class="avatar">D</span><span class="medalha prata">2</span></div><div class="nome"><span class="b1m">Duda Martins</span><span class="cap muted">Platina III</span></div><span class="pts"><i data-lucide="trophy" style="color:var(--silver)"></i>1.641</span></div>
+            <div class="card rk"><div class="av-wrap"><span class="avatar">N</span><span class="medalha bronze">3</span></div><div class="nome"><span class="b1m">Nanda Ribeiro</span><span class="cap muted">Platina III</span></div><span class="pts"><i data-lucide="trophy" style="color:var(--bronze)"></i>1.602</span></div>
+            <div class="card rk"><span class="pos">4</span><span class="avatar md">P</span><div class="nome"><span class="b1">Pedro Salles</span><span class="cap muted">Ouro I</span></div><span class="pts muted">1.577</span></div>
+            <div class="card rk eu"><span class="pos">5</span><span class="avatar md">B</span><div class="nome"><span class="b1">Você</span><span class="cap laranja">Você</span><span class="cap muted">Ouro II</span></div><span class="pts muted">1.484</span></div>
+            <div class="card rk"><span class="pos">6</span><span class="avatar md">J</span><div class="nome"><span class="b1">Ju Teixeira</span><span class="cap muted">Ouro II</span></div><span class="pts muted">1.471</span></div>
+            <p class="cap muted">Quem ainda está no ranking provisório (menos de 10 partidas) não aparece na tabela.</p>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Histórico</b><span>A linha mostra como o seu rating andou na temporada, de onde começou até agora. Embaixo, as últimas partidas com quem você enfrentou, o parceiro, a chance de vitória antes do jogo e quanto ganhou ou perdeu. Vitória com chance abaixo de 40% leva o selo "Zebra".</span><span class="ramo">Alternativa</span><span>Toque numa partida para ver o resultado dela no ranking. Sem partida na temporada: "Sem partida nesta temporada".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:12px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Histórico · Beach tennis</span><i data-lucide="x"></i></div>
+          <div class="card col g12">
+            <div class="row sb" style="align-items:flex-end"><div><p class="cap muted">Na temporada 2026.4</p><p class="t2 verde">+30</p></div><div style="text-align:right"><p class="cap muted">Começou em</p><p class="b2m">1.454</p></div></div>
+            <div class="grafico"><svg viewBox="0 0 300 160" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="159" x2="300" y2="159" style="stroke:var(--border)" stroke-width="1"/><polyline points="4,101.3 62.4,72.9 120.8,97.2 179.2,119.5 237.6,85.1 296,40.5" fill="none" style="stroke:var(--primary)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg></div>
+          </div>
+          <p class="b2m">Últimas partidas</p>
+          <div class="card sem-pad">
+            <div class="hist-row"><span class="res-q v">V</span><div class="grow"><p class="b2m nowrap">Caio Nunes e Duda Martins</p><p class="cap muted nowrap">com Carol Prado · 03/10 · chance 38%</p></div><div class="delta"><span class="b1m verde">+22</span><span class="zebra">Zebra</span></div></div>
+            <div class="hist-row"><span class="res-q v">V</span><div class="grow"><p class="b2m nowrap">Lara Mendes e Tati Freitas</p><p class="cap muted nowrap">com Carol Prado · 30/09 · chance 52%</p></div><div class="delta"><span class="b1m verde">+17</span></div></div>
+            <div class="hist-row"><span class="res-q d">D</span><div class="grow"><p class="b2m nowrap">Pedro Salles e Ju Teixeira</p><p class="cap muted nowrap">com Carol Prado · 26/09 · chance 61%</p></div><div class="delta"><span class="b1m vermelho">−11</span></div></div>
+            <div class="hist-row"><span class="res-q d">D</span><div class="grow"><p class="b2m nowrap">Nanda Ribeiro e Rafa Lima</p><p class="cap muted nowrap">com Lara Mendes · 22/09 · chance 44%</p></div><div class="delta"><span class="b1m vermelho">−12</span></div></div>
+            <div class="hist-row"><span class="res-q v">V</span><div class="grow"><p class="b2m nowrap">Tati Freitas e Ju Teixeira</p><p class="cap muted nowrap">com Carol Prado · 18/09 · chance 58%</p></div><div class="delta"><span class="b1m verde">+14</span></div></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Confirmar ou contestar o placar</b><span>Quando o time que venceu lança o placar, você recebe o aviso "Confirma o placar?". Na partida, confirme para valer na hora ou conteste se o placar não bate com o que aconteceu na quadra. Sem resposta em 24h, vale o placar lançado.</span><span class="ramo">Alternativa</span><span>Quem lançou vê "Placar aguardando confirmação" até o prazo. Contestada, a partida mostra "Placar contestado" e não conta para o ranking; placar e pontos da partida ficam como estão. Depois de valer: "Ver resultado no ranking". No desafio com aposta de pontos, a pergunta é a da aposta, uma só.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body" style="gap:12px;padding-bottom:150px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Detalhes da partida</span><i data-lucide="x"></i></div>
+          <div class="row sb"><p class="t2">Beach tennis</p><span class="tag neutro">Concluída</span></div>
+          <div class="row" style="gap:0"><span class="b2 muted">06/10 · 19:00 · </span><span class="b2m laranja">Arena Maré Alta</span></div>
+          <div class="sec-hdr"><span class="t3">Participantes (4)</span></div>
+          <div class="card sem-pad">
+            <div class="prow-m"><span class="avatar sm">P</span><span class="b1 grow">Pedro Salles</span><span class="b2m muted">4 pts</span><i data-lucide="chevron-right"></i></div>
+            <div class="prow-m"><span class="avatar sm">J</span><span class="b1 grow">Ju Teixeira</span><span class="b2m muted">4 pts</span><i data-lucide="chevron-right"></i></div>
+            <div class="prow-m"><span class="avatar sm">B</span><span class="b1 grow">Bia Moreira</span><span class="b2m muted">1 pt</span><i data-lucide="chevron-right"></i></div>
+            <div class="prow-m"><span class="avatar sm">C</span><span class="b1 grow">Carol Prado</span><span class="b2m muted">1 pt</span><i data-lucide="chevron-right"></i></div>
+          </div>
+          <p class="b2 muted">Este jogo já foi encerrado — só é possível visualizar.</p>
+          <div class="stake"><span class="bolha"><i data-lucide="trophy"></i></span><div class="tx"><p class="b1m">Confirma o placar?</p><p class="b2 muted">Esse resultado vale pro ranking. Se não bate com o que aconteceu na quadra, conteste — partida contestada não conta.</p></div></div>
+          <div class="prazo"><i data-lucide="hourglass"></i><p class="b2 grow">Sem resposta até 07/10 às 21:30, vale o placar lançado.</p></div>
+        </div>
+        <div class="rodape dupla"><button class="btn">Confirmar placar</button><button class="btn dng">Contestar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Resultado no ranking</b><span>Abre pela última partida da aba, pelo histórico ou por "Ver resultado no ranking" na partida. O rating conta do valor antigo ao novo e o emblema troca quando você sobe ou cai de divisão. Embaixo, a sua chance antes do jogo, quanto cada um ganhou ou perdeu e o porquê. "Rever" repete a animação.</span><span class="ramo">Alternativa</span><span>Qualquer jogador abre esta tela, mesmo sem plano pago; quem não jogou vê só a lista e a explicação. Antes de valer, aparece o andamento do placar (aguardando, contestado ou fora do ranking).</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body" style="gap:12px;padding-bottom:110px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Resultado no ranking</span><span class="acao-txt">Rever</span></div>
+          <p class="cap muted">Beach tennis · partida ranqueada</p>
+          <div class="hero-res">
+            <img class="marca" src="../img/logo-simbolo.png" alt="">
+            <div class="linha1"><span class="capm inv-m">Seu rating</span><span class="pill-zebra"><i data-lucide="zap"></i>Zebra</span></div>
+            <div class="pill-delta"><span class="t2 tab">+22</span><span class="b2m">pts de rating</span></div>
+            <p class="b2 inv-m tab">1.462 → <span class="b2m inv">1.484</span></p>
+            <div class="troca"><span class="emb de sobre-escuro" style="--s:64px;--c:16px"><img src="../img/emblema-ouro.webp" alt="Ouro III"><span class="nv">III</span></span><i data-lucide="arrow-right"></i><span class="emb sobre-escuro" style="--s:120px;--c:26px"><img src="../img/emblema-ouro.webp" alt="Ouro II"><span class="nv promo">II</span></span></div>
+            <p class="t3 inv" style="text-align:center">Subiu para <span class="laranja">Ouro II</span></p>
+            <div class="pill-cidade"><i data-lucide="map-pin"></i><span class="cap inv">#5 na sua cidade</span></div>
+          </div>
+          <div class="card col g8"><div class="row sb"><span class="cap muted">Sua chance de vitória antes do jogo</span><span class="capm">38%</span></div><div class="barra-chance"><i style="width:38%"></i></div></div>
+          <div class="card sem-pad">
+            <div class="jog-row"><div class="grow"><p class="b2m">Você</p><p class="cap muted">1462 → 1484 · confiança alta</p></div><span class="b1m verde">+22</span></div>
+            <div class="jog-row"><div class="grow"><p class="b2m">Carol Prado</p><p class="cap muted">1430 → 1451 · confiança média</p></div><span class="b1m verde">+21</span></div>
+            <div class="jog-row"><div class="grow"><p class="b2m">Caio Nunes</p><p class="cap muted">1700 → 1684 · confiança alta</p></div><span class="b1m vermelho">−16</span></div>
+            <div class="jog-row"><div class="grow"><p class="b2m">Duda Martins</p><p class="cap muted">1655 → 1641 · confiança alta</p></div><span class="b1m vermelho">−14</span></div>
+          </div>
+          <p class="cap muted">O sistema dava 38% de chance pra vocês. Ganhar quando ninguém esperava vale mais.</p>
+        </div>
+        <div class="rodape"><button class="btn"><i data-lucide="share-2"></i>Compartilhar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Compartilhar o resultado</b><span>"Compartilhar" monta a imagem do Stories com a divisão, quanto o rating mudou, com quem e contra quem você jogou e a sua posição na cidade. Escolha o fundo (grafite, laranja ou o tom da divisão) e toque em "Compartilhar" para abrir o Instagram ou o compartilhar do celular.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:12px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Compartilhar</span><i data-lucide="x"></i></div>
+          <div class="previa"><div class="rstory">
+            <div class="marcas">
+              <img src="../img/logo-simbolo.png" alt="" style="left:-40px;top:-20px;width:200px;transform:rotate(-14deg)">
+              <img src="../img/logo-simbolo.png" alt="" style="left:380px;top:-30px;width:180px;transform:rotate(-6deg)">
+              <img src="../img/logo-simbolo.png" alt="" style="left:-60px;top:330px;width:170px;transform:rotate(8deg)">
+              <img src="../img/logo-simbolo.png" alt="" style="left:420px;top:420px;width:190px;transform:rotate(-18deg)">
+              <img src="../img/logo-simbolo.png" alt="" style="left:-50px;top:740px;width:210px;transform:rotate(12deg)">
+              <img src="../img/logo-simbolo.png" alt="" style="left:360px;top:800px;width:160px;transform:rotate(-8deg)">
+            </div>
+            <div class="logo-p"><img src="../img/logo-completa.png" alt="Desafiaê"></div>
+            <div class="col g4" style="gap:2px;position:relative"><span class="capm inv-m">Beach tennis · Temporada 2026.4</span><span class="t2 inv">Bia Moreira</span></div>
+            <div class="cartao">
+              <span class="emb" style="--s:160px;--c:35px"><img src="../img/emblema-ouro.webp" alt="Ouro II"><span class="nv promo">II</span></span>
+              <span class="t2">Ouro II</span>
+              <div class="pill-delta"><span class="t2">+22</span><span class="b2m">pts de rating</span></div>
+              <span class="cap muted">1.462 → 1.484</span>
+              <div class="divider" style="align-self:stretch"></div>
+              <div class="pe-r"><span class="cap grow">Vitória · com Carol · contra Caio e Duda</span><span class="pos"><i data-lucide="arrow-up"></i><span class="capm">5º em Florianópolis</span></span></div>
+            </div>
+            <div class="col g4" style="position:relative"><span class="t1 inv">SUBI PRA <span class="laranja">OURO.</span></span><span class="capm inv-m">Faltam 50 pts pra Ouro I.</span></div>
+          </div></div>
+          <p class="b2m">Fundo</p>
+          <div class="amostras">
+            <div><span class="bola on" style="background:var(--secondary)"></span><span class="capm">Grafite</span></div>
+            <div><span class="bola" style="background:var(--primary)"></span><span class="cap muted">Laranja</span></div>
+            <div><span class="bola" style="background:color-mix(in srgb, var(--gold) 18%, var(--secondary-dark))"></span><span class="cap muted">Ouro</span></div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn"><i data-lucide="share-2"></i>Compartilhar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 9 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">9</div>
+        <div class="passo-txt"><b>Perfil de outro jogador</b><span>Toque numa linha da tabela ou no nome de alguém. No topo, o emblema da modalidade favorita com o rating e a posição na cidade (aberto a todos). Embaixo, os números, o confronto entre vocês, as arenas, as conquistas e cada modalidade com a divisão e quanto falta para a próxima. O rodapé leva para o desafio.</span><span class="ramo">Alternativa</span><span>O placar geral do confronto é aberto. As sequências são a partir do Premium; os últimos confrontos e o resultado por arena e por parceiro são do Elite. O que o seu plano não cobre aparece com cadeado em "Veja o histórico completo". Se nunca se enfrentaram: "Vocês ainda não se enfrentaram". Quem ainda calibra mostra "Ranking provisório" e "6 de 10 partidas de calibração".</span></div>
+      </div>
+      <div class="phone longo"><div class="screen escura" data-status="inversa">
+        <div class="topo-g">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Jogador</span><span class="row" style="gap:12px"><i data-lucide="ellipsis"></i><i data-lucide="x"></i></span></div>
+          <div class="identidade">
+            <span class="anel"><span class="avatar xxl">C</span></span>
+            <p class="t2 inv">Caio Nunes</p>
+            <div class="row" style="gap:4px"><img src="../img/categoria-a.png" alt="" style="height:20px"><span class="b2 inv-m">Beach tennis</span></div>
+            <div class="pill-div"><span class="emb sobre-escuro" style="--s:40px;--c:16px"><img src="../img/emblema-platina.webp" alt="Platina II"><span class="nv">II</span></span><div><p class="capm inv">Platina II · 1.684</p><p class="cap inv-m">#1 em Florianópolis · entre 34 atletas</p></div><i data-lucide="chevron-right"></i></div>
+          </div>
+        </div>
+        <div class="corpo-g">
+          <div class="card sem-pad numeros-g">
+            <div class="lin"><div><span class="t2 tab">48</span><span class="cap muted">Partidas</span></div><div><span class="t2 tab">33</span><span class="cap muted">Vitórias</span></div><div><span class="t2 tab verde">69%</span><span class="cap muted">Desempenho</span></div></div>
+            <div class="progress verde"><i style="width:69%"></i></div>
+          </div>
+          <div class="col">
+            <p class="t3">Você x Caio Nunes</p>
+            <div class="tiles">
+              <div class="card tile"><span class="ico ti-ok"><i data-lucide="trophy"></i></span><span class="cap muted">Vitórias</span><span class="t2">2</span></div>
+              <div class="card tile"><span class="ico ti-neutro"><i data-lucide="minus"></i></span><span class="cap muted">Empates</span><span class="t2">0</span></div>
+              <div class="card tile"><span class="ico ti-erro"><i data-lucide="x"></i></span><span class="cap muted">Derrotas</span><span class="t2">3</span></div>
+            </div>
+            <div class="card row top"><div class="grow col g4" style="gap:2px"><span class="cap muted">Sequência atual</span><span class="b2m">1 vitória seguida</span></div><div class="grow col g4" style="gap:2px"><span class="cap muted">Sua maior sequência</span><span class="b2m">2 vitórias seguidas</span></div></div>
+          </div>
+          <div class="col">
+            <p class="t3">Modalidades</p>
+            <div class="card mod-card fav">
+              <div class="row" style="gap:8px"><span class="emb sobre-wash" style="--s:48px;--c:16px"><img src="../img/emblema-platina.webp" alt="Platina II"><span class="nv">II</span></span><div class="grow"><div class="row" style="gap:4px"><p class="b2m">Beach tennis</p><i data-lucide="star" class="star"></i></div><p class="cap muted">Platina II · Categoria A</p></div></div>
+              <div class="prov"><i data-lucide="badge-check" class="verde"></i><span class="cap">Validado por Arena Maré Alta · 02/08</span></div>
+              <div class="col g4"><div class="progress"><i style="width:26%"></i></div><span class="cap muted">faltam 50 para Platina I</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn"><i data-lucide="zap"></i>Desafiar Caio</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 10 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">10</div>
+        <div class="passo-txt"><b>Denunciar ou bloquear</b><span>No perfil de outro jogador, o botão de três pontos no topo abre as opções. "Bloquear" age na hora, sem confirmação: aparece o aviso "Jogador bloqueado — ele some das suas buscas e desafios." e a opção vira "Desbloquear". "Denunciar" abre a lista de motivos.</span><span class="ramo">Alternativa</span><span>Quem foi bloqueado, ao tentar abrir o seu perfil, vê "Jogador não encontrado".</span></div>
+      </div>
+      <div class="phone"><div class="screen escura" data-status="inversa">
+        <div class="topo-g">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Jogador</span><span class="row" style="gap:12px"><i data-lucide="ellipsis"></i><i data-lucide="x"></i></span></div>
+          <div class="identidade">
+            <span class="anel"><span class="avatar xxl">C</span></span>
+            <p class="t2 inv">Caio Nunes</p>
+            <div class="row" style="gap:4px"><img src="../img/categoria-a.png" alt="" style="height:20px"><span class="b2 inv-m">Beach tennis</span></div>
+          </div>
+        </div>
+        <div class="corpo-g"></div>
+        <div class="sheet-veu"></div>
+        <div class="folha-acoes">
+          <div class="op"><i data-lucide="flag"></i>Denunciar</div>
+          <div class="op perigo"><i data-lucide="user-x"></i>Bloquear</div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 11 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">11</div>
+        <div class="passo-txt"><b>Aba Perfil</b><span>Seu perfil: disponível para jogos, atalhos (Editar perfil, Meus tickets, Estatísticas), números e o card da sua divisão na modalidade favorita, que leva para a aba Ranking. Depois vêm craque do jogo, conquistas e modalidades com a divisão e a origem do nível. A engrenagem abre as Configurações.</span><span class="ramo">Alternativa</span><span>Modalidade sem vínculo: "Vincular arena". Também aparece o vínculo pendente ou recusado e, se você ainda não pediu, "Pedir avaliação de nível". Sem partida ranqueada na modalidade: "Ainda sem divisão".</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body com-abas" style="gap:0">
+          <div class="cabeca"><div class="coroa"><span class="avatar xl">B</span><span class="c"><i data-lucide="crown"></i></span></div><div class="id"><p class="t3">Bia Moreira</p><div class="row"><img src="../img/categoria-b.png" alt=""><span class="b2 muted">Beach tennis</span></div></div><i data-lucide="settings" class="ic24 muted"></i></div>
+          <div class="card row" style="margin-bottom:16px"><div class="grow col g4" style="gap:2px"><p class="b1m">Disponível pra jogos</p><p class="cap muted">Outros jogadores perto de você veem que você tá disponível.</p></div><span class="toggle on"></span></div>
+          <div class="acoes" style="margin-bottom:16px"><button class="btn out">Editar perfil</button><button class="btn out"><i data-lucide="ticket"></i>Meus tickets</button><button class="btn out"><i data-lucide="bar-chart-3"></i>Estatísticas</button></div>
+          <div class="tiles" style="margin-bottom:16px">
+            <div class="card tile"><span class="ico ti-info"><i data-lucide="calendar"></i></span><span class="cap muted">Partidas</span><span class="t2">37</span></div>
+            <div class="card tile"><span class="ico ti-ouro"><i data-lucide="trophy"></i></span><span class="cap muted">Vitórias</span><span class="t2">22</span></div>
+            <div class="card tile"><span class="ico ti-ok"><i data-lucide="target"></i></span><span class="cap muted">Desempenho</span><span class="t2">59%</span></div>
+          </div>
+          <div class="card div-card" style="margin-bottom:16px"><span class="emb" style="--s:52px;--c:16px"><img src="../img/emblema-ouro.webp" alt="Ouro II"><span class="nv">II</span></span><div class="grow"><p class="b2m">Ouro II · 1.484</p><p class="cap muted">#5 em Florianópolis · entre 34 atletas</p></div><i data-lucide="chevron-right"></i></div>
+          <div class="card mvp"><span class="m"><i data-lucide="crown"></i></span><div class="grow col g4" style="gap:2px"><div class="row" style="gap:4px;align-items:baseline"><span class="t3">4x</span><span class="b1m">Craque do jogo</span></div><span class="cap muted">Eleito pelos jogadores no fim da partida</span></div><span class="ativa">Coroa ativa</span></div>
+          <div style="margin-top:24px">
+            <p class="t3" style="margin-bottom:12px">Conquistas</p>
+            <div class="col g8">
+              <div class="conq"><span class="i"><i data-lucide="award"></i></span><div class="grow"><p class="b2m">Primeira vitória</p><p class="cap muted">Você venceu sua primeira partida no Desafiaê.</p></div><i data-lucide="check" class="verde" style="width:18px;height:18px"></i></div>
+            </div>
+          </div>
+          <div style="margin-top:24px">
+            <div class="sec-hdr" style="margin-bottom:12px"><p class="t3">Modalidades</p><a>Compartilhar passaporte</a></div>
+            <div class="card fav" style="margin-bottom:16px">
+              <div class="row" style="gap:8px"><span class="emb sobre-wash" style="--s:44px;--c:16px"><img src="../img/emblema-ouro.webp" alt="Ouro II"><span class="nv">II</span></span><div><div class="row" style="gap:4px"><p class="b1m">Beach tennis</p><i data-lucide="star" class="star"></i></div><p class="cap muted">Ouro II · Categoria B</p></div></div>
+              <div class="prov"><i data-lucide="badge-check" class="verde"></i><span class="cap">Validado por Arena Maré Alta · 12/09</span></div>
+              <div class="progress"><i style="width:26%"></i></div>
+            </div>
+            <div class="col g4" style="margin-bottom:12px">
+              <div class="row sb"><div class="row" style="gap:4px"><img src="../img/categoria-c.png" alt="" style="height:18px"><span class="cap muted">Futevôlei</span></div><span class="cap muted">Ranking provisório</span></div>
+              <div class="prov"><i data-lucide="user-pen" class="muted"></i><span class="cap muted">Nível declarado por você, sem validação de arena</span></div>
+            </div>
+          </div>
+          <button class="btn sec" style="margin-top:4px"><i data-lucide="share-2"></i>Compartilhar passaporte</button>
+        </div>
+        <div class="tabbar" data-abas="jogador" data-ativa="perfil"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 12 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">12</div>
+        <div class="passo-txt"><b>Compartilhar passaporte</b><span>Uma modalidade por linha. Toque numa para gerar a imagem e abrir o Stories do Instagram (ou o compartilhar do celular).</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas">
+          <div class="cabeca"><span class="avatar xl">B</span><div class="id"><p class="t3">Bia Moreira</p></div></div>
+        </div>
+        <div class="tabbar" data-abas="jogador" data-ativa="perfil"></div>
+        <div class="sheet-veu"></div>
+        <div class="folha">
+          <div class="row"><p class="t3 grow">Compartilhar passaporte</p><i data-lucide="x" class="ic24"></i></div>
+          <p class="b2 muted">Escolha a modalidade: a imagem sai com o nível, quem validou e os números dessa modalidade.</p>
+          <div>
+            <div class="opcao"><img src="../img/categoria-b.png" alt=""><div class="grow col g4"><p class="b1m">Beach tennis</p><p class="cap muted">31 jogos · validado por Arena Maré Alta</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="opcao"><img src="../img/categoria-c.png" alt=""><div class="grow col g4"><p class="b1m">Futevôlei</p><p class="cap muted">6 jogos · nível declarado por você</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 13 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">13</div>
+        <div class="passo-txt"><b>Imagem do passaporte</b><span>O que vai para o Stories: nível, quem validou e os números só daquela modalidade, com a sua posição na cidade quando existe.</span></div>
+      </div>
+      <div class="story-wrap"><div class="story">
+        <div class="marcas">
+          <img src="../img/logo-simbolo.png" alt="" style="left:-40px;top:-20px;width:200px;transform:rotate(-14deg)">
+          <img src="../img/logo-simbolo.png" alt="" style="left:180px;top:40px;width:140px;transform:rotate(10deg)">
+          <img src="../img/logo-simbolo.png" alt="" style="left:380px;top:-30px;width:180px;transform:rotate(-6deg)">
+          <img src="../img/logo-simbolo.png" alt="" style="left:-60px;top:230px;width:170px;transform:rotate(8deg)">
+          <img src="../img/logo-simbolo.png" alt="" style="left:420px;top:300px;width:190px;transform:rotate(-18deg)">
+          <img src="../img/logo-simbolo.png" alt="" style="left:10px;top:470px;width:150px;transform:rotate(-10deg)">
+          <img src="../img/logo-simbolo.png" alt="" style="left:400px;top:560px;width:150px;transform:rotate(14deg)">
+          <img src="../img/logo-simbolo.png" alt="" style="left:-50px;top:680px;width:210px;transform:rotate(12deg)">
+          <img src="../img/logo-simbolo.png" alt="" style="left:200px;top:760px;width:160px;transform:rotate(-8deg)">
+        </div>
+        <img class="masc" src="../img/mascote-beachtennis.png" alt="">
+        <div class="cab"><span class="capm">Passaporte do atleta</span><span class="t2">Bia Moreira</span><span class="cap">Beach tennis · Florianópolis</span></div>
+        <div class="cartao">
+          <div class="row"><img class="cat" src="../img/categoria-b.png" alt=""><div class="grow col g4"><p class="b1m">Intermediário</p><div class="row" style="gap:4px"><i data-lucide="badge-check" class="ic12 verde"></i><span class="cap" style="color:var(--primary-dark)">validado por Arena Maré Alta</span></div></div></div>
+          <div class="divider"></div>
+          <span class="capm" style="color:var(--primary-dark)">Em Beach tennis</span>
+          <div class="row sb"><div><p class="t2">31</p><p class="cap muted">jogos</p></div><div><p class="t2">61%</p><p class="cap muted">vitórias</p></div><div><p class="t2">5º</p><p class="cap muted">Florianópolis</p></div></div>
+        </div>
+        <div class="pe"><span class="t1">ME DESAFIA.</span><span class="capm">Intermediário em Beach tennis. Cadê você?</span></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 14 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">14</div>
+        <div class="passo-txt"><b>Minhas estatísticas</b><span>Toque no atalho "Estatísticas" do perfil (a partir do Premium). Você vê números gerais e, em "Sua posição", a divisão e o rating de cada modalidade com a posição na cidade; o card leva para a aba Ranking. Embaixo vêm as regras do ranking, conquistas, últimos jogos e o desempenho por modalidade.</span><span class="ramo">Alternativa</span><span>Sets, mês a mês, parceiros e arenas são do Elite; no Premium, no lugar deles aparece o convite "Estatísticas completas são do Elite".</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body" style="gap:0">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Minhas estatísticas</span><i data-lucide="x"></i></div>
+          <div class="tiles" style="margin-top:12px">
+            <div class="card tile"><span class="ico ti-info"><i data-lucide="calendar"></i></span><span class="cap muted">Jogos</span><span class="t2">37</span></div>
+            <div class="card tile"><span class="ico ti-ok"><i data-lucide="target"></i></span><span class="cap muted">Desempenho</span><span class="t2">59%</span></div>
+            <div class="card tile"><span class="ico ti-laranja"><i data-lucide="flame"></i></span><span class="cap muted">Maior sequência</span><span class="t2">5</span></div>
+          </div>
+          <div class="col g8" style="margin-top:24px">
+            <p class="t3" style="margin-bottom:4px">Sua posição</p>
+            <div class="chips" style="gap:4px"><span class="chip on">Beach tennis</span><span class="chip">Futevôlei</span></div>
+            <div class="card div-card"><span class="emb" style="--s:56px;--c:16px"><img src="../img/emblema-ouro.webp" alt="Ouro II"><span class="nv">II</span></span><div class="grow"><p class="b2m">Ouro II</p><p class="cap muted">1.484 de rating · #5 na sua cidade</p></div><i data-lucide="chevron-right"></i></div>
+            <div class="card acordeao"><div class="row sb"><div class="row" style="gap:8px"><i data-lucide="list-checks" class="laranja"></i><span class="b1m">Como funciona o ranking</span></div><i data-lucide="chevron-down" class="muted"></i></div></div>
+          </div>
+          <div class="col g8" style="margin-top:24px">
+            <p class="t3">Conquistas</p>
+            <div class="card medalha-c"><i data-lucide="medal"></i><div class="grow"><p class="b2m">Primeira vitória</p><p class="cap muted">Você venceu sua primeira partida no Desafiaê.</p></div></div>
+          </div>
+          <div class="col g8" style="margin-top:24px">
+            <p class="t3">Últimos jogos</p>
+            <div class="chips" style="gap:4px"><span class="resultado v">V</span><span class="resultado v">V</span><span class="resultado d">D</span><span class="resultado v">V</span><span class="resultado e">E</span></div>
+            <p class="b2 muted">Sequência atual: 2 vitórias seguidas</p>
+          </div>
+          <div class="col g8" style="margin-top:24px">
+            <p class="t3">Por modalidade</p>
+            <div class="card col g8"><div class="row sb"><p class="b1m">Beach tennis</p><p class="b2m verde">61%</p></div><div class="progress verde"><i style="width:61%"></i></div><p class="cap muted">31 jogos · 19V 1E 11D</p><p class="cap muted">Sets: 48 ganhos, 35 perdidos</p></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 15 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">15</div>
+        <div class="passo-txt"><b>Estatísticas sem plano</b><span class="ramo">Alternativa</span><span>Sem plano pago, a tela mostra só o convite; "Ver planos" leva para Minha assinatura. O resumo grátis continua no Perfil.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Minhas estatísticas</span><i data-lucide="x"></i></div>
+          <div class="card upsell">
+            <i data-lucide="lock"></i>
+            <p class="b1m">Estatísticas a partir do Premium</p>
+            <p class="b2 muted">Veja seu desempenho por modalidade, suas sequências e os últimos jogos. No Elite, ainda a evolução mês a mês, sets, parceiros e arenas.</p>
+            <button class="btn out">Ver planos</button>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 16 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">16</div>
+        <div class="passo-txt"><b>Editar perfil</b><span>Foto, nome, cidade/UF, data de nascimento, atalho para as modalidades e arena favorita (só preferência). Menor de idade ganha o selo azul.</span><span class="ramo">Alternativa</span><span>Data que não existe ou idade abaixo do mínimo: aviso vermelho embaixo da data.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="padding-bottom:110px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Editar perfil</span><i data-lucide="x"></i></div>
+          <div class="foto-wrap"><span class="avatar xl">B</span><span class="cam"><i data-lucide="camera"></i></span></div>
+          <p class="cap muted" style="text-align:center;margin-top:-8px">Toque para trocar a foto</p>
+          <div class="input">Bia Moreira</div>
+          <div class="row" style="gap:12px"><div class="input grow">Florianópolis</div><div class="input" style="width:80px">SC</div></div>
+          <p class="b2m muted">Data de nascimento</p>
+          <div class="row" style="gap:12px">
+            <div class="selx grow"><span class="rot">Dia</span><div class="input"><span class="grow">14</span><i data-lucide="chevron-down"></i></div></div>
+            <div class="selx grow"><span class="rot">Mês</span><div class="input"><span class="grow">Março</span><i data-lucide="chevron-down"></i></div></div>
+            <div class="selx grow"><span class="rot">Ano</span><div class="input"><span class="grow">1996</span><i data-lucide="chevron-down"></i></div></div>
+          </div>
+          <div class="grupo"><div class="lr"><i data-lucide="volleyball"></i><span class="rot">Modalidades</span><span class="val">Beach tennis</span><i data-lucide="chevron-right" class="chev"></i></div></div>
+          <p class="cap muted" style="margin-top:-8px">Adicione as modalidades que você pratica e marque a favorita — é o nível dela que aparece junto do seu nome.</p>
+          <div class="selx"><span class="rot">Arena favorita</span><div class="input"><i data-lucide="building-2"></i><span class="grow">Arena Maré Alta</span><i data-lucide="chevron-down"></i></div></div>
+        </div>
+        <div class="rodape"><button class="btn">Salvar alterações</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 17 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">17</div>
+        <div class="passo-txt"><b>Minhas modalidades</b><span>Adicione a modalidade com o nível, marque a favorita na estrela, remova (com "Desfazer") e escolha a arena de cada uma; o pedido de vínculo vai quando você salva. Toque no selo para trocar o nível (veja Nível validado).</span><span class="ramo">Alternativa</span><span>Vínculo aguardando ou recusado aparece como etiqueta no card. Se você sair com alteração sem salvar, o app pergunta "Descartar alterações?".</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body" style="padding-bottom:110px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Minhas modalidades</span><i data-lucide="x"></i></div>
+          <p class="b2 muted">Toque na estrela pra marcar a favorita — é o nível dela que aparece junto do seu nome.</p>
+          <div class="card row sb" style="padding:12px 16px"><span class="capm muted">O que significa cada nível</span><i data-lucide="chevron-down" class="ic16 muted"></i></div>
+          <div class="card acordeao"><div class="row sb"><div class="row" style="gap:8px"><i data-lucide="list-checks" class="laranja"></i><span class="b1m">Como funciona o nível validado</span></div><i data-lucide="chevron-down" class="muted"></i></div></div>
+          <div>
+            <p class="t3" style="margin-bottom:12px">Adicionar modalidade</p>
+            <div class="input"><span class="ph grow">Selecione a modalidade</span><i data-lucide="chevron-down"></i></div>
+          </div>
+          <div class="col g8">
+            <div class="card col g8">
+              <div class="row"><img src="../img/categoria-b.png" alt="" style="height:36px"><p class="b1m grow">Beach tennis</p><span class="row icone-acao" style="gap:12px"><i data-lucide="star" style="color:var(--accent);fill:var(--accent)"></i><i data-lucide="trash-2"></i></span></div>
+              <div class="selx"><span class="rot">Arena vinculada</span><div class="input"><span class="grow">Arena Maré Alta</span><i data-lucide="chevron-down"></i></div></div>
+            </div>
+            <div class="card col g8">
+              <div class="row"><img src="../img/categoria-c.png" alt="" style="height:36px"><p class="b1m grow">Futevôlei</p><span class="row icone-acao" style="gap:12px"><i data-lucide="star"></i><i data-lucide="trash-2"></i></span></div>
+              <div class="selx"><span class="rot">Arena vinculada</span><div class="input"><span class="grow">Arena Maré Alta</span><i data-lucide="chevron-down"></i></div></div>
+              <span class="tag sem-ponto aviso">Aguardando aprovação da arena</span>
+            </div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn dis">Salvar alterações</button></div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Por que o rating não é o mesmo que os pontos da partida?</summary><p>Os pontos (3 por vitória, 1 por jogo) continuam no ranking de cada partida, torneio e temporada. O rating da aba Ranking mede habilidade: vencer quem é mais forte vale mais, e perder para quem é mais forte custa pouco.</p></details>
+    <details><summary>Joguei em dupla. O rating é da dupla?</summary><p>Não. O rating é sempre de cada jogador. A força da dupla é calculada na hora com o rating de quem jogou aquele jogo, então trocar de parceiro não atrapalha nada.</p></details>
+    <details><summary>Por que não apareço na tabela?</summary><p>Nas 10 primeiras partidas na modalidade o ranking é provisório: você vê o seu rating, mas fica fora das tabelas. Também é preciso ter jogado na temporada atual.</p></details>
+    <details><summary>Minha partida ainda não mexeu no rating. Por quê?</summary><p>Quando o placar é lançado por quem venceu, o outro lado tem 24h para confirmar ou contestar. O resultado entra quando alguém confirma ou quando o prazo acaba.</p></details>
+    <details><summary>O que acontece quando contesto um placar?</summary><p>A partida deixa de contar para o ranking competitivo. O placar e os pontos da partida não mudam, e quem lançou recebe um aviso.</p></details>
+    <details><summary>O que acontece na virada da temporada?</summary><p>A temporada muda a cada trimestre. Ninguém volta para 1.500: o seu rating anda metade do caminho até 1.500, e a aba mostra antes em quanto você vai começar.</p></details>
+    <details><summary>Ficar sem jogar tira pontos?</summary><p>Não. Só deixa o rating mais solto para se ajustar mais rápido quando você voltar.</p></details>
+    <details><summary>Preciso de plano para ver meu emblema?</summary><p>Não. O emblema aparece no seu perfil e no perfil de quem você visita, e o resultado de cada partida no ranking é aberto. A aba Ranking abre a partir do Premium (seu rating, posições e histórico); as tabelas com os outros jogadores são do Elite.</p></details>
+    <details><summary>O que acontece quando bloqueio alguém?</summary><p>O bloqueio vale na hora. A pessoa não acha você, não desafia, não seleciona nem abre o seu perfil. Para desfazer, toque em "Desbloquear".</p></details>
+    <details><summary>Por que meu nível não aparece numa modalidade?</summary><p>O nível só aparece com vínculo aprovado de arena naquela modalidade. Vincule a arena em Minhas modalidades.</p></details>
+    <details><summary>Como compartilho meu passaporte no Instagram?</summary><p>No Perfil, toque em "Compartilhar passaporte" e escolha a modalidade. A imagem é gerada e o Stories abre em seguida.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

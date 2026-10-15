@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chat da partida · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* ScreenHeader das telas de detalhe (igual a partida.html) */
+  .sh { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; min-height: 48px; flex: none; }
+  .sh .ld { min-width: 24px; display: flex; gap: 12px; align-items: center; justify-content: flex-end; }
+  .sh svg { width: 24px; height: 24px; }
+  .sh .tt { font: 600 18px/26px var(--font); flex: 1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .screen-body.g12 { gap: 12px; }
+  .rodape { flex: none; padding: 12px 20px 34px; display: flex; flex-direction: column; gap: 8px; background: var(--background); }
+  .btn { font-weight: 500; }
+  .btn.contorno { color: var(--text); }
+  .lg { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .lr { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; background: var(--surface); position: relative; }
+  .lr + .lr::before { content: ""; position: absolute; top: 0; left: 16px; right: 0; height: 1px; background: var(--border); }
+  .lr .l { flex: 1; font: 400 16px/24px var(--font); }
+  .lr .v { font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .lr > svg { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .cat { height: 20px; width: auto; flex: none; display: block; }
+  .cat.c28 { height: 28px; }
+  .screen .avatar { background: var(--primary); color: var(--text-inverse); font-weight: 500; }
+
+  /* MatchChatCard: entrada do chat na partida e na categoria */
+  .mcc { display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
+  .mcc .ico { width: 48px; height: 48px; border-radius: 999px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .mcc .ico.tranca { background: var(--surface-alt); color: var(--text-muted); }
+  .mcc .ico svg { width: 20px; height: 20px; }
+  .mcc .tx { flex: 1; min-width: 0; display: grid; }
+  .mcc .tx .cap { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mcc .nl { min-width: 24px; height: 24px; padding: 0 8px; border-radius: 999px; background: var(--primary); color: var(--text-inverse); font: 500 12px/24px var(--font); text-align: center; }
+  .mcc > svg { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .aro-chat { outline: 2px solid var(--primary); outline-offset: 3px; }
+
+  /* tela do chat */
+  .chat-cab { display: flex; align-items: center; gap: 4px; padding: 8px; border-bottom: 1px solid var(--border); background: var(--surface); flex: none; }
+  .chat-cab .bt { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; flex: none; }
+  .chat-cab .bt svg { width: 24px; height: 24px; }
+  .chat-cab .tx { flex: 1; min-width: 0; display: grid; }
+  .chat-cab .tx p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .chat-cab .sino-off { width: 16px; height: 16px; color: var(--text-muted); flex: none; }
+  .fixo { display: flex; align-items: center; gap: 8px; margin: 12px 20px 0; padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; flex: none; }
+  .fixo > svg { width: 20px; height: 20px; color: var(--primary); flex: none; }
+  .fixo .tx { flex: 1; min-width: 0; display: grid; }
+  .fio { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; padding: 12px 20px; }
+  .dia { align-self: center; margin: 12px 0 4px; font: 500 12px/16px var(--font); color: var(--text-muted); }
+  .sis { align-self: center; max-width: 90%; margin: 4px 0; padding: 8px 12px; border-radius: 999px; background: var(--neutral-soft); font: 400 12px/16px var(--font); text-align: center; }
+  .regul { display: flex; flex-direction: column; gap: 4px; margin: 4px 0; padding: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
+  .regul .cab-r { display: flex; align-items: center; gap: 8px; }
+  .regul .cab-r svg { width: 20px; height: 20px; color: var(--primary); }
+  .regul .corte { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .msg { display: flex; align-items: flex-end; gap: 8px; }
+  .msg.ini { margin-top: 8px; }
+  .msg.meu { justify-content: flex-end; }
+  .msg .slot { width: 32px; flex: none; }
+  .msg .col-b { max-width: 78%; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+  .msg.meu .col-b { align-items: flex-end; }
+  .bal { display: flex; flex-direction: column; gap: 4px; padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px 14px 14px 4px; }
+  .msg.meu .bal { background: var(--primary-soft); border-color: var(--primary-soft); border-radius: 14px 14px 4px 14px; }
+  .bal .hora { align-self: flex-end; font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .bal .nome { display: flex; align-items: center; gap: 8px; font: 500 12px/16px var(--font); }
+  .nome.c0 { color: var(--primary-dark); } .nome.c1 { color: var(--info); } .nome.c2 { color: var(--success); } .nome.c3 { color: var(--text); }
+  .etq { padding: 0 8px; border-radius: 999px; font: 400 12px/16px var(--font); }
+  .etq.org { background: var(--secondary); color: var(--text-inverse); }
+  .etq.mod { background: var(--neutral-soft); color: var(--text); }
+  .av-arena { width: 32px; height: 32px; border-radius: 8px; background: var(--secondary); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; font: 500 12px/16px var(--font); }
+  .av-fant { width: 32px; height: 32px; border-radius: 999px; background: var(--neutral-soft); color: var(--text-muted); display: flex; align-items: center; justify-content: center; flex: none; }
+  .av-fant svg { width: 16px; height: 16px; }
+  .bal.fant { background: transparent; border: 1px dashed var(--neutral); max-width: 78%; }
+  .msg.meu .bal.fant { background: transparent; border-color: var(--neutral); }
+  .bal.fant .b2 { font-style: italic; color: var(--text-muted); }
+  .bal.toque { box-shadow: 0 0 0 2px var(--primary-tint); }
+  /* reações (0246): barra ao segurar e contadores embaixo do balão */
+  .rbar { display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-card); }
+  .rbar span { width: 36px; height: 36px; border-radius: 999px; display: flex; align-items: center; justify-content: center; }
+  .rbar span.on { background: var(--primary-soft); }
+  .rbar svg { width: 22px; height: 22px; }
+  .rchips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: -4px; }
+  .rchip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); font: 500 12px/16px var(--font); }
+  .rchip.on { border-color: var(--primary); background: var(--primary-soft); color: var(--primary-dark); }
+  .rchip svg { width: 12px; height: 12px; }
+  .r-like { color: var(--info); } .r-love { color: var(--danger); } .r-haha { color: var(--accent); } .r-fire { color: var(--warning); } .r-clap { color: var(--primary-dark); } .r-wow { color: var(--accent); }
+  /* pé do chat (MatchChatComposer) */
+  .pe { flex: none; display: flex; flex-direction: column; gap: 8px; padding: 8px 20px 34px; background: var(--background); }
+  .rapidas { display: flex; gap: 8px; margin: 0 -20px; padding: 0 20px; overflow: hidden; }
+  .rapidas .chip { flex: none; }
+  .campo { display: flex; align-items: flex-end; gap: 8px; }
+  .campo .in { flex: 1; min-height: 48px; padding: 12px 16px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface-alt); font: 400 14px/20px var(--font); color: var(--text-muted); }
+  .campo .in.cheio { color: var(--text); }
+  .campo .in.erro { border-color: var(--danger); }
+  .campo .env { width: 48px; height: 48px; border-radius: 999px; background: var(--neutral); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; flex: none; }
+  .campo .env.on { background: var(--primary); }
+  .campo .env svg { width: 20px; height: 20px; }
+  .alerta { display: flex; align-items: flex-start; gap: 8px; padding: 12px; border-radius: 12px; background: var(--danger-soft); color: var(--danger); font: 400 12px/16px var(--font); }
+  .alerta svg { width: 16px; height: 16px; flex: none; }
+  .aviso-pe { display: flex; align-items: flex-start; gap: 8px; font: 400 12px/16px var(--font); }
+  .aviso-pe svg { width: 16px; height: 16px; color: var(--text-muted); flex: none; }
+  /* folhas do chat (MatchChatSheets): sobem de baixo, fundo da tela, sem alça */
+  .folha { position: absolute; left: 0; right: 0; bottom: 0; z-index: 8; background: var(--background); border-radius: 20px 20px 0 0; padding: 20px 20px 32px; display: flex; flex-direction: column; gap: 4px; }
+  .folha .fcab { display: flex; align-items: center; gap: 8px; padding-bottom: 4px; }
+  .folha .fcab svg { width: 24px; height: 24px; }
+  .acao { display: flex; align-items: center; gap: 12px; padding: 12px 0; }
+  .acao > svg { width: 24px; height: 24px; flex: none; }
+  .acao.perigo { color: var(--danger); }
+  .acao .tx { flex: 1; display: grid; }
+  .nota-f { margin-top: 8px; padding: 12px; border-radius: 12px; background: var(--surface-alt); font: 400 12px/16px var(--font); }
+  /* ReportSheet */
+  .folha.rep { gap: 16px; padding-bottom: 40px; }
+  .toast-ok { position: absolute; left: 20px; right: 20px; top: 60px; z-index: 9; display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 12px; background: var(--secondary); color: var(--text-inverse); font: 500 14px/20px var(--font); }
+  .toast-ok svg { width: 20px; height: 20px; color: var(--success); flex: none; }
+  /* categoria do torneio (resumo) */
+  .hero-c { min-height: 140px; padding: 16px; border-radius: 14px; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; color: var(--text-inverse); background: linear-gradient(0deg, var(--overlay-strong), var(--overlay-strong)), linear-gradient(160deg, var(--accent) 0%, var(--primary) 60%, var(--primary-dark) 100%); }
+  .pill-esporte { align-self: flex-start; margin-top: 4px; padding: 4px 12px; border-radius: 999px; background: var(--surface); color: var(--primary); font: 500 12px/16px var(--font); }
+  .stats { display: flex; gap: 8px; }
+  .tile { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+  .tile .ic-t { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: var(--primary-translucent); color: var(--primary); margin-bottom: 4px; }
+  .tile .t2 { white-space: nowrap; }
+  .tile .ic-t.ok { background: var(--success-soft); color: var(--success); }
+  .tile .ic-t svg { width: 16px; height: 16px; }
+  .mvp-cat { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--accent-soft); border-radius: 14px; }
+  .mvp-cat svg { width: 20px; height: 20px; color: var(--gold); }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="jogador" data-fluxo="chat"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Chat da partida</h1>
+  <p>Quando você está confirmado numa partida, conversa com o grupo pelo card "Chat da partida". No torneio, a conversa é por categoria e começa com o regulamento. Quem organiza pode apagar mensagens e impedir alguém de escrever, e qualquer pessoa pode denunciar.</p>
+  <ul class="regras">
+    <li>Lê e escreve quem está confirmado: os jogadores da partida, ou os atletas de equipe apta ou confirmada na categoria do torneio, além de quem organiza. Partida de torneio não tem chat próprio: a conversa é a da categoria.</li>
+    <li>Quem organiza modera: na partida de jogador, quem criou; na partida criada pela arena e no desafio recorrente, a arena; no torneio, a arena organizadora (e a desafiada, no desafio entre arenas) e os moderadores do torneio.</li>
+    <li>Só texto, até 500 caracteres, sem palavrões e com no máximo 10 mensagens por minuto por pessoa em cada chat.</li>
+    <li>Uma denúncia já esconde a mensagem para todos até a análise. Mensagem de quem você bloqueou aparece tracejada, sem o texto.</li>
+    <li>Quem foi impedido de escrever continua na partida e lendo o chat, mas não escreve nem reage. Quem organiza não pode ser impedido.</li>
+    <li>Você deixa no máximo uma reação por mensagem, entre seis. Reação não gera notificação.</li>
+    <li>O chat fecha 48h depois do fim: partida concluída ou cancelada (ou, se ninguém concluir, o horário marcado); categoria encerrada ou o último dia do torneio. O histórico continua visível.</li>
+    <li>As notificações vêm agrupadas: no máximo uma a cada 5 minutos por chat. Dá pra silenciar um chat só.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 CARD NA PARTIDA -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">1</div>
+        <div class="passo-txt"><b>Card na partida</b><span>Nos detalhes da partida, você vê a última mensagem e quantas não leu. Toque no card para abrir o chat. O mesmo card aparece no desafio confirmado e no desafio recorrente.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body g12">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Detalhes da partida</span><span class="ld"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="row sb"><p class="t2">Beach Tennis</p><span class="tag sem-ponto info">Confirmada</span></div>
+          <div class="row" style="gap:0"><span class="b2 muted">11/10 · 18:00 · </span><span class="b2m laranja">Arena Maré Alta</span></div>
+          <div class="row" style="gap:4px"><i data-lucide="navigation" class="ic16" style="color:var(--primary)"></i><span class="b2m laranja">Como chegar</span></div>
+          <div class="foto quadra" style="height:150px"></div>
+          <div class="mcc aro-chat">
+            <span class="ico"><i data-lucide="message-circle"></i></span>
+            <div class="tx"><span class="b1m">Chat da partida</span><span class="cap muted">Bia Moreira: Até as 23h, tranquilo. Estacionamento liberado</span></div>
+            <span class="nl">2</span><i data-lucide="chevron-right"></i>
+          </div>
+          <div class="lg">
+            <div class="lr"><i data-lucide="signal"></i><span class="l">Nível</span><img class="cat c28" src="../img/categoria-c.png" alt="C"></div>
+            <div class="lr"><i data-lucide="eye"></i><span class="l">Visibilidade</span><span class="v">Privado</span></div>
+            <div class="lr"><i data-lucide="grid-2x2"></i><span class="l">Formato</span><span class="v">2x2</span></div>
+          </div>
+          <div class="sec-hdr"><span class="t3">Participantes (4)</span></div>
+          <div class="lg">
+            <div class="lr"><span class="avatar sm">B</span><img class="cat" src="../img/categoria-c.png" alt=""><span class="l">Bia Moreira</span><i data-lucide="chevron-right"></i></div>
+            <div class="lr"><span class="avatar sm">R</span><img class="cat" src="../img/categoria-c.png" alt=""><span class="l">Rafa Lima</span><i data-lucide="chevron-right"></i></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 CONVERSA -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">2</div>
+        <div class="passo-txt"><b>Conversa</b><span>No topo ficam a partida e quem está nela; fixado, o local com "Como chegar". Avisos automáticos de quem entrou e saiu aparecem no meio. Embaixo, as respostas rápidas (só no chat de partida) e o campo para escrever.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="chat-cab">
+          <span class="bt"><i data-lucide="arrow-left"></i></span>
+          <div class="tx"><p class="b1m">Beach Tennis · 11/10 · 18:00</p><p class="cap muted">Bia, Rafa, Duda e você</p></div>
+          <span class="bt"><i data-lucide="ellipsis-vertical"></i></span>
+        </div>
+        <div class="fixo"><i data-lucide="map-pin"></i><div class="tx"><span class="capm">Arena Maré Alta · Quadra 2</span><span class="cap muted">11/10 · 18:00</span></div><span class="capm laranja">Como chegar</span></div>
+        <div class="fio">
+          <span class="dia">Ontem</span>
+          <span class="sis">Duda Alves entrou na partida</span>
+          <div class="msg ini"><div class="slot"><span class="avatar md">R</span></div><div class="col-b"><div class="bal"><span class="nome c1">Rafa Lima</span><p class="b2">Fechado. Alguém leva bola?</p><span class="hora">18:50</span></div></div></div>
+          <div class="msg meu ini"><div class="col-b"><div class="bal"><p class="b2">Levo as bolas novas</p><span class="hora">18:51</span></div>
+            <div class="rchips"><span class="rchip"><i data-lucide="thumbs-up" class="r-like"></i>2</span></div></div></div>
+          <span class="dia">Hoje</span>
+          <div class="msg ini"><div class="slot"><span class="avatar md">D</span></div><div class="col-b"><div class="bal"><span class="nome c2">Duda Alves</span><p class="b2">A quadra tem iluminação até que horas?</p><span class="hora">09:12</span></div></div></div>
+          <div class="msg ini"><div class="slot"><span class="avatar md">B</span></div><div class="col-b"><div class="bal"><span class="nome c0">Bia Moreira</span><p class="b2">Até as 23h, tranquilo. Estacionamento liberado</p><span class="hora">09:20</span></div>
+            <div class="rchips"><span class="rchip on"><i data-lucide="heart" class="r-love"></i>1</span></div></div></div>
+        </div>
+        <div class="pe">
+          <div class="rapidas"><span class="chip">Tô a caminho</span><span class="chip">Vou atrasar 10 min</span><span class="chip">Levo a bola</span><span class="chip">Confirmadíssimo</span></div>
+          <div class="campo"><div class="in">Mensagem pro grupo</div><span class="env"><i data-lucide="send"></i></span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 REAGIR -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">3</div>
+        <div class="passo-txt"><b>Reagir</b><span>Segure um balão para abrir as seis reações (curtir, amei, rir, fogo, palmas, surpresa). Embaixo do balão ficam as reações com contador; toque numa para pôr ou tirar a sua.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="chat-cab">
+          <span class="bt"><i data-lucide="arrow-left"></i></span>
+          <div class="tx"><p class="b1m">Beach Tennis · 11/10 · 18:00</p><p class="cap muted">Bia, Rafa, Duda e você</p></div>
+          <span class="bt"><i data-lucide="ellipsis-vertical"></i></span>
+        </div>
+        <div class="fixo"><i data-lucide="map-pin"></i><div class="tx"><span class="capm">Arena Maré Alta · Quadra 2</span><span class="cap muted">11/10 · 18:00</span></div><span class="capm laranja">Como chegar</span></div>
+        <div class="fio">
+          <div class="msg meu ini"><div class="col-b"><div class="bal"><p class="b2">Levo as bolas novas</p><span class="hora">18:51</span></div>
+            <div class="rchips"><span class="rchip"><i data-lucide="thumbs-up" class="r-like"></i>2</span></div></div></div>
+          <span class="dia">Hoje</span>
+          <div class="msg ini"><div class="slot"><span class="avatar md">D</span></div><div class="col-b">
+            <div class="rbar"><span><i data-lucide="thumbs-up" class="r-like"></i></span><span><i data-lucide="heart" class="r-love"></i></span><span><i data-lucide="laugh" class="r-haha"></i></span><span class="on"><i data-lucide="flame" class="r-fire"></i></span><span><i data-lucide="hand" class="r-clap"></i></span><span><i data-lucide="sparkles" class="r-wow"></i></span></div>
+            <div class="bal toque"><span class="nome c2">Duda Alves</span><p class="b2">Bora fazer o aquecimento às 17h40?</p><span class="hora">09:12</span></div>
+            <div class="rchips"><span class="rchip on"><i data-lucide="flame" class="r-fire"></i>1</span><span class="rchip"><i data-lucide="thumbs-up" class="r-like"></i>1</span></div>
+          </div></div>
+          <div class="msg ini"><div class="slot"><span class="avatar md">B</span></div><div class="col-b"><div class="bal"><span class="nome c0">Bia Moreira</span><p class="b2">Até as 23h, tranquilo. Estacionamento liberado</p><span class="hora">09:20</span></div>
+            <div class="rchips"><span class="rchip on"><i data-lucide="heart" class="r-love"></i>1</span></div></div></div>
+        </div>
+        <div class="pe">
+          <div class="rapidas"><span class="chip">Tô a caminho</span><span class="chip">Vou atrasar 10 min</span><span class="chip">Levo a bola</span><span class="chip">Confirmadíssimo</span></div>
+          <div class="campo"><div class="in">Mensagem pro grupo</div><span class="env"><i data-lucide="send"></i></span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 OPÇÕES -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">4</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Opções do chat</b><span>No menu de três pontos você silencia as notificações só deste chat (aparece um sino cortado no topo) ou abre a partida. Embaixo ficam as regras do chat.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="chat-cab">
+          <span class="bt"><i data-lucide="arrow-left"></i></span>
+          <div class="tx"><p class="b1m">Beach Tennis · 11/10 · 18:00</p><p class="cap muted">Bia, Rafa, Duda e você</p></div>
+          <span class="bt"><i data-lucide="ellipsis-vertical"></i></span>
+        </div>
+        <div class="fixo"><i data-lucide="map-pin"></i><div class="tx"><span class="capm">Arena Maré Alta · Quadra 2</span><span class="cap muted">11/10 · 18:00</span></div><span class="capm laranja">Como chegar</span></div>
+        <div class="fio">
+          <div class="msg ini"><div class="slot"><span class="avatar md">D</span></div><div class="col-b"><div class="bal"><span class="nome c2">Duda Alves</span><p class="b2">A quadra tem iluminação até que horas?</p><span class="hora">09:12</span></div></div></div>
+          <div class="msg ini"><div class="slot"><span class="avatar md">B</span></div><div class="col-b"><div class="bal"><span class="nome c0">Bia Moreira</span><p class="b2">Até as 23h, tranquilo. Estacionamento liberado</p><span class="hora">09:20</span></div></div></div>
+        </div>
+        <div class="pe">
+          <div class="campo"><div class="in">Mensagem pro grupo</div><span class="env"><i data-lucide="send"></i></span></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="folha">
+          <div class="acao"><i data-lucide="bell-off"></i><span class="b1">Silenciar notificações deste chat</span></div>
+          <div class="acao"><i data-lucide="users"></i><span class="b1">Ver partida e participantes</span></div>
+          <div class="nota-f">Só quem está confirmado lê e escreve aqui, além de quem organiza. O chat fecha 48h depois do fim e o histórico continua visível. Toque numa mensagem pra denunciar.</div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 TOCAR NA MENSAGEM -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">5</div>
+        <div class="passo-txt"><b>Denunciar mensagem</b><span>Toque na mensagem de outra pessoa para abrir as ações. Se você não organiza, aparece só "Denunciar mensagem".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="chat-cab">
+          <span class="bt"><i data-lucide="arrow-left"></i></span>
+          <div class="tx"><p class="b1m">Beach Tennis · 11/10 · 18:00</p><p class="cap muted">Bia, Rafa, Duda e você</p></div>
+          <span class="bt"><i data-lucide="ellipsis-vertical"></i></span>
+        </div>
+        <div class="fixo"><i data-lucide="map-pin"></i><div class="tx"><span class="capm">Arena Maré Alta · Quadra 2</span><span class="cap muted">11/10 · 18:00</span></div><span class="capm laranja">Como chegar</span></div>
+        <div class="fio">
+          <div class="msg ini"><div class="slot"><span class="avatar md">R</span></div><div class="col-b"><div class="bal"><span class="nome c1">Rafa Lima</span><p class="b2">Quem perder paga a água. E vocês vão perder, sem chance</p><span class="hora">09:31</span></div></div></div>
+          <div class="msg ini"><div class="slot"><span class="avatar md">B</span></div><div class="col-b"><div class="bal"><span class="nome c0">Bia Moreira</span><p class="b2">Calma, Rafa</p><span class="hora">09:33</span></div></div></div>
+        </div>
+        <div class="pe">
+          <div class="campo"><div class="in">Mensagem pro grupo</div><span class="env"><i data-lucide="send"></i></span></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="folha">
+          <div class="fcab"><span class="capm muted grow">Mensagem de Rafa Lima</span><i data-lucide="x"></i></div>
+          <div class="acao"><i data-lucide="flag"></i><span class="b1">Denunciar mensagem</span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 DENÚNCIA -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">6</div>
+        <div class="passo-txt"><b>Motivo da denúncia</b><span>Descreva o motivo e envie. A mensagem some para todos na hora e vira "Mensagem oculta após denúncia" até a análise; quem foi denunciado não fica sabendo.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="chat-cab">
+          <span class="bt"><i data-lucide="arrow-left"></i></span>
+          <div class="tx"><p class="b1m">Beach Tennis · 11/10 · 18:00</p><p class="cap muted">Bia, Rafa, Duda e você</p></div>
+          <span class="bt"><i data-lucide="ellipsis-vertical"></i></span>
+        </div>
+        <div class="fio">
+          <div class="msg ini"><div class="slot"><span class="avatar md">R</span></div><div class="col-b"><div class="bal"><span class="nome c1">Rafa Lima</span><p class="b2">Quem perder paga a água. E vocês vão perder, sem chance</p><span class="hora">09:31</span></div></div></div>
+        </div>
+        <div class="pe">
+          <div class="campo"><div class="in">Mensagem pro grupo</div><span class="env"><i data-lucide="send"></i></span></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="folha rep">
+          <div class="row sb"><p class="t3">Denunciar</p><i data-lucide="x" class="ic24"></i></div>
+          <p class="b2 muted">Conte o que aconteceu. Sua denúncia é confidencial — quem você denunciou não fica sabendo.</p>
+          <div class="input area"><span>Provocação passando do ponto com o grupo.</span></div>
+          <button class="btn">Enviar denúncia</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 ESTADOS -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">7</div>
+        <div class="passo-txt"><b>Bloqueada, apagada e filtro</b><span>Mensagem de quem você bloqueou, apagada pela organização ou escondida por denúncia aparece tracejada, sem nome nem texto. Palavrão não é enviado: o campo fica vermelho e um aviso aparece em cima.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="toast-ok"><i data-lucide="circle-check"></i><span>Denúncia enviada. A mensagem ficou oculta pra todos até a análise.</span></div>
+        <div class="chat-cab">
+          <span class="bt"><i data-lucide="arrow-left"></i></span>
+          <div class="tx"><p class="b1m">Beach Tennis · 11/10 · 18:00</p><p class="cap muted">Bia, Rafa, Duda e você</p></div>
+          <span class="bt"><i data-lucide="ellipsis-vertical"></i></span>
+        </div>
+        <div class="fixo"><i data-lucide="map-pin"></i><div class="tx"><span class="capm">Arena Maré Alta · Quadra 2</span><span class="cap muted">11/10 · 18:00</span></div><span class="capm laranja">Como chegar</span></div>
+        <div class="fio">
+          <span class="dia">Hoje</span>
+          <div class="msg ini"><div class="slot"><span class="avatar md">B</span></div><div class="col-b"><div class="bal"><span class="nome c0">Bia Moreira</span><p class="b2">Levo as bolas novas</p><span class="hora">09:12</span></div></div></div>
+          <div class="msg ini"><span class="av-fant"><i data-lucide="user-x"></i></span><div class="bal fant"><p class="b2">Mensagem de alguém que você bloqueou</p><span class="hora">09:15</span></div></div>
+          <div class="msg ini"><div class="slot"><span class="avatar md">D</span></div><div class="col-b"><div class="bal"><span class="nome c2">Duda Alves</span><p class="b2">Chego uns 10 min antes pra aquecer</p><span class="hora">09:20</span></div></div></div>
+          <div class="msg ini"><span class="av-fant"><i data-lucide="message-circle-off"></i></span><div class="bal fant"><p class="b2">Mensagem apagada pela organização</p><span class="hora">09:24</span></div></div>
+          <div class="msg ini"><span class="av-fant"><i data-lucide="message-circle-off"></i></span><div class="bal fant"><p class="b2">Mensagem oculta após denúncia</p><span class="hora">09:31</span></div></div>
+        </div>
+        <div class="pe">
+          <div class="rapidas"><span class="chip">Tô a caminho</span><span class="chip">Vou atrasar 10 min</span><span class="chip">Levo a bola</span><span class="chip">Confirmadíssimo</span></div>
+          <div class="alerta"><i data-lucide="circle-alert"></i><span>Esse texto tem palavras não permitidas. Ajuste e tente de novo.</span></div>
+          <div class="campo"><div class="in cheio erro">Rafa, seu ••••••</div><span class="env on"><i data-lucide="send"></i></span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 FORA DA PARTIDA -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">8</div>
+        <div class="passo-txt"><span class="ramo">Quem não está</span><b>Card trancado</b><span>Numa partida pública, enquanto você não entrou, o card aparece com cadeado e não abre. Em partida privada ou cancelada, o card nem aparece.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body g12">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Detalhes da partida</span><span class="ld"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="row sb"><p class="t2">Futevôlei</p><span class="tag sem-ponto ok">Aberta</span></div>
+          <div class="row" style="gap:0"><span class="b2 muted">12/10 · 08:00 · </span><span class="b2m laranja">Arena Maré Alta</span></div>
+          <div class="row" style="gap:4px"><i data-lucide="navigation" class="ic16" style="color:var(--primary)"></i><span class="b2m laranja">Como chegar</span></div>
+          <div class="foto quadra" style="height:150px"></div>
+          <div class="mcc aro-chat">
+            <span class="ico tranca"><i data-lucide="lock"></i></span>
+            <div class="tx"><span class="b1m">Chat da partida</span><span class="cap muted" style="white-space:normal">Entre na partida pra conversar com quem vai jogar.</span></div>
+          </div>
+          <div class="lg">
+            <div class="lr"><i data-lucide="signal"></i><span class="l">Nível</span><span class="v">Qualquer</span></div>
+            <div class="lr"><i data-lucide="eye"></i><span class="l">Visibilidade</span><span class="v">Público</span></div>
+            <div class="lr"><i data-lucide="grid-2x2"></i><span class="l">Formato</span><span class="v">2x2</span></div>
+          </div>
+          <div class="sec-hdr"><span class="t3">Participantes (3)</span></div>
+        </div>
+        <div class="rodape"><button class="btn">Entrar na partida</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 9 ORGANIZADORA -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">9</div>
+        <div class="passo-txt"><span class="ramo">Quem organiza</span><b>Apagar e impedir</b><span>Se você criou a partida, você modera. Na mensagem de outra pessoa, você apaga, impede quem mandou de escrever ou denuncia. Outro moderador e a arena não podem ser impedidos.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="chat-cab">
+          <span class="bt"><i data-lucide="arrow-left"></i></span>
+          <div class="tx"><p class="b1m">Beach Tennis · 11/10 · 18:00</p><p class="cap muted">Rafa, Caio, Duda e você</p></div>
+          <span class="bt"><i data-lucide="ellipsis-vertical"></i></span>
+        </div>
+        <div class="fixo"><i data-lucide="map-pin"></i><div class="tx"><span class="capm">Arena Maré Alta · Quadra 2</span><span class="cap muted">11/10 · 18:00</span></div><span class="capm laranja">Como chegar</span></div>
+        <div class="fio">
+          <div class="msg ini"><div class="slot"><span class="avatar md">D</span></div><div class="col-b"><div class="bal"><span class="nome c2">Duda Alves</span><p class="b2">Chego uns 10 min antes pra aquecer</p><span class="hora">09:20</span></div></div></div>
+          <div class="msg ini"><div class="slot"><span class="avatar md">C</span></div><div class="col-b"><div class="bal toque"><span class="nome c1">Caio Souza</span><p class="b2">Se perder de novo eu largo esse grupo</p><span class="hora">09:31</span></div></div></div>
+          <div class="msg ini"><div class="slot"><span class="avatar md">R</span></div><div class="col-b"><div class="bal"><span class="nome c1">Rafa Lima</span><p class="b2">Relaxa, Caio</p><span class="hora">09:32</span></div></div></div>
+          <div class="msg meu ini"><div class="col-b"><div class="bal"><p class="b2">Vamos manter o clima bom, pessoal</p><span class="hora">09:33</span></div></div></div>
+        </div>
+        <div class="pe">
+          <div class="campo"><div class="in">Mensagem pro grupo</div><span class="env"><i data-lucide="send"></i></span></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="folha">
+          <div class="fcab"><span class="capm muted grow">Mensagem de Caio Souza</span><i data-lucide="x"></i></div>
+          <div class="acao perigo"><i data-lucide="trash-2"></i><span class="b1">Apagar mensagem</span></div>
+          <div class="acao"><i data-lucide="message-circle-off"></i><div class="tx"><span class="b1">Impedir Caio de escrever</span><span class="cap muted">Continua na partida e lendo o chat</span></div></div>
+          <div class="acao"><i data-lucide="flag"></i><span class="b1">Denunciar mensagem</span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 10 IMPEDIDO -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">10</div>
+        <div class="passo-txt"><span class="ramo">Quem foi impedido</span><b>Só lendo</b><span>Um aviso automático conta para todo mundo. Quem foi impedido continua lendo, mas o campo vira o aviso e as reações travam. Quem organiza libera pelo mesmo menu, na opção de liberar a pessoa para escrever.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="chat-cab">
+          <span class="bt"><i data-lucide="arrow-left"></i></span>
+          <div class="tx"><p class="b1m">Beach Tennis · 11/10 · 18:00</p><p class="cap muted">Bia, Rafa, Duda e você</p></div>
+          <span class="bt"><i data-lucide="ellipsis-vertical"></i></span>
+        </div>
+        <div class="fixo"><i data-lucide="map-pin"></i><div class="tx"><span class="capm">Arena Maré Alta · Quadra 2</span><span class="cap muted">11/10 · 18:00</span></div><span class="capm laranja">Como chegar</span></div>
+        <div class="fio">
+          <div class="msg ini"><div class="slot"><span class="avatar md">D</span></div><div class="col-b"><div class="bal"><span class="nome c2">Duda Alves</span><p class="b2">Chego uns 10 min antes pra aquecer</p><span class="hora">09:20</span></div></div></div>
+          <div class="msg meu ini"><div class="bal fant"><p class="b2">Mensagem apagada pela organização</p><span class="hora">09:31</span></div></div>
+          <span class="sis">Caio Souza não pode mais escrever neste chat</span>
+          <div class="msg ini"><div class="slot"><span class="avatar md">B</span></div><div class="col-b"><div class="bal"><span class="nome c0">Bia Moreira</span><p class="b2">Pessoal, vamos manter o clima bom. Até sábado!</p><span class="hora">09:35</span></div>
+            <div class="rchips"><span class="rchip"><i data-lucide="thumbs-up" class="r-like"></i>2</span></div></div></div>
+        </div>
+        <div class="pe">
+          <div class="aviso-pe"><i data-lucide="message-circle-off"></i><span>A organização impediu você de escrever neste chat. Você continua lendo.</span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 11 CATEGORIA: CARD -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">11</div>
+        <div class="passo-txt"><span class="ramo">Torneio</span><b>Card na categoria</b><span>No torneio, a conversa é da categoria, só para atleta de equipe apta ou confirmada. O card fica na tela da categoria e no confronto ainda não encerrado.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body g12">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Dupla Mista</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="hero-c"><p class="t3">Copa Maré Alta de Futevôlei</p><p class="cap">10/10 – 11/10 · Arena Maré Alta</p><span class="pill-esporte">Futevôlei</span></div>
+          <div class="stats">
+            <div class="tile"><span class="ic-t"><i data-lucide="ticket"></i></span><p class="cap muted">Atleta paga</p><p class="t2">R$ 63,00</p></div>
+            <div class="tile"><span class="ic-t"><i data-lucide="users"></i></span><p class="cap muted">Equipes</p><p class="t2">8</p></div>
+            <div class="tile"><span class="ic-t ok"><i data-lucide="circle-check"></i></span><p class="cap muted">Confirmadas</p><p class="t2">8</p></div>
+          </div>
+          <div class="mcc aro-chat">
+            <span class="ico"><i data-lucide="message-circle"></i></span>
+            <div class="tx"><span class="b1m">Chat da categoria</span><span class="cap muted">Léo Tavares: Aviso: quadra 3 atrasou uns 15 min.</span></div>
+            <span class="nl">3</span><i data-lucide="chevron-right"></i>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 12 CATEGORIA: CHAT -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">12</div>
+        <div class="passo-txt"><span class="ramo">Torneio</span><b>Chat da categoria</b><span>A primeira mensagem é o regulamento do torneio, resumido em 4 linhas. A arena fala com o nome dela e a etiqueta "Organizadora"; quem modera o torneio tem a etiqueta "Moderador". Aqui não há local fixado nem respostas rápidas.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="chat-cab">
+          <span class="bt"><i data-lucide="arrow-left"></i></span>
+          <div class="tx"><p class="b1m">Copa Maré Alta de Futevôlei · Dupla Mista</p><p class="cap muted">16 atletas</p></div>
+          <span class="bt"><i data-lucide="ellipsis-vertical"></i></span>
+        </div>
+        <div class="fio">
+          <div class="regul">
+            <div class="cab-r"><i data-lucide="file-text"></i><span class="b2m">Regulamento do torneio</span></div>
+            <p class="cap corte">Tolerância de 10 minutos de atraso; depois disso é W.O. Jogos em set único de 18 pontos, com 2 de vantagem até o teto de 21. Bola oficial fornecida pela arena. Uso de camisa da equipe obrigatório a partir das quartas. Reclamação de placar só com o moderador da quadra, na hora do jogo.</p>
+            <span class="capm laranja">Ler regulamento completo</span>
+            <span class="cap muted" style="align-self:flex-end">Enviado pela organização ao abrir o chat</span>
+          </div>
+          <span class="dia">Hoje</span>
+          <div class="msg ini"><div class="slot"><span class="av-arena">A</span></div><div class="col-b"><div class="bal"><span class="nome c3">Arena Maré Alta <span class="etq org">Organizadora</span></span><p class="b2">Chaveamento publicado! Primeiros jogos às 8h, quadras 1 a 4.</p><span class="hora">08:02</span></div></div></div>
+          <div class="msg ini"><div class="slot"><span class="avatar md">L</span></div><div class="col-b"><div class="bal"><span class="nome c1">Léo Tavares <span class="etq mod">Moderador</span></span><p class="b2">Aviso: quadra 3 atrasou uns 15 min.</p><span class="hora">09:41</span></div></div></div>
+          <div class="msg ini"><div class="slot"><span class="avatar md">B</span></div><div class="col-b"><div class="bal"><span class="nome c0">Bia Moreira</span><p class="b2">Valeu, Léo! Estamos na quadra 2 esperando</p><span class="hora">09:43</span></div></div></div>
+        </div>
+        <div class="pe">
+          <div class="campo"><div class="in">Mensagem pro grupo</div><span class="env"><i data-lucide="send"></i></span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 13 ENCERRADO -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">13</div>
+        <div class="passo-txt"><b>Chat encerrado</b><span>48h depois do fim, o campo vira o aviso de encerrado e as reações travam; o histórico continua. No chat de partida aparece "Marcar revanche com o grupo", que abre uma nova partida.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="chat-cab">
+          <span class="bt"><i data-lucide="arrow-left"></i></span>
+          <div class="tx"><p class="b1m">Beach Tennis · 11/10 · 18:00</p><p class="cap muted">Bia, Rafa, Duda e você</p></div>
+          <span class="bt"><i data-lucide="ellipsis-vertical"></i></span>
+        </div>
+        <div class="fixo"><i data-lucide="map-pin"></i><div class="tx"><span class="capm">Arena Maré Alta · Quadra 2</span><span class="cap muted">11/10 · 18:00</span></div><span class="capm laranja">Como chegar</span></div>
+        <div class="fio">
+          <span class="dia">11/10</span>
+          <span class="sis">Partida concluída</span>
+          <div class="msg ini"><div class="slot"><span class="avatar md">R</span></div><div class="col-b"><div class="bal"><span class="nome c1">Rafa Lima</span><p class="b2">Jogão! Revanche semana que vem?</p><span class="hora">20:14</span></div>
+            <div class="rchips"><span class="rchip"><i data-lucide="flame" class="r-fire"></i>3</span></div></div></div>
+          <div class="msg meu ini"><div class="col-b"><div class="bal"><p class="b2">Fechou, cria a partida que eu entro</p><span class="hora">20:20</span></div></div></div>
+        </div>
+        <div class="pe">
+          <div class="aviso-pe"><i data-lucide="lock"></i><span>Chat encerrado. Ele fecha 48h depois do fim da partida — o histórico fica aqui pra consulta.</span></div>
+          <button class="btn contorno">Marcar revanche com o grupo</button>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Quem consegue ler o chat?</summary><p>Só quem está confirmado na partida (ou, no torneio, atleta de equipe apta ou confirmada na categoria), além de quem organiza.</p></details>
+    <details><summary>Até quando o chat fica aberto?</summary><p>Até 48h depois do fim da partida ou da categoria. Depois disso ninguém escreve, mas o histórico continua visível.</p></details>
+    <details><summary>Como denuncio uma mensagem?</summary><p>Toque na mensagem, escolha "Denunciar mensagem" e conte o motivo. Ela some para todos na hora, até a análise, e quem foi denunciado não fica sabendo.</p></details>
+    <details><summary>Dá pra parar de receber notificação de um chat?</summary><p>Sim. No menu de três pontos do chat, silencie só aquela conversa. As notificações já vêm agrupadas, no máximo uma a cada 5 minutos.</p></details>
+    <details><summary>Fui impedido de escrever. Saí da partida?</summary><p>Não. Você continua na partida e lendo o chat, só não escreve nem reage até quem organiza liberar.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

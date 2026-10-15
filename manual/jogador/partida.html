@@ -1,0 +1,914 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Partida, placar e craque do jogo · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* ScreenHeader: seta sem círculo, título title3, ícones à direita e X */
+  .sh { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; min-height: 48px; flex: none; }
+  .sh .ld { min-width: 24px; display: flex; gap: 12px; align-items: center; justify-content: flex-end; }
+  .sh svg { width: 24px; height: 24px; }
+  .sh .tt { font: 600 18px/26px var(--font); flex: 1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .inversa-txt { color: var(--text-inverse); }
+  /* rodapé fixo do Screen */
+  .rodape { flex: none; padding: 12px 20px 34px; display: flex; flex-direction: column; gap: 8px; background: var(--background); }
+  .rodape.g16 { gap: 16px; }
+  .escura .rodape { background: var(--secondary); }
+  .escura { background: var(--secondary) !important; }
+  .screen-body.g12 { gap: 12px; }
+  /* Button: secundário (contorno laranja), terciário (texto), perigo (contorno vermelho); texto body1Medium */
+  .btn { font-weight: 500; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.ter { background: transparent; color: var(--primary); }
+  .btn.dng { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  /* MascotNote */
+  .mnote { display: flex; align-items: center; gap: 12px; margin-bottom: -16px; }
+  .mnote img { width: 89px; height: 79px; object-fit: contain; flex: none; }
+  .mnote .bolha { flex: 1; background: var(--primary-wash); border-radius: 12px; padding: 12px; font: 400 14px/20px var(--font); }
+  /* SelectField / DateTimeField */
+  .sel { display: flex; flex-direction: column; gap: 6px; }
+  .sel > .rot { font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .sel .input svg.lead { color: var(--primary); }
+  .sel .input .v { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* ListGroup + ListRow */
+  .lg { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .lr { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; background: var(--surface); position: relative; }
+  .lr + .lr::before { content: ""; position: absolute; top: 0; left: 16px; right: 0; height: 1px; background: var(--border); }
+  .lr .l { flex: 1; font: 400 16px/24px var(--font); }
+  .lr .v { font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .lr .v.link { color: var(--primary); }
+  .lr > svg { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  /* CategoryBadge (hexágono) */
+  .cat { height: 20px; width: auto; flex: none; display: block; }
+  .cat.c16 { height: 16px; } .cat.c24 { height: 24px; } .cat.c28 { height: 28px; }
+  .chip.cat-only { padding: 0 12px; }
+  .chip .cat { height: 20px; }
+  .sec-t { font: 600 18px/26px var(--font); margin: 0 0 12px; }
+  /* linha de jogador em card */
+  .prow { display: flex; align-items: center; gap: 12px; padding: 16px; }
+  .prow .tx { flex: 1; min-width: 0; display: grid; gap: 2px; }
+  .prow.sel-on { border: 2px solid var(--primary); padding: 15px; }
+  .perfil-btn { color: var(--text-muted); } .perfil-btn svg { width: 20px; height: 20px; }
+  .lista { display: flex; flex-direction: column; gap: 8px; }
+  .seg-rn { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .seg-rn span { flex: 1; text-align: center; height: 36px; border-radius: 6px; font: 500 14px/36px var(--font); color: var(--text-muted); }
+  .seg-rn span.on { background: var(--primary); color: var(--text-inverse); }
+  .stepper { display: flex; align-items: center; justify-content: space-between; padding: 0 16px; height: 52px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .stepper svg { width: 20px; height: 20px; }
+  .acc { display: flex; align-items: center; justify-content: space-between; padding: 16px; }
+  .acc .row svg { color: var(--primary); width: 20px; height: 20px; }
+  .acc > svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .provoc { background: var(--primary-wash); }
+  /* card de confronto da revisão */
+  .matchup { display: flex; align-items: center; justify-content: space-between; }
+  /* card escuro "Desafio confirmado" / "Desafio lançado" */
+  .dcard { background: var(--secondary); border: 1px solid var(--secondary); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 16px; color: var(--text-inverse); }
+  .dcard .div { height: 1px; background: rgba(255,255,255,.12); }
+  .times { display: flex; align-items: flex-start; justify-content: space-between; }
+  .times .lado-t { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+  .times .vs { font: 600 18px/26px var(--font); color: var(--primary); align-self: center; }
+  .dl { display: flex; flex-direction: column; gap: 8px; }
+  .dr { display: flex; align-items: center; justify-content: space-between; }
+  .dr .k { display: flex; align-items: center; gap: 4px; color: var(--text-muted); font: 400 14px/20px var(--font); }
+  .dr .k svg { width: 16px; height: 16px; }
+  .dr .val { display: flex; align-items: center; gap: 8px; font: 500 14px/20px var(--font); }
+  .acoes-d { display: flex; justify-content: space-between; }
+  .acoes-d > div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; font: 400 12px/16px var(--font); }
+  .acoes-d .q { width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; }
+  .acoes-d svg { width: 20px; height: 20px; }
+  .tchips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tchip { padding: 8px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--text); font: 500 12px/16px var(--font); }
+  .logo-pill { background: var(--surface); border-radius: 999px; padding: 4px 12px; display: inline-flex; align-self: flex-start; }
+  .logo-pill img { width: 110px; height: 36px; object-fit: contain; }
+  .brand { display: flex; align-items: center; justify-content: space-between; }
+  .brand .masc { width: 56px; height: 56px; object-fit: contain; }
+  .av-ring > .avatar { border-color: var(--secondary); }
+  /* sucesso "Desafio lançado!" */
+  .sucesso { display: flex; flex-direction: column; align-items: center; gap: 8px; padding-top: 16px; text-align: center; }
+  .sucesso .masc { width: 200px; height: 165px; object-fit: contain; margin-bottom: 12px; }
+  /* convocação enviada */
+  .ok-bola { width: 64px; height: 64px; border-radius: 999px; background: var(--success); color: #fff; display: flex; align-items: center; justify-content: center; }
+  .ok-bola svg { width: 28px; height: 28px; stroke-width: 3; }
+  .sentnote { display: flex; align-items: flex-end; background: var(--primary-wash); border-radius: 14px; padding-left: 16px; overflow: hidden; }
+  .sentnote p { flex: 1; align-self: center; padding: 16px 0; margin: 0; font: 400 14px/20px var(--font); }
+  .sentnote img { width: 128px; height: 107px; object-fit: contain; }
+  /* resultado */
+  .res { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .venc { display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 8px; border-top: 1px solid var(--border); align-self: stretch; }
+  .venc svg { color: var(--gold); width: 20px; height: 20px; }
+  .pts { display: flex; flex-direction: column; align-items: center; gap: 2px; background: var(--success-soft); border-color: var(--success); }
+  .h2h { display: flex; align-items: center; }
+  .h2h > div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .h2h .sep { flex: none; width: 1px; align-self: stretch; background: var(--border); }
+  /* folhas no padrão do app: fundo claro, raio 20, cabeçalho com X, sem alça */
+  .sheet.rn { background: var(--background); padding: 20px 20px 40px; }
+  .sheet.rn::before { display: none; }
+  .sheet-cab { display: flex; align-items: center; justify-content: space-between; }
+  .sheet-cab svg { width: 24px; height: 24px; }
+  /* imagem do Stories 9:16 */
+  .story { width: 330px; height: 586px; border-radius: 16px; background: var(--primary); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: 14px; padding: 40px 22px; box-shadow: 0 20px 40px rgba(31,31,31,.18); flex: none; }
+  .story .wm { position: absolute; width: 90px; opacity: .14; }
+  .story .masc-s { position: absolute; right: 40px; top: 70px; width: 110px; transform: rotate(10deg); }
+  .story h2 { margin: 0; font: 600 26px/32px var(--font); color: #fff; max-width: 160px; position: relative; }
+  .ticket { background: var(--primary-soft); border-radius: 12px; position: relative; }
+  .ticket .top { padding: 18px 16px; }
+  .ticket .bot { padding: 18px 16px 16px; border-top: 2px dashed var(--primary); display: flex; flex-direction: column; gap: 10px; position: relative; }
+  .ticket .bot::before, .ticket .bot::after { content: ""; position: absolute; top: -13px; width: 24px; height: 24px; border-radius: 12px; background: var(--primary); }
+  .ticket .bot::before { left: -12px; } .ticket .bot::after { right: -12px; }
+  .ticket .dr .val { color: var(--text); }
+  .story .tchips { justify-content: center; position: relative; }
+  /* desafio de arena (link) */
+  .hero { min-height: 200px; padding: 16px; border-radius: 12px; background: var(--secondary); display: flex; align-items: center; }
+  .hero .times { width: 100%; align-items: center; }
+  .hero .vs { color: #fff; transform: rotate(-8deg); }
+  .inforow { display: flex; align-items: center; gap: 8px; }
+  .inforow svg { width: 20px; height: 20px; color: var(--primary); flex: none; }
+  .srow { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .srow.on { border-color: var(--primary); background: var(--primary-soft); }
+  .srow .tx { flex: 1; display: grid; }
+  .srow .mk { width: 22px; height: 22px; border-radius: 11px; border: 1.5px solid var(--border); flex: none; display: flex; align-items: center; justify-content: center; }
+  .srow.on .mk { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .srow .mk svg { width: 12px; height: 12px; }
+  .limite { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; background: var(--primary-wash); border-color: var(--primary-tint); }
+  .limite > svg { width: 24px; height: 24px; color: var(--primary); }
+  .vazio { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 20px; text-align: center; }
+  .vazio img { width: 124px; height: 95px; object-fit: contain; margin-bottom: 4px; }
+  .seta-row svg { width: 14px; height: 14px; }
+  .screen .avatar { background: var(--primary); color: var(--text-inverse); font-weight: 500; }
+
+  /* craque do jogo animado (2026-09-29, implementado em app/(app)/mvp/[matchId].tsx) */
+  .mvp-rever { align-self: center; }
+  .mvp-rever svg { width: 18px; height: 18px; }
+  .mvp-corpo { position: relative; overflow: hidden; }
+  .mvp-confete { position: absolute; inset: 0; pointer-events: none; }
+  .mvp-confete i.cf { position: absolute; top: 0; width: 6px; height: 10px; border-radius: 1px; opacity: 0; }
+  .mvp-confete i.cf.l { width: 10px; height: 6px; }
+  .play .mvp-palco { animation: mvp-abre .6s cubic-bezier(.2,1.4,.4,1) both; }
+  .play .mvp-mascote { animation: mvp-sobe .7s cubic-bezier(.2,1.5,.4,1) .15s both; }
+  .play .mvp-coroa { animation: mvp-coroa .8s cubic-bezier(.3,1.6,.5,1) .45s both; }
+  .play .mvp-titulo { animation: mvp-carimbo .45s cubic-bezier(.3,1.5,.5,1) .75s both; }
+  .play .mvp-texto { animation: mvp-aparece .3s ease-out .95s both; }
+  .play .mvp-confete i.cf { animation: mvp-confete 1.3s cubic-bezier(.55,0,1,.45) var(--d) both; }
+  @keyframes mvp-abre { 0% { transform: scale(0); } 100% { transform: none; } }
+  @keyframes mvp-sobe { 0% { opacity: 0; transform: translateY(60px); } 100% { opacity: 1; transform: none; } }
+  @keyframes mvp-coroa { 0% { transform: translateY(-260px) rotate(-14deg); } 55% { transform: translateY(8px) rotate(8deg); } 75% { transform: translateY(-6px) rotate(-3deg); } 100% { transform: none; } }
+  @keyframes mvp-carimbo { 0% { opacity: 0; transform: scale(1.3); } 100% { opacity: 1; transform: none; } }
+  @keyframes mvp-aparece { 0% { opacity: 0; } 100% { opacity: 1; } }
+  @keyframes mvp-confete { 0% { opacity: 0; transform: translateY(-16px); } 6% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; transform: translateY(520px) rotate(var(--r)); } }
+  @media (prefers-reduced-motion: reduce) {
+    .play .mvp-palco, .play .mvp-mascote, .play .mvp-coroa, .play .mvp-titulo, .play .mvp-texto { animation: none; }
+    .mvp-confete { display: none; }
+  }
+</style>
+<style>
+  /* só desta página: partidas geradas, placar, MVP e histórico */
+  .prow-m { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; background: var(--surface); position: relative; }
+  .prow-m + .prow-m::before { content: ""; position: absolute; top: 0; left: 16px; right: 0; height: 1px; background: var(--border); }
+  .prow-m .grow { font: 400 16px/24px var(--font); }
+  .prow-m > svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .av-wrap { position: relative; flex: none; display: inline-flex; }
+  .coroa { position: absolute; top: -2px; right: -2px; width: 10px; height: 10px; border-radius: 5px; background: var(--gold); display: flex; align-items: center; justify-content: center; color: #fff; }
+  .coroa svg { width: 6px; height: 6px; fill: currentColor; }
+  .aviso-card { background: var(--warning-soft); border-color: var(--warning); display: flex; flex-direction: column; gap: 4px; }
+  .srow2 { display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--surface); position: relative; }
+  .srow2.on { background: var(--primary-soft); }
+  .srow2 .grow { font: 500 16px/24px var(--font); }
+  .srow2.on .grow { color: var(--primary); }
+  .srow2 .mk { width: 22px; height: 22px; border-radius: 11px; border: 1.5px solid var(--border); flex: none; display: flex; align-items: center; justify-content: center; }
+  .srow2.on .mk { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .srow2 .mk svg { width: 12px; height: 12px; }
+  .pchosen { display: flex; align-items: center; gap: 8px; padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .pchosen svg { width: 20px; height: 20px; }
+  .rcard { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .rcard .rh { display: flex; align-items: center; gap: 8px; }
+  .rcard .rh .capm { flex: 1; }
+  .rcard .rm { display: flex; align-items: center; justify-content: space-between; }
+  .rcard .avatars .avatar { border-color: var(--surface); }
+  /* SetScoreRows e ScoreCounter */
+  .setrow { display: flex; flex-direction: column; gap: 8px; padding: 12px; border-radius: 14px; background: var(--surface-alt); }
+  .setrow .hd { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .board { display: flex; align-items: center; justify-content: center; gap: 16px; }
+  .board .colw { width: 128px; display: flex; justify-content: center; text-align: center; }
+  .cc { display: flex; align-items: center; gap: 8px; }
+  .cc svg { width: 20px; height: 20px; }
+  .cc .bx { width: 56px; height: 56px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-card); display: flex; align-items: center; justify-content: center; font: 600 20px/28px var(--font); color: var(--primary); }
+  .sc { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .sc .bx { width: 96px; height: 96px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-card); display: flex; align-items: center; justify-content: center; font: 600 28px/36px var(--font); color: var(--primary); }
+  .sc .bt { display: flex; gap: 16px; } .sc .bt svg { width: 20px; height: 20px; }
+  /* MVP */
+  .mvp-row { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 14px; border: 1px solid var(--border); }
+  .mvp-row.on { border-color: var(--primary); background: var(--primary-soft); }
+  .mvp-row .grow { font: 500 16px/24px var(--font); }
+  .mvp-row svg { width: 20px; height: 20px; color: var(--primary); }
+  .palco { width: 200px; height: 200px; border-radius: 100px; background: var(--primary-tint); display: flex; align-items: center; justify-content: center; }
+  .palco img { width: 160px; height: 160px; object-fit: contain; }
+  .coroa-pill { display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px; border-radius: 999px; background: var(--gold); color: #fff; }
+  .coroa-pill svg { width: 20px; height: 20px; fill: currentColor; }
+  .mvph { display: flex; align-items: center; gap: 12px; padding: 12px; width: 350px; flex: none; }
+  .mvph .medal { width: 44px; height: 44px; border-radius: 22px; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; color: var(--gold); }
+  .mvph .medal svg { width: 22px; height: 22px; fill: currentColor; }
+  .mvph .ativa { padding: 4px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--gold); font: 500 12px/16px var(--font); }
+  /* MatchCard */
+  .mcard { position: relative; padding: 0; overflow: hidden; }
+  .mcard .capa { position: absolute; top: 0; bottom: 0; left: 0; width: 25%; display: flex; align-items: center; justify-content: center; background: var(--primary-wash); color: var(--primary); }
+  .mcard .capa svg { width: 16px; height: 16px; }
+  .mcard .ct { margin-left: 25%; padding: 12px; display: grid; gap: 2px; }
+  .mcard .l1 { display: flex; align-items: center; gap: 4px; }
+  .mcard .l1 .b2m { flex: 1; }
+  .mcard .l2, .mcard .l3 { display: flex; align-items: center; gap: 4px; color: var(--text-muted); }
+  .mcard .l2 svg, .mcard .l3 svg { width: 12px; height: 12px; }
+  .mcard .l3 .f { flex: 1; display: flex; gap: 4px; align-items: center; }
+  .stat3 { display: flex; gap: 8px; }
+  .stat3 .card { flex: 1; padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+  .home-fundo { opacity: .9; }
+  /* "Onde vai ser?" (MatchPlaceField): SegmentedControl com ícone, busca e GPS */
+  .seg-rn.comic span { display: flex; align-items: center; justify-content: center; gap: 4px; line-height: 20px; }
+  .seg-rn.comic span svg { width: 16px; height: 16px; }
+  .lugar { display: flex; flex-direction: column; gap: 8px; }
+  .gps { display: flex; align-items: center; gap: 8px; min-height: 44px; color: var(--primary-dark); font: 500 14px/20px var(--font); }
+  .gps svg { width: 16px; height: 16px; }
+  /* ChoiceCards: cartões lado a lado com frase */
+  .choice { display: flex; gap: 8px; }
+  .ccard { flex: 1; min-height: 76px; display: flex; flex-direction: column; gap: 4px; padding: 8px 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .ccard.on { border-color: var(--primary); background: var(--primary-wash); }
+  .ccard .tp { display: flex; align-items: center; justify-content: space-between; gap: 4px; }
+  .ccard .tp .nm { display: flex; align-items: center; gap: 4px; font: 500 14px/20px var(--font); }
+  .ccard .tp .nm svg { width: 16px; height: 16px; color: var(--primary); }
+  .ccard .rd { width: 18px; height: 18px; border-radius: 9px; border: 2px solid var(--text-muted); display: flex; align-items: center; justify-content: center; flex: none; }
+  .ccard.on .rd { border-color: var(--primary); }
+  .ccard.on .rd::after { content: ""; width: 8px; height: 8px; border-radius: 4px; background: var(--primary); }
+  /* MatchChatCard */
+  .chatc { display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
+  .chatc .cic { width: 48px; height: 48px; border-radius: 999px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .chatc .cic.lock { background: var(--surface-alt); color: var(--text-muted); }
+  .chatc .cic svg { width: 20px; height: 20px; }
+  .chatc .tx { flex: 1; min-width: 0; display: grid; }
+  .chatc .tx .cap { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .chatc > svg { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  /* DirectionsSheet */
+  .dir-row { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 14px; border: 1px solid var(--border); font: 500 16px/24px var(--font); }
+  .dir-row svg { width: 20px; height: 20px; color: var(--primary); }
+  /* RankingRow (aba Ranking da partida) */
+  .rk { display: flex; align-items: center; gap: 12px; padding: 12px; }
+  .rk.eu { background: var(--primary-wash); border-color: var(--primary-tint); }
+  .rk .pos { width: 20px; text-align: center; font: 500 16px/24px var(--font); color: var(--text-muted); }
+  .rk .av-pod { position: relative; flex: none; display: inline-flex; }
+  .rk .medalha { position: absolute; right: -4px; bottom: -4px; width: 22px; height: 22px; border-radius: 11px; border: 2px solid var(--surface); color: var(--text-inverse); font: 500 12px/18px var(--font); text-align: center; }
+  .rk .nmc { flex: 1; min-width: 0; display: grid; gap: 2px; }
+  .rk .nmr { display: flex; align-items: center; gap: 3px; }
+  .rk .nmr .cat { height: 14px; }
+  .rk .ptc { display: flex; align-items: center; gap: 4px; font: 500 14px/20px var(--font); }
+  .rk .ptc svg { width: 14px; height: 14px; }
+  .rk .ptc.fora { color: var(--text-muted); }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="jogador" data-fluxo="partida"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Partida, placar e craque do jogo</h1>
+  <p>Você cria uma partida pelo botão "Criar" da barra de abas, convida a galera e, na hora do jogo, gera as partidas e lança o placar de cada uma. No fim, cada jogador vota no craque do jogo, e quem ganha a votação vê a tela da coroa. Tudo fica guardado no seu histórico.</p>
+  <ul class="regras">
+    <li>Você só pode criar partida nas modalidades que pratica. Data e horário são obrigatórios, e quem cria já entra confirmado.</li>
+    <li>O local é por endereço ou por arena, nunca os dois. Por endereço, a partida já sai confirmada, e o endereço pode até ficar em branco. Por arena, ela fica pendente até a arena aprovar.</li>
+    <li>Partida pública sem arena avisa, assim que é criada, quem joga a modalidade na cidade do endereço. Partida privada não aparece na busca: só entra quem foi convidado ou tem o link.</li>
+    <li>Trocar o local avisa no chat da partida. Se o novo local for uma arena, ela precisa aprovar de novo.</li>
+    <li>Corrida, CrossFit e Hyrox só podem ser marcados numa arena.</li>
+    <li>Na aba Ranking da partida, rodada vencida vale 3 pontos, e rodada jogada sem vitória vale 1. Empate em pontos divide a posição. O ranking competitivo, da aba Ranking do app, é outro e não soma esses pontos. Em esporte que não tem empate, o placar não aceita empate.</li>
+    <li>Quem estiver em pausa continua na partida, mas fica fora dos próximos jogos gerados. O próprio jogador ou quem criou pausa e tira a pausa. Jogo já gerado não muda.</li>
+    <li>No sorteio, entra primeiro quem jogou menos jogos na partida, e em cada jogo os times saem equilibrados pelo nível na modalidade. Com times fixos, o time que fica de fora é o que jogou mais.</li>
+    <li>Quem criou pode reabrir a partida até 24h depois de encerrar, enquanto o resultado não entrou no ranking. Reabrir apaga os jogos lançados, os pontos e o craque.</li>
+    <li>Conta de arena nunca entra em partida. Só conta de jogador cria ou entra.</li>
+    <li>Quem denuncia a descrição de uma partida denuncia quem a criou.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 NOVA PARTIDA -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">1</div>
+        <div class="passo-txt"><b>Nova partida</b><span>Escolha a modalidade e onde vai ser. Por endereço, digite o local, busque ou toque em "Usar minha localização"; o endereço é opcional e a partida já sai confirmada. Depois vêm data e hora, nível, visibilidade, seleção de time, formato e pontuação. Você chega aqui pelo botão "Criar" da barra de abas.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Nova partida</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="card sem-pad"><div class="acc"><div class="row" style="gap:8px"><i data-lucide="list-checks"></i><span class="b1m">Regras para criar partida</span></div><i data-lucide="chevron-down"></i></div></div>
+          <div class="sel"><span class="rot">Modalidade</span><div class="input"><i class="lead" data-lucide="volleyball"></i><span class="v">Beach tennis</span><i data-lucide="chevron-down"></i></div></div>
+          <div class="lugar">
+            <span class="b2m muted">Onde vai ser?</span>
+            <div class="seg-rn comic"><span class="on"><i data-lucide="map-pin"></i>Por endereço</span><span><i data-lucide="building-2"></i>Por arena</span></div>
+            <div class="input"><i data-lucide="search" style="color:var(--primary)"></i><span class="grow" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Rua das Gaivotas, 120 - Campeche</span><i data-lucide="x"></i></div>
+            <span class="gps"><i data-lucide="locate-fixed"></i>Localização usada</span>
+            <p class="cap muted">Sem arena: vocês jogam no endereço combinado e a partida já sai confirmada.</p>
+          </div>
+          <div class="sel"><span class="rot">Data e hora</span><div class="input"><span class="v">03/10/2026 às 18:00</span><i data-lucide="chevron-down"></i></div></div>
+          <div><p class="sec-t">Nível do jogo</p><div class="chips" style="flex-wrap:nowrap"><span class="chip">Qualquer</span><span class="chip cat-only" style="flex:1;justify-content:center"><img class="cat" src="../img/categoria-d.png" alt="D"></span><span class="chip cat-only on-laranja" style="flex:1;justify-content:center"><img class="cat" src="../img/categoria-c.png" alt="C"></span><span class="chip cat-only" style="flex:1;justify-content:center"><img class="cat" src="../img/categoria-b.png" alt="B"></span><span class="chip cat-only" style="flex:1;justify-content:center"><img class="cat" src="../img/categoria-a.png" alt="A"></span></div></div>
+          <div><p class="sec-t">Visibilidade</p>
+            <div class="choice">
+              <div class="ccard on"><div class="tp"><span class="nm"><i data-lucide="globe"></i>Pública</span><span class="rd"></span></div><span class="cap muted">Qualquer jogador acha e entra.</span></div>
+              <div class="ccard"><div class="tp"><span class="nm"><i data-lucide="lock"></i>Privada</span><span class="rd"></span></div><span class="cap muted">Só convidados ou quem tiver o link.</span></div>
+            </div></div>
+          <div><p class="sec-t">Seleção de time</p>
+            <div class="choice">
+              <div class="ccard on"><div class="tp"><span class="nm"><i data-lucide="shuffle"></i>Sorteio</span><span class="rd"></span></div><span class="cap muted">O app sorteia os times.</span></div>
+              <div class="ccard"><div class="tp"><span class="nm"><i data-lucide="users"></i>Manual</span><span class="rd"></span></div><span class="cap muted">Cada um escolhe o time.</span></div>
+            </div>
+            <p class="cap muted" style="margin-top:8px">Cada partida de Beach tennis tem 4 jogadores.</p></div>
+          <div><p class="sec-t">Formato</p><div class="stepper" style="margin-top:8px"><i data-lucide="minus"></i><span class="t3">2x2</span><i data-lucide="plus"></i></div></div>
+          <div><p class="sec-t">Pontuação</p><div class="seg-rn"><span class="on">Seguir a modalidade</span><span>Livre</span></div><p class="cap muted" style="margin-top:8px">1 set de 6 games, com 2 de vantagem (7-5 ou 7-6).</p></div>
+          <div class="input area"><span class="ph">Observações (opcional)</span></div>
+        </div>
+        <div class="rodape"><button class="btn">Criar partida</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 1b POR ARENA -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">1b</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Local por arena</b><span>Em "Por arena", escolha uma arena que tem a modalidade. A partida fica pendente até a arena aprovar, e o endereço digitado deixa de valer. Corrida, CrossFit e Hyrox só aparecem com esta opção.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Nova partida</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="card sem-pad"><div class="acc"><div class="row" style="gap:8px"><i data-lucide="list-checks"></i><span class="b1m">Regras para criar partida</span></div><i data-lucide="chevron-down"></i></div></div>
+          <div class="sel"><span class="rot">Modalidade</span><div class="input"><i class="lead" data-lucide="volleyball"></i><span class="v">Beach tennis</span><i data-lucide="chevron-down"></i></div></div>
+          <div class="lugar">
+            <span class="b2m muted">Onde vai ser?</span>
+            <div class="seg-rn comic"><span><i data-lucide="map-pin"></i>Por endereço</span><span class="on"><i data-lucide="building-2"></i>Por arena</span></div>
+            <div class="input"><i data-lucide="building-2" style="color:var(--primary)"></i><span class="v grow">Arena Maré Alta</span><i data-lucide="x"></i><i data-lucide="chevron-down"></i></div>
+            <p class="cap muted">Partidas em arena ficam pendentes até ela aprovar.</p>
+          </div>
+          <div class="sel"><span class="rot">Data e hora</span><div class="input"><span class="v">03/10/2026 às 18:00</span><i data-lucide="chevron-down"></i></div></div>
+          <div><p class="sec-t">Nível do jogo</p><div class="chips" style="flex-wrap:nowrap"><span class="chip">Qualquer</span><span class="chip cat-only" style="flex:1;justify-content:center"><img class="cat" src="../img/categoria-d.png" alt="D"></span><span class="chip cat-only on-laranja" style="flex:1;justify-content:center"><img class="cat" src="../img/categoria-c.png" alt="C"></span><span class="chip cat-only" style="flex:1;justify-content:center"><img class="cat" src="../img/categoria-b.png" alt="B"></span><span class="chip cat-only" style="flex:1;justify-content:center"><img class="cat" src="../img/categoria-a.png" alt="A"></span></div></div>
+        </div>
+        <div class="rodape"><button class="btn">Criar partida</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 DETALHE DONA, POR ENDEREÇO -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">2</div>
+        <div class="passo-txt"><b>Detalhes da partida (criadora)</b><span>Sem arena, a partida já sai aberta e mostra o endereço. "Como chegar" leva até ele, e o chat da partida fica logo abaixo. Pelo lápis você edita; também dá pra compartilhar, convidar jogadores e apagar a partida. "Gerar partidas" só libera quando há confirmados suficientes para montar os times.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body g12">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Detalhes da partida</span><span class="ld"><i data-lucide="pencil"></i><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="row sb"><p class="t2">Beach tennis</p><span class="tag sem-ponto ok">Aberta</span></div>
+          <p class="b2 muted">03/10 · 18:00 · Rua das Gaivotas, 120 - Campeche</p>
+          <div class="row" style="gap:4px"><i data-lucide="navigation" class="ic16" style="color:var(--primary)"></i><span class="b2m laranja">Como chegar</span></div>
+          <div class="chatc"><span class="cic"><i data-lucide="message-circle"></i></span><div class="tx"><span class="b1m">Chat da partida</span><span class="cap muted">Nenhuma mensagem ainda. Comece a conversa.</span></div><i data-lucide="chevron-right"></i></div>
+          <div class="lg">
+            <div class="lr"><i data-lucide="signal"></i><span class="l">Nível</span><img class="cat c28" src="../img/categoria-c.png" alt="C"></div>
+            <div class="lr"><i data-lucide="eye"></i><span class="l">Visibilidade</span><span class="v">Público</span></div>
+            <div class="lr"><i data-lucide="grid-2x2"></i><span class="l">Formato</span><span class="v">2x2</span></div>
+            <div class="lr"><i data-lucide="users"></i><span class="l">Seleção de time</span><span class="v">Sorteio</span></div>
+          </div>
+          <div class="sec-hdr"><span class="t3">Participantes (1)</span><span class="b2m laranja">Convidar</span></div>
+          <div class="lg">
+            <div class="prow-m"><span class="avatar sm">B</span><img class="cat" src="../img/categoria-c.png" alt=""><span class="grow">Bia Moreira</span><span class="b2m muted"></span><i data-lucide="chevron-right"></i></div>
+            <div class="prow-m"><span class="avatar sm">C</span><img class="cat" src="../img/categoria-c.png" alt=""><span class="grow">Carol Prado</span><span class="tag sem-ponto aviso">Convite pendente</span><i data-lucide="chevron-right"></i></div>
+          </div>
+        </div>
+        <div class="rodape">
+          <button class="btn sec off">Gerar partidas</button>
+          <span class="cap muted" style="text-align:center">Faltam 3 confirmados pra formar os times.</span>
+          <button class="btn dng"><i data-lucide="trash-2"></i>Apagar partida</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2b COMO CHEGAR -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">2b</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Como chegar</b><span>Escolha o Waze ou o Google Maps. Sem arena, a rota vai para o endereço da partida; com arena, vai para a arena. Se a partida não tem local, o "Como chegar" não aparece.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body g12">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Detalhes da partida</span><span class="ld"><i data-lucide="pencil"></i><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="row sb"><p class="t2">Beach tennis</p><span class="tag sem-ponto ok">Aberta</span></div>
+          <p class="b2 muted">03/10 · 18:00 · Rua das Gaivotas, 120 - Campeche</p>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="sheet rn" style="gap:12px">
+          <div class="sheet-cab"><span class="t3">Como chegar</span><i data-lucide="x"></i></div>
+          <p class="b2 muted">Rua das Gaivotas, 120 - Campeche, Florianópolis, SC</p>
+          <div class="dir-row"><i data-lucide="navigation"></i>Abrir no Waze</div>
+          <div class="dir-row"><i data-lucide="map"></i>Abrir no Google Maps</div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2c DETALHE DONA, EM ARENA PENDENTE -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">2c</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Partida em arena</b><span>Com arena escolhida, a partida fica pendente até a arena aprovar, e você recebe uma notificação quando ela decidir. O nome da arena abre o perfil dela. "Gerar partidas" só aparece depois da aprovação.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body g12">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Detalhes da partida</span><span class="ld"><i data-lucide="pencil"></i><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="row sb"><p class="t2">Beach tennis</p><span class="tag sem-ponto aviso">Pendente</span></div>
+          <div class="row" style="gap:0"><span class="b2 muted">03/10 · 18:00 · </span><span class="b2m laranja">Arena Maré Alta</span></div>
+          <div class="row" style="gap:4px"><i data-lucide="navigation" class="ic16" style="color:var(--primary)"></i><span class="b2m laranja">Como chegar</span></div>
+          <div class="foto quadra" style="height:160px"></div>
+          <div class="card aviso-card"><p class="b2m">Aguardando a arena aprovar esta partida.</p><p class="cap muted">Você recebe uma notificação assim que a arena decidir.</p></div>
+          <div class="chatc"><span class="cic"><i data-lucide="message-circle"></i></span><div class="tx"><span class="b1m">Chat da partida</span><span class="cap muted">Nenhuma mensagem ainda. Comece a conversa.</span></div><i data-lucide="chevron-right"></i></div>
+        </div>
+        <div class="rodape"><button class="btn dng"><i data-lucide="trash-2"></i>Apagar partida</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 CONVIDAR -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">3</div>
+        <div class="passo-txt"><b>Convidar jogadores</b><span>Busque pelo nome e toque em "Convidar". Cada linha mostra se a pessoa já está na partida, se o convite foi enviado ou se dá pra convidar de novo. Com seleção de time manual, escolha antes o time do convidado. Em partida privada, convite e link são as únicas portas de entrada.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Convidar jogadores</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="input foco"><i data-lucide="search" style="color:var(--primary)"></i><span>Ca</span><span style="flex:1"></span><i data-lucide="x"></i></div>
+          <div class="lg">
+            <div class="lr"><span class="avatar sm">C</span><img class="cat" src="../img/categoria-c.png" alt=""><span class="l">Carol Prado</span><span class="v">Convite enviado</span><span class="perfil-btn"><i data-lucide="user-round"></i></span></div>
+            <div class="lr"><span class="avatar sm">C</span><img class="cat" src="../img/categoria-b.png" alt=""><span class="l">Caio Nunes</span><span class="v link">Convidar</span><span class="perfil-btn"><i data-lucide="user-round"></i></span></div>
+            <div class="lr"><span class="avatar sm">C</span><img class="cat" src="../img/categoria-ausente.png" alt=""><span class="l">Camila Reis</span><span class="v link">Convidar de novo</span><span class="perfil-btn"><i data-lucide="user-round"></i></span></div>
+          </div>
+        </div>
+        <div class="rodape"><span class="cap muted">1 confirmado(s) nesta partida.</span><button class="btn">Concluir</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 EDITAR -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">4</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Editar partida</b><span>Enquanto a partida não acontece, quem criou pode mudar o local, a data e hora, o nível, a visibilidade e as observações. Trocar o local avisa no chat da partida, e trocar para uma arena volta a pedir a aprovação dela. Modalidade e formato não mudam.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Editar partida</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="lugar">
+            <span class="b2m muted">Onde vai ser?</span>
+            <div class="seg-rn comic"><span><i data-lucide="map-pin"></i>Por endereço</span><span class="on"><i data-lucide="building-2"></i>Por arena</span></div>
+            <div class="input"><i data-lucide="building-2" style="color:var(--primary)"></i><span class="v grow">Arena Maré Alta</span><i data-lucide="x"></i><i data-lucide="chevron-down"></i></div>
+            <p class="cap muted">Partidas em arena ficam pendentes até ela aprovar.</p>
+          </div>
+          <div class="sel"><span class="rot">Data e hora</span><div class="input"><span class="v">03/10/2026 às 19:00</span><i data-lucide="chevron-down"></i></div></div>
+          <div><p class="sec-t">Nível do jogo</p><div class="chips" style="flex-wrap:nowrap"><span class="chip">Qualquer</span><span class="chip cat-only" style="flex:1;justify-content:center"><img class="cat" src="../img/categoria-d.png" alt="D"></span><span class="chip cat-only on-laranja" style="flex:1;justify-content:center"><img class="cat" src="../img/categoria-c.png" alt="C"></span><span class="chip cat-only" style="flex:1;justify-content:center"><img class="cat" src="../img/categoria-b.png" alt="B"></span><span class="chip cat-only" style="flex:1;justify-content:center"><img class="cat" src="../img/categoria-a.png" alt="A"></span></div></div>
+          <div><p class="sec-t">Visibilidade</p>
+            <div class="choice">
+              <div class="ccard on"><div class="tp"><span class="nm"><i data-lucide="globe"></i>Pública</span><span class="rd"></span></div><span class="cap muted">Qualquer jogador acha e entra.</span></div>
+              <div class="ccard"><div class="tp"><span class="nm"><i data-lucide="lock"></i>Privada</span><span class="rd"></span></div><span class="cap muted">Só convidados ou quem tiver o link.</span></div>
+            </div></div>
+          <div class="input area"><span>Traz bola nova que a gente racha.</span></div>
+        </div>
+        <div class="rodape"><button class="btn">Salvar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 ENTRAR (outro jogador, times manuais) -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">5</div>
+        <div class="passo-txt"><b>Entrar na partida (outro jogador)</b><span>Ao encontrar uma partida pública, toque para entrar. O chat fica trancado até você entrar. Com seleção de time manual, escolha um time com vaga ou crie um novo e chame parceiros por nome ou e-mail. Se a partida pedir outro nível, aparece um aviso no lugar do botão.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body g12">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Detalhes da partida</span><span class="ld"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="row sb"><p class="t2">Beach tennis</p><span class="tag sem-ponto ok">Aberta</span></div>
+          <div class="row" style="gap:0"><span class="b2 muted">03/10 · 19:00 · </span><span class="b2m laranja">Arena Maré Alta</span></div>
+          <div class="row" style="gap:4px"><i data-lucide="navigation" class="ic16" style="color:var(--primary)"></i><span class="b2m laranja">Como chegar</span></div>
+          <div class="chatc"><span class="cic lock"><i data-lucide="lock"></i></span><div class="tx"><span class="b1m">Chat da partida</span><span class="cap muted" style="white-space:normal">Entre na partida pra conversar com quem vai jogar.</span></div></div>
+          <div class="lg">
+            <div class="lr"><i data-lucide="signal"></i><span class="l">Nível</span><img class="cat c28" src="../img/categoria-c.png" alt="C"></div>
+            <div class="lr"><i data-lucide="eye"></i><span class="l">Visibilidade</span><span class="v">Público</span></div>
+            <div class="lr"><i data-lucide="grid-2x2"></i><span class="l">Formato</span><span class="v">2x2</span></div>
+            <div class="lr"><i data-lucide="users"></i><span class="l">Seleção de time</span><span class="v">Manual</span></div>
+          </div>
+          <div class="row" style="gap:4px"><i data-lucide="flag" style="width:14px;height:14px;color:var(--text-muted)"></i><span class="cap muted">Denunciar</span></div>
+          <div class="sec-hdr"><span class="t3">Participantes (3)</span></div>
+          <div class="lg">
+            <div class="prow-m"><span class="avatar sm">B</span><img class="cat" src="../img/categoria-c.png" alt=""><span class="grow">Bia Moreira</span><span class="b2m muted">Capitão</span><i data-lucide="chevron-right"></i></div>
+            <div class="prow-m"><span class="avatar sm">C</span><img class="cat" src="../img/categoria-c.png" alt=""><span class="grow">Carol Prado</span><span class="b2m muted">A</span><i data-lucide="chevron-right"></i></div>
+            <div class="prow-m"><span class="avatar sm">D</span><img class="cat" src="../img/categoria-c.png" alt=""><span class="grow">Duda Martins</span><span class="b2m muted">Capitão</span><i data-lucide="chevron-right"></i></div>
+          </div>
+          <div class="col g8" style="margin-top:16px">
+            <span class="b2m muted">Escolha seu time</span>
+            <div class="lg"><div class="srow2 on"><span class="grow">Time do(a) Duda (1/2)</span><span class="mk"><i data-lucide="check"></i></span></div></div>
+            <div class="lg"><div class="srow2"><span class="grow">Criar novo time</span><span class="mk"></span></div></div>
+            <button class="btn" style="margin-top:4px">Entrar na partida</button>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 PARTIDAS -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">6</div>
+        <div class="passo-txt"><b>Partidas</b><span>Na hora do jogo, "Gerar partidas" começa o jogo e sorteia as partidas entre os confirmados. Toque numa partida para abrir o placar. Qualquer jogador confirmado pode organizar.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body g12">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Partidas</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <p class="b2 muted">Beach tennis · 4 jogadores por partida</p>
+          <p class="sec-t" style="margin:0">Partidas geradas</p>
+          <div class="lista">
+            <div class="rcard">
+              <div class="rh"><span class="capm">TIME DO(A) BIA</span><span class="cap muted">x</span><span class="capm" style="text-align:right">TIME DO(A) CAIO</span></div>
+              <div class="rm"><div class="avatars"><span class="avatar sm">B</span><span class="avatar sm">C</span></div><span class="t3 num">6 x 4</span><div class="avatars"><span class="avatar sm">C</span><span class="avatar sm">D</span></div></div>
+            </div>
+            <div class="rcard">
+              <div class="rh"><span class="capm">TIME DO(A) LARA</span><span class="cap muted">x</span><span class="capm" style="text-align:right">TIME DO(A) GUI</span></div>
+              <div class="rm"><div class="avatars"><span class="avatar sm">L</span><span class="avatar sm">T</span></div><span class="cap muted">Ainda não jogada</span><div class="avatars"><span class="avatar sm">G</span><span class="avatar sm">V</span></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="rodape">
+          <span class="cap muted">Sorteia 2 partida(s) com os 8 jogadores confirmados.</span>
+          <button class="btn"><i data-lucide="shuffle"></i>Gerar mais partidas</button>
+          <button class="btn ter">Encerrar jogo</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- PELADA: SORTEIO E PAUSA -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">7</div>
+        <div class="passo-txt"><b>Como funciona o sorteio</b><span>Em "Partidas", abra "Como funciona o sorteio". Entra no sorteio quem está confirmado e fora de pausa, e tem prioridade quem jogou menos jogos na pelada: quem sobrou no último "Gerar" ou chegou depois entra primeiro. Em cada jogo os times saem equilibrados pelo nível na modalidade, em zigue-zague: o mais forte e o mais fraco ficam juntos contra os do meio. Quem não tem nível conta como o nível do meio. Com times fixos (seleção manual), os times se enfrentam em pares e, com número ímpar, fica de fora o time que jogou mais.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/pelada/pausa-04b-regras-sorteio.jpg" alt="Tela Partidas com "Como funciona o sorteio" aberto"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">8</div>
+        <div class="passo-txt"><b>Pausar um jogador (quem criou)</b><span>Quem cansou ou precisou sair não precisa deixar a pelada. Quem criou toca no nome de qualquer confirmado na lista de participantes para abrir as opções dele. Essa opção só existe na partida comum com jogos gerados, enquanto ela está rolando.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/pelada/pausa-01-lista.jpg" alt="Lista de participantes da pelada com os botões "Partidas", "Pausar minha participação" e "Apagar partida""></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">9</div>
+        <div class="passo-txt"><b>Escolha "Pausar"</b><span>O jogador continua na pelada, com chat, pontos e ranking da partida, mas sai dos próximos jogos gerados. "Ver perfil" abre o perfil dele, como antes.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/pelada/pausa-02-sheet-organizador.jpg" alt="Opções da jogadora Nina Azevedo, "Confirmado na pelada", com "Pausar" e "Ver perfil""></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">10</div>
+        <div class="passo-txt"><b>Etiqueta "Pausa"</b><span>O app confirma com "Fora dos próximos jogos", e o jogador ganha a etiqueta "Pausa" ao lado do nome. Para tirar a pausa, toque no nome de novo e escolha "Voltar a jogar".</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/pelada/pausa-03-etiqueta.jpg" alt="Aviso "Fora dos próximos jogos" e etiqueta "Pausa" ao lado de Nina Azevedo"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">11</div>
+        <div class="passo-txt"><b>Quem está em pausa, em Partidas</b><span>Acima dos jogos aparece a faixa "Em pausa, fora do sorteio", com os nomes. O rodapé também avisa quantos ficam de fora. Jogo já gerado não muda: a pausa vale a partir do próximo "Gerar".</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/pelada/pausa-04-faixa-partidas.jpg" alt="Tela Partidas com a faixa "Em pausa, fora do sorteio (1): Nina Azevedo." e o botão "Gerar mais partidas""></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">12</div>
+        <div class="passo-txt"><b>Gerar sem quem está em pausa</b><span>Toque em "Gerar mais partidas". Os jogos novos saem só com quem está fora de pausa. Na seleção manual, o jogador em pausa continua no time, mas não entra na escalação do jogo.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/pelada/pausa-05-gerou-sem-pausado.jpg" alt="Três partidas geradas, nenhuma com Nina Azevedo, e a faixa de pausa no topo"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">13</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Pausar a sua participação</b><span>Se você é jogador confirmado, o rodapé dos detalhes da partida mostra "Pausar minha participação". Quem criou também tem esse botão para si mesmo.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/pelada/pausa-06-rodape-jogador.jpg" alt="Detalhes da partida de Beach Tennis com "Gerar partidas" e "Pausar minha participação" no rodapé"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">14</div>
+        <div class="passo-txt"><b>Você está em pausa</b><span>Depois de pausar, aparece "Fora dos próximos jogos", a etiqueta "Pausa" no seu nome e o aviso "Você está fora dos próximos jogos gerados." no rodapé.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/pelada/pausa-07-jogador-pausado.jpg" alt="Aviso "Fora dos próximos jogos", etiqueta "Pausa" e o botão "Voltar a jogar""></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">15</div>
+        <div class="passo-txt"><b>Voltar a jogar</b><span>Toque em "Voltar a jogar" quando quiser. O app mostra "De volta ao sorteio", e você entra de novo a partir do próximo "Gerar".</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/pelada/pausa-08-jogador-voltou.jpg" alt="Aviso "De volta ao sorteio" e o botão "Pausar minha participação" de volta no rodapé"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 PLACAR DA PARTIDA -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">16</div>
+        <div class="passo-txt"><b>Placar da partida (por set)</b><span>Em esporte de set, lance set a set. Seguindo a regra da modalidade, cada set é conferido, e o texto fica vermelho se o placar sair da regra. Se a modalidade tiver vários sets, aparece "Adicionar set".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body g12">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Partidas</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <p class="b2 muted">Beach tennis · 4 jogadores por partida</p>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="sheet rn">
+          <div class="sheet-cab"><span class="t3">Partida 2</span><i data-lucide="x"></i></div>
+          <div class="col g12">
+            <div class="board"><span class="b2m colw">Time do(a) Lara</span><span class="b2m muted">x</span><span class="b2m colw">Time do(a) Gui</span></div>
+            <div class="setrow">
+              <div class="hd"><span class="b2m">Placar</span><span class="cap muted" style="text-align:right">6 games, com 2 de vantagem (7-5 ou 7-6)</span></div>
+              <div class="board">
+                <div class="colw"><div class="cc"><i data-lucide="minus"></i><span class="bx">7</span><i data-lucide="plus"></i></div></div>
+                <span class="t2 muted">x</span>
+                <div class="colw"><div class="cc"><i data-lucide="minus"></i><span class="bx">5</span><i data-lucide="plus"></i></div></div>
+              </div>
+            </div>
+          </div>
+          <button class="btn">Salvar placar</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7b LANÇAR PLACAR (sem partidas simultâneas) -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">16b</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Lançar placar</b><span>Na modalidade sem partidas simultâneas, o placar é único, lançado pelo botão "Lançar placar" nos detalhes da partida ou no desafio confirmado. O placar não aceita empate, a não ser em esporte de gols. Esses 3 e 1 pontos valem para a classificação da partida; o ranking competitivo da aba Ranking do app é outro.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="padding-top:4px">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Lançar placar</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <p class="b2 muted" style="text-align:center">Quem venceu?</p>
+          <div class="board">
+            <div class="sc"><span class="bx">3</span><div class="bt"><i data-lucide="minus"></i><i data-lucide="plus"></i></div><span class="cap muted">Time A</span></div>
+            <span class="t2 muted">x</span>
+            <div class="sc"><span class="bx">1</span><div class="bt"><i data-lucide="minus"></i><i data-lucide="plus"></i></div><span class="cap muted">Time B</span></div>
+          </div>
+          <p class="cap muted" style="text-align:center">Quem venceu recebe 3 pontos; quem jogou, 1. É isso que monta o ranking.</p>
+        </div>
+        <div class="rodape"><button class="btn">Salvar resultado</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 RANKING DA PARTIDA -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">17</div>
+        <div class="passo-txt"><b>Ranking da partida</b><span>Depois do primeiro placar, a lista de participantes ganha a aba "Ranking", ao lado de "Jogadores". Rodada vencida vale 3 pontos, e rodada jogada sem vitória vale 1. Quem empata em pontos divide a posição. Embaixo do nome aparecem as vitórias (V) e as rodadas jogadas (J).</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body g12">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Detalhes da partida</span><span class="ld"><i data-lucide="pencil"></i><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="row sb"><p class="t2">Beach tennis</p><span class="tag sem-ponto ok">Aberta</span></div>
+          <div class="row" style="gap:0"><span class="b2 muted">03/10 · 19:00 · </span><span class="b2m laranja">Arena Maré Alta</span></div>
+          <div class="sec-hdr"><span class="t3">Participantes (8)</span><span class="b2m laranja">Convidar</span></div>
+          <div class="seg-rn"><span>Jogadores</span><span class="on">Ranking</span></div>
+          <div class="col g8">
+            <div class="card rk eu"><span class="av-pod"><span class="avatar">B</span><span class="medalha" style="background:var(--gold)">1</span></span><div class="nmc"><span class="nmr"><img class="cat" src="../img/categoria-c.png" alt=""><span class="b1m">Bia Moreira</span></span><span class="cap laranja">Você</span><span class="cap muted">2 V · 3 J</span></div><span class="ptc"><i data-lucide="trophy" style="color:var(--gold)"></i>7 pts</span></div>
+            <div class="card rk"><span class="av-pod"><span class="avatar">C</span><span class="medalha" style="background:var(--gold)">1</span></span><div class="nmc"><span class="nmr"><img class="cat" src="../img/categoria-c.png" alt=""><span class="b1m">Carol Prado</span></span><span class="cap muted">2 V · 3 J</span></div><span class="ptc"><i data-lucide="trophy" style="color:var(--gold)"></i>7 pts</span></div>
+            <div class="card rk"><span class="av-pod"><span class="avatar">L</span><span class="medalha" style="background:var(--bronze)">3</span></span><div class="nmc"><span class="nmr"><img class="cat" src="../img/categoria-c.png" alt=""><span class="b1m">Lara Mendes</span></span><span class="cap muted">1 V · 3 J</span></div><span class="ptc"><i data-lucide="trophy" style="color:var(--bronze)"></i>5 pts</span></div>
+            <div class="card rk"><span class="pos">4</span><span class="avatar md">C</span><div class="nmc"><span class="nmr"><img class="cat" src="../img/categoria-b.png" alt=""><span class="b1">Caio Nunes</span></span><span class="cap muted">0 V · 3 J</span></div><span class="ptc fora">3 pts</span></div>
+          </div>
+          <p class="cap muted">3 pts por rodada vencida, 1 por rodada jogada (V = vitórias, J = rodadas). Empate em pontos divide a posição.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 ENCERRADA -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">18</div>
+        <div class="passo-txt"><b>Partida encerrada</b><span>Depois de encerrada, os participantes aparecem em ordem de pontos somados, e o craque eleito ganha a coroa no avatar. Enquanto a votação está aberta, aparece quantos já votaram. Na aba "Ranking", o rodapé passa a dizer que os pontos já foram contados.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body g12">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Detalhes da partida</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="row sb"><p class="t2">Beach tennis</p><span class="tag sem-ponto neutro">Concluída</span></div>
+          <div class="row" style="gap:0"><span class="b2 muted">03/10 · 19:00 · </span><span class="b2m laranja">Arena Maré Alta</span></div>
+          <div class="sec-hdr"><span class="t3">Participantes (8)</span></div>
+          <div class="seg-rn"><span class="on">Jogadores</span><span>Ranking</span></div>
+          <div class="lg">
+            <div class="prow-m"><span class="av-wrap"><span class="avatar sm">B</span><span class="coroa"><i data-lucide="crown"></i></span></span><img class="cat" src="../img/categoria-c.png" alt=""><span class="grow">Bia Moreira</span><span class="b2m muted">7 pts</span><i data-lucide="chevron-right"></i></div>
+            <div class="prow-m"><span class="avatar sm">C</span><img class="cat" src="../img/categoria-c.png" alt=""><span class="grow">Carol Prado</span><span class="b2m muted">7 pts</span><i data-lucide="chevron-right"></i></div>
+            <div class="prow-m"><span class="avatar sm">L</span><img class="cat" src="../img/categoria-c.png" alt=""><span class="grow">Lara Mendes</span><span class="b2m muted">5 pts</span><i data-lucide="chevron-right"></i></div>
+            <div class="prow-m"><span class="avatar sm">T</span><img class="cat" src="../img/categoria-b.png" alt=""><span class="grow">Tati Freitas</span><span class="b2m muted">5 pts</span><i data-lucide="chevron-right"></i></div>
+            <div class="prow-m"><span class="avatar sm">C</span><img class="cat" src="../img/categoria-b.png" alt=""><span class="grow">Caio Nunes</span><span class="b2m muted">3 pts</span><i data-lucide="chevron-right"></i></div>
+          </div>
+          <div class="col g8" style="margin-top:16px">
+            <p class="b2 muted">Este jogo já foi encerrado — só é possível visualizar.</p>
+            <p class="cap muted">5 de 8 participantes votaram</p>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- PELADA: REABRIR -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">19</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Reabrir partida</b><span>Lançou um jogo errado e já encerrou? Quem criou vê "Reabrir partida" até 24h depois de encerrar, enquanto o resultado não entrou no ranking. Se alguém contestou o placar ou o resultado já foi contado no ranking, o botão some. Vale só para partida comum: torneio, desafio, desafio recorrente e partida de marca não reabrem.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/pelada/reabrir-01-encerrada.jpg" alt="Partida encerrada com o botão "Reabrir partida" e o card "Placar aguardando confirmação""></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">20</div>
+        <div class="passo-txt"><b>Confirmar a reabertura</b><span>O app avisa que os jogos lançados serão apagados e o placar sai do ranking. Junto saem os pontos da partida e a votação do craque. "Apagar jogos e reabrir" confirma; "Manter encerrada" desiste.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/pelada/reabrir-02-confirmacao.jpg" alt="Pergunta "Reabrir a partida?" com "Apagar jogos e reabrir" e "Manter encerrada""></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">21</div>
+        <div class="passo-txt"><b>Partida reaberta</b><span>Aparece "Partida reaberta", e a partida volta para antes do encerramento: "Gerar partidas" está de volta para lançar tudo de novo. Os participantes e quem estava em pausa continuam como estavam.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/pelada/reabrir-03-reaberta.jpg" alt="Aviso "Partida reaberta", lista de participantes e o botão "Gerar partidas""></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 9 VOTO MVP -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">22</div>
+        <div class="passo-txt"><b>Craque do jogo</b><span>Depois da partida encerrada, a votação abre sozinha no Início. Escolha quem foi o craque entre os confirmados. Você não pode votar em si mesmo, mas pode trocar o voto até a votação fechar.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas home-fundo">
+                    <div class="card mcard"><div class="capa"><i data-lucide="table-2"></i></div><div class="ct"><div class="l1"><span class="b2m">Beach tennis</span><span class="tag sem-ponto neutro">Concluída</span></div><div class="l2"><i data-lucide="map-pin"></i><span class="b2">Arena Maré Alta</span></div><div class="l3"><span class="f cap">03/10 · 19:00</span><span class="cap row" style="gap:2px"><i data-lucide="users"></i>8</span></div></div></div>
+        </div>
+        <div class="tabbar" data-abas="jogador" data-ativa="inicio"></div>
+        <div class="sheet-veu"></div>
+        <div class="sheet rn">
+          <div class="sheet-cab"><span class="t3">Craque do jogo</span><i data-lucide="x"></i></div>
+          <p class="b2 muted">Escolha quem foi o craque da partida. Você pode trocar o voto até a votação fechar.</p>
+          <div class="col g8">
+            <div class="mvp-row on"><span class="avatar md">B</span><span class="grow">Bia Moreira</span><i data-lucide="check"></i></div>
+            <div class="mvp-row"><span class="avatar md">C</span><span class="grow">Carol Prado</span></div>
+            <div class="mvp-row"><span class="avatar md">L</span><span class="grow">Lara Mendes</span></div>
+            <div class="mvp-row"><span class="avatar md">T</span><span class="grow">Tati Freitas</span></div>
+          </div>
+          <button class="btn">Votar no craque</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 10 MVP SUCESSO -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">23</div>
+        <div class="passo-txt"><b>Você é o craque do jogo!</b><span>Quando a votação termina, quem ganhou vê a tela da coroa com o número de votos recebidos. Dali dá pra compartilhar ou voltar para a partida.</span></div>
+      </div>
+      <div class="phone" id="mvp-anim"><div class="screen" style="background:var(--primary-soft)">
+        <div class="screen-body mvp-corpo" style="justify-content:center;align-items:center;gap:12px;text-align:center">
+          <div class="mvp-confete"><i class="cf l" style="left:1.8%;background:var(--primary);--d:0.50s;--r:513deg"></i><i class="cf" style="left:6.0%;background:var(--gold);--d:0.46s;--r:391deg"></i><i class="cf" style="left:9.1%;background:var(--primary-tint);--d:0.46s;--r:407deg"></i><i class="cf l" style="left:15.7%;background:var(--primary-dark);--d:0.08s;--r:289deg"></i><i class="cf" style="left:17.0%;background:var(--primary);--d:0.73s;--r:430deg"></i><i class="cf" style="left:21.0%;background:var(--gold);--d:0.88s;--r:527deg"></i><i class="cf l" style="left:27.6%;background:var(--primary-tint);--d:0.55s;--r:237deg"></i><i class="cf" style="left:29.2%;background:var(--primary-dark);--d:0.48s;--r:201deg"></i><i class="cf" style="left:34.1%;background:var(--primary);--d:0.22s;--r:191deg"></i><i class="cf l" style="left:39.4%;background:var(--gold);--d:0.40s;--r:483deg"></i><i class="cf" style="left:43.7%;background:var(--primary-tint);--d:0.58s;--r:360deg"></i><i class="cf" style="left:48.5%;background:var(--primary-dark);--d:0.41s;--r:280deg"></i><i class="cf l" style="left:54.0%;background:var(--primary);--d:0.90s;--r:482deg"></i><i class="cf" style="left:57.0%;background:var(--gold);--d:0.28s;--r:263deg"></i><i class="cf" style="left:59.5%;background:var(--primary-tint);--d:0.06s;--r:456deg"></i><i class="cf l" style="left:64.1%;background:var(--primary-dark);--d:0.76s;--r:319deg"></i><i class="cf" style="left:70.5%;background:var(--primary);--d:0.76s;--r:180deg"></i><i class="cf" style="left:71.7%;background:var(--gold);--d:0.82s;--r:349deg"></i><i class="cf l" style="left:78.9%;background:var(--primary-tint);--d:0.36s;--r:206deg"></i><i class="cf" style="left:81.7%;background:var(--primary-dark);--d:0.70s;--r:277deg"></i><i class="cf" style="left:83.7%;background:var(--primary);--d:0.30s;--r:527deg"></i><i class="cf l" style="left:90.5%;background:var(--gold);--d:0.11s;--r:269deg"></i><i class="cf" style="left:92.1%;background:var(--primary-tint);--d:0.05s;--r:467deg"></i><i class="cf" style="left:96.5%;background:var(--primary-dark);--d:0.50s;--r:341deg"></i></div>
+          <div class="palco mvp-palco"><img class="mvp-mascote" src="../img/mascote-etapa-final.png" alt=""></div>
+          <span class="coroa-pill mvp-coroa"><i data-lucide="crown"></i><span class="capm">Craque do jogo</span></span>
+          <p class="t1 mvp-titulo">Você é o craque do jogo!</p>
+          <p class="b1 muted mvp-texto">A votação terminou e você foi o mais votado na partida de Beach tennis.</p>
+          <p class="b2m muted mvp-texto">4 voto(s) recebido(s)</p>
+        </div>
+        <div class="rodape" style="background:transparent">
+          <button class="btn"><i data-lucide="share-2"></i>Compartilhar</button>
+          <button class="btn contorno">Voltar para a partida</button>
+        </div>
+      </div></div>
+      <button type="button" class="btn contorno inline mvp-rever" id="mvp-rever"><i data-lucide="rotate-ccw"></i>Rever animação</button>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 11 MVP HIGHLIGHT -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">24</div>
+        <div class="passo-txt"><b>Destaque no perfil</b><span>No perfil, o card mostra quantas vezes você foi eleito craque. "Coroa ativa" aparece enquanto você está com a coroa da última partida.</span></div>
+      </div>
+      <div class="card mvph">
+        <span class="medal"><i data-lucide="crown"></i></span>
+        <div class="grow col g4" style="gap:2px"><div class="row" style="gap:4px;align-items:baseline"><span class="t3">3x</span><span class="b1m">Craque do jogo</span></div><span class="cap muted">Eleito pelos jogadores no fim da partida</span></div>
+        <span class="ativa">Coroa ativa</span>
+      </div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 12 HISTÓRICO -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">25</div>
+        <div class="passo-txt"><b>Histórico</b><span>Mostra seu desempenho e as 5 partidas mais recentes. "Partidas" lista todas, e "Estatísticas" mostra os pontos por modalidade, com link para as estatísticas completas.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Histórico</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="seg-rn"><span class="on">Resumo</span><span>Partidas</span><span>Estatísticas</span></div>
+          <div><p class="sec-t">Seu desempenho</p>
+            <div class="stat3"><div class="card"><span class="cap muted">Partidas</span><span class="t2 num">42</span></div><div class="card"><span class="cap muted">Vitórias</span><span class="t2 num">27</span></div><div class="card"><span class="cap muted">Desempenho</span><span class="t2 num">64%</span></div></div></div>
+          <div><p class="sec-t">Atividade recente</p><div class="lista">
+            <div class="card mcard"><div class="capa"><i data-lucide="table-2"></i></div><div class="ct"><div class="l1"><span class="b2m">Beach tennis</span><span class="tag sem-ponto neutro">Concluída</span></div><div class="l2"><i data-lucide="map-pin"></i><span class="b2">Arena Maré Alta</span></div><div class="l3"><span class="f cap">03/10 · 19:00</span><span class="cap row" style="gap:2px"><i data-lucide="users"></i>8</span></div></div></div>
+            <div class="card mcard"><div class="capa"><i data-lucide="volleyball"></i></div><div class="ct"><div class="l1"><span class="b2m">Futevôlei</span><span class="tag sem-ponto neutro">Concluída</span></div><div class="l2"><i data-lucide="map-pin"></i><span class="b2">Arena Maré Alta</span></div><div class="l3"><span class="f cap">30/09 · 20:00 <i data-lucide="zap"></i></span><span class="cap row" style="gap:2px"><i data-lucide="users"></i>4</span></div></div></div>
+            <div class="card mcard"><div class="capa"><i data-lucide="volleyball"></i></div><div class="ct"><div class="l1"><span class="b2m">Vôlei</span><span class="tag sem-ponto erro">Cancelada</span></div><div class="l2"><i data-lucide="map-pin"></i><span class="b2">Arena Ponta do Sol</span></div><div class="l3"><span class="f cap">21/09 · 17:00</span><span class="cap row" style="gap:2px"><i data-lucide="users"></i>6</span></div></div></div>
+          </div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 13 DENÚNCIA -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">26</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Denunciar partida</b><span>Se a partida não é sua, toque em "Denunciar" e descreva o motivo. A denúncia vai contra quem criou, junto com a partida.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body g12">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Detalhes da partida</span><span class="ld"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="row sb"><p class="t2">Beach tennis</p><span class="tag sem-ponto ok">Aberta</span></div>
+          <div class="row" style="gap:0"><span class="b2 muted">03/10 · 19:00 · </span><span class="b2m laranja">Arena Maré Alta</span></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="sheet rn" style="gap:12px">
+          <div class="sheet-cab"><span class="t3">Denunciar</span><i data-lucide="x"></i></div>
+          <p class="b2 muted">Conte o que aconteceu. Sua denúncia é confidencial — quem você denunciou não fica sabendo.</p>
+          <div class="input area foco"><span>Descrição da partida com conteúdo ofensivo.</span></div>
+          <button class="btn">Enviar denúncia</button>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Preciso escolher uma arena?</summary><p>Não. Em "Onde vai ser?" você escolhe por endereço ou por arena, nunca os dois. Por endereço, a partida já sai confirmada e o endereço pode até ficar em branco. Por arena, ela fica pendente até a arena aprovar. Só corrida, CrossFit e Hyrox exigem arena.</p></details>
+    <details><summary>Quem fica sabendo da minha partida?</summary><p>Partida pública sem arena avisa quem joga a modalidade na cidade do endereço assim que é criada. Se o endereço ficar em branco ou o app não achar a cidade, ninguém é avisado. Partida privada não aparece na busca: só entra quem foi convidado ou tem o link.</p></details>
+    <details><summary>E se eu mudar o local depois?</summary><p>Quem está na partida vê o aviso no chat dela, com o novo local. Se você trocar para uma arena, a partida volta a ficar pendente até essa arena aprovar.</p></details>
+    <details><summary>Quantos pontos eu ganho numa partida?</summary><p>Na aba Ranking da partida, rodada vencida vale 3 pontos e rodada jogada sem vitória vale 1. Esses pontos montam a classificação da partida. O ranking competitivo, da aba Ranking do app, é outro: mede o seu nível pelo resultado dos jogos, não pela soma de pontos.</p></details>
+    <details><summary>Posso votar em mim mesmo para craque?</summary><p>Não. Você escolhe entre os outros confirmados e pode trocar o voto até a votação fechar.</p></details>
+    <details><summary>Dá pra mudar a modalidade depois de criar?</summary><p>Não. Quem criou muda o local, a data e hora, o nível, a visibilidade e as observações, mas modalidade e formato ficam como estão.</p></details>
+    <details><summary>Preciso sair da partida se cansei?</summary><p>Não. Toque em "Pausar minha participação": você continua na partida, com chat e pontos, mas fica fora dos próximos jogos gerados. Quem criou também pode pausar qualquer confirmado. "Voltar a jogar" coloca você de novo no sorteio a partir do próximo "Gerar".</p></details>
+    <details><summary>Por que eu fiquei de fora de um jogo?</summary><p>O sorteio monta grupos do tamanho do formato, e quem sobra sem fechar um grupo fica de fora daquele "Gerar". No próximo, você passa na frente, porque entra primeiro quem jogou menos jogos na partida.</p></details>
+    <details><summary>Como o app equilibra os times?</summary><p>Pelo nível de cada um na modalidade: em cada jogo, o mais forte e o mais fraco ficam juntos contra os do meio. Quem não tem nível na modalidade conta como o nível do meio da partida.</p></details>
+    <details><summary>Lancei um placar errado e já encerrei. E agora?</summary><p>Quem criou pode tocar em "Reabrir partida" até 24h depois de encerrar. Os jogos lançados, os pontos e a votação do craque são apagados, e é só gerar e lançar de novo. Se o placar foi contestado ou o resultado já entrou no ranking, não dá mais para reabrir. Torneio, desafio e partida de marca não reabrem.</p></details>
+    <details><summary>O placar aceita empate?</summary><p>Só em esporte de gols. Nos outros, o app não deixa lançar empate.</p></details>
+  </div>
+</section>
+
+<script>
+  /* "Rever animação" do craque do jogo */
+  (function () {
+    var alvo = document.getElementById('mvp-anim'), botao = document.getElementById('mvp-rever');
+    if (!alvo) return;
+    function tocar() { alvo.classList.remove('play'); void alvo.offsetWidth; alvo.classList.add('play'); }
+    tocar();
+    if (botao) botao.addEventListener('click', tocar);
+  })();
+</script>
+<script src="../kit.js"></script>
+</body>
+</html>
