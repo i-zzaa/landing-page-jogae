@@ -74,7 +74,7 @@
       <div class="container">
         <span class="eyebrow"><span class="dot"></span> Como funciona</span>
         <h1>Regras do Desafiaê</h1>
-        <p class="legal-meta">Última atualização: setembro de 2026</p>
+        <p class="legal-meta">Última atualização: outubro de 2026</p>
         <p class="legal-intro" style="margin-top:16px">Tudo o que o app aplica em torneios, partidas, desafios, aulas e reservas de quadra: quem pode fazer o quê, como o placar é lançado, como a pontuação é calculada e o que acontece quando um prazo passa.</p>
         <div class="rules-tabs" role="tablist" aria-label="Regras">
           <button class="rules-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="torneios" data-tab="torneios">Torneios</button>
@@ -106,10 +106,23 @@
             <li><b>Todos contra todos:</b> cada equipe enfrenta todas as outras, no número de turnos definido pela arena. No returno, os mandos se invertem.</li>
             <li><b>Pontos corridos:</b> liga com pontuação por vitória definida pela arena; vence quem terminar em 1º na classificação. Turnos é opcional: 1 se ficar vazio, 2 para ida e volta, com os mandos invertidos no returno.</li>
           </ul>
+          <h3>Modalidades, data e hora</h3>
+          <ul class="rule-list">
+            <li>Um torneio pode ter <b>mais de uma modalidade</b>. Cada categoria tem uma modalidade só: com uma modalidade no torneio a categoria herda; com mais de uma, a arena escolhe a de cada categoria. Placar, classificação e ranking seguem a modalidade da categoria.</li>
+            <li>O torneio tem data e, opcionalmente, <b>hora de início</b>. Cada categoria começa com a data e a hora do torneio e pode ter as suas, desde que dentro do período do torneio.</li>
+            <li>Com o torneio publicado, a arena ainda <b>inclui categoria</b> enquanto pode editar o torneio (até ser finalizado, cancelado ou passar a data de fim). Editar ou apagar uma categoria só vale no rascunho. Categoria nova entra aberta para inscrição, com as mesmas exigências da publicação.</li>
+          </ul>
+          <h3>Quem pode jogar e premiação</h3>
+          <ul class="rule-list">
+            <li>Cada categoria pode limitar quem entra: <b>níveis aceitos</b> (um ou mais; "Qualquer" deixa aberta a todos), <b>só nível validado</b> por uma arena, <b>gênero</b> (livre, masculino, feminino ou misto) e <b>idade</b> mínima e máxima. Tudo é opcional.</li>
+            <li>A checagem é feita no servidor para cada pessoa que entra na equipe — quem cria a equipe, quem é convidado e quem pede entrada. Na categoria <b>mista</b>, a equipe precisa ter pelo menos um homem e uma mulher.</li>
+            <li>Gênero e data de nascimento ficam no perfil, privados. Quem ainda não informou e quer entrar numa categoria que pede o dado informa na hora.</li>
+            <li>A categoria pode mostrar a <b>premiação</b> do 1º ao 3º lugar, em texto livre (opcional). Ela aparece para o atleta e na imagem do torneio para o story.</li>
+          </ul>
           <h3>Composição da equipe</h3>
           <ul class="rule-list">
-            <li>Ao criar uma categoria, a composição já vem sugerida pela modalidade do torneio: em simples e dupla, o elenco é do tamanho dos titulares; em equipe de 3 ou mais, o elenco vai até o dobro dos titulares, para caber reserva.</li>
-            <li>A arena pode mudar qualquer número. Máximo no elenco precisa ser maior ou igual ao mínimo, titulares até o máximo, e mínimo para iniciar até os titulares.</li>
+            <li>Ao criar uma categoria, a composição já vem sugerida pela modalidade da categoria: o formato diz quantas pessoas de cada equipe entram em quadra (2x2 no futevôlei), e as inscrições por equipe, quantas podem se inscrever. Em simples e dupla, as inscrições são do tamanho do formato; em equipe de 3 ou mais, vão até o dobro, para caber reserva.</li>
+            <li>A arena pode mudar qualquer número. Quem se inscreve além do formato é reserva: 3 inscrições num 2x2 dão 1 reserva. As inscrições nunca ficam abaixo do formato, o mínimo para se inscrever não passa das inscrições, e o mínimo para iniciar não passa do formato.</li>
           </ul>
           <h3>Disputa de 3º lugar</h3>
           <ul class="rule-list">
@@ -123,9 +136,9 @@
         <article class="legal-section">
           <h2><span>02</span>Regulamento</h2>
           <ul class="rule-list">
-            <li>Além das regras que o app aplica, cada torneio pode ter um <b>regulamento escrito pela arena</b>: atraso e tolerância, W.O., uniforme, bola e o que mais a arena quiser combinar.</li>
-            <li>A arena guarda um <b>modelo por modalidade</b>. Ao criar o torneio, o app copia o modelo da modalidade escolhida — é cópia, não link: mudar o modelo depois não altera torneio já criado.</li>
-            <li>O regulamento do torneio pode ser ajustado até o torneio ser finalizado ou cancelado.</li>
+            <li>Além das regras que o app aplica, cada categoria pode ter um <b>regulamento escrito pela arena</b>: atraso e tolerância, W.O., uniforme, bola e o que mais a arena quiser combinar.</li>
+            <li>A arena guarda um <b>modelo por modalidade</b>. Ao criar a categoria, o app copia o modelo da modalidade dela — é cópia, não link: mudar o modelo depois não altera categoria já criada.</li>
+            <li>O regulamento aparece na tela da categoria e no chat dela.</li>
             <li>Mudou o regulamento de um torneio já publicado, <b>quem está inscrito é avisado</b>.</li>
             <li>O regulamento não muda o placar: a regra de placar de cada esporte continua fixa.</li>
           </ul>
@@ -138,6 +151,9 @@
             <li>O capitão convoca os companheiros. Cada convocado aceita ou recusa o convite.</li>
             <li>Quem pede para entrar na equipe de outra pessoa faz um <b>pedido de entrada</b>, que precisa ser aprovado pelo capitão ou pela arena. O pedido já ocupa uma vaga enquanto aguarda.</li>
             <li>Cada jogador participa de <b>uma equipe por categoria</b>, e o nome da equipe não pode se repetir na mesma categoria.</li>
+            <li><b>Dupla tem sempre o nome dos dois jogadores</b> (ex.: "Bia e Carla"); na categoria mista, a mulher vem primeiro. Com nomes iguais na categoria, entra a inicial do sobrenome. De 3 jogadores para cima, o capitão escolhe o nome e pode mudá-lo.</li>
+            <li>Na criação da equipe, o capitão já convida o parceiro <b>pelo nome ou pelo e-mail</b>. E-mail de quem já tem conta vira convite no app; de quem não tem, chega um e-mail para se cadastrar e entrar na equipe.</li>
+            <li>Até o chaveamento, o capitão pode <b>tirar um integrante</b> (ou cancelar um convite) e <b>passar a capitania</b> para um integrante confirmado. Qualquer integrante pode <b>sair da equipe</b>; se quem sai é o capitão, a capitania passa para o confirmado mais antigo, e sem ninguém a equipe é desfeita.</li>
             <li>A equipe tem um número máximo de jogadores definido pela categoria. Convites e pedidos pendentes também contam.</li>
             <li>Depois que o chaveamento é gerado, não entram novas equipes e jogadores confirmados não podem sair.</li>
           </ul>
@@ -151,9 +167,24 @@
             <li><b>Todos pagam:</b> a equipe confirma quando não há convites pendentes, tem o mínimo de jogadores e todos os confirmados pagaram.</li>
             <li><b>Categoria gratuita:</b> todo jogador confirmado conta como pago. Categoria nova sempre tem taxa de inscrição — as gratuitas criadas antes dessa mudança seguem valendo.</li>
           </ul>
+          <p>Completa e paga, a inscrição <b>espera a aprovação</b> da arena ou de um moderador: só equipe aprovada fica confirmada e entra no chaveamento. Se a formação mudar depois da aprovação (alguém sai, é tirado ou entra), ela volta a esperar. No desafio entre arenas não há essa etapa, porque quem monta as equipes já é a arena.</p>
+          <p>Quem pagou a inscrição em dinheiro ou Pix direto para a arena pode ser marcado pela organização como <b>"pagou por fora"</b>: conta como pago, mas fica fora do valor recebido no app e não tem estorno automático.</p>
+          <p>Até o chaveamento, a arena ou um moderador pode <b>remover uma equipe</b>; quem está nela é avisado. Quem pagou pelo app recebe o <b>estorno automático</b> no Pix ou cartão, e o mesmo vale para quem sai da equipe ou é tirado dela.</p>
           <p>Toda categoria de torneio tem <b>taxa de inscrição</b>, e a arena organizadora precisa ter a conta do Mercado Pago conectada para publicar: é por ela que o dinheiro da inscrição entra.</p>
           <p>O pagamento da inscrição é feito dentro do app, depois de aceitar o convite, por <b>Pix</b> ou <b>cartão</b>. Taxas, reembolsos e condições são definidos por cada arena (veja os <a href="/termos">Termos de Uso</a>).</p>
           <p>Em cada categoria a arena escolhe quem paga a taxa de serviço do Desafiaê: ela pode <b>absorver</b> a taxa, e o atleta paga só o valor da inscrição, ou <b>repassar</b>, e o valor mostrado no app já vem com a taxa somada — nesse caso a arena recebe a inscrição cheia. O preço que aparece na categoria é sempre o que o atleta vai pagar.</p>
+          <h3>Ingresso por lote</h3>
+          <p>A inscrição pode ter valor único ou ser vendida em <b>lotes</b> (Lote 1, Lote 2…). Só um lote fica aberto por vez; quando ele vira, o preço sobe para quem ainda não pagou. A categoria mostra o lote aberto, quantas vagas restam e o preço do próximo.</p>
+          <ul class="rule-list">
+            <li><b>O lote conta atleta, não equipe:</b> cada um paga o lote aberto na hora do próprio pagamento. O parceiro que paga depois da virada paga o lote novo, e o app avisa antes.</li>
+            <li><b>Quando o lote vira:</b> a arena escolhe, por categoria, se ele vira ao esgotar as vagas, numa data, ou o que vier primeiro. O último lote pode ficar sem limite de vagas.</li>
+            <li><b>Vaga guardada por 30 minutos:</b> ao abrir o pagamento, a vaga fica reservada com o preço travado, no Pix e no cartão. Se o tempo acabar sem pagar, a vaga volta para o lote. Com todas as vagas do lote em pagamento, quem chega espera alguém pagar ou desistir — o próximo lote não abre antes.</li>
+            <li><b>Pagamento que chega depois do prazo:</b> entra se o lote ainda tiver vaga; se ele já tiver esgotado, o valor é devolvido automaticamente e o atleta é avisado.</li>
+            <li><b>Estorno não devolve vaga</b> ao lote, e lote que virou não reabre. Pagamento repetido também é devolvido automaticamente.</li>
+            <li>Fora o último, todo lote precisa ter limite de vagas ou data de virada. Quem foi marcado como <b>"pagou por fora"</b> também ocupa vaga do lote aberto.</li>
+            <li>Os lotes só mudam enquanto o torneio é rascunho (ou, numa categoria nova, antes da primeira equipe).</li>
+            <li>Equipe pela metade quando o último lote esgota: quem ainda não pagou fica sem vaga.</li>
+          </ul>
         </article>
 
         <article class="legal-section">
@@ -168,6 +199,7 @@
 
         <article class="legal-section">
           <h2><span>06</span>Chaveamento e fila de quadras</h2>
+          <p>A arena pode <b>fechar as inscrições e gerar o chaveamento de todas as categorias de uma vez</b>. Só gera a categoria que está pronta (equipes confirmadas e com check-in suficientes); a que não está segue aberta, e quem está travando recebe o motivo por notificação.</p>
           <ul class="rule-list">
             <li>O chaveamento é gerado pela organização uma única vez por categoria. A partir daí o torneio fica <b>em andamento</b>.</li>
             <li>Os jogos <b>não têm horário fixo</b>: cada quadra da categoria recebe o próximo confronto da fila assim que fica livre. A ordem segue a fase, a rodada e o grupo.</li>
@@ -213,6 +245,12 @@
             <li><b>Vôlei de quadra:</b> vitória por 3x0 ou 3x1 vale 3 pontos; vitória por 3x2 vale 2; derrota por 2x3 vale 1.</li>
             <li><b>Demais esportes de sets:</b> a classificação é por número de vitórias.</li>
           </ul>
+          <h3>Ranking da categoria</h3>
+          <ul class="rule-list">
+            <li>Cada categoria tem a aba <b>Ranking</b>, em todo formato. O ranking é sempre de uma categoria: categorias nunca se misturam, e quem pontua é a equipe.</li>
+            <li>Na liga e na fase de grupos, o ranking é a tabela. No mata-mata e na dupla eliminação, a posição vem da fase em que a equipe caiu, e <b>quem cai na mesma fase divide a posição</b> (por exemplo, 5º a 8º). Quem ainda está vivo aparece em "Na disputa".</li>
+            <li>Com a categoria encerrada, o ranking vira a classificação final, com pódio — a mesma colocação que pontua a temporada.</li>
+          </ul>
           <h3>Ordem de desempate</h3>
           <div class="rules-table-wrap">
             <table class="rules-table">
@@ -241,8 +279,8 @@
           <ul class="rule-list">
             <li>Em torneio, o placar é lançado <b>somente pela organização</b>: dono, administrador ou gerente da arena, e moderadores convidados.</li>
             <li>Jogadores não lançam placar de torneio.</li>
-            <li>O moderador precisa ser convidado até 1 dia antes do início e perde o acesso depois da data de fim do torneio. Ele não edita categorias, não publica e não cancela o torneio.</li>
-            <li>Depois de lançado, o placar não pode ser alterado.</li>
+            <li>O moderador pode ser convidado a qualquer momento, inclusive no dia e durante o torneio, até ele ser encerrado ou cancelado, e perde o acesso depois da data de fim do torneio. Ele não edita categorias, não publica e não cancela o torneio.</li>
+            <li>Quem lança o placar pode <b>corrigir um placar já lançado</b> enquanto a categoria não encerrou. Mantendo o vencedor, a correção vale sempre. Trocar o vencedor só vale enquanto o jogo seguinte (e, conforme o formato, a repescagem ou a disputa de 3º) ainda não tem placar; na fase de grupos, só antes de o mata-mata ser montado. Com a troca, quem passa a vencer ocupa a vaga no jogo seguinte (com a mesma quadra e o mesmo horário), e os pontos e o ranking competitivo são refeitos; os atletas não são avisados da correção. A final e o último jogo da liga não são corrigidos, porque o placar deles encerra a categoria.</li>
             <li>Quem lança o placar pode escolher o <b>craque do jogo</b>, entre os atletas das duas equipes. É opcional e dá para trocar ou tirar até a data de fim do torneio. Jogo de torneio não tem votação de craque entre os jogadores.</li>
             <li>A categoria destaca com a <b>coroa</b> quem foi escolhido craque mais vezes nela. Empate fica com quem tem mais vitórias na categoria e, se continuar, com quem chegou primeiro a esse número.</li>
           </ul>
@@ -276,6 +314,7 @@
           <ul class="rule-list">
             <li>Quem acumula ponto é o <b>atleta</b>, nunca a equipe: dupla e time podem mudar de formação entre as etapas.</li>
             <li>A temporada tem categorias próprias, e cada categoria de etapa aponta para uma delas. <b>Categoria de etapa sem essa ligação não pontua.</b></li>
+            <li>A temporada pode ter <b>mais de uma modalidade</b>: cada categoria do circuito tem a sua, a categoria da etapa só se liga a uma do circuito da mesma modalidade, e o ranking sai separado por modalidade.</li>
             <li>Pontuação padrão: <b>100 / 80 / 65 / 50 / 40 / 30 / 20 / 10</b> do 1º ao 8º lugar, mais pontos de participação para quem terminou a etapa fora dessa faixa. Cada temporada pode editar a tabela.</li>
             <li>O <b>descarte</b> é opcional: valem as melhores N etapas de cada atleta, para quem faltou a uma etapa seguir competindo.</li>
             <li>Desempate: mais etapas vencidas, depois melhor colocação numa etapa, depois mais etapas disputadas.</li>
@@ -297,12 +336,13 @@
         <article class="legal-section">
           <h2><span>01</span>Criar uma partida</h2>
           <ul class="rule-list">
-            <li>Jogadores e arenas podem criar partidas. É obrigatório escolher a modalidade e a data e hora; a arena é opcional.</li>
+            <li>Jogadores e arenas podem criar partidas. É obrigatório escolher a modalidade e a data e hora.</li>
+            <li><b>Onde vai ser:</b> por endereço (digitado ou pela localização do celular, e pode ficar em branco) ou por arena, nunca os dois. Por endereço não há aprovação: a partida já sai confirmada. Corrida, CrossFit e Hyrox só podem ser marcados numa arena.</li>
             <li>Também é possível definir nível (qualquer, D, C, B ou A), visibilidade (pública ou privada), formato de 1x1 a 15x15 e como os times são formados.</li>
             <li>Em esportes de sets, escolhe-se a pontuação: <b>seguir a modalidade</b> (padrão) ou <b>livre</b> (veja <a href="#placar-partida">Placar</a>).</li>
             <li>Quem cria a partida entra como capitão confirmado.</li>
             <li>Partida marcada numa arena fica <b>pendente até a arena aprovar</b> (partida criada por desafio não passa por isso). Se a arena recusar, a partida é cancelada. Quem organizou é avisado nos dois casos.</li>
-            <li>Partida pública aprovada numa arena avisa jogadores da mesma cidade que praticam a modalidade.</li>
+            <li>Partida pública aprovada numa arena avisa jogadores da mesma cidade que praticam a modalidade. Partida pública por endereço avisa, já na criação, quem pratica a modalidade na cidade do endereço.</li>
           </ul>
         </article>
 
@@ -310,8 +350,8 @@
           <h2><span>02</span>Quem pode entrar</h2>
           <ul class="rule-list">
             <li><b>Partida pública:</b> qualquer pessoa vê e pode entrar, desde que haja vaga, a partida já esteja aprovada e o seu nível seja o mesmo definido para a partida.</li>
-            <li><b>Partida privada:</b> só entra quem recebe convite.</li>
-            <li><b>Times manuais:</b> quem entra escolhe ou cria um time. <b>Times aleatórios:</b> o app sorteia os times a cada rodada.</li>
+            <li><b>Partida privada:</b> não aparece na busca; entra quem recebe convite ou tem o link da partida.</li>
+            <li><b>Times manuais:</b> quem entra escolhe ou cria um time. <b>Sorteio:</b> o app sorteia os times a cada rodada.</li>
             <li>É possível sair da partida até ela ser concluída.</li>
           </ul>
         </article>
@@ -321,8 +361,12 @@
           <ul class="rule-list">
             <li>A partida passa por: aberta, em jogo e concluída.</li>
             <li>Qualquer jogador confirmado ou a organização pode iniciar e encerrar a partida.</li>
-            <li>Data, arena, nível, visibilidade e observações podem ser editados até a partida ser concluída. Modalidade e formato não mudam.</li>
+            <li>Data, local (arena ou endereço), nível, visibilidade e observações podem ser editados até a partida ser concluída. Modalidade e formato não mudam.</li>
+            <li>Trocar o local avisa no chat da partida. Trocar para uma arena (ou para outra arena) volta a pedir a aprovação dela.</li>
             <li>Partidas não expiram sozinhas. Se o jogo não for encerrado, quem criou recebe um lembrete 3 horas depois do horário marcado.</li>
+            <li>Quem criou pode <b>reabrir a partida</b> até 24 horas depois de encerrar, enquanto o resultado não entrou no ranking competitivo (contestado ou já processado não reabre). Reabrir apaga os jogos lançados, os pontos e o craque do jogo, e o próximo encerramento volta a contar.</li>
+            <li>Um jogador pode ficar <b>em pausa</b>: continua na partida, no chat e no ranking do evento, mas fica fora dos próximos jogos gerados. O próprio jogador ou quem criou a partida pausa e tira a pausa; jogo já gerado não muda.</li>
+            <li><b>Sorteio dos jogos:</b> entra primeiro quem jogou menos jogos na partida (quem ficou de fora no último sorteio ou chegou depois). Em cada jogo, os times são equilibrados pelo nível na modalidade: o mais forte e o mais fraco ficam juntos contra os do meio; quem não tem nível conta como o nível do meio. Com times fixos e número ímpar de times, fica de fora o time que jogou mais.</li>
           </ul>
         </article>
 
@@ -334,23 +378,36 @@
             <li><b>Seguir a modalidade:</b> em esportes de sets, cada set é validado pela regra do esporte (a mesma tabela de <a href="#torneios">Torneios</a>).</li>
             <li><b>Livre:</b> até 5 sets por jogo, com qualquer placar, desde que nenhum set e nenhum jogo termine empatado.</li>
             <li>Empate só é permitido em esportes de gols. Basquete e esportes de sets sempre têm vencedor.</li>
-            <li>Não há confirmação do placar pelo time adversário. <b>Depois de concluída, a partida não pode mais ser alterada.</b></li>
+            <li>Os pontos valem na hora, sem confirmação do adversário. Para o <a href="#ranking-competitivo">ranking competitivo</a>, o placar lançado por quem venceu espera 24 horas para o outro lado confirmar ou contestar. <b>Depois de concluída, a partida não pode mais ser alterada</b>, a não ser que quem criou a reabra (veja Andamento).</li>
           </ul>
         </article>
 
         <article class="legal-section">
-          <h2><span>05</span>Pontos e ranking</h2>
+          <h2><span>05</span>Pontos</h2>
           <ul class="rule-list">
             <li>A cada jogo, quem vence recebe <b>3 pontos</b>; quem joga e perde recebe <b>1 ponto</b>. Em caso de empate (só em esportes de gols), todos recebem 1 ponto.</li>
-            <li>Os pontos formam o ranking semanal e mensal de cada modalidade.</li>
-            <li>A posição é sempre dentro de um <b>recorte</b>: modalidade, período, cidade e nível. Trocar qualquer um deles muda a posição — não existe uma colocação única.</li>
-            <li>A lista do ranking é aberta a todo mundo. <b>Sua posição</b> — quem está logo acima e logo abaixo, quanto falta para o próximo e a evolução dos últimos 6 meses — fica em Minhas estatísticas, no plano pago do jogador.</li>
+            <li>Os pontos contam na classificação de cada partida, desafio recorrente e torneio, e são o saldo da aposta nos desafios.</li>
+            <li>Depois do primeiro placar, a partida ganha a aba <b>Ranking</b>: a posição de cada um, com vitórias e rodadas jogadas. Empate em pontos divide a posição.</li>
             <li>O resultado não muda o seu nível. O nível só muda quando uma arena aprova (veja <a href="#niveis">Níveis</a>).</li>
           </ul>
         </article>
 
+        <article class="legal-section" id="ranking-competitivo" style="scroll-margin-top:100px">
+          <h2><span>06</span>Ranking competitivo</h2>
+          <ul class="rule-list">
+            <li>Cada jogador tem um <b>rating por modalidade</b>, que mede habilidade e não quantidade de jogos. Todo mundo começa em 1.500.</li>
+            <li>Vencer quem é mais forte vale mais; perder para quem é mais forte custa pouco. Em dupla ou time, a força da equipe vem do rating de quem jogou, mas o rating é sempre de cada jogador — trocar de parceiro não muda nada.</li>
+            <li>Contam desafios, partidas, desafios recorrentes e torneios. Partida de marca, cancelada ou contestada não conta.</li>
+            <li>O placar lançado por quem venceu espera <b>24 horas</b>: o outro lado pode confirmar ou contestar. Lançado pela arena, pelo moderador ou por quem perdeu, vale na hora. Contestar tira a partida do ranking competitivo, mas não muda o placar nem os pontos.</li>
+            <li>As 10 primeiras partidas são de <b>calibração</b> (ranking provisório): o rating muda rápido e você ainda não entra nas tabelas.</li>
+            <li>O rating vira <b>divisão</b> — Bronze, Prata, Ouro, Platina, Diamante e Mestre (III, II e I) e Lenda — e posição no Brasil, no estado, na cidade, na arena e entre quem já jogou com você.</li>
+            <li>Cada <b>temporada</b> dura um trimestre. Na virada ninguém volta para 1.500: o rating se aproxima de 1.500 pela metade da distância. Ficar sem jogar não tira pontos, mas deixa o rating mais solto para se ajustar quando você voltar.</li>
+            <li>No <b>plano Premium</b> do jogador você vê o seu ranking: rating, posições e histórico. As tabelas com os outros jogadores são do <b>plano Elite</b>. O emblema da divisão no perfil e o resultado de cada partida aparecem para todo mundo.</li>
+          </ul>
+        </article>
+
         <article class="legal-section">
-          <h2><span>06</span>Craque do jogo</h2>
+          <h2><span>07</span>Craque do jogo</h2>
           <ul class="rule-list">
             <li>A votação abre quando a partida é concluída, se houver pelo menos 2 jogadores confirmados.</li>
             <li>Só jogadores confirmados votam, sempre em outro jogador, com 1 voto por pessoa. Dá para trocar o voto enquanto a votação estiver aberta.</li>
@@ -377,18 +434,20 @@
             <li>Informe a modalidade, a categoria, a arena, a data e hora e o formato (1x1 a 15x15). Observações e provocação são opcionais, e a provocação é escolhida entre as <b>frases prontas</b> do app.</li>
             <li>Em esportes de sets, escolha a pontuação: <b>seguir a modalidade</b> (padrão) ou <b>livre</b>. A partida criada pelo desafio usa essa escolha.</li>
             <li>Quem desafia entra como capitão do seu time. Os companheiros escolhidos recebem uma convocação.</li>
-            <li>Quem desafia pode editar arena, data, nível e observações enquanto o rival não responde.</li>
+            <li>Quem desafia pode colocar <b>5, 10 ou 20 pontos do ranking</b> em jogo. Só dá para apostar o que todo mundo do desafio tem na modalidade, e não existe aposta em desafio de marca.</li>
+            <li>Quem desafia pode editar o local (arena ou endereço), data, nível, observações e o valor da aposta enquanto o rival não responde.</li>
           </ul>
-          <p class="rules-note"><b>Plano gratuito:</b> 1 desafio a cada 7 dias. Desafios recusados ou cancelados devolvem a vaga. No Premium e no Elite, os desafios são ilimitados.</p>
+          <p class="rules-note"><b>Plano gratuito:</b> 1 desafio a cada 7 dias. Desafios recusados ou cancelados devolvem a vaga. No Premium e no Elite, os desafios são ilimitados. Um desafio por semana ao seu <a href="#rival-da-semana">rival da semana</a> não conta nesse limite.</p>
         </article>
 
         <article class="legal-section">
           <h2><span>02</span>Aceite e formação dos times</h2>
           <ul class="rule-list">
             <li>Só o desafiado responde. Ao <b>aceitar</b>, ele vira capitão do outro time. Ao <b>recusar</b>, quem desafiou é avisado.</li>
+            <li>Aceitar um desafio com aposta é aceitar a aposta. Quem não tem o valor na modalidade não consegue aceitar nem ser convocado.</li>
             <li>Cada capitão convoca os companheiros. Se alguém recusa, o capitão é avisado para convocar outra pessoa.</li>
             <li>Quando os dois times estão completos e ninguém está pendente, o desafio é <b>confirmado</b> e vira uma partida privada. No 1x1, isso acontece assim que o desafio é aceito.</li>
-            <li>A arena escolhida é só o local do jogo: <b>não precisa aprovar</b> o desafio e não há quadra definida. Quando o desafio é confirmado, a arena recebe um aviso de que ele foi marcado lá.</li>
+            <li>O desafio pode ser marcado por endereço ou numa arena. A arena escolhida é só o local do jogo: <b>não precisa aprovar</b> o desafio e não há quadra definida. Quando o desafio é confirmado, a arena recebe um aviso de que ele foi marcado lá.</li>
             <li>Com o desafio confirmado, os jogadores podem trocar provocações, sempre escolhidas entre as <b>frases prontas</b> do app — não existe provocação de texto livre. Ainda assim, um desafio pode ser denunciado.</li>
           </ul>
         </article>
@@ -407,8 +466,10 @@
         <article class="legal-section">
           <h2><span>04</span>Resultado</h2>
           <ul class="rule-list">
-            <li>O placar do desafio é lançado como numa partida comum (veja <a href="#placar-partida">Placar</a>): por um jogador confirmado que jogou ou pela organização, sem confirmação do adversário.</li>
-            <li>A tela de resultado mostra o placar, os vencedores, os pontos (+3 para quem vence, +1 para quem joga), se a provocação foi sustentada e o histórico entre os capitães.</li>
+            <li>O placar do desafio é lançado como numa partida comum (veja <a href="#placar-partida">Placar</a>): por um jogador confirmado que jogou ou pela organização. Sem aposta, os pontos valem sem a confirmação do adversário; para o <a href="#ranking-competitivo">ranking competitivo</a>, vale a mesma espera de 24 horas da partida comum.</li>
+            <li><b>Com aposta</b>, o time que perdeu confirma ou contesta o placar em até 24 horas. Sem resposta, vale o placar lançado. Se contestar, a aposta é cancelada e a partida conta só os pontos de sempre. Quem lança a própria derrota paga na hora.</li>
+            <li>Aposta paga: cada jogador do time vencedor ganha o valor apostado e cada um do perdedor perde o mesmo valor, sem ficar com saldo negativo. Empate não mexe em ninguém. Os pontos da aposta entram no saldo de pontos da modalidade, na data do jogo.</li>
+            <li>A tela de resultado mostra o placar, os vencedores, os pontos (+3 para quem vence, +1 para quem joga, mais a aposta quando houver), se a provocação foi sustentada e o histórico entre os capitães.</li>
             <li>A partida do desafio também tem votação de craque do jogo.</li>
           </ul>
         </article>
@@ -427,21 +488,36 @@
           <p class="rules-note"><b>No fim do prazo o resultado sai sozinho:</b> a melhor marca vale <b>3 pontos</b> e quem lançou marca vale <b>1 ponto</b> no ranking da modalidade. Empate na melhor marca dá 3 pontos a todos os empatados. Quem não lançou não pontua e, se ninguém lançar, o desafio é encerrado sem resultado e todos são avisados.</p>
         </article>
 
-        <article class="legal-section">
-          <h2><span>06</span>Arena x arena</h2>
+        <article class="legal-section" id="recordes" style="scroll-margin-top:100px">
+          <h2><span>06</span>Recordes e relógio</h2>
           <ul class="rule-list">
-            <li>Uma arena desafia outra montando um torneio com categorias por nível (D a Profissional). <b>Enviar um desafio exige plano Premium ou Elite</b>; responder funciona em qualquer plano.</li>
+            <li>Cada marca de desafio ou partida de marca <b>já encerrados</b> entra no seu histórico, e a melhor de cada prova vira o seu <b>recorde</b>. A primeira marca de uma prova também conta, e você é avisado quando bate um recorde.</li>
+            <li><b>Corrida:</b> um recorde por distância. <b>Hyrox:</b> um por formato (Individual Open e Individual Pro); o simulado não vira recorde. <b>CrossFit:</b> só WOD de referência (Fran, Grace, Cindy, 1RM…) vira recorde; o WOD livre vale para o desafio, mas não conta. O recorde é a melhor marca RX; quem só fez Scaled vê a melhor Scaled.</li>
+            <li>O recorde atual de cada prova é <b>para todos</b>. A evolução da prova (gráfico e todas as marcas) é do <b>Premium e do Elite</b>.</li>
+            <li>Conectando o <b>Apple Saúde</b> ou a <b>Polar</b>, o tempo do treino entra na marca, com o selo do relógio no ranking. Vale em qualquer plano.</li>
+            <li>O relógio preenche marcas de tempo: corrida, Hyrox e CrossFit For Time. AMRAP e carga máxima continuam digitados. Na corrida vale o melhor trecho com a distância exata da prova.</li>
+            <li>Só entra treino gravado pelo relógio entre o começo do desafio e o prazo (na partida de marca, do horário até 24 horas depois). Treino digitado à mão no Saúde ou no Polar Flow não entra, e a marca digitada no app não leva o selo.</li>
+            <li>Ninguém vê os seus treinos: no ranking aparece só a marca lançada, com o aparelho.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section">
+          <h2><span>07</span>Arena x arena</h2>
+          <ul class="rule-list">
+            <li>Uma arena desafia outra montando um torneio com categorias por nível (D a Profissional), em uma ou mais modalidades — com mais de uma, sai uma categoria por modalidade e nível. <b>Enviar um desafio exige plano Premium ou Elite</b>; responder funciona em qualquer plano.</li>
             <li>A arena desafiada pode aceitar (o torneio é publicado e as duas arenas o organizam juntas), recusar ou sugerir alterações (o convite volta para ajuste).</li>
             <li>A arena que desafia pode cancelar o convite enquanto ele não foi respondido.</li>
             <li>Convite sem resposta até a data do evento é cancelado automaticamente, e as duas arenas são avisadas.</li>
             <li>Cada arena convoca seus próprios jogadores. <b>Quem é convocado pela arena não paga nada.</b> Chaveamento, placar e classificação seguem as regras de <a href="#torneios">Torneios</a>.</li>
             <li>As categorias do desafio têm <b>taxa de inscrição</b>, cobrada só de quem pede entrada pelo link compartilhado. As duas arenas precisam ter a conta do Mercado Pago conectada, porque cada uma recebe a inscrição dos atletas da própria equipe.</li>
             <li>Depois do aceite, o desafio pode ser <b>compartilhado por link</b>: qualquer jogador com conta escolhe a arena e a categoria e pede entrada numa equipe. Só o capitão daquela equipe ou a própria arena dela aprova, e só até o chaveamento ser gerado.</li>
+            <li><b>Placar das arenas:</b> cada categoria encerrada vale 1 ponto para a arena da equipe campeã. Ganha o desafio a arena que levar mais categorias, e empate fica empate. O placar não mexe no ranking de ninguém.</li>
+            <li>Depois do aceite, qualquer jogador que abre o desafio vê a aba <b>Ranking</b>, com o placar das arenas e o ranking de cada categoria, mostrando por qual arena cada equipe joga.</li>
           </ul>
         </article>
 
         <article class="legal-section">
-          <h2><span>07</span>Desafio recorrente</h2>
+          <h2><span>08</span>Desafio recorrente</h2>
           <ul class="rule-list">
             <li>A arena cria o desafio para um mês, com dois lados (Time A e Time B) e categorias com dia da semana, horário, quadra e número de jogadores por lado. Publicar exige plano Premium ou Elite.</li>
             <li>O jogador escolhe um lado numa categoria e pode sair enquanto o desafio estiver publicado.</li>
@@ -449,11 +525,12 @@
             <li>Quem é sorteado confirma presença. Se alguém recusa, o app procura um substituto do mesmo lado. Sem substituto, só aquele confronto é cancelado.</li>
             <li>Com todos confirmados, o confronto vira uma partida no dia e horário da categoria, sempre com a pontuação da modalidade.</li>
             <li><b>Ranking do mês:</b> cada game ou ponto que a sua equipe marca soma para você. A partida também vale os pontos normais do ranking geral.</li>
+            <li>O ranking fica numa aba da própria categoria e mostra de que lado cada um joga. Empate em games divide a posição.</li>
           </ul>
         </article>
 
         <article class="legal-section" id="niveis" style="scroll-margin-top:100px">
-          <h2><span>08</span>Níveis</h2>
+          <h2><span>09</span>Níveis</h2>
           <ul class="rule-list">
             <li>Os níveis são D, C, B, A e P (Profissional), definidos <b>por modalidade</b>.</li>
             <li>O jogador pede o nível a uma arena com a qual tem vínculo naquela modalidade. A arena aprova, recusa ou concede outro nível.</li>
@@ -463,6 +540,20 @@
             <li><b>Trocar de arena</b> na modalidade derruba a validação: o nível volta a declarado até a nova arena validar. A arena anterior não é avisada, e o pedido dela fica no histórico.</li>
             <li><b>Mudar o próprio nível</b> também derruba a validação. O app avisa antes de você confirmar.</li>
             <li>Vínculo aprovado é público nos dois lados: o perfil do jogador mostra as <b>arenas com vínculo aprovado</b>, cada uma com as modalidades que ele joga lá, e o perfil da arena mostra <b>quem joga ali</b>. Qualquer jogador vê os dois. Pedido pendente ou recusado não aparece.</li>
+          </ul>
+        </article>
+
+        <article class="legal-section" id="rival-da-semana" style="scroll-margin-top:100px">
+          <h2><span>10</span>Rival da semana</h2>
+          <ul class="rule-list">
+            <li>Toda semana, no mesmo dia e hora para todo mundo, o app forma <b>pares de rivais</b> por cidade e modalidade: cada um tem um rival só, e o rival tem você de volta. Na virada, você recebe a notificação com o rival e a chance. Modalidade de marca (corrida, Hyrox e CrossFit) não tem rival.</li>
+            <li>Entra quem tem cidade no perfil, deixou ligado <b>Aparecer como rival</b> e joga a modalidade: jogou no ranking nos últimos 60 dias ou, se ainda não jogou, declarou o nível nela e abriu o app nos últimos 30 dias. Quem já joga forma par primeiro. Conta de arena, bloqueio, "não sugerir mais" e o parceiro de sempre ficam de fora. O app mostra só a cidade, nunca bairro ou endereço. "Aparecer como rival" se desliga nas Configurações.</li>
+            <li>O nível precisa ser parecido: <b>chance de vitória entre 40% e 60%</b> pelo <a href="#ranking-competitivo">ranking competitivo</a>, ou o mesmo nível declarado quando um dos dois ainda está em calibração. Também pesam os mesmos dias e horários, a mesma arena (contam jogos, partidas, torneios, reservas de quadra e aulas com check-in) e um confronto equilibrado.</li>
+            <li>O mesmo par só volta depois de <b>4 semanas</b>, a não ser que não haja outro candidato na cidade.</li>
+            <li>Quem sobra fica na <b>semana de sorte</b>: recebe uma sugestão sem compromisso e entra primeiro nos pares da semana seguinte.</li>
+            <li>O rival aparece na Início por 24 horas e depois fica numa faixa abaixo do banner de desafio, até vocês jogarem. Depois do jogo, ele some até a próxima semana.</li>
+            <li><b>Um desafio por semana</b> ao rival (ou, na semana de sorte, a qualquer jogador) não gasta o desafio grátis. O desafio segue as regras normais de desafio.</li>
+            <li>O rival e a chance de vitória são para todos. O emblema da divisão no card é do <b>Elite</b>. <b>Trocar de rival</b> é do Premium e do Elite, uma vez por semana, e quem foi trocado não fica sabendo. A lista completa de <b>adversários sugeridos</b> é do Elite.</li>
           </ul>
         </article>
       </div>
@@ -478,9 +569,13 @@
         <article class="legal-section">
           <h2><span>01</span>Inscrição</h2>
           <ul class="rule-list">
-            <li>As turmas são criadas pela arena, com professor, dia, horário e número de vagas. Aulas fazem parte do <b>plano Elite</b> da arena.</li>
+            <li>As turmas são criadas pela arena, com professor, dia, horário e número de vagas. Aulas valem em <b>todos os planos</b> da arena, a partir do Básico.</li>
             <li>A inscrição <b>abre 24 horas antes</b> do início da aula e fecha quando a aula começa, sempre pelo horário do servidor.</li>
-            <li>Qualquer conta pode se inscrever, menos o professor daquela aula.</li>
+            <li>Qualquer conta de jogador pode se inscrever, menos o professor daquela aula.</li>
+            <li>A turma pode aceitar <b>um, vários ou qualquer nível</b>. Para se inscrever sozinho, você precisa ter um desses níveis na modalidade.</li>
+            <li>A equipe da arena (gestão, recepção ou o professor) também pode pôr você numa aula, até ela acabar, passando por cima da janela de 24 horas e do nível. Com plano que cobre a turma, a aula conta no plano; sem plano, o acerto é com a arena, fora do app.</li>
+            <li>Turma sem data final segue sem prazo: as aulas ficam sempre marcadas com um ano de antecedência.</li>
+            <li>Você recebe um lembrete 1 hora antes de cada aula em que está inscrito.</li>
             <li>Não dá para estar inscrito em duas aulas no mesmo horário. Aulas seguidas podem.</li>
             <li>Você pode cancelar a inscrição até o início da aula.</li>
           </ul>
@@ -501,6 +596,13 @@
             <li><b>Pelo plano:</b> quem tem um plano de mensalidade válido que cobre a modalidade entra pelo plano. A arena pode definir que uma turma aceita só alguns planos.</li>
             <li><b>Avulsa:</b> sem plano válido, você paga a aula avulsa pelo app, se a turma tiver preço de avulsa.</li>
             <li>Turma sem preço de avulsa é só para quem tem plano.</li>
+          </ul>
+          <h3>Turma fixa</h3>
+          <ul class="rule-list">
+            <li>A arena pode deixar a turma <b>fixa</b>: só os alunos de uma lista que ela monta. Eles já ficam inscritos em todas as aulas, sem a janela de 24 horas e sem plano.</li>
+            <li>Na turma fixa ninguém de fora entra pelo app e não há aula avulsa.</li>
+            <li>Se não puder ir, desmarque a aula: a vaga daquele dia é liberada, e você pode voltar para ela enquanto não começou.</li>
+            <li>Mudanças na lista valem das próximas aulas em diante. Quem sai da lista é avisado e perde as próximas aulas.</li>
           </ul>
         </article>
 
@@ -537,8 +639,8 @@
         <article class="legal-section">
           <h2><span>06</span>Check-in</h2>
           <ul class="rule-list">
-            <li>O check-in é feito pela gestão da arena ou pelo professor daquela aula, lendo o QR code do seu ingresso ou pela lista de inscritos.</li>
-            <li>Só vale no dia da aula, e o ingresso de outra aula é recusado.</li>
+            <li>O check-in é feito pela gestão da arena, pela recepção ou pelo professor daquela aula, lendo o QR code do seu ingresso ou pela lista de inscritos.</li>
+            <li>A presença pode ser marcada do dia da aula até <b>48 horas depois do fim</b>, e o ingresso de outra aula é recusado.</li>
             <li>Um check-in marcado por engano pode ser desfeito, e fica registrado quem marcou e quem desfez.</li>
           </ul>
         </article>
@@ -556,10 +658,11 @@
           <h2><span>08</span>Aluno da TotalPass e da Wellhub</h2>
           <ul class="rule-list">
             <li>Funciona nas arenas do plano Elite que conectaram o agregador. Você não precisa do Desafiaê: o check-in e a reserva continuam no app da TotalPass ou da Wellhub.</li>
-            <li>O check-in cai sozinho na aula da modalidade que a arena aceita pelo agregador e que começa até 15 minutos antes ou depois. Fora disso, a equipe da arena encaixa você numa aula ou recusa o check-in.</li>
+            <li>O check-in cai sozinho na aula da modalidade que a arena aceita pelo agregador e que começa até 15 minutos antes ou depois. Fora disso, a equipe da arena encaixa você numa aula ou recusa o check-in, e o professor da turma é avisado.</li>
             <li>Com a agenda da arena publicada no agregador, a reserva abre 24 horas antes e fecha no início da aula. Ela é confirmada na hora se houver vaga; senão, é recusada.</li>
             <li>Quem reservou cai direto na aula reservada ao fazer o check-in, de 60 minutos antes até 45 minutos depois do início. Sem check-in até o fim da aula, a reserva fica como falta.</li>
-            <li>A vaga de quem vem pelo agregador conta na lotação da turma, e a arena pode limitar quantas vagas de cada turma ficam para agregador.</li>
+            <li>A vaga de quem vem pelo agregador conta na lotação da turma. A arena define quantas vagas cada agregador pode ocupar em cada turma, e pode tirar uma turma de um agregador.</li>
+            <li>Na turma fixa, o agregador só ocupa a vaga de quem da lista desmarcou aquela aula.</li>
             <li>Na TotalPass, a arena confirma a visita em até 90 minutos depois do check-in; depois disso ele expira e é preciso fazer outro.</li>
           </ul>
         </article>
@@ -570,7 +673,7 @@
         <div class="rules-part-head">
           <span class="eyebrow"><span class="dot"></span> Parte 5</span>
           <h2>Reservas</h2>
-          <p>Aluguel de quadra pelo app: pedido, pagamento, prazos, estorno e o horário relâmpago.</p>
+          <p>Aluguel de quadra pelo app: pedido, pagamento, prazos, estorno, o horário relâmpago e o Fecha jogo.</p>
         </div>
 
         <article class="legal-section">
@@ -624,6 +727,20 @@
             <li>A oferta vira uma <b>reserva comum</b>: pagamento, prazo para pagar e estorno seguem as regras acima. Só conta de jogador reserva.</li>
           </ul>
         </article>
+
+        <article class="legal-section">
+          <h2><span>06</span>Fecha jogo</h2>
+          <p>Quadra parada pode virar um jogo pronto: o app chama jogadores do mesmo nível e, quando todos topam, a reserva e a partida saem juntas.</p>
+          <ul class="rule-list">
+            <li>Quem publica é a arena, no <b>mesmo plano da reserva de quadra</b>. Enquanto o grupo se forma, o horário fica bloqueado na agenda e não aceita outra reserva.</li>
+            <li>O app chama quem joga a modalidade na cidade da arena, está <b>disponível pra jogos</b> e tem <b>rating parecido</b>. Quem já tem rating vem antes de quem nunca jogou ranqueado.</li>
+            <li>Cada convite tem <b>2 horas</b> para resposta. Quem recusa ou não responde sai, e o próximo de rating mais próximo é chamado. Quem saiu não é chamado de novo para o mesmo jogo.</li>
+            <li>A busca vai até <b>1 hora antes</b> do jogo. Sem grupo completo, o horário volta para a agenda e todos são avisados.</li>
+            <li>Com todos dentro, vira <b>reserva comum e partida já aprovada</b>, com os times equilibrados pelo rating.</li>
+            <li>Quadra com preço: desconto opcional sobre o <b>preço de tabela</b>, e <b>cada um paga a sua parte</b> pelo app, por Pix ou cartão, em até 2 horas. Quadra sem preço: o jogo sai sem cobrança no app.</li>
+            <li>Se alguém não pagar a tempo, a reserva cai, quem pagou recebe o <b>estorno integral</b> e continua no grupo, e o app chama outras pessoas para as vagas.</li>
+          </ul>
+        </article>
       </div>
 
       <article class="legal-section">
@@ -634,6 +751,17 @@
           <li>A arena precisa de <b>plano ativo para criar</b>: torneio, evento, aula, desafio entre arenas, desafio recorrente, série de horário fixo e reserva lançada pela equipe da arena.</li>
         </ul>
         <p>Para quem joga, nada disso muda: inscrição em torneio, evento e desafio recorrente, aula avulsa, reserva, desafio entre jogadores, partida marcada numa arena e pedido de vínculo continuam funcionando, e a arena segue podendo responder a esses pedidos. O que já está publicado também segue: torneio no ar recebe equipes, chaveamento e placar normalmente.</p>
+      </article>
+
+      <article class="legal-section" id="arenas-perto" style="scroll-margin-top:100px">
+        <h2><span>—</span>Arenas perto de você</h2>
+        <ul class="rule-list">
+          <li>A Início do jogador mostra as arenas que alcançam a localização do aparelho, da mais perto pra mais longe. A lista de arenas da busca usa o mesmo recorte enquanto nada é digitado.</li>
+          <li>O alcance é do <b>plano da arena</b>: Básico 15 km, Premium 30 km e Elite 45 km. Arena sem plano fica com o alcance do Básico. O plano de quem joga não muda nada.</li>
+          <li>Buscar pelo nome acha a arena em qualquer cidade, em qualquer plano.</li>
+          <li>Sem localização liberada, aparecem as arenas da cidade do perfil. Sem nenhuma arena pra mostrar, a seção não aparece.</li>
+          <li>Cada arena aparece com o logo dela num círculo; sem logo, com a primeira foto; sem foto, com as iniciais do nome. O logo é opcional e entra no cadastro ou no Editar arena.</li>
+        </ul>
       </article>
 
       <article class="legal-section">

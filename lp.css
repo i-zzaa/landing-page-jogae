@@ -395,8 +395,8 @@ body { margin: 0; background: var(--background); color: var(--text); font-family
 .lp-orig .visual { height: 590px; position: relative; }
 .lp-orig .orbita { position: absolute; width: 450px; height: 450px; border-radius: 50%; background: linear-gradient(145deg,#ff7d20,#ff5a00); top: 80px; right: 18px; box-shadow: inset 0 0 0 24px rgba(255,255,255,.08); }
 .lp-orig .orbita::after { content: ""; position: absolute; inset: 38px; border: 1px dashed rgba(255,255,255,.35); border-radius: 50%; }
-.lp-orig .masc { position: absolute; z-index: 2; inset: 4px 25px 0 65px; overflow: hidden; display: flex; justify-content: center; }
-.lp-orig .masc img { height: 610px; width: auto; max-width: none; filter: drop-shadow(0 30px 30px rgba(58,25,2,.22)); }
+.lp-orig .masc { position: absolute; z-index: 2; inset: 4px 25px 0 65px; display: flex; justify-content: center; align-items: flex-end; }
+.lp-orig .masc img { height: 100%; width: auto; max-width: 100%; object-fit: contain; object-position: bottom; filter: drop-shadow(0 30px 30px rgba(58,25,2,.22)); }
 .lp-orig .fc { position: absolute; z-index: 4; background: rgba(255,255,255,.95); box-shadow: 0 24px 70px rgba(31,31,31,.11); border-radius: 18px; padding: 13px 15px; display: flex; align-items: center; gap: 11px; }
 .lp-orig .fc small { display: block; font-size: 9px; color: #8a8a8a; }
 .lp-orig .fc strong { display: block; font-size: 11px; }
@@ -509,6 +509,20 @@ body { margin: 0; background: var(--background); color: var(--text); font-family
 .lp-alem .dias span.on { background: var(--primary); color: #fff; }
 .lp-alem .dias span.on small { display: block; font: 500 10px/12px var(--font); }
 
+/* topo em uma coluna antes de o círculo de 450px apertar o título (tablet) */
+@container lp (max-width: 1000px) {
+  .lp-orig .grade { grid-template-columns: 1fr; min-height: 0; padding-block: 48px 40px; }
+  .lp-orig .copy { text-align: center; }
+  .lp-orig .copy > p { margin-inline: auto; }
+  .lp-orig .store { justify-content: center; }
+  .lp-orig .prova { justify-content: center; }
+  .lp-orig .acoes { justify-content: center; }
+  .lp-orig .visual { height: 520px; margin-top: 20px; max-width: 560px; width: 100%; justify-self: center; }
+  .lp-orig .orbita { width: 400px; height: 400px; right: 50%; transform: translateX(50%); top: 70px; }
+  .lp-orig .masc { inset: 0; }
+  .lp-orig .cab nav { display: none; }
+  .lp-orig .cab .menu { display: block; }
+}
 @container lp (max-width: 720px) {
   .lp-orig .cab { height: 72px; }
   .lp-orig .cab .marca img { width: 125px; }
@@ -524,7 +538,7 @@ body { margin: 0; background: var(--background); color: var(--text); font-family
   .lp-orig .visual { height: 460px; margin-top: 20px; }
   .lp-orig .orbita { width: 350px; height: 350px; right: 50%; transform: translateX(50%); top: 55px; }
   .lp-orig .masc { inset: 0; }
-  .lp-orig .masc img { height: 470px; }
+  .lp-orig .masc img { height: 100%; }
   .lp-orig .fc.partida { left: 0; bottom: 25px; }
   .lp-orig .fc.rank { right: 0; top: 30px; }
   .lp-comoapp, .lp-painelarena, .lp-chave, .lp-agreg, .lp-grana, .lp-alem { padding-block: 64px; }
@@ -619,7 +633,7 @@ body { margin: 0; background: var(--background); color: var(--text); font-family
 /* menu do celular (o botão abre a lista de links) */
 .lp-orig .cab, .lp-nav { position: relative; }
 .lp .gaveta { display: none; }
-@container lp (max-width: 720px) {
+@container lp (max-width: 1000px) {
   .lp .aberto .gaveta { display: grid; position: absolute; top: 100%; left: 0; right: 0; z-index: 20; gap: 4px; padding: 16px 20px 20px;
     background: #fff; color: var(--text); border-radius: 0 0 20px 20px; box-shadow: 0 20px 40px -12px rgba(0,0,0,.25); }
   .lp .gaveta a { font: 500 16px/24px var(--font); padding: 10px 0; border-bottom: 1px solid var(--border); }
