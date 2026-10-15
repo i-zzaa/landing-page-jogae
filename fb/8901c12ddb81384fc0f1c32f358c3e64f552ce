@@ -1,0 +1,23 @@
+arena.html
+  s_0d5019c9ab12c1::t_0d953557a6173e 93
+funcionalidades.html
+  s_0d5019c9ab12c1::t_e8e0496e456775 146,189-191,311-313
+regras.html
+  s_0d5019c9ab12c1::t_1f01de442bd4bf 340,448,483,580-581,603,648,762-774
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "fb8901c12ddb81384fc0f1c32f358c3e64f552ce",
+  "prompts": {},
+  "sessions": {
+    "s_0d5019c9ab12c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f07b46c0-279d-4067-9e8e-65f6485961ed",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
