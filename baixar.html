@@ -36,22 +36,35 @@
   <img class="mascot" src="/assets/mascote.png" alt="" />
   <h1>Tá cheio de marra? <span>Prova na quadra.</span></h1>
   <p class="lead">Escolha a loja do seu celular:</p>
-  <a class="btn" href="https://apps.apple.com/br/app/desafia%C3%AA/id6807155371">Baixar na App Store</a>
-  <a class="btn" href="https://play.google.com/store/apps/details?id=com.desafiae.app">Baixar no Google Play</a>
+  <a class="btn" id="app-store" href="https://apps.apple.com/br/app/apple-store/id6807155371?pt=129288625&amp;ct=site_baixar&amp;mt=8">Baixar na App Store</a>
+  <a class="btn" id="google-play" href="https://play.google.com/store/apps/details?id=com.desafiae.app&amp;referrer=utm_source%3Ddesafiae.com%26utm_medium%3Dsite%26utm_campaign%3Dsite_baixar">Baixar no Google Play</a>
   <p class="note">Grátis para iPhone e Android.</p>
 </main>
 
 <script>
-  // Destino do link da bio e dos anuncios (/baixar?c=<campanha>). O ?c= so
-  // serve pra contar a visita por campanha no Vercel; a loja nao recebe.
+  // Destino do link da bio e dos anuncios (/baixar?c=<campanha>). O ?c= vai
+  // pras lojas pra separar os downloads por campanha: ct= na App Store
+  // Connect e utm_campaign no referrer do Play Console. Campanha da Meta
+  // (meta_*) e anuncio no Instagram; o resto e o proprio site.
   // No celular vai direto pra loja do aparelho. A pagina ja esta desenhada
   // antes do redirecionamento: se o navegador do Instagram nao seguir, os
   // botoes continuam ali. Computador e tablet ficam na pagina.
+  var c = new URLSearchParams(window.location.search).get('c') || '';
+  if (!/^[a-z0-9_]{1,30}$/.test(c)) c = 'site_baixar';
+  var origem = c.indexOf('meta_') === 0
+    ? 'utm_source=instagram&utm_medium=paid'
+    : 'utm_source=desafiae.com&utm_medium=site';
+  var appStore = 'https://apps.apple.com/br/app/apple-store/id6807155371?pt=129288625&ct=' + c + '&mt=8';
+  var googlePlay = 'https://play.google.com/store/apps/details?id=com.desafiae.app&referrer='
+    + encodeURIComponent(origem + '&utm_campaign=' + c);
+  document.getElementById('app-store').href = appStore;
+  document.getElementById('google-play').href = googlePlay;
+
   var ua = navigator.userAgent;
   if (/iPhone|iPod/.test(ua)) {
-    window.location.replace('https://apps.apple.com/br/app/desafia%C3%AA/id6807155371');
+    window.location.replace(appStore);
   } else if (/Android/.test(ua) && /Mobile/.test(ua)) {
-    window.location.replace('https://play.google.com/store/apps/details?id=com.desafiae.app');
+    window.location.replace(googlePlay);
   }
 </script>
 </body>
