@@ -1,0 +1,99 @@
+manual/arena/agenda.html
+  s_ed628adefdb661::t_d716ee1065f3a1 1-1034
+manual/arena/agregadores.html
+  s_ed628adefdb661::t_8a294a126aa220 1-653
+manual/arena/analitico.html
+  s_ed628adefdb661::t_b17aa27754b922 1-504
+manual/arena/assinatura.html
+  s_ed628adefdb661::t_bed93be34ca622 1-311
+manual/arena/atletas.html
+  s_ed628adefdb661::t_8c908c0447cf69 1-951
+manual/arena/aulas.html
+  s_ed628adefdb661::t_96a991b1172b3f 1-652
+manual/arena/cadastro.html
+  s_ed628adefdb661::t_fd7dd4410733c8 1-996
+manual/arena/chat.html
+  s_ed628adefdb661::t_c855858a601403 1-750
+manual/arena/desafio-arena.html
+  s_ed628adefdb661::t_fb3648daf5c419 1-1026
+manual/arena/desafio-recorrente.html
+  s_ed628adefdb661::t_f461d7b3956764 1-597
+manual/arena/entrar.html
+  s_ed628adefdb661::t_8e040375afd17f 1-577
+manual/arena/eventos-partidas.html
+  s_ed628adefdb661::t_93babcafd771cc 1-607
+manual/arena/financeiro.html
+  s_ed628adefdb661::t_9f4e488acd62ba 1-600
+manual/arena/mensalidade.html
+  s_ed628adefdb661::t_342b7a7637a608 1-684
+manual/arena/painel.html
+  s_ed628adefdb661::t_e87ea9136eef23 1-698
+manual/arena/perfil.html
+  s_ed628adefdb661::t_b036ecd806db11 1-1352
+manual/arena/quadras.html
+  s_ed628adefdb661::t_75588844b259d8 1-503
+manual/arena/temporada.html
+  s_ed628adefdb661::t_b310bc6d1a8eff 1-668
+manual/arena/torneio.html
+  s_ed628adefdb661::t_08115559050b31 1-1541
+manual/index.html
+  s_ed628adefdb661::t_900d63516eb9d7 4-13,15-53,58-131
+manual/jogador/aulas.html
+  s_ed628adefdb661::t_e2604eeb358c2d 1-521
+manual/jogador/cadastro.html
+  s_ed628adefdb661::t_b6c8f23ffa6977 1-496
+manual/jogador/chat.html
+  s_ed628adefdb661::t_0e1533a9efaa4b 1-559
+manual/jogador/conta.html
+  s_ed628adefdb661::t_c839182d0c0f01 1-324
+manual/jogador/desafio-marca.html
+  s_ed628adefdb661::t_bee6cc915c5acb 1-622
+manual/jogador/desafio-recorrente.html
+  s_ed628adefdb661::t_69a19f75554c4c 1-457
+manual/jogador/desafio.html
+  s_ed628adefdb661::t_e329f65d36e761 1-1030
+manual/jogador/entrar.html
+  s_ed628adefdb661::t_acddb9dc4dd6e9 1-265
+manual/jogador/inicio.html
+  s_ed628adefdb661::t_4905630dca6f84 1-694
+manual/jogador/nivel-validado.html
+  s_ed628adefdb661::t_82eae555ff4a9d 1-379
+manual/jogador/notificacoes.html
+  s_ed628adefdb661::t_eaac28c4b0c3fe 1-310
+manual/jogador/partida.html
+  s_ed628adefdb661::t_a59abbde49d5ab 1-914
+manual/jogador/planos.html
+  s_ed628adefdb661::t_01303802a71c23 1-324
+manual/jogador/ranking-perfil.html
+  s_ed628adefdb661::t_8cd73f19ed824e 1-876
+manual/jogador/recordes.html
+  s_ed628adefdb661::t_4ada61001e62d0 1-203
+manual/jogador/reserva-quadra.html
+  s_ed628adefdb661::t_6582d7f85af4a1 1-722
+manual/jogador/rival.html
+  s_ed628adefdb661::t_ac876b31c46818 1-183
+manual/jogador/temporada.html
+  s_ed628adefdb661::t_24dfe6c1df5fde 1-361
+manual/jogador/torneio.html
+  s_ed628adefdb661::t_ec0e0278b03d63 1-1364
+manual/kit.css
+  s_ed628adefdb661::t_78a840a15cee16 1-256
+manual/kit.js
+  s_ed628adefdb661::t_474814aad81ec3 1-179
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "16a0116e978fb689244d04d1925027099fe2fff9",
+  "prompts": {},
+  "sessions": {
+    "s_ed628adefdb661": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "22b05e44-bb6c-4c1c-95e3-5f53ad1a477e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
