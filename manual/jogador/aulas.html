@@ -130,10 +130,13 @@
 <section class="intro">
   <div class="lado"></div>
   <h1>Aulas e mensalidade</h1>
-  <p>Você acha as aulas na aba Aulas do perfil da arena, se inscreve pelo seu plano ou paga a aula avulsa e mostra o ingresso no check-in. A mensalidade fica em Meus planos, nas Configurações.</p>
+  <p>Você acha as aulas em "Aulas perto de você", na Início e no Buscar, ou na aba Aulas do perfil da arena, se inscreve pelo seu plano ou paga a aula avulsa e mostra o ingresso no check-in. A mensalidade fica em Meus planos, nas Configurações.</p>
   <ul class="regras">
     <li>Aulas valem em todos os planos da arena: a aba Aulas só aparece nas arenas que oferecem aula pelo app.</li>
     <li>As inscrições abrem 24h antes da aula. Você recebe um lembrete 1 hora antes de cada aula em que está inscrito.</li>
+    <li>"Aulas perto de você" mostra as turmas abertas da sua cidade, nas suas modalidades, que começam nas próximas 24 horas; turma de outro nível aparece no fim. Cada aula já diz como você entra: pelo plano (e quanto já usou na semana), avulsa com o preço, só com plano ou turma fixa.</li>
+    <li>Se você frequenta uma turma (check-in em 2 das últimas 4 aulas), recebe o aviso quando a inscrição da próxima abre.</li>
+    <li>Aula, partida, torneio e reserva de quadra no mesmo horário não convivem: veja <b>Horário ocupado</b>, no fim desta página.</li>
     <li>A turma pode aceitar só alguns níveis. Se o seu nível na modalidade não for um deles, aparece "Turma de outro nível" no lugar da inscrição.</li>
     <li>Turma fixa é só para a lista de alunos que a arena monta: quem está na lista já fica inscrito em todas as aulas, sem a janela de 24h. Se não puder ir, toque em "Não vou nesta aula"; dá para voltar com "Vou nesta aula" enquanto ela não começou. Quem não está na lista vê "Turma fechada" e fala com a arena.</li>
     <li>Aula avulsa cancelada com 2h ou mais de antecedência devolve todo o valor; com menos de 2h, não há estorno. Se a arena cancelar, o estorno é sempre total.</li>
@@ -504,6 +507,55 @@
   </div>
 </section>
 
+<div class="faixa-t">
+  <h2>Horário ocupado</h2>
+  <p>Você não fica em dois compromissos que começam no mesmo horário. Quando bate, o app mostra qual é e deixa trocar.</p>
+</div>
+
+<section class="trilho-fluxo">
+  <div class="passos">
+
+    <!-- 1 Folha na partida -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">1</div>
+        <div class="passo-txt"><b>Você já tem compromisso nesse horário</b><span>Vale entre aula, partida, torneio e reserva de quadra que começam no mesmo minuto. Aqui, ao entrar numa partida, a folha mostra a aula que já ocupa o horário. "Cancelar a aula e entrar na partida" faz as duas coisas de uma vez; "Manter a aula" deixa tudo como estava.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/conflito/conflito-horario-02-folha-aula.jpg" alt="Folha Você já tem compromisso nesse horário sobre a partida, com a aula Beach tennis iniciante e os botões Cancelar a aula e entrar na partida e Manter a aula"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 Folha na aula -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">2</div>
+        <div class="passo-txt"><b>Trocar a pelada pela aula</b><span>O contrário também funciona: ao se inscrever na aula, a folha mostra a pelada marcada no mesmo horário e avisa o que acontece se você trocar. Quem sai da partida tem os outros jogadores avisados.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/conflito/conflito-sair-02-folha-pelada.jpg" alt="Folha sobre a aula mostrando a pelada de Beach Tennis no mesmo horário, com Sair da pelada e entrar na aula e Manter a pelada"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 Pronto -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">3</div>
+        <div class="passo-txt"><b>Pronto</b><span>O app confirma as duas ações ("Você saiu da pelada e entrou na aula") e você já está inscrito, com o ingresso disponível.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/conflito/conflito-sair-04-inscrita.jpg" alt="Aula com o aviso Você saiu da pelada e entrou na aula e o botão Ver ingresso"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3b Travado -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">3b</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Quando não dá para trocar</b><span>Se a partida foi criada por você, a folha só deixa manter: para sair, cancele a partida. O mesmo vale para o que já começou e para o Fecha jogo, que você deixa pelo convite.</span></div>
+      </div>
+      <div class="phone print"><div class="screen" data-sem-status><img src="../img/prints/conflito/conflito-sair-05-folha-pelada-dela.jpg" alt="Folha com a pelada criada pela jogadora, o aviso Você criou essa partida: pra sair, cancele a partida e só o botão Manter a pelada"></div></div>
+    </div>
+
+  </div>
+</section>
+
 <section class="duvidas">
   <h2>Dúvidas comuns</h2>
   <div class="lista">
@@ -512,6 +564,8 @@
     <details><summary>A aula está lotada. E agora?</summary><p>Toque em "Entrar na lista de espera". Se abrir vaga, toque em "Confirmar vaga" dentro do prazo.</p></details>
     <details><summary>Como faço o check-in?</summary><p>Mostre o QR do ingresso na chegada. A arena lê com a câmera e o ingresso passa a mostrar o horário do check-in.</p></details>
     <details><summary>Posso ter dois planos na mesma arena?</summary><p>Pode, desde que não tenham a mesma modalidade.</p></details>
+    <details><summary>Posso marcar uma aula e uma partida no mesmo horário?</summary><p>Não. Aula, partida, torneio e reserva de quadra que começam no mesmo horário não convivem: o app mostra o que já está marcado e oferece cancelar e entrar no novo. Desafio fica fora dessa regra, e horários diferentes (19h e 19h30) convivem.</p></details>
+    <details><summary>Se eu trocar uma aula paga pela partida, recebo o dinheiro de volta?</summary><p>Segue a regra da aula: faltando 2h ou mais, a avulsa volta inteira; com menos, não há estorno. A folha avisa antes de você confirmar.</p></details>
     <details><summary>Estou numa turma fixa e não vou poder ir. O que faço?</summary><p>Abra a aula e toque em "Não vou nesta aula". A sua vaga fica livre só naquela aula, e dá para voltar com "Vou nesta aula" enquanto ela não começou.</p></details>
   </div>
 </section>
