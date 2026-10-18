@@ -1,0 +1,19 @@
+abrir.html
+  s_d47dc9129b8b3f::t_ff9500617af8a2 158-160
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "ecb13ba3531e33cd8bffee9d383b22e2c8f20a79",
+  "prompts": {},
+  "sessions": {
+    "s_d47dc9129b8b3f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d285d9dd-47da-4904-829c-094906cb1bf4",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
