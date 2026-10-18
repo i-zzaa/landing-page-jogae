@@ -155,7 +155,9 @@
     'arena-challenge': { eyebrow:'Desafio entre arenas', title:'Arena contra <span>arena</span>', lead:'Acompanhe o confronto, as equipes e o placar pelo app.', label:'Desafio entre arenas', card:'Quem leva essa?', icon:'shield' }
   };
   var parts = window.location.pathname.split('/').filter(Boolean);
-  var type = parts.length === 2 && /^[0-9a-f-]{36}$/i.test(parts[1]) ? types[parts[0]] : null;
+  // o app manda o id sem tracos (com tracos o WhatsApp le como chave Pix); o
+  // app recoloca os tracos ao abrir, entao os dois formatos valem aqui
+  var type = parts.length === 2 && /^([0-9a-f-]{36}|[0-9a-f]{32})$/i.test(parts[1]) ? types[parts[0]] : null;
   document.getElementById('card-icon').innerHTML = icons[type ? type.icon : 'ball'];
   if (type) {
     document.getElementById('open').href = 'desafiae:///' + parts[0] + '/' + parts[1];
