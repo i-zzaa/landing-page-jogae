@@ -1,0 +1,21 @@
+arena.html
+  s_8aa827ee0527e9::t_67c4082e6a5464 9-19
+index.html
+  s_8aa827ee0527e9::t_a5719d2b019eb2 9-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "dae7d6d02f8ffa1989d76b38b20ab647bea6d236",
+  "prompts": {},
+  "sessions": {
+    "s_8aa827ee0527e9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "024125be-46a7-4801-b04d-079772910413",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
