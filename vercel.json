@@ -92,6 +92,14 @@
       "destination": "https://dist-five-jet-77.vercel.app/temporada/:id"
     },
     {
+      "source": "/fila/:slug",
+      "destination": "https://dist-five-jet-77.vercel.app/fila/:slug"
+    },
+    {
+      "source": "/telao/:token",
+      "destination": "https://dist-five-jet-77.vercel.app/telao/:token"
+    },
+    {
       "source": "/:path*",
       "destination": "https://app-dist-ecru.vercel.app/:path*"
     }
