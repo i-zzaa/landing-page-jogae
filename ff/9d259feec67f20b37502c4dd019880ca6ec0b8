@@ -1,0 +1,21 @@
+funcionalidades.html
+  s_c9dfac9ae8aec9::t_5dc3ea9b7d410f 137,140-141
+regras.html
+  s_c9dfac9ae8aec9::t_9ae4ea5229caf4 488,513-514
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "ff9d259feec67f20b37502c4dd019880ca6ec0b8",
+  "prompts": {},
+  "sessions": {
+    "s_c9dfac9ae8aec9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6670ce68-4773-4eba-b1d2-3e9cb80e34ce",
+        "model": "unknown"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
