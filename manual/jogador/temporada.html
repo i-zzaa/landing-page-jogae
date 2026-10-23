@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Temporada (circuito) · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* ScreenHeader: seta solta, sem círculo */
+  .cab { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; }
+  .cab .lado-e, .cab .lado-d { min-width: 24px; display: flex; gap: 12px; align-items: center; justify-content: flex-end; }
+  .cab .lado-e { justify-content: flex-start; }
+  .cab svg { width: 24px; height: 24px; }
+  .corpo { display: flex; flex-direction: column; gap: 16px; }
+  .secao { display: flex; flex-direction: column; gap: 8px; }
+  .capa-t { height: 160px; border-radius: 12px; background: linear-gradient(160deg, var(--accent) 0%, var(--primary) 55%, var(--primary-dark) 100%); position: relative; overflow: hidden; flex: none; }
+  .capa-t img { position: absolute; right: 8px; bottom: 0; height: 150px; }
+  .tag-s { display: inline-flex; align-items: center; padding: 4px 8px; border-radius: 999px; border: 1px solid; font: 500 12px/16px var(--font); white-space: nowrap; }
+  .tag-s.verde { color: var(--success); background: var(--success-soft); border-color: #d9e8db; }
+  .acordeao .topo-a { display: flex; align-items: center; justify-content: space-between; }
+  .acordeao .topo-a .row { gap: 8px; }
+  .acordeao svg { width: 20px; height: 20px; }
+  .acordeao .regras-a { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+  .chips.rola { flex-wrap: nowrap; padding-bottom: 8px; }
+  .rk { display: flex; align-items: center; gap: 12px; padding: 12px; }
+  .rk.eu { background: var(--primary-wash); border-color: var(--primary-tint); }
+  .rk .pos { width: 20px; text-align: center; font: 500 16px/24px var(--font); color: var(--text-muted); }
+  .rk .av-wrap { position: relative; }
+  .rk .medalha { position: absolute; right: -4px; bottom: -4px; width: 22px; height: 22px; border-radius: 999px; border: 2px solid var(--surface); color: var(--text-inverse); font: 500 11px/18px var(--font); text-align: center; }
+  .ouro { background: var(--gold); } .prata { background: var(--silver); } .bronze { background: var(--bronze); }
+  .rk .nm { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .rk .nm-l { display: flex; align-items: center; gap: 3px; }
+  .rk .nivel { width: 14px; height: 14px; }
+  .elite { width: 14px; height: 14px; border-radius: 999px; background: var(--primary); color: var(--text-inverse); display: inline-flex; align-items: center; justify-content: center; }
+  .elite svg { width: 8px; height: 8px; }
+  .rk .pts { display: flex; align-items: center; gap: 4px; }
+  .rk .pts svg { width: 14px; height: 14px; }
+  .t-ouro { color: var(--gold); } .t-prata { color: var(--silver); } .t-bronze { color: var(--bronze); }
+  .vazio { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 20px; text-align: center; }
+  .vazio .circ { width: 64px; height: 64px; border-radius: 999px; background: var(--surface-alt); display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+  .vazio .circ svg { width: 28px; height: 28px; }
+  .hero { padding: 16px; border-radius: 14px; min-height: 160px; justify-content: flex-end; display: flex; flex-direction: column; gap: 4px; background: linear-gradient(0deg, var(--overlay-strong), var(--overlay-strong)), linear-gradient(160deg, var(--accent) 0%, var(--primary) 60%, var(--primary-dark) 100%); color: var(--text-inverse); }
+  .pill-esporte { align-self: flex-start; margin-top: 4px; padding: 4px 12px; border-radius: 999px; background: var(--surface); color: var(--primary); font: 500 12px/16px var(--font); }
+  .realce { outline: 2px dashed var(--primary); outline-offset: 3px; }
+
+  /* página pública web/season.html (coluna de 720 centrada) */
+  .pub { flex: 1; overflow: hidden; background: var(--background); }
+  .pub .wrap { max-width: 720px; margin: 0 auto; }
+  .pub header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 16px 12px; }
+  .pub header img { height: 28px; }
+  .pub .badge { display: inline-flex; align-items: center; gap: 6px; background: var(--success-soft); color: var(--success); border: 1px solid #d9e8db; border-radius: 999px; padding: 4px 12px; font: 500 12px/18px var(--font); }
+  .pub .cover-wrap { padding: 0 16px 12px; }
+  .pub .cover-wrap div { height: 220px; border-radius: 20px; background: linear-gradient(160deg, var(--accent) 0%, var(--primary) 55%, var(--primary-dark) 100%); position: relative; overflow: hidden; }
+  .pub .cover-wrap img { position: absolute; right: 24px; bottom: 0; height: 200px; }
+  .pub .pintro { padding: 0 16px 12px; }
+  .pub .pintro h1 { font: 600 22px/30px var(--font); margin: 0 0 4px; }
+  .pub .pintro p { margin: 0; color: var(--text-muted); font-size: 14px; }
+  .pub .pchips { display: flex; gap: 8px; padding: 0 16px 12px; flex-wrap: wrap; }
+  .pub .pchip { display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px; font: 400 12px/16px var(--font); color: var(--text-muted); background: var(--surface); }
+  .pub .pchip.sel { background: var(--primary-wash); border-color: var(--primary-tint); color: var(--primary-dark); font-weight: 500; }
+  .pub .tabs { display: flex; gap: 16px; padding: 0 16px; border-bottom: 1px solid var(--border); }
+  .pub .tab { padding: 8px 2px 12px; font: 500 14px/20px var(--font); color: var(--text-muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .pub .tab.on { color: var(--primary); border-bottom-color: var(--primary); }
+  .pub main { padding: 16px; }
+  .pub .lista { display: flex; flex-direction: column; gap: 8px; }
+  .pub .rrow { display: flex; align-items: center; gap: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 12px; box-shadow: var(--shadow-card); }
+  .pub .rrow.podio { border-color: var(--primary-tint); background: var(--primary-wash); }
+  .pub .rpos { width: 22px; text-align: center; color: var(--text-muted); font: 500 14px/20px var(--font); }
+  .pub .rav { width: 36px; height: 36px; border-radius: 50%; background: var(--primary-tint); color: var(--primary-dark); display: flex; align-items: center; justify-content: center; font: 600 13px/1 var(--font); position: relative; flex: none; }
+  .pub .rmed { position: absolute; right: -4px; bottom: -4px; width: 20px; height: 20px; border-radius: 999px; border: 2px solid var(--surface); color: var(--text-inverse); font: 600 10px/16px var(--font); text-align: center; }
+  .pub .rnome { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .pub .rnome strong { font: 500 15px/22px var(--font); }
+  .pub .rnome span { font-size: 12px; color: var(--text-muted); }
+  .pub .relite { font: 600 10px/16px var(--font); letter-spacing: .04em; color: var(--primary-dark); background: var(--primary-tint); border-radius: 999px; padding: 1px 6px; margin-left: 6px; }
+  .pub .rpts { font: 600 14px/20px var(--font); color: var(--primary-dark); }
+  .pub .etapa { display: flex; align-items: center; gap: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 12px; box-shadow: var(--shadow-card); }
+  .pub .enum { width: 34px; height: 34px; border-radius: 12px; background: var(--primary-wash); color: var(--primary-dark); display: flex; align-items: center; justify-content: center; font: 600 14px/1 var(--font); flex: none; }
+  .pub .etxt { display: flex; flex-direction: column; gap: 2px; }
+  .pub .etxt strong { font: 500 15px/22px var(--font); }
+  .pub .etxt span { font-size: 12px; color: var(--text-muted); }
+  .pub .regras-p { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+  .pub .regras-p ul { margin: 0; padding-left: 16px; }
+  .pub .regras-p li { font-size: 14px; color: var(--text-muted); margin-bottom: 8px; line-height: 1.5; }
+  .pub .cta { padding: 0 16px 24px; }
+  .pub .cta a { display: block; text-align: center; background: var(--primary); color: var(--text-inverse); text-decoration: none; font: 600 15px/22px var(--font); padding: 12px; border-radius: 999px; }
+  .pub footer { text-align: center; padding: 0 16px 24px; color: var(--text-muted); font-size: 12px; }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="jogador" data-fluxo="temporada"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Temporada (circuito)</h1>
+  <p>Uma temporada, ou circuito, junta vários torneios da arena (as etapas) num ranking só. Você abre o circuito pelo torneio que é etapa ou pela página da arena, acompanha o ranking por categoria e vê as etapas. Quem não tem o app acompanha pelo link público.</p>
+  <ul class="regras">
+    <li>Cada etapa é um torneio normal, e quem acumula ponto é você, atleta, nunca a equipe.</li>
+    <li>Pontuação padrão: 100, 80, 65, 50, 40, 30, 20 e 10 pontos do 1º ao 8º lugar, mais pontos de participação. A arena pode mudar a tabela e descartar as piores etapas ("melhores N de M").</li>
+    <li>Desempate: mais etapas vencidas, depois a melhor colocação numa etapa, depois mais etapas disputadas.</li>
+    <li>O link público da temporada não expira, ao contrário do link de torneio.</li>
+    <li>Temporada é recurso do plano Elite da arena.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Etapa dentro do torneio</b><span>No torneio que é etapa, toque no card "Etapa N" para abrir o circuito. A página da arena também lista os Circuitos.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Detalhes do torneio</span><span class="lado-d"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="col g12" style="gap:12px">
+            <div class="hero">
+              <p class="t3">Copa Maré Alta de Futevôlei</p>
+              <p class="cap">10/10 – 11/10 · Arena Maré Alta</p>
+              <span class="pill-esporte">Futevôlei</span>
+            </div>
+            <p class="b2 muted">Duplas, eliminação simples, na areia do Campeche.</p>
+            <div class="card row realce">
+              <i data-lucide="calendar-range" class="ic laranja"></i>
+              <div class="grow" style="display:flex;flex-direction:column;gap:2px"><p class="b1m">Etapa 3 · Circuito Maré Alta 2026</p><p class="cap muted">Ver o ranking acumulado do circuito</p></div>
+              <i data-lucide="chevron-right" class="ic muted"></i>
+            </div>
+            <p class="t3" style="margin-top:8px">Regulamento</p>
+            <div class="card"><p class="b2 muted">Jogos até 18 pontos, com 2 de vantagem. Atraso de 15 minutos é W.O.</p></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Temporada</b><span>Troque a categoria do ranking, toque numa etapa para abrir o torneio ou num atleta para ver o perfil.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Circuito Maré Alta 2026</span><span class="lado-d"></span></div>
+          <div class="corpo">
+            <div class="capa-t"><img src="../img/mascote-futevolei.png" alt=""></div>
+            <div class="card col g4">
+              <div class="row sb"><p class="b1m grow">Futevôlei</p><span class="tag-s verde">Publicado</span></div>
+              <p class="b2 muted">01/08 – 20/12 · 4 etapas</p>
+              <p class="b2 muted">Quatro etapas no Campeche. Soma quem jogar mais e melhor; a pior etapa de cada atleta sai da conta.</p>
+            </div>
+            <div class="card acordeao">
+              <div class="topo-a"><span class="row"><i data-lucide="list-checks" class="laranja"></i><span class="b1m">Como pontua o circuito</span></span><i data-lucide="chevron-down" class="muted"></i></div>
+            </div>
+            <div class="secao">
+              <p class="t3">Ranking da temporada</p>
+              <div class="chips rola"><span class="chip on-laranja">Dupla Open</span><span class="chip">Dupla Mista</span></div>
+              <div class="col g8">
+                <div class="card rk eu"><span class="av-wrap"><span class="avatar">B</span><span class="medalha ouro">1</span></span><div class="nm"><span class="nm-l"><img class="nivel" src="../img/categoria-b.png" alt=""><span class="b1m">Bia Moreira</span><span class="elite"><i data-lucide="gem"></i></span></span><span class="cap laranja">Você</span><span class="cap muted">2 etapas · melhor 1º</span></div><span class="pts"><i data-lucide="trophy" class="t-ouro"></i><span class="b2m">180 pts</span></span></div>
+                <div class="card rk"><span class="av-wrap"><span class="avatar">C</span><span class="medalha prata">2</span></span><div class="nm"><span class="nm-l"><img class="nivel" src="../img/categoria-b.png" alt=""><span class="b1m">Caio Nunes</span></span><span class="cap muted">2 etapas · melhor 1º</span></div><span class="pts"><i data-lucide="trophy" class="t-prata"></i><span class="b2m">165 pts</span></span></div>
+                <div class="card rk"><span class="av-wrap"><span class="avatar">L</span><span class="medalha bronze">3</span></span><div class="nm"><span class="nm-l"><img class="nivel" src="../img/categoria-c.png" alt=""><span class="b1m">Léo Andrade</span></span><span class="cap muted">2 etapas · melhor 2º</span></div><span class="pts"><i data-lucide="trophy" class="t-bronze"></i><span class="b2m">145 pts</span></span></div>
+                <div class="card rk"><span class="pos">4</span><span class="avatar md">P</span><div class="nm"><span class="nm-l"><img class="nivel" src="../img/categoria-b.png" alt=""><span class="b1">Pedro Salles</span></span><span class="cap muted">1 etapa · melhor 1º</span></div><span class="pts"><span class="b2m muted">100 pts</span></span></div>
+                <div class="card rk"><span class="pos">5</span><span class="avatar md">D</span><div class="nm"><span class="nm-l"><img class="nivel" src="../img/categoria-c.png" alt=""><span class="b1">Duda Martins</span><span class="elite"><i data-lucide="gem"></i></span></span><span class="cap muted">2 etapas · melhor 4º</span></div><span class="pts"><span class="b2m muted">90 pts</span></span></div>
+                <div class="card rk"><span class="pos">6</span><span class="avatar md">N</span><div class="nm"><span class="nm-l"><img class="nivel" src="../img/categoria-b.png" alt=""><span class="b1">Nanda Ribeiro</span></span><span class="cap muted">2 etapas · melhor 2º</span></div><span class="pts"><span class="b2m muted">85 pts</span></span></div>
+                <div class="card rk"><span class="pos">7</span><span class="avatar md">V</span><div class="nm"><span class="nm-l"><img class="nivel" src="../img/categoria-d.png" alt=""><span class="b1">Vini Rocha</span></span><span class="cap muted">2 etapas · melhor 5º</span></div><span class="pts"><span class="b2m muted">45 pts</span></span></div>
+              </div>
+            </div>
+            <div class="secao">
+              <p class="t3">Etapas</p>
+              <div class="card col g4"><p class="b1m">Etapa 1 · Abertura de Inverno</p><p class="b2 muted">16/08</p></div>
+              <div class="card col g4"><p class="b1m">Etapa 2 · Rei da Praia</p><p class="b2 muted">13/09</p></div>
+              <div class="card col g4"><p class="b1m">Etapa 3 · Copa Maré Alta de Futevôlei</p><p class="b2 muted">10/10</p></div>
+              <div class="card col g4"><p class="b1m">Etapa 4 · Final do Circuito</p><p class="b2 muted">Sem data</p></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Como pontua o circuito</b><span>Abra "Como pontua o circuito" para ver a tabela de pontos, o descarte e o desempate desta temporada.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Circuito Maré Alta 2026</span><span class="lado-d"></span></div>
+          <div class="corpo">
+            <div class="card col g4">
+              <div class="row sb"><p class="b1m grow">Futevôlei</p><span class="tag-s verde">Publicado</span></div>
+              <p class="b2 muted">01/08 – 20/12 · 4 etapas</p>
+            </div>
+            <div class="card acordeao">
+              <div class="topo-a"><span class="row"><i data-lucide="list-checks" class="laranja"></i><span class="b1m">Como pontua o circuito</span></span><i data-lucide="chevron-up" class="muted"></i></div>
+              <div class="regras-a">
+                <p class="b2 muted">• Pontos por colocação em cada etapa: 100 / 80 / 65 / 50 / 40 / 30 / 20 / 10.</p>
+                <p class="b2 muted">• Quem termina fora dessa tabela leva 5 pontos de participação.</p>
+                <p class="b2 muted">• As 1 pior etapa de cada atleta é descartada.</p>
+                <p class="b2 muted">• Empate: mais etapas vencidas, depois a melhor colocação numa etapa, depois mais etapas disputadas.</p>
+                <p class="b2 muted">• Quem acumula ponto é o atleta, não a equipe — vale para dupla e para time.</p>
+                <p class="b2 muted">• Circuito encerrado é definitivo: não entram nem saem etapas, e a pontuação fica como está.</p>
+              </div>
+            </div>
+            <div class="secao">
+              <p class="t3">Ranking da temporada</p>
+              <div class="chips rola"><span class="chip on-laranja">Dupla Open</span><span class="chip">Dupla Mista</span></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Categoria sem pontos</b><span>Se nenhuma etapa daquela categoria terminou ainda, o ranking aparece vazio.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Circuito Maré Alta 2026</span><span class="lado-d"></span></div>
+          <div class="corpo">
+            <div class="card acordeao">
+              <div class="topo-a"><span class="row"><i data-lucide="list-checks" class="laranja"></i><span class="b1m">Como pontua o circuito</span></span><i data-lucide="chevron-down" class="muted"></i></div>
+            </div>
+            <div class="secao">
+              <p class="t3">Ranking da temporada</p>
+              <div class="chips rola"><span class="chip">Dupla Open</span><span class="chip on-laranja">Dupla Mista</span></div>
+              <div class="vazio">
+                <div class="circ"><i data-lucide="trophy"></i></div>
+                <p class="t3">Ranking ainda vazio</p>
+                <p class="b2 muted">Assim que a primeira etapa encerrar, a pontuação aparece aqui.</p>
+              </div>
+            </div>
+            <div class="secao">
+              <p class="t3">Etapas</p>
+              <div class="card col g4"><p class="b1m">Etapa 1 · Abertura de Inverno</p><p class="b2 muted">16/08</p></div>
+              <div class="card col g4"><p class="b1m">Etapa 2 · Rei da Praia</p><p class="b2 muted">13/09</p></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- NAVEGADOR: link público da temporada -->
+<section class="trilho-fluxo web" data-plataforma="navegador">
+  <div class="passos">
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Link público: Ranking</b><span>Quem recebe o link vê o ranking por categoria no navegador, sem precisar do app. O link não expira.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>desafiae.com/temporada/3f9c2a61</div></div>
+        <div class="browser-body coluna"><div class="pub"><div class="wrap">
+          <header><img src="../img/logo-completa.png" alt="Desafiaê"><span class="badge">EM DISPUTA</span></header>
+          <div class="cover-wrap"><div><img src="../img/mascote-futevolei.png" alt=""></div></div>
+          <div class="pintro"><h1>Circuito Maré Alta 2026</h1><p>Quatro etapas no Campeche. Soma quem jogar mais e melhor; a pior etapa de cada atleta sai da conta.</p></div>
+          <div class="pchips"><span class="pchip">Futevôlei</span><span class="pchip">Arena Maré Alta</span><span class="pchip">01/08/2026 – 20/12/2026</span><span class="pchip">4 etapas</span></div>
+          <nav class="tabs"><span class="tab on">Ranking</span><span class="tab">Etapas</span><span class="tab">Como pontua</span></nav>
+          <main>
+            <div class="pchips" style="padding:0 0 12px"><span class="pchip sel">Dupla Open</span><span class="pchip">Dupla Mista</span></div>
+            <div class="lista">
+              <div class="rrow podio"><span class="rpos">1</span><span class="rav">B<span class="rmed ouro">1</span></span><span class="rnome"><strong>Bia Moreira</strong><span>2 etapas · melhor 1º</span></span><span class="rpts">180 pts</span></div>
+              <div class="rrow podio"><span class="rpos">2</span><span class="rav">C<span class="rmed prata">2</span></span><span class="rnome"><strong>Caio Nunes</strong><span>2 etapas · melhor 1º</span></span><span class="rpts">165 pts</span></div>
+              <div class="rrow podio"><span class="rpos">3</span><span class="rav">L<span class="rmed bronze">3</span></span><span class="rnome"><strong>Léo Andrade</strong><span>2 etapas · melhor 2º</span></span><span class="rpts">145 pts</span></div>
+              <div class="rrow"><span class="rpos">4</span><span class="rav">P</span><span class="rnome"><strong>Pedro Salles</strong><span>1 etapa · melhor 1º</span></span><span class="rpts">100 pts</span></div>
+              <div class="rrow"><span class="rpos">5</span><span class="rav">D</span><span class="rnome"><strong>Duda Martins</strong><span>2 etapas · melhor 4º</span></span><span class="rpts">90 pts</span></div>
+              <div class="rrow"><span class="rpos">6</span><span class="rav">N</span><span class="rnome"><strong>Nanda Ribeiro</strong><span>2 etapas · melhor 2º</span></span><span class="rpts">85 pts</span></div>
+            </div>
+          </main>
+          <div class="cta"><a>Entrar no circuito pelo app</a></div>
+          <footer>Ranking da temporada — Desafiaê</footer>
+        </div></div></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Link público: Etapas</b><span>A lista das etapas do circuito com a data. Etapa que já terminou aparece como "encerrada".</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>desafiae.com/temporada/3f9c2a61</div></div>
+        <div class="browser-body coluna"><div class="pub"><div class="wrap">
+          <header><img src="../img/logo-completa.png" alt="Desafiaê"><span class="badge">EM DISPUTA</span></header>
+          <div class="pintro"><h1>Circuito Maré Alta 2026</h1><p>Quatro etapas no Campeche. Soma quem jogar mais e melhor; a pior etapa de cada atleta sai da conta.</p></div>
+          <div class="pchips"><span class="pchip">Futevôlei</span><span class="pchip">Arena Maré Alta</span><span class="pchip">01/08/2026 – 20/12/2026</span><span class="pchip">4 etapas</span></div>
+          <nav class="tabs"><span class="tab">Ranking</span><span class="tab on">Etapas</span><span class="tab">Como pontua</span></nav>
+          <main>
+            <div class="lista">
+              <div class="etapa"><span class="enum">1</span><span class="etxt"><strong>Abertura de Inverno</strong><span>16/08/2026 · encerrada</span></span></div>
+              <div class="etapa"><span class="enum">2</span><span class="etxt"><strong>Rei da Praia</strong><span>13/09/2026 · encerrada</span></span></div>
+              <div class="etapa"><span class="enum">3</span><span class="etxt"><strong>Copa Maré Alta de Futevôlei</strong><span>10/10/2026</span></span></div>
+              <div class="etapa"><span class="enum">4</span><span class="etxt"><strong>Final do Circuito</strong><span>Sem data</span></span></div>
+            </div>
+          </main>
+          <div class="cta"><a>Entrar no circuito pelo app</a></div>
+        </div></div></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Link público: Como pontua</b><span>As regras de pontuação da temporada, iguais às do app.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>desafiae.com/temporada/3f9c2a61</div></div>
+        <div class="browser-body coluna"><div class="pub"><div class="wrap">
+          <header><img src="../img/logo-completa.png" alt="Desafiaê"><span class="badge">EM DISPUTA</span></header>
+          <div class="pintro"><h1>Circuito Maré Alta 2026</h1><p>Quatro etapas no Campeche. Soma quem jogar mais e melhor; a pior etapa de cada atleta sai da conta.</p></div>
+          <div class="pchips"><span class="pchip">Futevôlei</span><span class="pchip">Arena Maré Alta</span><span class="pchip">01/08/2026 – 20/12/2026</span><span class="pchip">4 etapas</span></div>
+          <nav class="tabs"><span class="tab">Ranking</span><span class="tab">Etapas</span><span class="tab on">Como pontua</span></nav>
+          <main>
+            <div class="regras-p"><ul>
+              <li>Pontos por colocação em cada etapa: 100 / 80 / 65 / 50 / 40 / 30 / 20 / 10.</li>
+              <li>Quem termina fora dessa tabela leva 5 pontos de participação.</li>
+              <li>A pior etapa de cada atleta é descartada.</li>
+              <li>Empate: mais etapas vencidas, depois a melhor colocação numa etapa, depois mais etapas disputadas.</li>
+              <li>Quem acumula ponto é o atleta, não a equipe — vale para dupla e para time.</li>
+            </ul></div>
+          </main>
+          <div class="cta"><a>Entrar no circuito pelo app</a></div>
+        </div></div></div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Joguei em dupla. Os pontos vão para a dupla?</summary><p>Não. Quem acumula ponto é o atleta, então você pode trocar de parceiro entre as etapas e continua somando.</p></details>
+    <details><summary>Como me inscrevo numa etapa?</summary><p>Cada etapa é um torneio normal. A inscrição e o pagamento são os do torneio.</p></details>
+    <details><summary>Faltei a uma etapa. Ainda tenho chance?</summary><p>Se a arena ativou o descarte ("melhores N de M"), só as suas melhores etapas contam. Confira em "Como pontua o circuito".</p></details>
+    <details><summary>Como funciona o desempate?</summary><p>Ganha quem venceu mais etapas. Se empatar, vale a melhor colocação numa etapa e, depois, quem disputou mais etapas.</p></details>
+    <details><summary>Como mostro o ranking para quem não tem o app?</summary><p>Mande o link público da temporada. Ele abre no navegador e não expira.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

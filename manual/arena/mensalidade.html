@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Planos de alunos e mensalidade · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  .btn.claro { font-weight: 500; }
+  .btn.contorno-laranja.claro { background: var(--surface); }
+  .btn.terciario { background: transparent; color: var(--primary); height: auto; padding: 8px 0; }
+  .btn.perigo-contorno { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  .chip.sel-app { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+  .scr-hdr { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; }
+  .scr-hdr svg { width: 24px; height: 24px; }
+  .scr-hdr .t3 { flex: 1; text-align: center; }
+  .rodape-tela { margin-top: auto; display: grid; gap: 8px; padding-top: 12px; }
+  .seg-app { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .seg-app span { flex: 1; text-align: center; padding: 8px 0; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .seg-app span.on { background: var(--primary); color: var(--text-inverse); }
+  .stepper { height: 52px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .stepper svg { width: 20px; height: 20px; }
+  .ico-circ { width: 48px; height: 48px; border-radius: 999px; background: var(--primary-wash); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .ico-circ svg { width: 20px; height: 20px; }
+  .ico-circ.off { color: var(--text-muted); }
+  .pill-cinza { padding: 2px 8px; border-radius: 999px; background: var(--surface-alt); font: 500 12px/16px var(--font); }
+  .pill-neutra { padding: 2px 8px; border-radius: 999px; background: var(--neutral-soft); font: 500 12px/16px var(--font); }
+  .chip-aluno { padding: 2px 8px; border-radius: 999px; background: var(--info-soft); color: var(--info); font: 400 12px/16px var(--font); }
+  .chip-aluno.web { background: var(--primary-soft); color: var(--primary-dark); }
+  .chip-mod { padding: 2px 8px; border-radius: 999px; background: var(--primary-wash); color: var(--primary); font: 400 12px/16px var(--font); }
+  .sheet.app { background: var(--background); padding: 20px 20px 34px; gap: 12px; }
+  .sheet.app::before { display: none; }
+  .opcao { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .opcao .grow { display: grid; gap: 2px; }
+  .opcao svg { width: 20px; height: 20px; flex: none; }
+  .sel-aluno { display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .vazio { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 20px; text-align: center; }
+  .vazio .ic-bola { width: 64px; height: 64px; border-radius: 999px; background: var(--surface-alt); display: flex; align-items: center; justify-content: center; color: var(--text-muted); margin-bottom: 4px; }
+  .vazio .ic-bola svg { width: 28px; height: 28px; }
+  .alerta { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); width: 270px; border-radius: 14px; background: rgba(242,242,242,.97); z-index: 9; text-align: center; overflow: hidden; }
+  .alerta .corpo { padding: 18px 16px; display: grid; gap: 4px; }
+  .alerta .bts { display: flex; border-top: 1px solid var(--border); }
+  .alerta .bts span { flex: 1; padding: 11px 0; font: 400 16px/22px var(--font); color: var(--info); }
+  .alerta .bts span + span { border-left: 1px solid var(--border); font-weight: 600; }
+  /* vitrine do jogador */
+  .hero { background: var(--primary-wash); border-radius: 0 0 20px 20px; margin: -4px -20px 0; padding: 0 20px 24px; position: relative; overflow: hidden; }
+  .bolha-g { position: absolute; width: 220px; height: 220px; border-radius: 999px; background: var(--primary-soft); top: -73px; right: -73px; }
+  .bolha-p { position: absolute; width: 96px; height: 96px; border-radius: 999px; background: var(--primary-soft); bottom: -48px; left: -24px; }
+  .hero > .scr-hdr, .hero > .row { position: relative; }
+  .feat { display: flex; align-items: center; gap: 8px; }
+  .feat svg { width: 16px; height: 16px; color: var(--primary); }
+  .card.atual { border: 2px solid var(--success); padding: 24px; }
+  .carrossel { display: flex; gap: 12px; margin: 0 -20px; padding: 0 20px; overflow: hidden; }
+  .carrossel .card { width: 284px; flex: none; padding: 24px; display: grid; gap: 12px; min-height: 300px; align-content: start; }
+  .pix { width: 220px; height: 220px; margin: 0 auto; }
+
+  /* painel web */
+  .shell { min-width: 0; }
+  .wcab { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .wcab .textos { display: grid; gap: 4px; }
+  .wcab .acoes { display: flex; align-items: center; gap: 12px; }
+  .sino { padding: 4px; position: relative; display: flex; }
+  .sino svg { width: 24px; height: 24px; }
+  .wseg { display: inline-flex; background: var(--neutral-soft); border-radius: 12px; padding: 4px; }
+  .wseg span { height: 30px; display: inline-flex; align-items: center; gap: 4px; padding: 0 12px; border-radius: 8px; font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .wseg span.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow-card); }
+  .wseg .cont { font: 500 12px/16px var(--font); color: var(--text-muted); }
+  .resumo { display: flex; gap: 16px; }
+  .resumo .card { flex: 1; display: grid; gap: 4px; }
+  .resumo .rot { text-transform: uppercase; letter-spacing: .5px; }
+  .grade { display: flex; flex-wrap: wrap; gap: 16px; }
+  .cplano { flex: 1 1 300px; min-width: 260px; display: grid; gap: 12px; }
+  .cplano.aberto { border-color: var(--primary); }
+  .cplano .rodape { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 12px; }
+  .cnovo { flex: 1 1 300px; min-width: 260px; min-height: 180px; border: 1px dashed var(--border); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 16px; text-align: center; }
+  .cnovo svg { width: 20px; height: 20px; }
+  .wcorpo { display: flex; gap: 24px; align-items: flex-start; }
+  .wpainel { width: 440px; flex: none; display: grid; gap: 16px; align-self: flex-start; }
+  .wpainel.w340 { width: 340px; gap: 12px; }
+  .ptopo { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .fechar { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex: none; }
+  .fechar svg { width: 16px; height: 16px; }
+  .contadores { display: flex; gap: 12px; }
+  .contadores > div { flex: 1; display: grid; gap: 4px; }
+  .cont-w { display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); padding: 4px 8px; }
+  .cont-w span.b { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; }
+  .cont-w svg { width: 16px; height: 16px; }
+  .wt { flex: 1; min-width: 0; }
+  .wl { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-top: 1px solid var(--border); }
+  .wl.cab { border-top: 0; padding: 8px 16px; }
+  .wl.cab .cap { color: var(--text-muted); }
+  .wl.aberta { background: var(--primary-wash); }
+  .wl > * { flex: none; }
+  .wl .atl { flex: 1; min-width: 170px; display: flex; align-items: center; gap: 8px; }
+  .wl .duo { display: grid; gap: 2px; min-width: 0; }
+  .wl .sit { display: grid; gap: 4px; justify-items: start; }
+  .wl .chev { width: 16px; height: 16px; color: var(--text-muted); }
+  .plano-p { display: grid; gap: 4px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .browser.b1440 { width: 1440px; }
+  .browser-body { position: relative; }
+  .veu-web { position: absolute; inset: 0; background: var(--overlay); z-index: 7; }
+  .folha-web { position: absolute; left: 0; right: 0; bottom: 0; z-index: 8; background: var(--background); border-radius: 20px 20px 0 0; padding: 20px; display: grid; gap: 12px; }
+
+  /* proposta: Confirmar plano de aluno no painel ao lado */
+  .wpainel.w400 { width: 400px; gap: 16px; }
+  .ap-cab { display: flex; align-items: center; gap: 12px; }
+  .ap-cab svg { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .ap-passos { display: flex; align-items: center; gap: 8px; }
+  .ap-passos .p { display: inline-flex; align-items: center; gap: 6px; font: 500 12px/16px var(--font); color: var(--text-muted); }
+  .ap-passos .p i { width: 20px; height: 20px; border-radius: 10px; border: 1px solid var(--border); display: inline-flex; align-items: center; justify-content: center; font: 600 11px/1 var(--font); font-style: normal; }
+  .ap-passos .p.on { color: var(--text); } .ap-passos .p.on i { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .ap-passos .p.feito i { background: var(--primary-wash); border-color: var(--primary-tint); color: var(--primary); }
+  .ap-passos .p.feito i svg { width: 12px; height: 12px; }
+  .ap-passos .fio { flex: 1; height: 1px; background: var(--border); }
+  .ap-lista { display: grid; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .ap-lin { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-top: 1px solid var(--border); }
+  .ap-lin:first-child { border-top: 0; }
+  .ap-lin.hover { background: var(--primary-wash); }
+  .ap-lin .chev { width: 16px; height: 16px; color: var(--text-muted); }
+  .ap-sel { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; background: var(--surface-alt); }
+  .ap-plano { display: grid; gap: 6px; padding: 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .ap-plano.on { border: 2px solid var(--primary); background: var(--primary-wash); padding: 13px; }
+  .ap-plano .ap-topo { display: flex; align-items: center; gap: 10px; }
+  .ap-resumo { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 12px; background: var(--accent-soft); }
+  .ap-resumo svg { width: 16px; height: 16px; color: var(--warning); flex: none; margin-top: 2px; }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="arena" data-fluxo="mensalidade"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Planos de alunos e mensalidade</h1>
+  <p>Você monta a vitrine de planos de alunos (modalidades, aulas por semana, valor e tolerância de atraso), confirma o plano de quem já é aluno e acompanha as mensalidades em aberto em "Meus atletas". O que o aluno pagou no balcão, você marca como pago. Os planos ficam em Ajustes.</p>
+  <ul class="regras">
+    <li>Planos de alunos valem em todos os planos da arena, a partir do Básico, e só a gestão (dono, administrador e gerente) cria e edita.</li>
+    <li>Quem já contratou continua com o valor e o limite da época da contratação. Desativar um plano tira ele da vitrine sem afetar quem já tem.</li>
+    <li>Cada aluno tem um plano por modalidade na arena, e o limite de aulas por semana é respeitado automaticamente quando ele se inscreve. Quando a equipe põe o aluno na aula, o limite não trava.</li>
+    <li>A primeira mensalidade fica em aberto assim que o plano é confirmado. Depois do vencimento, a tolerância define por quantos dias o aluno ainda consegue se inscrever nas aulas.</li>
+    <li>Cancelar o plano cancela as mensalidades em aberto. O que já foi pago vale até o fim do período.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- ======================= CELULAR ======================= -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 Planos -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Planos de alunos</b><span>Em Ajustes, toque em "Planos de alunos". Cada plano mostra modalidades, preço, limite semanal e quantos alunos ativos tem. Toque num plano para editar.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:12px">
+          <div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Planos de alunos</p><i data-lucide="x"></i></div>
+          <div class="col g8">
+            <div class="card col g8">
+              <div class="row"><span class="ico-circ"><i data-lucide="volleyball"></i></span><div class="grow col g4" style="gap:2px"><p class="b1m">Futevôlei 2x</p><p class="b2 muted">Futevôlei</p></div><span class="tag ok">Ativo</span></div>
+              <div class="row sb"><div class="row" style="gap:4px;align-items:baseline"><p class="t3 laranja">R$ 180,00</p><p class="b2 muted">/mês</p></div><i data-lucide="chevron-right" class="ic muted"></i></div>
+              <div class="row" style="gap:4px"><span class="pill-cinza">2x por semana</span></div>
+              <p class="cap muted">9 alunos ativos</p>
+            </div>
+            <div class="card col g8">
+              <div class="row"><span class="ico-circ"><i data-lucide="table-2"></i></span><div class="grow col g4" style="gap:2px"><p class="b1m">Beach tennis 1x</p><p class="b2 muted">Beach tennis</p></div><span class="tag ok">Ativo</span></div>
+              <div class="row sb"><div class="row" style="gap:4px;align-items:baseline"><p class="t3 laranja">R$ 120,00</p><p class="b2 muted">/mês</p></div><i data-lucide="chevron-right" class="ic muted"></i></div>
+              <div class="row" style="gap:4px"><span class="pill-cinza">1x por semana</span></div>
+              <p class="cap muted">6 alunos ativos</p>
+            </div>
+            <div class="card col g8">
+              <div class="row"><span class="ico-circ"><i data-lucide="volleyball"></i></span><div class="grow col g4" style="gap:2px"><p class="b1m">Pacote praia</p><p class="b2 muted">Futevôlei, Beach tennis</p></div><span class="tag ok">Ativo</span></div>
+              <div class="row sb"><div class="row" style="gap:4px;align-items:baseline"><p class="t3 laranja">R$ 320,00</p><p class="b2 muted">/mês</p></div><i data-lucide="chevron-right" class="ic muted"></i></div>
+              <div class="row" style="gap:4px"><span class="pill-cinza">4x por semana</span></div>
+              <p class="cap muted">2 alunos ativos</p>
+            </div>
+          </div>
+          <div class="rodape-tela"><button class="btn claro">Novo plano</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 Novo plano -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Novo plano</b><span>Preencha nome, modalidades (com mais de uma, vira pacote), aulas por semana, tolerância de atraso e valor mensal.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:16px">
+          <div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Novo plano</p><i data-lucide="x"></i></div>
+          <div class="input foco">Livre futevôlei</div>
+          <div class="col g8"><div><p class="t3" style="margin-bottom:12px">Modalidades</p><p class="cap muted">Marque mais de uma pra montar um pacote.</p></div><div class="chips"><span class="chip sel-app">Futevôlei</span><span class="chip">Beach tennis</span><span class="chip">Vôlei de Praia</span></div></div>
+          <div class="col"><p class="t3">Aulas por semana</p><div class="stepper"><i data-lucide="minus"></i><p class="t3">5x</p><i data-lucide="plus"></i></div></div>
+          <div class="col g8"><div><p class="t3" style="margin-bottom:12px">Tolerância de atraso (dias)</p><p class="cap muted">Dias depois do vencimento em que o aluno ainda pode se inscrever nas aulas.</p></div><div class="stepper"><i data-lucide="minus"></i><p class="t3">5</p><i data-lucide="plus"></i></div></div>
+          <div class="col g8"><div class="input">260,00</div><p class="cap muted">Cobrado todo mês a partir da data em que o aluno contratar.</p></div>
+          <div class="rodape-tela"><button class="btn claro">Criar plano</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 Editar plano -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Editar plano</b><span>A mudança vale para quem contratar daqui para frente. Para desativar, o app pede confirmação, e o plano sai da vitrine.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:16px">
+          <div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Editar plano</p><i data-lucide="x"></i></div>
+          <div class="input">Futevôlei 2x</div>
+          <div class="col g8"><div><p class="t3" style="margin-bottom:12px">Modalidades</p><p class="cap muted">Marque mais de uma pra montar um pacote.</p></div><div class="chips"><span class="chip sel-app">Futevôlei</span><span class="chip">Beach tennis</span><span class="chip">Vôlei de Praia</span></div></div>
+          <div class="col"><p class="t3">Aulas por semana</p><div class="stepper"><i data-lucide="minus"></i><p class="t3">2x</p><i data-lucide="plus"></i></div></div>
+          <div class="col g8"><div><p class="t3" style="margin-bottom:12px">Tolerância de atraso (dias)</p><p class="cap muted">Dias depois do vencimento em que o aluno ainda pode se inscrever nas aulas.</p></div><div class="stepper"><i data-lucide="minus"></i><p class="t3">5</p><i data-lucide="plus"></i></div></div>
+          <div class="col g8"><div class="input">190,00</div><p class="cap muted">Quem já contratou continua com o valor e o limite de quando contratou.</p></div>
+          <div class="rodape-tela"><button class="btn claro">Salvar</button><button class="btn terciario claro">Desativar plano</button></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="alerta"><div class="corpo"><p class="b1m" style="font-weight:600">Desativar plano?</p><p class="cap">Ele sai da vitrine e ninguém novo contrata. Quem já contratou continua com o plano.</p></div><div class="bts"><span>Voltar</span><span style="color:var(--danger)">Desativar</span></div></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 Sem plano -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Arena sem plano ativo</b><span>A tela mostra o cadeado do plano. Professor e atendente não entram nesta tela e voltam para o painel.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Planos de alunos</p><i data-lucide="x"></i></div>
+          <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+            <div class="vazio"><span class="ic-bola"><i data-lucide="lock"></i></span><p class="t3">Disponível em todos os planos da arena</p><p class="b2 muted">Turmas, agenda de aulas, inscrição de alunos e presença estão em todos os planos da arena, a partir do Básico.</p><button class="btn contorno-laranja claro" style="margin-top:12px">Ver planos</button></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 Meus atletas em aberto -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Meus atletas · Em aberto</b><span>Na aba "Em aberto" fica quem tem mensalidade pendente. Abra o card para ver plano, valor e vencimento, e toque no plano para ver as ações.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:12px">
+          <div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Meus atletas</p><i data-lucide="x"></i></div>
+          <div class="input"><i data-lucide="search" style="color:var(--primary)"></i><span class="ph">Buscar por nome</span></div>
+          <div class="seg-app"><span>Mais recentes</span><span>Sumiram</span><span class="on">Em aberto</span></div>
+          <div class="card col g8">
+            <div class="row" style="gap:8px"><span class="avatar sm">B</span><div class="grow col" style="gap:4px"><div class="row wrap" style="gap:8px"><p class="b1m">Bia Moreira</p><span class="chip-aluno">Aluno</span><span class="tag aviso">Atrasado</span></div></div><i data-lucide="chevron-up" class="ic muted"></i></div>
+            <div class="row" style="gap:4px"><span class="chip-mod">Futevôlei</span><span class="chip-mod">Beach tennis</span></div>
+            <p class="b2 muted">14 partida(s) aqui · 6 reserva(s) aqui</p>
+            <div class="col g4" style="padding-top:8px;border-top:1px solid var(--border)">
+              <div class="row" style="gap:8px"><p class="b2m grow">Futevôlei 2x</p><i data-lucide="chevron-right" class="ic16 muted"></i></div>
+              <p class="cap laranja">Futevôlei</p>
+              <p class="cap muted">R$ 180,00/mês · 2x por semana</p>
+              <p class="cap" style="color:var(--warning)">Venceu em 22/09</p>
+            </div>
+            <p class="cap muted" style="padding-top:8px;border-top:1px solid var(--border)">Última vez: 26/09</p>
+          </div>
+          <div class="card col g4">
+            <div class="row" style="gap:8px"><span class="avatar sm">N</span><div class="grow col" style="gap:4px"><div class="row wrap" style="gap:8px"><p class="b1m">Nanda Ribeiro</p><span class="chip-aluno">Aluno</span><span class="tag aviso">Aguardando pagamento</span></div><p class="cap muted">Vence em 01/10</p></div><i data-lucide="chevron-down" class="ic muted"></i></div>
+          </div>
+          <div class="card col g4">
+            <div class="row" style="gap:8px"><span class="avatar sm">G</span><div class="grow col" style="gap:4px"><div class="row wrap" style="gap:8px"><p class="b1m">Gui Barros</p><span class="chip-aluno">Aluno</span><span class="tag ok">Em dia</span></div><div class="row" style="gap:8px"><p class="cap muted">Vence em 03/10</p><p class="cap muted">2 planos</p></div></div><i data-lucide="chevron-down" class="ic muted"></i></div>
+          </div>
+          <div class="rodape-tela"><button class="btn contorno-laranja claro">Confirmar plano de aluno</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 Ações do plano -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Ações do plano</b><span>Escolha marcar como pago (quando o aluno pagou na arena) ou cancelar o plano. Os dois pedem confirmação.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body"><div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Meus atletas</p><i data-lucide="x"></i></div></div>
+        <div class="sheet-veu"></div>
+        <div class="sheet app">
+          <div class="row sb"><p class="t3 grow">Futevôlei 2x</p><i data-lucide="x" class="ic24"></i></div>
+          <p class="b2 muted">Futevôlei</p>
+          <p class="b2 muted">R$ 180,00/mês · 2x por semana</p>
+          <p class="cap" style="color:var(--warning)">Venceu em 22/09</p>
+          <button class="btn contorno claro">Marcar como pago</button>
+          <button class="btn perigo-contorno claro">Cancelar plano</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 Confirmar pago -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Marcar como pago?</b><span>Confirme que o aluno pagou o valor direto na arena. A mensalidade sai de "Em aberto".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body"><div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Meus atletas</p><i data-lucide="x"></i></div></div>
+        <div class="sheet-veu"></div>
+        <div class="alerta"><div class="corpo"><p class="b1m" style="font-weight:600">Marcar como pago?</p><p class="cap">Use quando o aluno pagou R$ 180,00 direto na arena.</p></div><div class="bts"><span>Voltar</span><span>Marcar pago</span></div></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 Confirmar plano: aluno -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Confirmar plano de aluno · aluno</b><span>Para quem já era aluno antes do app: busque o atleta entre os vinculados. As modalidades dele aparecem junto.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body"><div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Meus atletas</p><i data-lucide="x"></i></div></div>
+        <div class="sheet-veu"></div>
+        <div class="sheet app" style="top:20%">
+          <div class="row"><p class="t3 grow">Confirmar plano de aluno</p><i data-lucide="x" class="ic24"></i></div>
+          <p class="b2 muted">Escolha um aluno vinculado e o plano dele. A primeira mensalidade fica em aberto a partir de hoje.</p>
+          <div class="input"><i data-lucide="search" style="color:var(--primary)"></i><span class="ph">Buscar aluno</span></div>
+          <div>
+            <div class="opcao"><div class="grow"><p class="b1">Caio Nunes</p><p class="b2 muted">Futevôlei</p></div><i data-lucide="chevron-right" class="muted"></i></div>
+            <div class="opcao"><div class="grow"><p class="b1">Carol Prado</p><p class="b2 muted">Beach tennis</p></div><i data-lucide="chevron-right" class="muted"></i></div>
+            <div class="opcao"><div class="grow"><p class="b1">Duda Martins</p><p class="b2 muted">Futevôlei, Beach tennis</p></div><i data-lucide="chevron-right" class="muted"></i></div>
+            <div class="opcao"><div class="grow"><p class="b1">Léo Andrade</p><p class="b2 muted">Futevôlei</p></div><i data-lucide="chevron-right" class="muted"></i></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 9 Confirmar plano: plano -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">9</div>
+        <div class="passo-txt"><b>Confirmar plano de aluno · plano</b><span>Só aparecem planos ativos com alguma modalidade do aluno. Ao confirmar, a primeira mensalidade já fica em aberto.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body"><div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Meus atletas</p><i data-lucide="x"></i></div></div>
+        <div class="sheet-veu"></div>
+        <div class="sheet app">
+          <div class="row"><i data-lucide="arrow-left" class="ic24"></i><p class="t3 grow">Escolha o plano</p><i data-lucide="x" class="ic24"></i></div>
+          <div class="sel-aluno"><span class="avatar sm">D</span><div class="grow col" style="gap:2px"><p class="b1m">Duda Martins</p><p class="b2 muted">Futevôlei, Beach tennis</p></div><p class="b2m laranja">Trocar</p></div>
+          <p class="b2m muted">Plano</p>
+          <div>
+            <div class="opcao"><div class="grow"><p class="b1">Futevôlei 2x</p><p class="b2 muted">2x por semana · R$ 180,00/mês</p></div></div>
+            <div class="opcao"><div class="grow"><p class="b1">Beach tennis 1x</p><p class="b2 muted">1x por semana · R$ 120,00/mês</p></div></div>
+            <div class="opcao"><div class="grow"><p class="b1">Pacote praia</p><p class="b2 muted">4x por semana · R$ 320,00/mês</p></div><i data-lucide="check" class="laranja"></i></div>
+            <div class="opcao"><div class="grow"><p class="b1">Livre futevôlei</p><p class="b2 muted">5x por semana · R$ 260,00/mês</p></div></div>
+          </div>
+          <button class="btn claro">Confirmar plano</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 10 Vitrine do jogador -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">10</div>
+        <div class="passo-txt"><b>Planos da arena (o que o jogador vê)</b><span>Do lado do jogador, a vitrine mostra primeiro o plano contratado, com vencimento e o botão "Pagar". Os outros planos aparecem num carrossel para contratar.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body" style="gap:32px">
+          <div class="hero">
+            <div class="bolha-g"></div><div class="bolha-p"></div>
+            <div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Planos da arena</p><i data-lucide="x"></i></div>
+            <div class="row" style="padding-top:8px">
+              <div class="grow col g4"><p class="t2">Treine com <span class="laranja">plano</span></p><p class="b2 muted">Mensalidade na Arena Maré Alta: escolha quantas aulas por semana.</p></div>
+              <img src="../img/mascote-arena.png" alt="" style="width:96px;height:120px;object-fit:contain">
+            </div>
+          </div>
+          <div class="col">
+            <p class="t3">Seu plano</p>
+            <div class="card atual col">
+              <div class="row" style="justify-content:flex-end;margin-bottom:-8px"><span class="tag ok">Plano atual</span></div>
+              <p class="t2">Futevôlei 2x</p>
+              <div class="row" style="gap:4px;align-items:baseline"><p class="t1 laranja">R$ 180,00</p><p class="b2 muted">/mês</p></div>
+              <div class="col" style="margin:8px 0">
+                <div class="feat"><i data-lucide="check"></i><p class="b2">Futevôlei</p></div>
+                <div class="feat"><i data-lucide="check"></i><p class="b2">Até 2 aulas por semana</p></div>
+              </div>
+              <p class="b2 vermelho">Mensalidade venceu em 22/09</p>
+              <button class="btn claro">Pagar R$ 180,00</button>
+              <button class="btn perigo-contorno claro">Cancelar plano</button>
+            </div>
+          </div>
+          <div class="col">
+            <p class="t3">Outros planos</p>
+            <div class="carrossel">
+              <div class="card"><p class="t2">Beach tennis 1x</p><div class="row" style="gap:4px;align-items:baseline"><p class="t1 laranja">R$ 120,00</p><p class="b2 muted">/mês</p></div><div class="col" style="margin:8px 0"><div class="feat"><i data-lucide="check"></i><p class="b2">Beach tennis</p></div><div class="feat"><i data-lucide="check"></i><p class="b2">Até 1 aulas por semana</p></div></div><button class="btn claro" style="margin-top:auto">Contratar</button></div>
+              <div class="card"><p class="t2">Pacote praia</p><div class="row" style="gap:4px;align-items:baseline"><p class="t1 laranja">R$ 320,00</p><p class="b2 muted">/mês</p></div><div class="col" style="margin:8px 0"><div class="feat"><i data-lucide="check"></i><p class="b2">Futevôlei</p></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 11 Pagar mensalidade -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">11</div>
+        <div class="passo-txt"><b>Mensalidade (jogador paga)</b><span>O aluno paga por Pix ou cartão pelo app. Quando o pagamento cai, a mensalidade sai de "Em aberto" no seu painel.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:16px">
+          <div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Mensalidade</p><i data-lucide="x"></i></div>
+          <div class="card col g4"><p class="b1m">Futevôlei 2x</p><p class="b2 muted">Arena Maré Alta</p><p class="b2 muted">Período: 22/09 a 21/10</p><p class="b1m">R$ 180,00</p></div>
+          <div class="seg-app"><span class="on">Pix</span><span>Cartão</span></div>
+          <div class="card" style="padding:12px;align-self:center"><div class="qr pix" style="border:0;outline:0"></div></div>
+          <p class="b2 muted" style="text-align:center">Escaneie o QR Code no app do seu banco pra pagar com Pix.</p>
+          <p class="cap muted" style="text-align:center">Ou copie o código abaixo (Pix copia e cola):</p>
+          <div class="card" style="padding:12px"><p class="cap" style="word-break:break-all;font-family:var(--mono)">00020126580014br.gov.bcb.pix0136a1f4c2d8-7e3b-4a90-9c2e-5f8b1d6e0a475204000053039865406180.005802BR5915ARENA MARE ALTA6013FLORIANOPOLIS</p></div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ======================= NAVEGADOR ======================= -->
+<section class="trilho-fluxo web" data-plataforma="navegador">
+  <div class="passos">
+
+    <!-- W1 Vitrine -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Planos de alunos</b><span>No navegador, o topo resume planos ativos, alunos com plano e o previsto no mês. Abaixo fica a vitrine em grade, com um card tracejado para criar plano novo.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-student-plans</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="pessoas" data-item="Planos de alunos">
+            <div class="shell-conteudo" style="gap:16px">
+              <div class="wcab"><div class="textos"><p class="t1">Planos de alunos</p><p class="b2 muted">Arena Maré Alta · 4 planos ativos · 21 alunos com plano</p></div><div class="acoes"><button class="btn inline claro"><i data-lucide="plus"></i>Novo plano</button><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div class="resumo">
+                <div class="card"><p class="cap muted rot">Planos ativos</p><p class="t1">4/5</p><p class="cap muted">1 desativado</p></div>
+                <div class="card"><p class="cap muted rot">Alunos com plano</p><p class="t1">21</p><p class="cap muted">3 vencem nos próximos 7 dias</p></div>
+                <div class="card"><p class="cap muted rot">Previsto no mês</p><p class="t1">R$ 4.020,00</p><p class="cap muted">Soma dos planos ativos</p></div>
+              </div>
+              <div class="grade">
+                <div class="card cplano"><div class="row"><span class="ico-circ"><i data-lucide="volleyball"></i></span><div class="grow col" style="gap:2px"><p class="b1m">Futevôlei 2x</p><p class="cap muted">Futevôlei</p></div><span class="tag ok">Ativo</span></div><div class="row" style="gap:4px;align-items:baseline"><p class="t1 laranja">R$ 180,00</p><p class="cap muted">/mês</p></div><div class="row" style="gap:4px"><span class="pill-neutra">2x por semana</span><span class="pill-neutra">Tolerância 5 dias</span></div><div class="rodape"><p class="cap muted">9 alunos ativos</p><p class="b2m laranja">Editar plano</p></div></div>
+                <div class="card cplano"><div class="row"><span class="ico-circ"><i data-lucide="volleyball"></i></span><div class="grow col" style="gap:2px"><p class="b1m">Livre futevôlei</p><p class="cap muted">Futevôlei</p></div><span class="tag ok">Ativo</span></div><div class="row" style="gap:4px;align-items:baseline"><p class="t1 laranja">R$ 260,00</p><p class="cap muted">/mês</p></div><div class="row" style="gap:4px"><span class="pill-neutra">5x por semana</span><span class="pill-neutra">Tolerância 5 dias</span></div><div class="rodape"><p class="cap muted">4 alunos ativos</p><p class="b2m laranja">Editar plano</p></div></div>
+                <div class="card cplano"><div class="row"><span class="ico-circ"><i data-lucide="table-2"></i></span><div class="grow col" style="gap:2px"><p class="b1m">Beach tennis 1x</p><p class="cap muted">Beach tennis</p></div><span class="tag ok">Ativo</span></div><div class="row" style="gap:4px;align-items:baseline"><p class="t1 laranja">R$ 120,00</p><p class="cap muted">/mês</p></div><div class="row" style="gap:4px"><span class="pill-neutra">1x por semana</span><span class="pill-neutra">Tolerância 3 dias</span></div><div class="rodape"><p class="cap muted">6 alunos ativos</p><p class="b2m laranja">Editar plano</p></div></div>
+                <div class="card cplano"><div class="row"><span class="ico-circ"><i data-lucide="volleyball"></i></span><div class="grow col" style="gap:2px"><p class="b1m">Pacote praia</p><p class="cap muted">Futevôlei · Beach tennis</p></div><span class="tag ok">Ativo</span></div><div class="row" style="gap:4px;align-items:baseline"><p class="t1 laranja">R$ 320,00</p><p class="cap muted">/mês</p></div><div class="row" style="gap:4px"><span class="pill-neutra">4x por semana</span><span class="pill-neutra">Tolerância 5 dias</span></div><div class="rodape"><p class="cap muted">2 alunos ativos</p><p class="b2m laranja">Editar plano</p></div></div>
+                <div class="card cplano"><div class="row"><span class="ico-circ off"><i data-lucide="volleyball"></i></span><div class="grow col" style="gap:2px"><p class="b1m">Vôlei de Praia 2x</p><p class="cap muted">Vôlei de Praia</p></div><span class="tag neutro">Desativado</span></div><div class="row" style="gap:4px;align-items:baseline"><p class="t1 laranja">R$ 150,00</p><p class="cap muted">/mês</p></div><div class="row" style="gap:4px"><span class="pill-neutra">2x por semana</span><span class="pill-neutra">Tolerância 5 dias</span></div><div class="rodape"><p class="cap muted">0 alunos ativos</p><p class="b2m laranja">Editar plano</p></div></div>
+                <div class="cnovo"><span class="ico-circ"><i data-lucide="plus"></i></span><p class="b2m">Novo plano</p><p class="cap muted">Preço, modalidades e limite por semana</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W2 Editar ao lado -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Editar plano ao lado</b><span>Clique num plano e o formulário abre à direita; o plano em edição fica com borda laranja. Para desativar, o app pergunta antes.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-student-plans</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="pessoas" data-item="Planos de alunos">
+            <div class="shell-conteudo" style="gap:16px">
+              <div class="wcab"><div class="textos"><p class="t1">Planos de alunos</p><p class="b2 muted">Arena Maré Alta · 4 planos ativos · 21 alunos com plano · R$ 4.020,00 previstos no mês</p></div><div class="acoes"><button class="btn inline claro"><i data-lucide="plus"></i>Novo plano</button><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div class="wcorpo">
+                <div class="grade grow">
+                  <div class="card cplano aberto"><div class="row"><span class="ico-circ"><i data-lucide="volleyball"></i></span><div class="grow col" style="gap:2px"><p class="b1m">Futevôlei 2x</p><p class="cap muted">Futevôlei</p></div><span class="tag ok">Ativo</span></div><div class="row" style="gap:4px;align-items:baseline"><p class="t1 laranja">R$ 180,00</p><p class="cap muted">/mês</p></div><div class="row" style="gap:4px"><span class="pill-neutra">2x por semana</span><span class="pill-neutra">Tolerância 5 dias</span></div><div class="rodape"><p class="cap muted">9 alunos ativos</p><p class="b2m laranja">Editar plano</p></div></div>
+                  <div class="card cplano"><div class="row"><span class="ico-circ"><i data-lucide="volleyball"></i></span><div class="grow col" style="gap:2px"><p class="b1m">Livre futevôlei</p><p class="cap muted">Futevôlei</p></div><span class="tag ok">Ativo</span></div><div class="row" style="gap:4px;align-items:baseline"><p class="t1 laranja">R$ 260,00</p><p class="cap muted">/mês</p></div><div class="row" style="gap:4px"><span class="pill-neutra">5x por semana</span><span class="pill-neutra">Tolerância 5 dias</span></div><div class="rodape"><p class="cap muted">4 alunos ativos</p><p class="b2m laranja">Editar plano</p></div></div>
+                  <div class="card cplano"><div class="row"><span class="ico-circ"><i data-lucide="table-2"></i></span><div class="grow col" style="gap:2px"><p class="b1m">Beach tennis 1x</p><p class="cap muted">Beach tennis</p></div><span class="tag ok">Ativo</span></div><div class="row" style="gap:4px;align-items:baseline"><p class="t1 laranja">R$ 120,00</p><p class="cap muted">/mês</p></div><div class="row" style="gap:4px"><span class="pill-neutra">1x por semana</span><span class="pill-neutra">Tolerância 3 dias</span></div><div class="rodape"><p class="cap muted">6 alunos ativos</p><p class="b2m laranja">Editar plano</p></div></div>
+                </div>
+                <div class="card wpainel">
+                  <div class="ptopo"><div class="grow col" style="gap:2px"><p class="t2">Editar plano</p><p class="cap muted">Quem já contratou continua com o valor e o limite de quando contratou.</p></div><span class="fechar"><i data-lucide="x"></i></span></div>
+                  <div class="col g4"><p class="capm muted">Nome do plano</p><div class="input">Futevôlei 2x</div></div>
+                  <div class="col g4"><p class="capm muted">Modalidades</p><p class="cap muted">Marque mais de uma pra montar um pacote.</p><div class="chips" style="margin-top:4px"><span class="chip sel-app">Futevôlei</span><span class="chip">Beach tennis</span><span class="chip">Vôlei de Praia</span></div></div>
+                  <div class="contadores">
+                    <div><p class="capm muted">Aulas por semana</p><div class="cont-w"><span class="b"><i data-lucide="minus"></i></span><p class="b1m">2x</p><span class="b"><i data-lucide="plus"></i></span></div></div>
+                    <div><p class="capm muted">Tolerância de atraso</p><div class="cont-w"><span class="b"><i data-lucide="minus"></i></span><p class="b1m">5 dias</p><span class="b"><i data-lucide="plus"></i></span></div></div>
+                  </div>
+                  <p class="cap muted">Dias depois do vencimento em que o aluno ainda pode se inscrever nas aulas.</p>
+                  <div class="col g4"><p class="capm muted">Valor mensal</p><div class="input">180,00</div><p class="cap muted">Cobrado todo mês a partir da data em que o aluno contratar.</p></div>
+                  <div class="col g8"><button class="btn claro">Salvar</button><button class="btn perigo-contorno claro">Desativar plano</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W3 Meus atletas em aberto -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Meus atletas · Em aberto</b><span>Cada plano vira uma linha, com situação e vencimento. Clique no atleta para abrir ao lado, com "Marcar pago" e "Cancelar plano", que pedem confirmação.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser b1440" style="height:900px">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-customers</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="pessoas" data-item="Meus atletas">
+            <div class="shell-conteudo" style="gap:0">
+              <div class="wcab"><div class="textos"><p class="t1">Meus atletas</p><p class="b2 muted">Arena Maré Alta · 64 atletas · 21 alunos com plano</p></div><div class="acoes"><button class="btn inline contorno-laranja claro">Confirmar plano de aluno</button><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div class="row sb" style="margin-top:24px;gap:16px"><div class="input" style="width:300px"><i data-lucide="search"></i><span class="ph">Buscar por nome</span></div><div class="wseg"><span>Todos <span class="cont">64</span></span><span>Alunos <span class="cont">21</span></span><span>Sumiram</span><span class="on">Em aberto <span class="cont">4</span></span></div></div>
+              <div class="wcorpo" style="margin-top:16px;gap:16px">
+                <div class="card sem-pad wt">
+                  <div class="wl cab"><span class="cap atl">ATLETA</span><span class="cap" style="width:150px">PLANO</span><span class="cap" style="width:90px">VALOR</span><span class="cap" style="width:150px">SITUAÇÃO</span><span style="width:16px"></span></div>
+                  <div class="wl aberta"><div class="atl"><span class="avatar md">B</span><div class="duo grow"><p class="b2m">Bia Moreira</p><p class="cap muted">Última vez: 26/09</p></div><span class="chip-aluno web">Aluno</span></div><div class="duo" style="width:150px"><p class="b2">Futevôlei 2x</p><p class="cap laranja">Futevôlei · 2x por semana</p></div><p class="b2m" style="width:90px">R$ 180,00</p><div class="sit" style="width:150px"><span class="tag aviso">Atrasado</span><p class="cap vermelho">Venceu em 22/09</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+                  <div class="wl"><div class="atl"><span class="avatar md">N</span><div class="duo grow"><p class="b2m">Nanda Ribeiro</p><p class="cap muted">Última vez: 24/09</p></div><span class="chip-aluno web">Aluno</span></div><div class="duo" style="width:150px"><p class="b2">Pacote praia</p><p class="cap laranja">Futevôlei · Beach tennis · 4x por semana</p></div><p class="b2m" style="width:90px">R$ 320,00</p><div class="sit" style="width:150px"><span class="tag aviso">Aguardando pagamento</span><p class="cap muted">Vence em 01/10</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+                  <div class="wl"><div class="atl"><span class="avatar md">G</span><div class="duo grow"><p class="b2m">Gui Barros</p><p class="cap muted">Última vez: 27/09</p></div><span class="chip-aluno web">Aluno</span></div><div class="duo" style="width:150px"><p class="b2">Livre futevôlei</p><p class="cap laranja">Futevôlei · 5x por semana</p></div><p class="b2m" style="width:90px">R$ 260,00</p><div class="sit" style="width:150px"><span class="tag ok">Em dia</span><p class="cap muted">Vence em 03/10</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+                  <div class="wl"><div class="atl"></div><div class="duo" style="width:150px"><p class="b2">Beach tennis 1x</p><p class="cap laranja">Beach tennis · 1x por semana</p></div><p class="b2m" style="width:90px">R$ 120,00</p><div class="sit" style="width:150px"><span class="tag ok">Em dia</span><p class="cap muted">Nenhuma mensalidade em aberto</p></div><span style="width:16px"></span></div>
+                  <div class="wl"><div class="atl"><span class="avatar md">P</span><div class="duo grow"><p class="b2m">Pedro Salles</p><p class="cap vermelho">Sumiu há 23 dias</p></div><span class="chip-aluno web">Aluno</span></div><div class="duo" style="width:150px"><p class="b2">Futevôlei 2x</p><p class="cap laranja">Futevôlei · 2x por semana</p></div><p class="b2m" style="width:90px">R$ 180,00</p><div class="sit" style="width:150px"><span class="tag aviso">Atrasado</span><p class="cap vermelho">Venceu em 15/09</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+                </div>
+                <div class="card wpainel w340">
+                  <div class="row"><span class="avatar">B</span><div class="grow col" style="gap:2px"><p class="t3">Bia Moreira</p><p class="cap muted">Última vez: 26/09</p></div><i data-lucide="x" class="ic muted"></i></div>
+                  <div class="row" style="gap:4px"><span class="chip-mod">Futevôlei</span><span class="chip-mod">Beach tennis</span></div>
+                  <p class="b2 muted">14 partida(s) aqui · 6 reserva(s) aqui</p>
+                  <div class="plano-p">
+                    <div class="row" style="gap:8px"><p class="b2m grow">Futevôlei 2x</p><span class="tag aviso">Atrasado</span></div>
+                    <p class="cap laranja">Futevôlei</p>
+                    <p class="b2">R$ 180,00/mês · 2x por semana</p>
+                    <p class="cap vermelho">Venceu em 22/09</p>
+                    <div class="col g8" style="padding-top:4px"><button class="btn contorno-laranja claro">Marcar pago</button><button class="btn perigo-contorno claro">Cancelar plano</button></div>
+                  </div>
+                  <p class="capm laranja">Ver perfil completo</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W4 Confirmar plano de aluno (proposta) -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Confirmar plano de aluno · aluno</b><span>Abre no painel ao lado, e a tabela continua à vista. Passo 1: busque um atleta vinculado; as modalidades dele aparecem junto.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser b1440">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-customers</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="pessoas" data-item="Meus atletas">
+            <div class="shell-conteudo" style="gap:0">
+              <div class="wcab"><div class="textos"><p class="t1">Meus atletas</p><p class="b2 muted">Arena Maré Alta · 64 atletas · 21 alunos com plano</p></div><div class="acoes"><button class="btn inline contorno-laranja claro">Confirmar plano de aluno</button><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div class="row sb" style="margin-top:24px;gap:16px"><div class="input" style="width:300px"><i data-lucide="search"></i><span class="ph">Buscar por nome</span></div><div class="wseg"><span class="on">Todos <span class="cont">64</span></span><span>Alunos <span class="cont">21</span></span><span>Sumiram</span><span>Em aberto <span class="cont">4</span></span></div></div>
+              <div class="wcorpo" style="margin-top:16px;gap:16px">
+                <div class="card sem-pad wt">
+                  <div class="wl cab"><span class="cap atl">ATLETA</span><span class="cap" style="width:150px">PLANO</span><span class="cap" style="width:90px">VALOR</span><span class="cap" style="width:150px">SITUAÇÃO</span><span style="width:16px"></span></div>
+                  <div class="wl"><div class="atl"><span class="avatar md">B</span><div class="duo grow"><p class="b2m">Bia Moreira</p><p class="cap muted">Última vez: 26/09</p></div><span class="chip-aluno web">Aluno</span></div><div class="duo" style="width:150px"><p class="b2">Futevôlei 2x</p><p class="cap laranja">Futevôlei · 2x por semana</p></div><p class="b2m" style="width:90px">R$ 180,00</p><div class="sit" style="width:150px"><span class="tag aviso">Atrasado</span><p class="cap vermelho">Venceu em 22/09</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+                  <div class="wl"><div class="atl"><span class="avatar md">N</span><div class="duo grow"><p class="b2m">Nanda Ribeiro</p><p class="cap muted">Última vez: 24/09</p></div><span class="chip-aluno web">Aluno</span></div><div class="duo" style="width:150px"><p class="b2">Pacote praia</p><p class="cap laranja">Futevôlei · Beach tennis · 4x por semana</p></div><p class="b2m" style="width:90px">R$ 320,00</p><div class="sit" style="width:150px"><span class="tag aviso">Aguardando pagamento</span><p class="cap muted">Vence em 01/10</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+                  <div class="wl"><div class="atl"><span class="avatar md">G</span><div class="duo grow"><p class="b2m">Gui Barros</p><p class="cap muted">Última vez: 27/09</p></div><span class="chip-aluno web">Aluno</span></div><div class="duo" style="width:150px"><p class="b2">Livre futevôlei</p><p class="cap laranja">Futevôlei · 5x por semana</p></div><p class="b2m" style="width:90px">R$ 260,00</p><div class="sit" style="width:150px"><span class="tag ok">Em dia</span><p class="cap muted">Vence em 03/10</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+                  <div class="wl"><div class="atl"></div><div class="duo" style="width:150px"><p class="b2">Beach tennis 1x</p><p class="cap laranja">Beach tennis · 1x por semana</p></div><p class="b2m" style="width:90px">R$ 120,00</p><div class="sit" style="width:150px"><span class="tag ok">Em dia</span><p class="cap muted">Nenhuma mensalidade em aberto</p></div><span style="width:16px"></span></div>
+                  <div class="wl"><div class="atl"><span class="avatar md">P</span><div class="duo grow"><p class="b2m">Pedro Salles</p><p class="cap vermelho">Sumiu há 23 dias</p></div><span class="chip-aluno web">Aluno</span></div><div class="duo" style="width:150px"><p class="b2">Futevôlei 2x</p><p class="cap laranja">Futevôlei · 2x por semana</p></div><p class="b2m" style="width:90px">R$ 180,00</p><div class="sit" style="width:150px"><span class="tag aviso">Atrasado</span><p class="cap vermelho">Venceu em 15/09</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+                </div>
+                
+                <div class="card wpainel w400">
+                  <div class="ap-cab"><p class="t3 grow">Confirmar plano de aluno</p><i data-lucide="x"></i></div>
+                  <div class="ap-passos"><span class="p on"><i>1</i>Aluno</span><span class="fio"></span><span class="p"><i>2</i>Plano</span></div>
+                  <p class="b2 muted">Escolha um aluno vinculado e o plano dele. A primeira mensalidade fica em aberto a partir de hoje.</p>
+                  <div class="input foco"><i data-lucide="search" style="color:var(--primary)"></i><span>du</span><i data-lucide="x" style="margin-left:auto"></i></div>
+                  <div class="ap-lista">
+                    <div class="ap-lin hover"><span class="avatar md">D</span><div class="grow col" style="gap:2px"><p class="b2m">Duda Martins</p><p class="cap muted">Futevôlei, Beach tennis</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+                    <div class="ap-lin"><span class="avatar md">E</span><div class="grow col" style="gap:2px"><p class="b2m">Eduardo Lins</p><p class="cap muted">Vôlei de praia</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+                    <div class="ap-lin"><span class="avatar md">D</span><div class="grow col" style="gap:2px"><p class="b2m">Duarte Nogueira</p><p class="cap muted">Beach tennis</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Confirmar plano de aluno · plano</b><span>Passo 2: escolha entre os planos ativos com alguma modalidade do aluno, em cartões com valor e limite. Antes de confirmar, o resumo mostra quanto vai ficar em aberto.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser b1440">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-customers</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="pessoas" data-item="Meus atletas">
+            <div class="shell-conteudo" style="gap:0">
+              <div class="wcab"><div class="textos"><p class="t1">Meus atletas</p><p class="b2 muted">Arena Maré Alta · 64 atletas · 21 alunos com plano</p></div><div class="acoes"><button class="btn inline contorno-laranja claro">Confirmar plano de aluno</button><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div class="row sb" style="margin-top:24px;gap:16px"><div class="input" style="width:300px"><i data-lucide="search"></i><span class="ph">Buscar por nome</span></div><div class="wseg"><span class="on">Todos <span class="cont">64</span></span><span>Alunos <span class="cont">21</span></span><span>Sumiram</span><span>Em aberto <span class="cont">4</span></span></div></div>
+              <div class="wcorpo" style="margin-top:16px;gap:16px">
+                <div class="card sem-pad wt">
+                  <div class="wl cab"><span class="cap atl">ATLETA</span><span class="cap" style="width:150px">PLANO</span><span class="cap" style="width:90px">VALOR</span><span class="cap" style="width:150px">SITUAÇÃO</span><span style="width:16px"></span></div>
+                  <div class="wl"><div class="atl"><span class="avatar md">B</span><div class="duo grow"><p class="b2m">Bia Moreira</p><p class="cap muted">Última vez: 26/09</p></div><span class="chip-aluno web">Aluno</span></div><div class="duo" style="width:150px"><p class="b2">Futevôlei 2x</p><p class="cap laranja">Futevôlei · 2x por semana</p></div><p class="b2m" style="width:90px">R$ 180,00</p><div class="sit" style="width:150px"><span class="tag aviso">Atrasado</span><p class="cap vermelho">Venceu em 22/09</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+                  <div class="wl"><div class="atl"><span class="avatar md">N</span><div class="duo grow"><p class="b2m">Nanda Ribeiro</p><p class="cap muted">Última vez: 24/09</p></div><span class="chip-aluno web">Aluno</span></div><div class="duo" style="width:150px"><p class="b2">Pacote praia</p><p class="cap laranja">Futevôlei · Beach tennis · 4x por semana</p></div><p class="b2m" style="width:90px">R$ 320,00</p><div class="sit" style="width:150px"><span class="tag aviso">Aguardando pagamento</span><p class="cap muted">Vence em 01/10</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+                  <div class="wl"><div class="atl"><span class="avatar md">G</span><div class="duo grow"><p class="b2m">Gui Barros</p><p class="cap muted">Última vez: 27/09</p></div><span class="chip-aluno web">Aluno</span></div><div class="duo" style="width:150px"><p class="b2">Livre futevôlei</p><p class="cap laranja">Futevôlei · 5x por semana</p></div><p class="b2m" style="width:90px">R$ 260,00</p><div class="sit" style="width:150px"><span class="tag ok">Em dia</span><p class="cap muted">Vence em 03/10</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+                  <div class="wl"><div class="atl"></div><div class="duo" style="width:150px"><p class="b2">Beach tennis 1x</p><p class="cap laranja">Beach tennis · 1x por semana</p></div><p class="b2m" style="width:90px">R$ 120,00</p><div class="sit" style="width:150px"><span class="tag ok">Em dia</span><p class="cap muted">Nenhuma mensalidade em aberto</p></div><span style="width:16px"></span></div>
+                  <div class="wl"><div class="atl"><span class="avatar md">P</span><div class="duo grow"><p class="b2m">Pedro Salles</p><p class="cap vermelho">Sumiu há 23 dias</p></div><span class="chip-aluno web">Aluno</span></div><div class="duo" style="width:150px"><p class="b2">Futevôlei 2x</p><p class="cap laranja">Futevôlei · 2x por semana</p></div><p class="b2m" style="width:90px">R$ 180,00</p><div class="sit" style="width:150px"><span class="tag aviso">Atrasado</span><p class="cap vermelho">Venceu em 15/09</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+                </div>
+                
+                <div class="card wpainel w400">
+                  <div class="ap-cab"><i data-lucide="arrow-left"></i><p class="t3 grow">Escolha o plano</p><i data-lucide="x"></i></div>
+                  <div class="ap-passos"><span class="p feito"><i><svg data-lucide="check"></svg></i>Aluno</span><span class="fio"></span><span class="p on"><i>2</i>Plano</span></div>
+                  <div class="ap-sel"><span class="avatar md">D</span><div class="grow col" style="gap:2px"><p class="b2m">Duda Martins</p><p class="cap muted">Futevôlei, Beach tennis</p></div><p class="b2m laranja">Trocar</p></div>
+                  <p class="b2m muted">Plano</p>
+                  <div class="col g8">
+                    <div class="ap-plano"><div class="ap-topo"><span class="radio"></span><p class="b1m grow">Futevôlei 2x</p><p class="b2m num">R$ 180,00</p></div><p class="cap muted" style="padding-left:32px">2x por semana · Futevôlei</p></div>
+                    <div class="ap-plano"><div class="ap-topo"><span class="radio"></span><p class="b1m grow">Beach tennis 1x</p><p class="b2m num">R$ 120,00</p></div><p class="cap muted" style="padding-left:32px">1x por semana · Beach tennis</p></div>
+                    <div class="ap-plano on"><div class="ap-topo"><span class="radio on"></span><p class="b1m grow">Pacote praia</p><p class="b2m num">R$ 320,00</p></div><p class="cap muted" style="padding-left:32px">4x por semana · Futevôlei, Beach tennis</p></div>
+                  </div>
+                  <div class="ap-resumo"><i data-lucide="receipt"></i><p class="b2">A primeira mensalidade, de <b>R$ 320,00</b>, fica em aberto a partir de hoje.</p></div>
+                  <button class="btn claro">Confirmar plano</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W5 Sem plano -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Arena sem plano ativo</b><span>Aparece o mesmo cadeado, inclusive se você abrir o formulário do plano por um link direto.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-student-plans</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="pessoas" data-item="Planos de alunos">
+            <div class="shell-conteudo">
+              <div class="wcab"><div class="textos"><p class="t1">Planos de alunos</p><p class="b2 muted">Arena Maré Alta</p></div><span class="sino"><i data-lucide="bell"></i></span></div>
+              <div style="flex:1;display:flex;align-items:center;justify-content:center">
+                <div class="vazio" style="max-width:520px"><span class="ic-bola"><i data-lucide="lock"></i></span><p class="t3">Disponível em todos os planos da arena</p><p class="b2 muted">Turmas, agenda de aulas, inscrição de alunos e presença estão em todos os planos da arena, a partir do Básico.</p><button class="btn contorno-laranja claro" style="margin-top:12px">Ver planos</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Se eu mudar o valor de um plano, quem já é aluno passa a pagar o novo valor?</summary><p>Não. Quem já contratou continua com o valor e o limite da época da contratação. A mudança vale para quem contratar daqui para frente.</p></details>
+    <details><summary>O aluno pagou no balcão. Como registro?</summary><p>Em "Meus atletas", aba "Em aberto", toque no plano do aluno e escolha marcar como pago. Depois de confirmar, a mensalidade sai de "Em aberto".</p></details>
+    <details><summary>Como coloco no plano quem já era aluno antes do app?</summary><p>Use "Confirmar plano de aluno": escolha o atleta entre os vinculados e depois o plano. A primeira mensalidade já fica em aberto.</p></details>
+    <details><summary>O que acontece quando a mensalidade vence?</summary><p>Depois do vencimento, a tolerância de atraso do plano define por quantos dias o aluno ainda consegue se inscrever nas aulas.</p></details>
+    <details><summary>Posso cancelar o plano de um aluno?</summary><p>Sim, pelas ações do plano. As mensalidades em aberto são canceladas, e o que já foi pago vale até o fim do período.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

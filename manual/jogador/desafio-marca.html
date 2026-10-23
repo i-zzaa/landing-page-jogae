@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Desafio de marca · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* ScreenHeader: seta sem círculo, título title3, ícones à direita e X */
+  .sh { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; min-height: 48px; flex: none; }
+  .sh .ld { min-width: 24px; display: flex; gap: 12px; align-items: center; justify-content: flex-end; }
+  .sh svg { width: 24px; height: 24px; }
+  .sh .tt { font: 600 18px/26px var(--font); flex: 1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .inversa-txt { color: var(--text-inverse); }
+  /* rodapé fixo do Screen */
+  .rodape { flex: none; padding: 12px 20px 34px; display: flex; flex-direction: column; gap: 8px; background: var(--background); }
+  .rodape.g16 { gap: 16px; }
+  .escura .rodape { background: var(--secondary); }
+  .escura { background: var(--secondary) !important; }
+  .screen-body.g12 { gap: 12px; }
+  /* Button: secundário (contorno laranja), terciário (texto), perigo (contorno vermelho); texto body1Medium */
+  .btn { font-weight: 500; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.ter { background: transparent; color: var(--primary); }
+  .btn.dng { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  /* MascotNote */
+  .mnote { display: flex; align-items: center; gap: 12px; margin-bottom: -16px; }
+  .mnote img { width: 89px; height: 79px; object-fit: contain; flex: none; }
+  .mnote .bolha { flex: 1; background: var(--primary-wash); border-radius: 12px; padding: 12px; font: 400 14px/20px var(--font); }
+  /* SelectField / DateTimeField */
+  .sel { display: flex; flex-direction: column; gap: 6px; }
+  .sel > .rot { font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .sel .input svg.lead { color: var(--primary); }
+  .sel .input .v { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* ListGroup + ListRow */
+  .lg { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .lr { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; background: var(--surface); position: relative; }
+  .lr + .lr::before { content: ""; position: absolute; top: 0; left: 16px; right: 0; height: 1px; background: var(--border); }
+  .lr .l { flex: 1; font: 400 16px/24px var(--font); }
+  .lr .v { font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .lr .v.link { color: var(--primary); }
+  .lr > svg { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  /* CategoryBadge (hexágono) */
+  .cat { height: 20px; width: auto; flex: none; display: block; }
+  .cat.c16 { height: 16px; } .cat.c24 { height: 24px; } .cat.c28 { height: 28px; }
+  .chip.cat-only { padding: 0 12px; }
+  .chip .cat { height: 20px; }
+  .sec-t { font: 600 18px/26px var(--font); margin: 0 0 12px; }
+  /* linha de jogador em card */
+  .prow { display: flex; align-items: center; gap: 12px; padding: 16px; }
+  .prow .tx { flex: 1; min-width: 0; display: grid; gap: 2px; }
+  .prow.sel-on { border: 2px solid var(--primary); padding: 15px; }
+  .perfil-btn { color: var(--text-muted); } .perfil-btn svg { width: 20px; height: 20px; }
+  .lista { display: flex; flex-direction: column; gap: 8px; }
+  .seg-rn { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .seg-rn span { flex: 1; text-align: center; height: 36px; border-radius: 6px; font: 500 14px/36px var(--font); color: var(--text-muted); }
+  .seg-rn span.on { background: var(--primary); color: var(--text-inverse); }
+  .stepper { display: flex; align-items: center; justify-content: space-between; padding: 0 16px; height: 52px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .stepper svg { width: 20px; height: 20px; }
+  .acc { display: flex; align-items: center; justify-content: space-between; padding: 16px; }
+  .acc .row svg { color: var(--primary); width: 20px; height: 20px; }
+  .acc > svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .provoc { background: var(--primary-wash); }
+  /* card de confronto da revisão */
+  .matchup { display: flex; align-items: center; justify-content: space-between; }
+  /* card escuro "Desafio confirmado" / "Desafio lançado" */
+  .dcard { background: var(--secondary); border: 1px solid var(--secondary); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 16px; color: var(--text-inverse); }
+  .dcard .div { height: 1px; background: rgba(255,255,255,.12); }
+  .times { display: flex; align-items: flex-start; justify-content: space-between; }
+  .times .lado-t { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+  .times .vs { font: 600 18px/26px var(--font); color: var(--primary); align-self: center; }
+  .dl { display: flex; flex-direction: column; gap: 8px; }
+  .dr { display: flex; align-items: center; justify-content: space-between; }
+  .dr .k { display: flex; align-items: center; gap: 4px; color: var(--text-muted); font: 400 14px/20px var(--font); }
+  .dr .k svg { width: 16px; height: 16px; }
+  .dr .val { display: flex; align-items: center; gap: 8px; font: 500 14px/20px var(--font); }
+  .acoes-d { display: flex; justify-content: space-between; }
+  .acoes-d > div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; font: 400 12px/16px var(--font); }
+  .acoes-d .q { width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; }
+  .acoes-d svg { width: 20px; height: 20px; }
+  .tchips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tchip { padding: 8px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--text); font: 500 12px/16px var(--font); }
+  .logo-pill { background: var(--surface); border-radius: 999px; padding: 4px 12px; display: inline-flex; align-self: flex-start; }
+  .logo-pill img { width: 110px; height: 36px; object-fit: contain; }
+  .brand { display: flex; align-items: center; justify-content: space-between; }
+  .brand .masc { width: 56px; height: 56px; object-fit: contain; }
+  .av-ring > .avatar { border-color: var(--secondary); }
+  /* sucesso "Desafio lançado!" */
+  .sucesso { display: flex; flex-direction: column; align-items: center; gap: 8px; padding-top: 16px; text-align: center; }
+  .sucesso .masc { width: 200px; height: 165px; object-fit: contain; margin-bottom: 12px; }
+  /* convocação enviada */
+  .ok-bola { width: 64px; height: 64px; border-radius: 999px; background: var(--success); color: #fff; display: flex; align-items: center; justify-content: center; }
+  .ok-bola svg { width: 28px; height: 28px; stroke-width: 3; }
+  .sentnote { display: flex; align-items: flex-end; background: var(--primary-wash); border-radius: 14px; padding-left: 16px; overflow: hidden; }
+  .sentnote p { flex: 1; align-self: center; padding: 16px 0; margin: 0; font: 400 14px/20px var(--font); }
+  .sentnote img { width: 128px; height: 107px; object-fit: contain; }
+  /* resultado */
+  .res { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .venc { display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 8px; border-top: 1px solid var(--border); align-self: stretch; }
+  .venc svg { color: var(--gold); width: 20px; height: 20px; }
+  .pts { display: flex; flex-direction: column; align-items: center; gap: 2px; background: var(--success-soft); border-color: var(--success); }
+  .h2h { display: flex; align-items: center; }
+  .h2h > div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .h2h .sep { flex: none; width: 1px; align-self: stretch; background: var(--border); }
+  /* folhas no padrão do app: fundo claro, raio 20, cabeçalho com X, sem alça */
+  .sheet.rn { background: var(--background); padding: 20px 20px 40px; }
+  .sheet.rn::before { display: none; }
+  .sheet-cab { display: flex; align-items: center; justify-content: space-between; }
+  .sheet-cab svg { width: 24px; height: 24px; }
+  /* imagem do Stories 9:16 */
+  .story { width: 330px; height: 586px; border-radius: 16px; background: var(--primary); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: 14px; padding: 40px 22px; box-shadow: 0 20px 40px rgba(31,31,31,.18); flex: none; }
+  .story .wm { position: absolute; width: 90px; opacity: .14; }
+  .story .masc-s { position: absolute; right: 40px; top: 70px; width: 110px; transform: rotate(10deg); }
+  .story h2 { margin: 0; font: 600 26px/32px var(--font); color: #fff; max-width: 160px; position: relative; }
+  .ticket { background: var(--primary-soft); border-radius: 12px; position: relative; }
+  .ticket .top { padding: 18px 16px; }
+  .ticket .bot { padding: 18px 16px 16px; border-top: 2px dashed var(--primary); display: flex; flex-direction: column; gap: 10px; position: relative; }
+  .ticket .bot::before, .ticket .bot::after { content: ""; position: absolute; top: -13px; width: 24px; height: 24px; border-radius: 12px; background: var(--primary); }
+  .ticket .bot::before { left: -12px; } .ticket .bot::after { right: -12px; }
+  .ticket .dr .val { color: var(--text); }
+  .story .tchips { justify-content: center; position: relative; }
+  /* desafio de arena (link) */
+  .hero { min-height: 200px; padding: 16px; border-radius: 12px; background: var(--secondary); display: flex; align-items: center; }
+  .hero .times { width: 100%; align-items: center; }
+  .hero .vs { color: #fff; transform: rotate(-8deg); }
+  .inforow { display: flex; align-items: center; gap: 8px; }
+  .inforow svg { width: 20px; height: 20px; color: var(--primary); flex: none; }
+  .srow { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .srow.on { border-color: var(--primary); background: var(--primary-soft); }
+  .srow .tx { flex: 1; display: grid; }
+  .srow .mk { width: 22px; height: 22px; border-radius: 11px; border: 1.5px solid var(--border); flex: none; display: flex; align-items: center; justify-content: center; }
+  .srow.on .mk { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .srow .mk svg { width: 12px; height: 12px; }
+  .limite { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; background: var(--primary-wash); border-color: var(--primary-tint); }
+  .limite > svg { width: 24px; height: 24px; color: var(--primary); }
+  .vazio { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 20px; text-align: center; }
+  .vazio img { width: 124px; height: 95px; object-fit: contain; margin-bottom: 4px; }
+  .seta-row svg { width: 14px; height: 14px; }
+  .screen .avatar { background: var(--primary); color: var(--text-inverse); font-weight: 500; }
+</style>
+<style>
+  /* só desta página: hub de marca, ranking e folha de marca */
+  .opt { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); font: 400 16px/24px var(--font); }
+  .opt .grow { flex: 1; }
+  .opt svg { width: 20px; height: 20px; color: var(--primary); }
+  .sum-cab { display: flex; align-items: center; gap: 12px; }
+  .sum-ic { padding: 8px; border-radius: 12px; background: var(--primary-wash); color: var(--primary); display: flex; }
+  .sum-ic svg { width: 24px; height: 24px; }
+  .rank { display: flex; flex-direction: column; gap: 12px; }
+  .rk { display: flex; align-items: center; gap: 12px; }
+  .rk .pos { width: 24px; display: flex; justify-content: center; font: 500 16px/24px var(--font); }
+  .rk .pos svg { width: 20px; height: 20px; color: var(--gold); }
+  .rk .tx { flex: 1; min-width: 0; display: grid; gap: 2px; }
+  .campos3 { display: flex; gap: 8px; }
+  .campos3 > div { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .dl-row { display: flex; align-items: center; gap: 4px; color: var(--text-muted); }
+  .dl-row svg { width: 16px; height: 16px; }
+  .launched { background: var(--secondary); border-color: var(--secondary); width: 100%; margin-top: 12px; display: flex; flex-direction: column; gap: 12px; text-align: left; }
+  .launched .rk .tx .b1m { color: var(--text-inverse); }
+  .prow-m { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; background: var(--surface); position: relative; }
+  .prow-m + .prow-m::before { content: ""; position: absolute; top: 0; left: 16px; right: 0; height: 1px; background: var(--border); }
+  .prow-m .grow { font: 400 16px/24px var(--font); }
+  .prow-m > svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .mval { display: flex; align-items: center; gap: 4px; font: 500 14px/20px var(--font); }
+  .mval svg { width: 16px; height: 16px; color: var(--gold); }
+  .story .rcard { background: var(--surface); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px; position: relative; }
+  .story .rcard .logo-s { width: 100px; height: 33px; object-fit: contain; }
+  .story .esporte { position: absolute; left: 30px; top: 150px; font: 600 26px/32px var(--font); color: #fff; }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="jogador" data-fluxo="desafio-marca"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Desafio de marca</h1>
+  <p>Em corrida, CrossFit e Hyrox não tem placar nem time: cada um faz a prova onde e quando quiser e lança a própria marca, que entra num ranking. Você desafia alguém, chama mais gente se quiser, e todo mundo lança a marca até a data limite. Do mesmo jeito existe a partida de marca aberta, que qualquer pessoa encontra e entra.</p>
+  <ul class="regras">
+    <li>O desafio de marca não tem arena nem time. Cada participante faz por si, e todos entram no mesmo ranking.</li>
+    <li>Na corrida e no Hyrox vence o menor tempo lançado até a data limite. No CrossFit, quem fez RX fica na frente de quem fez Scaled.</li>
+    <li>Quem fica com a melhor marca leva 3 pontos, e quem lançou marca leva 1.</li>
+    <li>Na partida de marca aberta, você lança a sua marca a partir do horário da partida até 24 horas depois. A partida tem limite de vagas e exige arena.</li>
+    <li>O limite semanal de desafios do seu plano vale também para o desafio de marca.</li>
+    <li>A marca pode vir do relógio (Apple Saúde, Polar ou arquivo do treino), e a melhor marca de cada prova vira o seu recorde. Veja <a href="recordes.html">Recordes e relógio</a>.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 escolher modalidade de marca -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">1</div>
+        <div class="passo-txt"><b>Escolher a modalidade</b><span>Depois de escolher o rival, abra "Modalidade" em Informações do desafio. Escolhendo Corrida, CrossFit ou Hyrox, você vai direto para os detalhes da marca.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="card sem-pad"><div class="acc"><div class="row" style="gap:8px"><i data-lucide="list-checks"></i><span class="b1m">Regras para criar desafio</span></div><i data-lucide="chevron-down"></i></div></div>
+          <p class="t2">Informações do desafio</p>
+          <p class="b2 muted">Defina os detalhes do desafio.</p>
+          <div class="sel"><span class="rot">Modalidade</span><div class="input"><i class="lead" data-lucide="volleyball"></i><span class="v ph">Selecione a modalidade</span><i data-lucide="chevron-down"></i></div></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="sheet rn" style="gap:12px">
+          <div class="sheet-cab"><span class="t3">Modalidade</span><i data-lucide="x"></i></div>
+          <div class="input"><i data-lucide="search" style="color:var(--primary)"></i><span class="ph">Buscar modalidade</span></div>
+          <div>
+            <div class="opt"><span class="grow">Beach tennis</span></div>
+            <div class="opt"><span class="grow">Corrida</span><i data-lucide="check"></i></div>
+            <div class="opt"><span class="grow">CrossFit</span></div>
+            <div class="opt"><span class="grow">Futevôlei</span></div>
+            <div class="opt"><span class="grow">Hyrox</span></div>
+            <div class="opt"><span class="grow">Vôlei</span></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 mark-info corrida -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">2</div>
+        <div class="passo-txt"><b>Informações do desafio (corrida)</b><span>Escolha a distância, a data limite ("Vale até") e, se quiser, uma observação. Toque na modalidade para voltar e trocar.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="ld"><i data-lucide="x"></i></span></div>
+          <p class="t2">Informações do desafio</p>
+          <p class="b2 muted">Todo mundo corre a mesma distância, onde e quando quiser. Vence o menor tempo lançado até a data limite.</p>
+          <div class="lg"><div class="lr"><span class="l">Modalidade</span><span class="v link">Corrida</span><i data-lucide="chevron-right"></i></div></div>
+          <div><p class="sec-t">Distância</p><div class="chips"><span class="chip">3 km</span><span class="chip">5 km</span><span class="chip on-laranja">10 km</span><span class="chip">21,1 km</span><span class="chip">42,2 km</span></div></div>
+          <div class="sel"><span class="rot">Vale até</span><div class="input"><span class="v">05/10/2026 às 23:30</span><i data-lucide="chevron-down"></i></div></div>
+          <div class="input area"><span>Vale esteira ou rua, só manda o print do relógio no grupo.</span></div>
+        </div>
+        <div class="rodape"><button class="btn">Continuar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2b CrossFit -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">2b</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Informações do desafio (CrossFit)</b><span>No CrossFit, escolha o WOD: um WOD de referência (Fran, Grace, Cindy, 1RM…), que já traz o tipo e o treino e conta para o recorde, ou "WOD livre", em que você escolhe o tipo e descreve o treino (vale para o desafio, mas não vira recorde). No Hyrox, escolha o formato (Individual Open, Individual Pro ou Simulado); o Simulado também pede uma descrição.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="ld"><i data-lucide="x"></i></span></div>
+          <p class="t2">Informações do desafio</p>
+          <p class="b2 muted">Todo mundo faz o mesmo WOD, onde e quando quiser. RX fica na frente de Scaled no ranking.</p>
+          <div class="lg"><div class="lr"><span class="l">Modalidade</span><span class="v link">CrossFit</span><i data-lucide="chevron-right"></i></div></div>
+          <div class="sel"><span class="rot">WOD</span><div class="input"><i class="lead" data-lucide="dumbbell"></i><span class="v">WOD livre</span><i data-lucide="chevron-down"></i></div></div>
+          <div><p class="sec-t">Tipo de WOD</p><div class="chips"><span class="chip">For Time</span><span class="chip on-laranja">AMRAP</span><span class="chip">Carga máxima</span></div></div>
+          <div><p class="sec-t">WOD</p><div class="input area"><span>AMRAP 12 min: 10 wall balls, 10 box jumps, 10 kettlebell swings</span></div></div>
+          <div class="sel"><span class="rot">Vale até</span><div class="input"><span class="v">03/10/2026 às 20:00</span><i data-lucide="chevron-down"></i></div></div>
+          <div class="input area" style="min-height:64px"><span class="ph">Algo mais pro rival saber? (opcional)</span></div>
+        </div>
+        <div class="rodape"><button class="btn">Continuar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 participantes -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">3</div>
+        <div class="passo-txt"><b>Chame mais gente</b><span>É opcional. O rival escolhido já está na lista, e você adiciona outras pessoas entre as sugeridas (quem já jogou com você) ou pela busca.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="ld"><i data-lucide="x"></i></span></div>
+          <p class="t2">Chame mais gente</p>
+          <p class="b2 muted">Opcional. Cada um faz por si e todo mundo entra no mesmo ranking.</p>
+          <div><p class="sec-t">Participantes · 3</p><div class="lista">
+            <div class="card prow"><span class="avatar md">M</span><div class="tx"><p class="b1m">Marina Costa</p><p class="cap muted">Rival</p></div></div>
+            <div class="card prow"><span class="avatar md">C</span><div class="tx"><p class="b1m">Caio Nunes</p><p class="cap muted">Selecionado</p></div><span class="cap vermelho">remover</span></div>
+          </div></div>
+          <div class="input"><i data-lucide="search" style="color:var(--primary)"></i><span class="ph">Buscar jogador</span></div>
+          <div><p class="sec-t">Sugeridos</p><div class="lista">
+            <div class="card prow"><span class="avatar md">D</span><img class="cat" src="../img/categoria-c.png" alt=""><div class="tx"><p class="b1m">Duda Martins</p></div><span class="perfil-btn"><i data-lucide="user-round"></i></span><i data-lucide="user-plus" class="ic" style="color:var(--primary)"></i></div>
+          </div></div>
+        </div>
+        <div class="rodape g16">
+          <div class="mnote"><img src="../img/mascote-desafio.png" alt=""><div class="bolha">“Quanto mais gente, mais gostoso passar na frente.”</div></div>
+          <button class="btn">Continuar</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 revisar -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">4</div>
+        <div class="passo-txt"><b>Revisar e lançar</b><span>Depois da mesma tela de provocação do desafio comum, confira os participantes, a prova, a data limite e a provocação, e lance.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="ld"><i data-lucide="x"></i></span></div>
+          <p class="t2">Revisar e lançar</p>
+          <p class="b2 muted">Revise e lance seu desafio.</p>
+          <div class="card col g4" style="gap:2px"><span class="cap muted">PARTICIPANTES</span><span class="b1m">Você, Marina, Caio</span></div>
+          <div><p class="sec-t">Detalhes</p><div class="lg">
+            <div class="lr"><span class="l">Modalidade</span><span class="v">Corrida</span></div>
+            <div class="lr"><span class="l">Distância</span><span class="v">10 km</span></div>
+            <div class="lr"><span class="l">Vale até</span><span class="v">05/10 · 23:30</span></div>
+          </div></div>
+          <div><p class="sec-t">Provocação</p><div class="card provoc"><p class="b1">“Hoje o ranking muda.”</p></div></div>
+          <div><p class="sec-t">Observações</p><p class="b2 muted">Vale esteira ou rua, só manda o print do relógio no grupo.</p></div>
+        </div>
+        <div class="rodape"><button class="btn">Lançar desafio</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 lançado -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">5</div>
+        <div class="passo-txt"><b>Desafio lançado!</b><span>Você vê os participantes, com você primeiro, e a situação de cada um: convite enviado ou sem marca ainda.</span></div>
+      </div>
+      <div class="phone"><div class="screen escura" data-status="inversa">
+        <div class="screen-body">
+          <div class="sh inversa-txt"><span class="ld"></span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="sucesso">
+            <img class="masc" src="../img/mascote-desafio.png" alt="">
+            <p class="t1 inversa-txt">Desafio lançado!</p>
+            <p class="b2 muted">Agora é fazer e lançar sua marca até a data limite.</p>
+            <div class="card launched">
+              <span class="cap muted">PARTICIPANTES</span>
+              <div class="rk"><span class="avatar md">B</span><div class="tx"><span class="b1m">Bia Moreira (você)</span><span class="cap muted">Sem marca ainda</span></div></div>
+              <div class="rk"><span class="avatar md">M</span><div class="tx"><span class="b1m">Marina Costa</span><span class="cap muted">Convite enviado</span></div></div>
+              <div class="rk"><span class="avatar md">C</span><div class="tx"><span class="b1m">Caio Nunes</span><span class="cap muted">Convite enviado</span></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="rodape">
+          <button class="btn">Ver desafio</button>
+          <button class="btn sec">Ver meus desafios</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 hub convidado -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">6</div>
+        <div class="passo-txt"><b>Desafio de marca (convidada)</b><span>Quem recebe o desafio vê a prova, a data limite e o ranking. Dali aceita ou recusa, e pode denunciar a provocação.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Desafio de marca</span><span class="ld"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <span class="tag sem-ponto aviso">Pendente</span>
+          <div class="card col g12">
+            <div class="sum-cab"><span class="sum-ic"><i data-lucide="footprints"></i></span><div class="col g4" style="gap:2px"><p class="t1">10 km</p><p class="b2 muted">Corrida</p></div></div>
+            <div class="dl-row"><i data-lucide="calendar"></i><span class="b2">Vale até 05/10 · 23:30</span></div>
+            <div class="divider"></div>
+            <p class="sec-t" style="margin:0">Ranking</p>
+            <div class="rank">
+              <div class="rk"><span class="pos"></span><span class="avatar md">B</span><div class="tx"><span class="b1m">Bia Moreira</span><span class="cap muted">Sem marca ainda</span></div></div>
+              <div class="rk"><span class="pos"></span><span class="avatar md">M</span><div class="tx"><span class="b1m">Marina Costa (você)</span><span class="cap muted">Convite enviado</span></div></div>
+              <div class="rk"><span class="pos"></span><span class="avatar md">C</span><div class="tx"><span class="b1m">Caio Nunes</span><span class="cap muted">Convite enviado</span></div></div>
+            </div>
+          </div>
+          <div class="card provoc col g4"><p class="b1">“Hoje o ranking muda.”</p><span class="cap muted">Denunciar</span></div>
+        </div>
+        <div class="rodape">
+          <button class="btn">Aceitar desafio</button>
+          <button class="btn contorno">Recusar</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 hub em andamento -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">7</div>
+        <div class="passo-txt"><b>Ranking em andamento</b><span>Com o desafio confirmado, quem já lançou aparece com a posição, o tempo e o ritmo por km. Quem criou o desafio pode lançar a própria marca e chamar mais gente.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Desafio de marca</span><span class="ld"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <span class="tag sem-ponto ok">Confirmado</span>
+          <div class="card col g12">
+            <div class="sum-cab"><span class="sum-ic"><i data-lucide="footprints"></i></span><div class="col g4" style="gap:2px"><p class="t1">10 km</p><p class="b2 muted">Corrida</p></div></div>
+            <div class="dl-row"><i data-lucide="calendar"></i><span class="b2">Vale até 05/10 · 23:30</span></div>
+            <div class="divider"></div>
+            <p class="sec-t" style="margin:0">Ranking</p>
+            <div class="rank">
+              <div class="rk"><span class="pos">1</span><span class="avatar md">M</span><div class="tx"><span class="b1m">Marina Costa</span><span class="cap muted">5:10 /km</span></div><span class="t3 num">51:40</span></div>
+              <div class="rk"><span class="pos"></span><span class="avatar md">B</span><div class="tx"><span class="b1m">Bia Moreira (você)</span><span class="cap muted">Sem marca ainda</span></div></div>
+              <div class="rk"><span class="pos"></span><span class="avatar md">C</span><div class="tx"><span class="b1m">Caio Nunes</span><span class="cap muted">Recusou</span></div></div>
+            </div>
+          </div>
+          <div class="card provoc"><p class="b1">“Hoje o ranking muda.”</p></div>
+        </div>
+        <div class="rodape">
+          <button class="btn">Lançar minha marca</button>
+          <button class="btn ter">Chamar mais gente</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 folha corrida -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">8</div>
+        <div class="passo-txt"><b>Sua marca (tempo)</b><span>Digite horas, minutos e segundos; o app já mostra o ritmo por km. Minutos e segundos vão até 59. Se você reabrir, a marca lançada já vem preenchida para corrigir.</span><span class="ramo">Alternativa</span><span>Em marca de tempo (corrida, Hyrox e CrossFit For Time), a folha também traz "Importar do relógio", acima de "ou digite". Veja <a href="recordes.html">Recordes e relógio</a>.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Desafio de marca</span><span class="ld"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <span class="tag sem-ponto ok">Confirmado</span>
+          <div class="card col g12"><div class="sum-cab"><span class="sum-ic"><i data-lucide="footprints"></i></span><div class="col g4" style="gap:2px"><p class="t1">10 km</p><p class="b2 muted">Corrida</p></div></div></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="sheet rn">
+          <div class="sheet-cab"><span class="t3">Sua marca</span><i data-lucide="x"></i></div>
+          <p class="b2 muted">Quanto tempo você levou pra correr 10 km?</p>
+          <div class="campos3">
+            <div><span class="cap muted">Horas</span><div class="input"><span>0</span></div></div>
+            <div><span class="cap muted">Minutos</span><div class="input foco"><span>48</span></div></div>
+            <div><span class="cap muted">Segundos</span><div class="input"><span>12</span></div></div>
+          </div>
+          <p class="b1m">Ritmo: 4:49 /km</p>
+          <button class="btn">Salvar marca</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8b folha crossfit -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">8b</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Sua marca (CrossFit AMRAP)</b><span>No AMRAP, digite rounds e reps. Na carga máxima, digite os quilos (até 1000 kg). No CrossFit você também marca se fez RX ou Scaled.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Desafio de marca</span><span class="ld"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <span class="tag sem-ponto ok">Confirmado</span>
+          <div class="card col g12"><div class="sum-cab"><span class="sum-ic"><i data-lucide="dumbbell"></i></span><div class="col g4" style="gap:2px"><p class="t1">AMRAP</p><p class="b2 muted">CrossFit</p></div></div></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="sheet rn">
+          <div class="sheet-cab"><span class="t3">Sua marca</span><i data-lucide="x"></i></div>
+          <p class="b2 muted">Quantos rounds completos e reps a mais você fez?</p>
+          <div class="campos3">
+            <div><span class="cap muted">Rounds</span><div class="input"><span>7</span></div></div>
+            <div><span class="cap muted">Reps</span><div class="input foco"><span>12</span></div></div>
+          </div>
+          <div><p class="sec-t">Como você fez o WOD?</p><div class="chips"><span class="chip on-laranja">RX</span><span class="chip">Scaled</span></div></div>
+          <button class="btn">Salvar marca</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 9 finalizado -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">9</div>
+        <div class="passo-txt"><b>Resultado do desafio</b><span>Depois da data limite, o resultado é fechado. A melhor marca ganha o troféu, e o card verde mostra os pontos. Entre o fim do prazo e o resultado, aparece o aviso "O prazo acabou. O resultado sai em alguns minutos."</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Desafio de marca</span><span class="ld"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <span class="tag sem-ponto neutro">Concluída</span>
+          <div class="card col g12">
+            <div class="sum-cab"><span class="sum-ic"><i data-lucide="footprints"></i></span><div class="col g4" style="gap:2px"><p class="t1">10 km</p><p class="b2 muted">Corrida</p></div></div>
+            <div class="dl-row"><i data-lucide="calendar"></i><span class="b2">Vale até 05/10 · 23:30</span></div>
+            <div class="divider"></div>
+            <p class="sec-t" style="margin:0">Ranking</p>
+            <div class="rank">
+              <div class="rk"><span class="pos"><i data-lucide="trophy"></i></span><span class="avatar md">B</span><div class="tx"><span class="b1m">Bia Moreira (você)</span><span class="cap muted">4:49 /km</span></div><span class="t3 num">48:12</span></div>
+              <div class="rk"><span class="pos">2</span><span class="avatar md">M</span><div class="tx"><span class="b1m">Marina Costa</span><span class="cap muted">5:10 /km</span></div><span class="t3 num">51:40</span></div>
+              <div class="rk"><span class="pos"></span><span class="avatar md">C</span><div class="tx"><span class="b1m">Caio Nunes</span><span class="cap muted">Recusou</span></div></div>
+            </div>
+          </div>
+          <div class="card pts"><p class="t2 verde">+3 pts</p><p class="cap muted">Pontos ganhos nesse desafio</p></div>
+          <div class="card provoc"><p class="b1">“Hoje o ranking muda.”</p></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 10 story -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">10</div>
+        <div class="passo-txt"><b>Imagem pro Stories</b><span>Toque em compartilhar para gerar a imagem do ranking sobre o laranja, com a logo, o mascote do esporte e os primeiros colocados.</span></div>
+      </div>
+      <div class="story">
+        <img class="wm" src="../img/logo-simbolo.png" alt="" style="left:-20px;top:20px;transform:rotate(-12deg)">
+        <img class="wm" src="../img/logo-simbolo.png" alt="" style="right:-24px;top:300px;transform:rotate(18deg)">
+        <img class="wm" src="../img/logo-simbolo.png" alt="" style="left:30px;bottom:-20px;transform:rotate(8deg)">
+        <img class="masc-s" src="../img/mascote-corrida.png" alt="">
+        <span class="esporte">Corrida</span>
+        <div class="rcard" style="margin-top:90px">
+          <div class="row sb"><span class="sum-ic"><i data-lucide="footprints"></i></span><img class="logo-s" src="../img/logo-completa.png" alt="Desafiaê"></div>
+          <p class="t1">10 km</p>
+          <div class="dl-row"><i data-lucide="calendar"></i><span class="b2">Vale até 05/10 · 23:30</span></div>
+          <div class="divider"></div>
+          <p class="sec-t" style="margin:0">Ranking</p>
+          <div class="rank">
+            <div class="rk"><span class="pos"><i data-lucide="trophy"></i></span><span class="avatar md">B</span><div class="tx"><span class="b1m">Bia Moreira</span><span class="cap muted">4:49 /km</span></div><span class="t3 num">48:12</span></div>
+            <div class="rk"><span class="pos">2</span><span class="avatar md">M</span><div class="tx"><span class="b1m">Marina Costa</span><span class="cap muted">5:10 /km</span></div><span class="t3 num">51:40</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 11 partida de marca aberta: criar -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">11</div>
+        <div class="passo-txt"><span class="ramo">Partida aberta</span><b>Nova partida de marca</b><span>Em "Nova partida", ao escolher uma modalidade de marca, Formato e Seleção de time dão lugar à prova e às vagas. Aqui a arena é obrigatória.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Nova partida</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="card sem-pad"><div class="acc"><div class="row" style="gap:8px"><i data-lucide="list-checks"></i><span class="b1m">Regras para criar partida</span></div><i data-lucide="chevron-down"></i></div></div>
+          <div class="sel"><span class="rot">Modalidade</span><div class="input"><i class="lead" data-lucide="volleyball"></i><span class="v">Corrida</span><i data-lucide="chevron-down"></i></div></div>
+          <div class="sel"><span class="rot">Arena</span><div class="input"><span class="v">Sudoeste Performance Box</span><i data-lucide="chevron-down"></i></div></div>
+          <p class="cap muted" style="margin-top:-8px">Partidas em arena ficam pendentes até ela aprovar.</p>
+          <div><div class="sel"><span class="rot">Data e hora</span><div class="input"><span class="v">04/10/2026 às 06:30</span><i data-lucide="chevron-down"></i></div></div><p class="cap muted" style="margin-top:8px">Cada participante lança a própria marca até 24h depois desse horário.</p></div>
+          <div><p class="sec-t">Distância</p><div class="chips"><span class="chip">3 km</span><span class="chip on-laranja">5 km</span><span class="chip">10 km</span><span class="chip">21,1 km</span><span class="chip">42,2 km</span></div></div>
+          <div><p class="sec-t">Nível do jogo</p><div class="chips"><span class="chip on-laranja">Qualquer</span><span class="chip cat-only"><img class="cat" src="../img/categoria-d.png" alt="D"></span><span class="chip cat-only"><img class="cat" src="../img/categoria-c.png" alt="C"></span><span class="chip cat-only"><img class="cat" src="../img/categoria-b.png" alt="B"></span><span class="chip cat-only"><img class="cat" src="../img/categoria-a.png" alt="A"></span></div></div>
+          <div><p class="sec-t">Visibilidade</p><div class="seg-rn"><span class="on">Público</span><span>Privado</span></div></div>
+          <div><p class="sec-t">Vagas</p><div class="stepper" style="margin-top:8px"><i data-lucide="minus"></i><span class="t3">10 pessoas</span><i data-lucide="plus"></i></div></div>
+          <div class="input area"><span class="ph">Observações (opcional)</span></div>
+        </div>
+        <div class="rodape"><button class="btn">Criar partida</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 12 partida de marca: detalhe -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">12</div>
+        <div class="passo-txt"><span class="ramo">Partida aberta</span><b>Partida de marca com ranking</b><span>Os participantes aparecem em ordem de marca, e quem ainda não lançou fica no fim. A partir do horário da partida, se você está confirmado, lança a sua marca pela mesma folha do desafio. Com as vagas cheias, ninguém mais entra.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body g12">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Detalhes da partida</span><span class="ld"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="row sb"><p class="t2">Corrida</p><span class="tag sem-ponto info">Confirmada</span></div>
+          <div class="row" style="gap:0"><span class="b2 muted">Hoje · 06:30 · </span><span class="b2m laranja">Sudoeste Performance Box</span></div>
+          <div class="row" style="gap:4px"><i data-lucide="navigation" class="ic16" style="color:var(--primary)"></i><span class="b2m laranja">Como chegar</span></div>
+          <div class="foto quadra" style="height:160px"></div>
+          <div class="lg">
+            <div class="lr"><i data-lucide="signal"></i><span class="l">Nível</span><span class="v">Qualquer</span></div>
+            <div class="lr"><i data-lucide="eye"></i><span class="l">Visibilidade</span><span class="v">Público</span></div>
+            <div class="lr"><i data-lucide="flag"></i><span class="l">Prova</span><span class="v">5 km</span></div>
+            <div class="lr"><i data-lucide="users"></i><span class="l">Vagas</span><span class="v">4/10</span></div>
+          </div>
+          <p class="b2 muted">Lance sua marca até 29/09 às 06:30.</p>
+          <div class="row" style="gap:4px"><i data-lucide="flag" class="ic12" style="width:14px;height:14px;color:var(--text-muted)"></i><span class="cap muted">Denunciar</span></div>
+          <div class="sec-hdr"><span class="t3">Participantes (4)</span><span class="b2m vermelho">Sair da partida</span></div>
+          <div class="lg">
+            <div class="prow-m"><span class="avatar sm">T</span><img class="cat" src="../img/categoria-a.png" alt=""><span class="grow">Tati Freitas</span><span class="mval">22:05</span><i data-lucide="chevron-right"></i></div>
+            <div class="prow-m"><span class="avatar sm">B</span><img class="cat" src="../img/categoria-b.png" alt=""><span class="grow">Bia Moreira</span><span class="mval">23:41</span><i data-lucide="chevron-right"></i></div>
+            <div class="prow-m"><span class="avatar sm">L</span><img class="cat" src="../img/categoria-b.png" alt=""><span class="grow">Léo Andrade</span><span class="mval">24:30</span><i data-lucide="chevron-right"></i></div>
+            <div class="prow-m"><span class="avatar sm">N</span><img class="cat" src="../img/categoria-c.png" alt=""><span class="grow">Nanda Ribeiro</span><span class="b2 muted">Sem marca ainda</span><i data-lucide="chevron-right"></i></div>
+            <div class="prow-m"><span class="avatar sm">I</span><img class="cat" src="../img/categoria-ausente.png" alt=""><span class="grow">Iago Souza</span><span class="tag sem-ponto aviso">Convite pendente</span><i data-lucide="chevron-right"></i></div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn">Corrigir minha marca</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 13 partida de marca encerrada -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">13</div>
+        <div class="passo-txt"><span class="ramo">Partida aberta</span><b>Partida de marca encerrada</b><span>Depois de encerrada, a melhor marca ganha o troféu dourado, e a partida fica só para consulta.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body g12">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Detalhes da partida</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="row sb"><p class="t2">Corrida</p><span class="tag sem-ponto neutro">Concluída</span></div>
+          <div class="row" style="gap:0"><span class="b2 muted">27/09 · 06:30 · </span><span class="b2m laranja">Sudoeste Performance Box</span></div>
+          <div class="sec-hdr"><span class="t3">Participantes (4)</span></div>
+          <div class="lg">
+            <div class="prow-m"><span class="avatar sm">T</span><img class="cat" src="../img/categoria-a.png" alt=""><span class="grow">Tati Freitas</span><span class="mval"><i data-lucide="trophy"></i>22:05</span><i data-lucide="chevron-right"></i></div>
+            <div class="prow-m"><span class="avatar sm">B</span><img class="cat" src="../img/categoria-b.png" alt=""><span class="grow">Bia Moreira</span><span class="mval">23:41</span><i data-lucide="chevron-right"></i></div>
+            <div class="prow-m"><span class="avatar sm">L</span><img class="cat" src="../img/categoria-b.png" alt=""><span class="grow">Léo Andrade</span><span class="mval">24:30</span><i data-lucide="chevron-right"></i></div>
+            <div class="prow-m"><span class="avatar sm">N</span><img class="cat" src="../img/categoria-c.png" alt=""><span class="grow">Nanda Ribeiro</span><span class="b2 muted">Sem marca ainda</span><i data-lucide="chevron-right"></i></div>
+          </div>
+          <p class="b2 muted" style="margin-top:16px">Este jogo já foi encerrado — só é possível visualizar.</p>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Preciso escolher uma arena?</summary><p>No desafio de marca, não: cada um faz a prova onde quiser. Já a partida de marca aberta exige arena.</p></details>
+    <details><summary>Como se decide quem venceu?</summary><p>Na corrida e no Hyrox vence o menor tempo lançado até a data limite. No CrossFit, quem fez RX fica na frente de quem fez Scaled.</p></details>
+    <details><summary>Quantos pontos eu ganho?</summary><p>A melhor marca leva 3 pontos, e quem lançou marca leva 1.</p></details>
+    <details><summary>Errei minha marca. Dá pra corrigir?</summary><p>Sim, enquanto o resultado não fecha. Abra de novo a folha da marca: ela já vem com o que você lançou, pronta para corrigir.</p></details>
+    <details><summary>Até quando lanço a marca na partida aberta?</summary><p>Do horário da partida até 24 horas depois.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

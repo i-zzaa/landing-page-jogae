@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Entrar e recuperar a senha · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  .corpo { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 0 20px; overflow: hidden; }
+  .rodape { flex: none; padding: 12px 20px 34px; display: flex; flex-direction: column; gap: 8px; }
+  .sh { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; flex: none; }
+  .sh svg { width: 24px; height: 24px; }
+  .sh .vazio { width: 24px; height: 24px; }
+  .centro-txt { text-align: center; }
+  .btn { font-weight: 500; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .input .val { color: var(--text); flex: 1; }
+  .input .ph { flex: 1; }
+  .input.laranja-ic svg:first-child { color: var(--primary); }
+  /* sign-in (LAYOUT-LOGIN) */
+  .hero { position: relative; height: 340px; padding: 16px 20px 0; flex: none; }
+  .hero .circulo { position: absolute; right: -70px; top: 30px; width: 300px; height: 300px; border-radius: 150px; background: var(--primary-tint); }
+  .hero .logo { position: relative; width: 150px; height: 46px; object-fit: contain; object-position: left; }
+  .hero .titulo { position: relative; margin-top: 32px; }
+  .hero .sub { position: relative; margin-top: 12px; }
+  .hero .mascote-l { position: absolute; right: -8px; top: 20px; width: 230px; height: 291px; object-fit: contain; }
+  .cartao-login { position: relative; margin: -24px 20px 24px; padding: 16px; display: flex; flex-direction: column; gap: 12px; background: var(--surface); border-radius: 20px; box-shadow: var(--shadow-card); }
+  .esqueci { align-self: flex-end; }
+  .divisor { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
+  .divisor i { flex: 1; height: 1px; background: var(--border); }
+  .sociais { display: flex; justify-content: center; gap: 24px; padding: 4px 0; }
+  .sociais span { width: 56px; height: 56px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-card); display: flex; align-items: center; justify-content: center; }
+  .criar { display: flex; align-items: center; justify-content: center; gap: 4px; padding: 16px 0; border-radius: 12px; background: var(--surface-alt); }
+  .criar svg { width: 16px; height: 16px; color: var(--primary); }
+  .corta { overflow: hidden; }
+  /* AccountSwitcherSheet */
+  .troca { position: absolute; left: 0; right: 0; bottom: 0; z-index: 8; background: var(--background); border-radius: 20px 20px 0 0; padding: 20px 20px 40px; display: flex; flex-direction: column; gap: 12px; }
+  .troca .cab { display: flex; align-items: center; justify-content: space-between; }
+  .troca .cab svg { width: 24px; height: 24px; }
+  .conta { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--surface); border-bottom: 1px solid var(--border); }
+  .conta:last-child { border-bottom: 0; }
+  .conta .ini { width: 48px; height: 48px; border-radius: 999px; background: var(--primary-tint); color: var(--primary-dark); display: flex; align-items: center; justify-content: center; font: 500 14px/20px var(--font); flex: none; }
+  .conta .info { flex: 1; min-width: 0; display: grid; gap: 2px; }
+  .conta .info p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .conta > svg { width: 20px; height: 20px; flex: none; }
+  /* toast (contexts/ToastContext.tsx) */
+  .toast-app { position: absolute; left: 20px; right: 20px; top: 58px; z-index: 9; display: flex; justify-content: flex-end; }
+  .toast-app > div { display: flex; gap: 8px; align-items: center; padding: 12px 16px; border-radius: 14px; border: 1px solid; box-shadow: var(--shadow-card); font: 500 14px/20px var(--font); color: var(--text); }
+  .toast-app .erro { background: var(--danger-soft); border-color: var(--danger); }
+  .toast-app .erro svg { color: var(--danger); width: 20px; height: 20px; }
+  .toast-app .ok { background: var(--success-soft); border-color: var(--success); }
+  .toast-app .ok svg { color: var(--success); width: 20px; height: 20px; }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="jogador" data-fluxo="entrar"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Entrar e recuperar a senha</h1>
+  <p>Se você já tem conta, entre com e-mail e senha, com Google ou Apple, ou trocando para uma conta já salva no celular. Se esqueceu a senha, você recebe um código de 6 dígitos por e-mail e cria uma nova.</p>
+  <ul class="regras">
+    <li>Se você entrar com Google ou Apple sem ter conta, ela é criada na hora e você responde as perguntas do cadastro antes de entrar no app.</li>
+    <li>Se você ainda não confirmou seu e-mail, o app leva você para a tela do código em vez de mostrar um erro.</li>
+    <li>"Trocar de conta" lista as contas que já entraram neste celular. Se o acesso de uma delas não estiver salvo, o app pede a senha de novo.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 sign-in -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Bem-vindo de volta!</b><span>Digite e-mail e senha ou toque em Apple ou Google. Daqui também saem "Esqueci minha senha" e "Criar conta".</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="hero">
+          <span class="circulo"></span>
+          <img class="logo" src="../img/logo-completa.png" alt="Desafiaê">
+          <p class="t1 titulo">Bem-vindo<br><span class="laranja">de volta!</span></p>
+          <p class="b1 muted sub">Entre para continuar<br><span class="laranja">sua jornada</span> no jogo.</p>
+          <img class="mascote-l" src="../img/mascote-login.png" alt="">
+        </div>
+        <div class="cartao-login">
+          <div class="input laranja-ic"><i data-lucide="mail"></i><span class="val">bia.moreira@email.com</span></div>
+          <div class="input laranja-ic foco"><i data-lucide="lock"></i><span class="val">••••••••</span><i data-lucide="eye"></i></div>
+          <p class="b2 muted esqueci">Esqueci <span class="b2m laranja">minha senha</span></p>
+          <button class="btn">Entrar</button>
+          <div class="divisor"><i></i><span class="b2 muted">ou continue com</span><i></i></div>
+          <div class="sociais">
+            <span><svg width="22" height="22" viewBox="0 0 24 24" aria-label="Apple"><path style="fill:var(--text)" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.040.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg></span>
+            <span><svg width="22" height="22" viewBox="0 0 24 24" aria-label="Google"><path fill="#4285f4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#fbbc05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#ea4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg></span>
+          </div>
+          <p class="cap muted centro-txt">Ao continuar com Apple ou Google, você concorda com os <span class="laranja">Termos de Uso</span> e a <span class="laranja">Política de Privacidade</span></p>
+          <div class="criar"><span class="b2 muted">Não tem uma conta?</span><span class="b2m laranja">Criar conta</span><i data-lucide="chevron-right"></i></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 erro -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Senha errada</b><span>O erro aparece num aviso no topo, e a tela continua preenchida para você tentar de novo.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="toast-app"><div class="erro"><i data-lucide="circle-alert"></i>E-mail ou senha incorretos.</div></div>
+        <div class="corta" style="flex:1">
+          <div class="hero">
+            <span class="circulo"></span>
+            <img class="logo" src="../img/logo-completa.png" alt="Desafiaê">
+            <p class="t1 titulo">Bem-vindo<br><span class="laranja">de volta!</span></p>
+            <p class="b1 muted sub">Entre para continuar<br><span class="laranja">sua jornada</span> no jogo.</p>
+            <img class="mascote-l" src="../img/mascote-login.png" alt="">
+          </div>
+          <div class="cartao-login">
+            <div class="input laranja-ic"><i data-lucide="mail"></i><span class="val">bia.moreira@email.com</span></div>
+            <div class="input laranja-ic"><i data-lucide="lock"></i><span class="val">•••••••</span><i data-lucide="eye"></i></div>
+            <p class="b2 muted esqueci">Esqueci <span class="b2m laranja">minha senha</span></p>
+            <button class="btn">Entrar</button>
+            <div class="divisor"><i></i><span class="b2 muted">ou continue com</span><i></i></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 account switcher -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Trocar de conta</b><span>Se há contas salvas no celular, aparece o botão "Trocar de conta". Toque numa conta para entrar direto; o X tira a conta do celular.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="corta" style="flex:1">
+          <div class="hero">
+            <span class="circulo"></span>
+            <img class="logo" src="../img/logo-completa.png" alt="Desafiaê">
+            <p class="t1 titulo">Bem-vindo<br><span class="laranja">de volta!</span></p>
+            <p class="b1 muted sub">Entre para continuar<br><span class="laranja">sua jornada</span> no jogo.</p>
+            <img class="mascote-l" src="../img/mascote-login.png" alt="">
+          </div>
+          <div class="cartao-login">
+            <div class="input laranja-ic"><i data-lucide="mail"></i><span class="ph">seu@email.com</span></div>
+            <div class="input laranja-ic"><i data-lucide="lock"></i><span class="ph">Senha</span><i data-lucide="eye"></i></div>
+            <p class="b2 muted esqueci">Esqueci <span class="b2m laranja">minha senha</span></p>
+            <button class="btn off">Entrar</button>
+            <button class="btn sec"><i data-lucide="users"></i>Trocar de conta</button>
+          </div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="troca">
+          <div class="cab"><p class="t3">Trocar de conta</p><i data-lucide="x"></i></div>
+          <div class="card sem-pad">
+            <div class="conta"><span class="ini">BM</span><div class="info"><p class="b1m">Bia Moreira</p><p class="cap muted">bia.moreira@email.com · Jogador</p></div><i data-lucide="x" class="muted"></i></div>
+            <div class="conta"><span class="ini">AM</span><div class="info"><p class="b1m">Arena Maré Alta</p><p class="cap muted">contato@arenamarealta.com.br · Arena</p></div><i data-lucide="x" class="muted"></i></div>
+            <div class="conta"><span class="ini">RL</span><div class="info"><p class="b1m">Rafa Lopes</p><p class="cap muted">rafa.lopes@email.com · Jogador</p><p class="cap muted">Pede senha pra entrar</p></div><i data-lucide="x" class="muted"></i></div>
+          </div>
+          <button class="btn sec"><i data-lucide="user-plus"></i>Entrar em outra conta</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 forgot -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Esqueceu a senha?</b><span>Informe seu e-mail para receber um código de 6 dígitos.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="corpo">
+          <div class="sh"><i data-lucide="arrow-left"></i><i data-lucide="x"></i></div>
+          <div class="col g4" style="padding:16px 0 24px"><p class="t1">Esqueceu a senha?</p><p class="b2 muted">Informe seu e-mail e enviamos um código de 6 dígitos para você criar uma nova.</p></div>
+          <div class="input foco"><i data-lucide="mail"></i><span class="val">bia.moreira@email.com</span></div>
+        </div>
+        <div class="rodape"><button class="btn">Enviar código</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 verify-otp recovery -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Digite o código</b><span>Digite o código que chegou no e-mail. É a mesma tela do cadastro; o reenvio libera depois de 60 segundos.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="corpo">
+          <div class="sh"><i data-lucide="arrow-left"></i><i data-lucide="x"></i></div>
+          <div class="col g4" style="padding:16px 0 24px"><p class="t1">Digite o código</p><p class="b2 muted">Enviamos um código de 6 dígitos para bia.moreira@email.com.</p></div>
+          <div class="input foco"><i data-lucide="key-round"></i><span class="val num">305718</span></div>
+        </div>
+        <div class="rodape"><button class="btn">Confirmar</button><p class="b2m laranja centro-txt" style="padding:8px 0">Reenviar código</p></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 código errado -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Código incorreto</b><span>Se o código estiver errado ou vencido, aparece um aviso. Ao reenviar, um aviso verde confirma o envio.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="toast-app"><div class="erro"><i data-lucide="circle-alert"></i>Código incorreto. Confira os 6 dígitos.</div></div>
+        <div class="corpo">
+          <div class="sh"><i data-lucide="arrow-left"></i><i data-lucide="x"></i></div>
+          <div class="col g4" style="padding:16px 0 24px"><p class="t1">Digite o código</p><p class="b2 muted">Enviamos um código de 6 dígitos para bia.moreira@email.com.</p></div>
+          <div class="input foco"><i data-lucide="key-round"></i><span class="val num">305719</span></div>
+        </div>
+        <div class="rodape"><button class="btn">Confirmar</button><p class="b2m muted centro-txt" style="padding:8px 0">Reenviar código em 37s</p></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 new password -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Nova senha</b><span>Crie a nova senha e salve. Você entra direto no Início.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="corpo">
+          <div class="sh"><span class="vazio"></span></div>
+          <div class="col g4" style="padding:16px 0 24px"><p class="t1">Nova senha</p><p class="b2 muted">Escolha uma senha com pelo menos 6 caracteres.</p></div>
+          <div class="col">
+            <div class="input"><i data-lucide="lock"></i><span class="val">••••••••</span><i data-lucide="eye"></i></div>
+            <div class="input foco"><i data-lucide="lock"></i><span class="val">••••••••</span><i data-lucide="eye"></i></div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn">Salvar senha</button></div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Esqueci minha senha. Como recupero?</summary><p>Na tela de entrar, toque em "Esqueci minha senha", informe seu e-mail e digite o código de 6 dígitos que chegar. Depois é só criar a nova senha.</p></details>
+    <details><summary>O código não chegou ou venceu. O que faço?</summary><p>Espere 60 segundos e peça o reenvio na própria tela do código. Um aviso verde confirma que um novo código foi enviado.</p></details>
+    <details><summary>Entrei com Google e caí nas perguntas de cadastro. Por quê?</summary><p>Você ainda não tinha conta, então ela foi criada na hora. Responda as perguntas do perfil e você entra no app.</p></details>
+    <details><summary>Como uso duas contas no mesmo celular?</summary><p>Com as contas salvas no celular, toque em "Trocar de conta" e escolha a conta. Se o acesso dela não estiver salvo, o app pede a senha.</p></details>
+    <details><summary>Como tiro uma conta salva do celular?</summary><p>Em "Trocar de conta", toque no X ao lado da conta.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

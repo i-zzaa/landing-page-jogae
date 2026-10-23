@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eventos e partidas · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  .sh { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; min-height: 56px; }
+  .sh .lado { min-width: 28px; display: flex; gap: 12px; align-items: center; justify-content: flex-end; }
+  .sh .lado:first-child { justify-content: flex-start; }
+  .sh svg { width: 28px; height: 28px; flex: none; }
+  .sh .t3 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .corpo { display: flex; flex-direction: column; gap: 16px; padding: 12px 20px 24px; flex: 1; }
+  .rodape { padding: 12px 20px 34px; display: flex; flex-direction: column; gap: 8px; margin-top: auto; }
+  .rodape.abas { padding-bottom: 110px; }
+  .screen-body.sem-pad { gap: 0; }
+  .sec-h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .sec-h a { font: 500 14px/20px var(--font); color: var(--primary); }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.perigo-c { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  .btn.terc { background: transparent; color: var(--primary); }
+  .chip.sel { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+  .chip img { width: 19px; height: 20px; object-fit: contain; }
+  .segl { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .segl span { flex: 1; text-align: center; padding: 8px 0; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .segl span.on { background: var(--primary); color: var(--text-inverse); }
+  .select { height: 52px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; gap: 8px; padding: 0 16px; font: 400 16px/24px var(--font); }
+  .select svg { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .select .grow { flex: 1; }
+  .data { height: 52px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; gap: 8px; padding: 0 16px; font: 400 16px/24px var(--font); }
+  .data svg { width: 20px; height: 20px; color: var(--primary); }
+  .passador { height: 52px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
+  .passador svg { width: 20px; height: 20px; }
+  /* aba Jogos */
+  .banner { display: flex; align-items: center; gap: 16px; background: var(--primary-wash); border-color: var(--primary-tint); padding: 16px; overflow: visible; }
+  .banner .nums { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .banner .div { width: 1px; height: 28px; background: var(--primary-tint); }
+  .banner img { width: 64px; height: 96px; object-fit: contain; margin: -12px -4px -12px 0; }
+  /* MatchCard / CoverCard: capa em 1/4 do card */
+  .mc { display: flex; padding: 0; overflow: hidden; }
+  .mc .capa { width: 25%; flex: none; display: flex; align-items: center; justify-content: center; }
+  .mc .capa svg { width: 16px; height: 16px; }
+  .mc .capa.verde { background: var(--success-soft); color: var(--success); }
+  .mc .capa.azul { background: var(--info-soft); color: var(--info); }
+  .mc .txt { flex: 1; min-width: 0; padding: 12px; display: grid; gap: 2px; }
+  .mc .linha { display: flex; align-items: center; gap: 4px; }
+  .mc .linha svg { width: 12px; height: 12px; color: var(--text-muted); }
+  .pilula { display: inline-flex; align-items: center; gap: 2px; padding: 1px 4px; border-radius: 999px; background: var(--surface); font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .pilula svg { width: 12px; height: 12px; }
+  /* detalhe da partida */
+  .lg { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .lr { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; font: 400 16px/24px var(--font); position: relative; }
+  .lr + .lr::before { content: ""; position: absolute; top: 0; left: 16px; right: 0; height: 1px; background: var(--border); }
+  .lr > svg:first-child { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .lr .rot { flex: 1; min-width: 0; }
+  .lr .val { font: 500 14px/20px var(--font); color: var(--text-muted); white-space: nowrap; }
+  .lr .chev { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .lr img { width: 26px; height: 28px; object-fit: contain; }
+  .lr img.p { width: 19px; height: 20px; }
+  .aviso-pend { background: var(--surface); }
+  /* rodadas */
+  .rodada { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
+  .rodada .cab { display: flex; align-items: center; gap: 8px; }
+  .rodada .cab .capm { flex: 1; }
+  .rodada .cab .capm:last-child { text-align: right; }
+  .rodada .meio { display: flex; align-items: center; justify-content: space-between; }
+  /* folhas de Modal: sem alça, fundo da tela */
+  .sheet.modal { background: var(--background); padding: 20px 20px 40px; gap: 12px; border-radius: 20px 20px 0 0; }
+  .sheet.modal::before { display: none; }
+  .topo-f { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .topo-f svg { width: 28px; height: 28px; }
+  .conflito { display: flex; gap: 12px; align-items: flex-start; }
+  .conflito > svg { width: 20px; height: 20px; color: var(--primary); flex: none; margin-top: 2px; }
+  .placar { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .contador { display: flex; align-items: center; gap: 12px; flex: 1; justify-content: center; }
+  .contador svg { width: 20px; height: 20px; }
+  .contador .caixa { width: 64px; height: 56px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow-card); display: flex; align-items: center; justify-content: center; font: 600 20px/28px var(--font); color: var(--primary); }
+  .capa-sel { position: relative; }
+  .capa-sel .ph-img { height: 160px; border-radius: 12px; background: var(--surface-alt); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--text-muted); font: 400 14px/20px var(--font); }
+  .capa-sel .ph-img svg { width: 20px; height: 20px; }
+  .capa-sel .cam { position: absolute; right: 8px; bottom: 8px; width: 28px; height: 28px; border-radius: 999px; background: var(--primary); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; }
+  .capa-sel .cam svg { width: 14px; height: 14px; }
+  .foto.areia { background: linear-gradient(160deg, var(--primary-tint), var(--accent) 70%); }
+  .check-l { display: flex; align-items: center; gap: 8px; }
+  /* painel web */
+  .wph { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+  .wph .acoes { display: flex; gap: 12px; align-items: center; }
+  .sino { width: 48px; height: 48px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; position: relative; }
+  .sino svg { width: 24px; height: 24px; }
+  .segw { display: inline-flex; background: var(--surface-alt); border-radius: 999px; padding: 4px; gap: 4px; }
+  .segw span { padding: 6px 16px; border-radius: 999px; font: 500 14px/20px var(--font); color: var(--text-muted); display: flex; gap: 6px; align-items: baseline; }
+  .segw span small { font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .segw span.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow-card); }
+  .tl { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-top: 1px solid var(--border); font: 400 14px/20px var(--font); }
+  .tl.cab { border-top: 0; padding: 8px 16px; }
+  .tl.cab span { font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .tl.aberta { background: var(--primary-wash); }
+  .c-q { width: 150px; flex: none; } .c-qd { width: 120px; flex: none; } .c-at { width: 70px; flex: none; text-align: right; } .c-sit { width: 130px; flex: none; padding-left: 12px; }
+  .painel-lat { width: 320px; flex: none; display: flex; flex-direction: column; gap: 12px; }
+  .painel-lat.aro { border: 2px solid var(--primary); }
+  .ficha { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .ficha img { width: 20px; height: 22px; object-fit: contain; }
+  .jog { display: flex; align-items: center; gap: 8px; }
+  .cols { display: flex; gap: 16px; align-items: flex-start; }
+  .folha { max-width: 720px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+  .centro { max-width: 820px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; }
+  .celular-no-painel { width: 390px; margin: 0 auto; display: flex; flex-direction: column; background: var(--background); }
+  .vazio { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; padding: 24px 12px; }
+  .vazio img { width: 124px; height: 95px; object-fit: contain; }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="arena" data-fluxo="eventos-partidas"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Eventos e partidas</h1>
+  <p>Na aba Jogos você acompanha as partidas da sua arena, cria jogos na quadra, aprova ou recusa os que jogadores marcaram aí, gera os confrontos e lança o placar. Pelo Painel ou pelo Calendário você também cria eventos com vagas, prazo de inscrição e lista de espera.</p>
+  <ul class="regras">
+    <li>Partida que um jogador marca na sua arena chega como pendente e só segue depois que você aprova. Se você recusar, ela sai da quadra.</li>
+    <li>Se você marcar jogo num horário em que a quadra já tem compromisso, o app avisa antes. Seguindo mesmo assim, o que estava ali é cancelado ou tirado da quadra, e todos os envolvidos são avisados.</li>
+    <li>O placar de partida de torneio só é lançado pela tela do torneio. No detalhe da partida ele aparece só para leitura.</li>
+    <li>Depois que o jogo é encerrado, não dá mais para lançar placar, convidar nem sair.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Jogos</b><span>Na aba Jogos você vê os números de hoje, os pendentes e o total, e alterna entre Partidas, Torneios e Desafios. O botão de criar muda conforme a aba.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <p class="t1" style="padding:16px 0 0">Jogos</p>
+          <div class="card banner">
+            <div class="nums">
+              <div class="col" style="gap:2px"><span class="t2">3</span><span class="cap muted">Hoje</span></div>
+              <span class="div"></span>
+              <div class="col" style="gap:2px"><span class="t2">1</span><span class="cap muted">Pendentes</span></div>
+              <span class="div"></span>
+              <div class="col" style="gap:2px"><span class="t2">48</span><span class="cap muted">Total</span></div>
+            </div>
+            <img src="../img/mascote-arena.png" alt="">
+          </div>
+          <div class="segl"><span class="on">Partidas</span><span>Torneios</span><span>Desafios</span></div>
+          <div class="col">
+            <div class="card mc"><div class="capa verde"><i data-lucide="volleyball"></i></div><div class="txt">
+              <div class="row" style="gap:4px"><span class="b2m grow">Futevôlei</span><span class="tag sem-ponto ok">Aberta</span></div>
+              <div class="linha"><i data-lucide="map-pin"></i><span class="b2 muted">Arena Maré Alta</span></div>
+              <div class="linha"><span class="cap muted grow">Hoje · 18:00</span><span class="pilula"><i data-lucide="users"></i>3</span></div>
+            </div></div>
+            <div class="card mc"><div class="capa verde"><i data-lucide="volleyball"></i></div><div class="txt">
+              <div class="row" style="gap:4px"><span class="b2m grow">Futevôlei</span><span class="tag sem-ponto info">Confirmada</span></div>
+              <div class="linha"><i data-lucide="map-pin"></i><span class="b2 muted">Arena Maré Alta</span></div>
+              <div class="linha"><span class="cap muted grow">Hoje · 19:00</span><span class="pilula"><i data-lucide="users"></i>4</span></div>
+            </div></div>
+            <div class="card mc"><div class="capa azul"><i data-lucide="table-2"></i></div><div class="txt">
+              <div class="row" style="gap:4px"><span class="b2m grow">Beach Tennis</span><span class="tag sem-ponto ok">Aberta</span></div>
+              <div class="linha"><i data-lucide="map-pin"></i><span class="b2 muted">Arena Maré Alta</span></div>
+              <div class="linha"><span class="cap muted grow">29/09 · 07:00</span><span class="pilula"><i data-lucide="users"></i>2</span></div>
+            </div></div>
+          </div>
+          <button class="btn" style="margin-top:auto">Criar jogo</button>
+        </div>
+        <div class="tabbar" data-abas="arena" data-ativa="jogos"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Criar jogo</b><span>Escolha a modalidade (só as da sua arena), a quadra, a data e a hora, o formato, a pontuação (seguir a modalidade ou livre), o nível e a visibilidade.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Criar jogo</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="col g8"><span class="b2m muted">Modalidade</span><div class="select"><i data-lucide="volleyball"></i><span class="grow">Futevôlei</span><i data-lucide="chevron-down"></i></div></div>
+            <div><div class="sec-h"><span class="t3">Quadra</span></div><div class="chips"><span class="chip sel">Quadra 1</span><span class="chip">Quadra 2</span><span class="chip">Quadra 3</span></div></div>
+            <div class="col g8"><span class="b2m muted">Data e hora</span><div class="data"><i data-lucide="calendar"></i>29/09 · 18:00</div></div>
+            <div><div class="sec-h"><span class="t3">Formato</span></div><div class="passador"><i data-lucide="minus"></i><span class="t3">2x2</span><i data-lucide="plus"></i></div></div>
+            <div>
+              <div class="sec-h"><span class="t3">Pontuação</span></div>
+              <div class="segl"><span class="on">Seguir a modalidade</span><span>Livre</span></div>
+              <p class="cap muted" style="margin-top:8px">Jogo até 18 pontos, com 2 de vantagem.</p>
+            </div>
+            <div><div class="sec-h"><span class="t3">Nível</span></div><div class="chips"><span class="chip sel">Qualquer</span><span class="chip"><img src="../img/categoria-d.png" alt="D"></span><span class="chip"><img src="../img/categoria-c.png" alt="C"></span><span class="chip"><img src="../img/categoria-b.png" alt="B"></span><span class="chip"><img src="../img/categoria-a.png" alt="A"></span></div></div>
+            <div>
+              <div class="sec-h"><span class="t3">Visibilidade</span></div>
+              <div class="segl"><span class="on">Público</span><span>Privado</span></div>
+              <p class="cap muted" style="margin-top:8px">Qualquer jogador com o nível exigido pode entrar direto.</p>
+            </div>
+          </div>
+          <div class="rodape"><button class="btn">Criar jogo</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Horário ocupado</b><span>Se a quadra já tem compromisso no horário, o app mostra o que está lá antes de criar. Ao tocar em "Seguir mesmo assim", o compromisso é cancelado ou tirado da quadra e todos são avisados. Reserva paga pelo app tem o valor estornado automaticamente.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Criar jogo</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo"><div class="col g8"><span class="b2m muted">Modalidade</span><div class="select"><i data-lucide="volleyball"></i><span class="grow">Futevôlei</span><i data-lucide="chevron-down"></i></div></div></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="sheet modal">
+          <div class="topo-f"><span class="t3">Horário ocupado</span><i data-lucide="x"></i></div>
+          <p class="b2 muted">Essa quadra já tem compromisso nesse horário:</p>
+          <div class="conflito"><i data-lucide="calendar-clock"></i><div class="col" style="gap:2px"><span class="b1m">Reserva de Rafa Couto</span><span class="b2 muted">29/09 · 18:00 – 19:00</span><span class="cap muted">Paga pelo app — o valor é estornado automaticamente.</span></div></div>
+          <p class="cap muted">Se seguir, o que estava nesse horário é cancelado ou tirado da quadra, e todo mundo envolvido é avisado.</p>
+          <button class="btn perigo-c">Seguir mesmo assim</button>
+          <button class="btn terc">Escolher outro horário</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Detalhes da partida</b><span>Criada a partida, você vê os detalhes: nível, visibilidade, formato, times e participantes. Toque no lápis para editar, em "Convidar" para chamar jogadores e em "Gerar partidas" para montar os confrontos.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Detalhes da partida</span><span class="lado"><i data-lucide="pencil"></i><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="row sb"><span class="t2">Futevôlei</span><span class="tag sem-ponto ok">Aberta</span></div>
+            <div class="row" style="gap:0"><span class="b2 muted">29/09 · 18:00 ·&nbsp;</span><span class="b2m laranja">Arena Maré Alta</span></div>
+            <div class="row" style="gap:6px"><i data-lucide="navigation" class="ic16 laranja"></i><span class="b2m laranja">Como chegar</span></div>
+            <div class="lg">
+              <div class="lr"><i data-lucide="signal"></i><span class="rot">Nível</span><span class="val">Qualquer</span></div>
+              <div class="lr"><i data-lucide="eye"></i><span class="rot">Visibilidade</span><span class="val">Público</span></div>
+              <div class="lr"><i data-lucide="grid-2x2"></i><span class="rot">Formato</span><span class="val">2x2</span></div>
+              <div class="lr"><i data-lucide="users"></i><span class="rot">Seleção de time</span><span class="val">Aleatório</span></div>
+            </div>
+            <div>
+              <div class="sec-h"><span class="t3">Participantes (4)</span><a>Convidar</a></div>
+              <div class="lg">
+                <div class="lr"><span class="avatar sm">B</span><img class="p" src="../img/categoria-b.png" alt="B"><span class="rot">Bia Moreira</span><span class="val">Capitão</span><i class="chev" data-lucide="chevron-right"></i></div>
+                <div class="lr"><span class="avatar sm">J</span><img class="p" src="../img/categoria-b.png" alt="B"><span class="rot">Ju Andrade</span><span class="val">A</span><i class="chev" data-lucide="chevron-right"></i></div>
+                <div class="lr"><span class="avatar sm">R</span><img class="p" src="../img/categoria-c.png" alt="C"><span class="rot">Rafa Couto</span><span class="val">B</span><i class="chev" data-lucide="chevron-right"></i></div>
+                <div class="lr"><span class="avatar sm">C</span><img class="p" src="../img/categoria-a.png" alt="A"><span class="rot">Carol Lima</span><span class="val">B</span><i class="chev" data-lucide="chevron-right"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="rodape"><button class="btn sec">Gerar partidas</button><button class="btn perigo-c"><i data-lucide="trash-2"></i>Apagar partida</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Partida esperando a arena</b><span>Quando um jogador marca partida na sua arena, ela aparece como "Pendente", com o aviso e os botões de aprovar ou recusar.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Detalhes da partida</span><span class="lado"><i data-lucide="pencil"></i><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="row sb"><span class="t2">Beach Tennis</span><span class="tag sem-ponto aviso">Pendente</span></div>
+            <div class="row" style="gap:0"><span class="b2 muted">30/09 · 07:00 ·&nbsp;</span><span class="b2m laranja">Arena Maré Alta</span></div>
+            <div class="card"><p class="b2m">Esta partida está aguardando sua aprovação.</p></div>
+            <div class="lg">
+              <div class="lr"><i data-lucide="signal"></i><span class="rot">Nível</span><img src="../img/categoria-c.png" alt="C"></div>
+              <div class="lr"><i data-lucide="eye"></i><span class="rot">Visibilidade</span><span class="val">Público</span></div>
+              <div class="lr"><i data-lucide="grid-2x2"></i><span class="rot">Formato</span><span class="val">2x2</span></div>
+            </div>
+            <div class="row" style="gap:4px"><i data-lucide="flag" class="ic12 muted"></i><span class="cap muted">Denunciar</span></div>
+            <div class="col g8"><button class="btn">Aprovar partida</button><button class="btn perigo-c">Recusar partida</button></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Partidas do jogo</b><span>Aqui ficam os confrontos sorteados entre os confirmados. Toque num confronto para lançar o placar; "Encerrar jogo" fecha tudo.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Partidas</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <p class="b2 muted">Futevôlei · 4 jogadores por partida</p>
+            <div class="sec-h" style="margin:0"><span class="t3">Partidas geradas</span></div>
+            <div class="rodada">
+              <div class="cab"><span class="capm">TIME DO(A) BIA</span><span class="cap muted">x</span><span class="capm">TIME DO(A) RAFA</span></div>
+              <div class="meio"><span class="avatars"><span class="avatar sm">B</span><span class="avatar sm">J</span></span><span class="t3">18 x 15</span><span class="avatars"><span class="avatar sm">R</span><span class="avatar sm">C</span></span></div>
+            </div>
+            <div class="rodada">
+              <div class="cab"><span class="capm">TIME DO(A) CAROL</span><span class="cap muted">x</span><span class="capm">TIME DO(A) JU</span></div>
+              <div class="meio"><span class="avatars"><span class="avatar sm">C</span><span class="avatar sm">B</span></span><span class="cap muted">Ainda não jogada</span><span class="avatars"><span class="avatar sm">J</span><span class="avatar sm">R</span></span></div>
+            </div>
+          </div>
+          <div class="rodape">
+            <p class="cap muted">Sorteia 1 partida(s) com os 4 jogadores confirmados.</p>
+            <button class="btn"><i data-lucide="shuffle"></i>Gerar mais partidas</button>
+            <button class="btn terc">Encerrar jogo</button>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Placar da partida</b><span>No futevôlei o placar vai por set, até 18 pontos com 2 de vantagem. Use o menos e o mais de cada lado e toque em "Salvar placar".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Partidas</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo"><p class="b2 muted">Futevôlei · 4 jogadores por partida</p></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="sheet modal">
+          <div class="topo-f"><span class="t3">Partida 2</span><i data-lucide="x"></i></div>
+          <div class="placar"><span class="b2m grow">Time do(a) Carol</span><span class="b2m muted">x</span><span class="b2m grow" style="text-align:right">Time do(a) Ju</span></div>
+          <div class="row sb"><span class="b2m">Placar</span><span class="cap muted">Até 18, com 2 de vantagem</span></div>
+          <div class="placar">
+            <div class="contador"><i data-lucide="minus"></i><span class="caixa">18</span><i data-lucide="plus"></i></div>
+            <span class="t2 muted">x</span>
+            <div class="contador"><i data-lucide="minus"></i><span class="caixa">16</span><i data-lucide="plus"></i></div>
+          </div>
+          <button class="btn">Salvar placar</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Eventos</b><span>Abra pelo Painel ou pelo Calendário. Filtre a lista, apague um evento pela lixeira ou toque em "Criar evento" no rodapé.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Eventos</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="chips nowrap"><span class="chip sel">Todos</span><span class="chip">Ativos</span><span class="chip">Futuros</span><span class="chip">Encerrados</span></div>
+            <div class="card col g4"><div class="row sb"><span class="b1m grow">Aulão de beach tennis</span><i data-lucide="trash-2" class="ic muted"></i></div><span class="b2 muted">04/10 · 08:00 · Beach Tennis</span><span class="cap muted">9/16 inscritos</span></div>
+            <div class="card col g4"><div class="row sb"><span class="b1m grow">Luau do futevôlei</span><i data-lucide="trash-2" class="ic muted"></i></div><span class="b2 muted">11/10 · 19:00 · Futevôlei</span><span class="cap muted">22/30 inscritos</span></div>
+            <div class="card col g4"><div class="row sb"><span class="b1m grow">Clínica com a Bia Moreira</span><i data-lucide="trash-2" class="ic muted"></i></div><span class="b2 muted">18/10 · 09:00 · Futevôlei</span><span class="cap muted">12/12 inscritos</span></div>
+          </div>
+          <div class="rodape"><button class="btn">Criar evento</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">9</div>
+        <div class="passo-txt"><b>Criar evento</b><span>Preencha capa, nome, modalidade, data e hora, prazo de inscrição (opcional), vagas, visibilidade e se aceita lista de espera.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Criar evento</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="capa-sel"><div class="ph-img"><i data-lucide="image"></i>Adicionar capa</div><span class="cam"><i data-lucide="camera"></i></span></div>
+            <span class="cap muted" style="margin-top:-8px">Toque para trocar a capa</span>
+            <div class="input">Aulão de beach tennis</div>
+            <div><div class="sec-h"><span class="t3">Modalidade</span></div><div class="chips"><span class="chip">Futebol</span><span class="chip">Futevôlei</span><span class="chip sel">Beach Tennis</span><span class="chip">Vôlei</span><span class="chip">Basquete</span><span class="chip">Tênis</span><span class="chip">Padel</span></div></div>
+            <div class="col g8"><div class="sec-h" style="margin-bottom:4px"><span class="t3">Data e hora</span></div><div class="row"><div class="input grow">04/10/2026</div><div class="input grow">08:00</div></div></div>
+            <div class="col g8"><div class="sec-h" style="margin-bottom:4px"><span class="t3">Prazo de inscrição</span></div><span class="b2m muted">Até quando (opcional)</span><div class="data"><i data-lucide="calendar"></i>03/10 · 20:00</div></div>
+            <div class="input">16</div>
+            <div><div class="sec-h"><span class="t3">Visibilidade</span></div><div class="segl"><span class="on">Público</span><span>Privado</span></div></div>
+            <div class="check-l"><span class="check on"><i data-lucide="check"></i></span><span class="b2 muted">Permitir lista de espera</span></div>
+          </div>
+          <div class="rodape"><button class="btn">Criar evento</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">10</div>
+        <div class="passo-txt"><b>Evento</b><span>Toque no evento para ver a ficha: data, nível, vagas e prazo de inscrição. Na conta da arena não aparece botão de inscrição nem "Denunciar".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Evento</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="foto areia" style="height:180px"></div>
+            <p class="t2">Aulão de beach tennis</p>
+            <p class="b2 muted">Beach Tennis · Arena Maré Alta</p>
+            <div class="lg">
+              <div class="lr"><i data-lucide="clock"></i><span class="rot">Data e hora</span><span class="val">04/10 · 08:00</span></div>
+              <div class="lr"><i data-lucide="signal"></i><span class="rot">Nível</span><span class="val">Qualquer</span></div>
+              <div class="lr"><i data-lucide="users"></i><span class="rot">Vagas</span><span class="val">9/16</span></div>
+              <div class="lr"><i data-lucide="calendar-clock"></i><span class="rot">Inscrições até</span><span class="val">03/10 · 20:00</span></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- NAVEGADOR -->
+<section class="trilho-fluxo web" data-plataforma="navegador">
+  <div class="passos">
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Jogos no painel</b><span>As partidas aparecem em tabela. Clique numa para abrir a ficha ao lado, onde você aprova, recusa, edita ou apaga sem sair da lista.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/games</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="painel" data-item="Jogos">
+            <div class="shell-conteudo" style="gap:16px">
+              <div class="wph"><div class="col g4"><p class="t1">Jogos</p><p class="b2 muted">Arena Maré Alta · 3 hoje · 1 esperando você</p></div><div class="acoes"><button class="btn inline">Criar jogo</button><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">1</span></span></div></div>
+              <div><span class="segw"><span class="on">Partidas <small>48</small></span><span>Torneios <small>3</small></span><span>Desafios de arena <small>2</small></span></span></div>
+              <div class="cols">
+                <div class="card sem-pad" style="flex:1;min-width:0">
+                  <div class="tl cab"><span class="c-q">HORÁRIO</span><span class="c-qd">QUADRA</span><span class="grow">ATIVIDADE</span><span class="c-at">ATLETAS</span><span class="c-sit">SITUAÇÃO</span></div>
+                  <div class="tl"><span class="c-q b2m">Hoje · 18:00</span><span class="c-qd muted">Quadra 1</span><span class="grow">Futevôlei</span><span class="c-at muted">3/4</span><span class="c-sit"><span class="tag sem-ponto ok">Aberta</span></span></div>
+                  <div class="tl"><span class="c-q b2m">Hoje · 19:00</span><span class="c-qd muted">Quadra 2</span><span class="grow">Futevôlei</span><span class="c-at muted">4/4</span><span class="c-sit"><span class="tag sem-ponto info">Confirmada</span></span></div>
+                  <div class="tl"><span class="c-q b2m">29/09 · 07:00</span><span class="c-qd muted">Quadra 3</span><span class="grow">Beach Tennis</span><span class="c-at muted">2/4</span><span class="c-sit"><span class="tag sem-ponto ok">Aberta</span></span></div>
+                  <div class="tl aberta"><span class="c-q b2m">30/09 · 07:00</span><span class="c-qd muted">Quadra 3</span><span class="grow">Beach Tennis</span><span class="c-at muted">2/4</span><span class="c-sit"><span class="tag sem-ponto aviso">Pendente</span></span></div>
+                  <div class="tl"><span class="c-q b2m">27/09 · 17:30</span><span class="c-qd muted">Quadra 1</span><span class="grow">Futevôlei</span><span class="c-at muted">4/4</span><span class="c-sit"><span class="tag sem-ponto neutro">Concluída</span></span></div>
+                </div>
+                <div class="card painel-lat aro">
+                  <div class="row top sb"><div class="grow col" style="gap:2px"><p class="t3">Beach Tennis</p><span class="cap muted">30/09 · 07:00 · Quadra 3</span></div><i data-lucide="x" class="ic muted"></i></div>
+                  <span class="tag sem-ponto aviso">Pendente</span>
+                  <div class="ficha"><span class="cap muted">Nível</span><img src="../img/categoria-c.png" alt="C"></div>
+                  <div class="ficha"><span class="cap muted">Visibilidade</span><span class="b2">Público</span></div>
+                  <div class="ficha"><span class="cap muted">Formato</span><span class="b2">2x2</span></div>
+                  <div class="ficha"><span class="cap muted">ATLETAS</span><span class="b2">2/4</span></div>
+                  <div class="col g8"><span class="cap muted">Participantes (2)</span>
+                    <div class="jog"><span class="avatar sm">N</span><span class="b2 grow">Nina Prado</span></div>
+                    <div class="jog"><span class="avatar sm">D</span><span class="b2 grow">Duda Reis</span></div>
+                  </div>
+                  <div class="col g8"><button class="btn">Aprovar</button><button class="btn perigo-c">Recusar</button><button class="btn sec">Editar partida</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Criar jogo</b><span>Os mesmos campos do celular numa coluna só, com o botão "Criar jogo" no topo.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-create-game</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="painel" data-item="Início">
+            <div class="shell-conteudo">
+              <div class="folha">
+                <div class="wph"><div class="col g4"><p class="t1">Criar jogo</p></div><div class="acoes"><button class="btn inline">Criar jogo</button><span class="sino"><i data-lucide="bell"></i></span></div></div>
+                <div class="col g8"><span class="b2m muted">Modalidade</span><div class="select"><i data-lucide="volleyball"></i><span class="grow">Futevôlei</span><i data-lucide="chevron-down"></i></div></div>
+                <div><div class="sec-h"><span class="t3">Quadra</span></div><div class="chips"><span class="chip sel">Quadra 1</span><span class="chip">Quadra 2</span><span class="chip">Quadra 3</span></div></div>
+                <div class="col g8"><span class="b2m muted">Data e hora</span><div class="data"><i data-lucide="calendar"></i>29/09 · 18:00</div></div>
+                <div><div class="sec-h"><span class="t3">Formato</span></div><div class="passador"><i data-lucide="minus"></i><span class="t3">2x2</span><i data-lucide="plus"></i></div></div>
+                <div><div class="sec-h"><span class="t3">Pontuação</span></div><div class="segl"><span class="on">Seguir a modalidade</span><span>Livre</span></div><p class="cap muted" style="margin-top:8px">Jogo até 18 pontos, com 2 de vantagem.</p></div>
+                <div><div class="sec-h"><span class="t3">Nível</span></div><div class="chips"><span class="chip sel">Qualquer</span><span class="chip"><img src="../img/categoria-d.png" alt="D"></span><span class="chip"><img src="../img/categoria-c.png" alt="C"></span><span class="chip"><img src="../img/categoria-b.png" alt="B"></span><span class="chip"><img src="../img/categoria-a.png" alt="A"></span></div></div>
+                <div><div class="sec-h"><span class="t3">Visibilidade</span></div><div class="segl"><span class="on">Público</span><span>Privado</span></div><p class="cap muted" style="margin-top:8px">Qualquer jogador com o nível exigido pode entrar direto.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Eventos</b><span>No navegador, a lista de eventos é a mesma do celular, centralizada no painel.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-events</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="painel" data-item="Início">
+            <div class="shell-conteudo" style="padding:12px 32px">
+              <div class="celular-no-painel">
+                <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Eventos</span><span class="lado"><i data-lucide="x"></i></span></div>
+                <div class="corpo">
+                  <div class="chips nowrap"><span class="chip sel">Todos</span><span class="chip">Ativos</span><span class="chip">Futuros</span><span class="chip">Encerrados</span></div>
+                  <div class="card col g4"><div class="row sb"><span class="b1m grow">Aulão de beach tennis</span><i data-lucide="trash-2" class="ic muted"></i></div><span class="b2 muted">04/10 · 08:00 · Beach Tennis</span><span class="cap muted">9/16 inscritos</span></div>
+                  <div class="card col g4"><div class="row sb"><span class="b1m grow">Luau do futevôlei</span><i data-lucide="trash-2" class="ic muted"></i></div><span class="b2 muted">11/10 · 19:00 · Futevôlei</span><span class="cap muted">22/30 inscritos</span></div>
+                  <div class="card col g4"><div class="row sb"><span class="b1m grow">Clínica com a Bia Moreira</span><i data-lucide="trash-2" class="ic muted"></i></div><span class="b2 muted">18/10 · 09:00 · Futevôlei</span><span class="cap muted">12/12 inscritos</span></div>
+                </div>
+                <div class="rodape"><button class="btn">Criar evento</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Criar evento</b><span>Como em "Criar jogo": os campos numa coluna e o botão "Criar evento" no topo.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-create-event</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="painel" data-item="Início">
+            <div class="shell-conteudo">
+              <div class="folha">
+                <div class="wph"><div class="col g4"><p class="t1">Criar evento</p></div><div class="acoes"><button class="btn inline">Criar evento</button><span class="sino"><i data-lucide="bell"></i></span></div></div>
+                <div class="capa-sel"><div class="ph-img"><i data-lucide="image"></i>Adicionar capa</div><span class="cam"><i data-lucide="camera"></i></span></div>
+                <span class="cap muted" style="margin-top:-8px">Toque para trocar a capa</span>
+                <div class="input">Aulão de beach tennis</div>
+                <div><div class="sec-h"><span class="t3">Modalidade</span></div><div class="chips"><span class="chip">Futebol</span><span class="chip">Futevôlei</span><span class="chip sel">Beach Tennis</span><span class="chip">Vôlei</span><span class="chip">Basquete</span><span class="chip">Tênis</span><span class="chip">Padel</span></div></div>
+                <div class="col g8"><div class="sec-h" style="margin-bottom:4px"><span class="t3">Data e hora</span></div><div class="row"><div class="input grow">04/10/2026</div><div class="input grow">08:00</div></div></div>
+                <div class="col g8"><div class="sec-h" style="margin-bottom:4px"><span class="t3">Prazo de inscrição</span></div><span class="b2m muted">Até quando (opcional)</span><div class="data"><i data-lucide="calendar"></i>03/10 · 20:00</div></div>
+                <div class="input">16</div>
+                <div><div class="sec-h"><span class="t3">Visibilidade</span></div><div class="segl"><span class="on">Público</span><span>Privado</span></div></div>
+                <div class="check-l"><span class="check on"><i data-lucide="check"></i></span><span class="b2 muted">Permitir lista de espera</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Evento</b><span>A mesma ficha do celular, centralizada no painel.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/event/7b21</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="painel" data-item="Início">
+            <div class="shell-conteudo">
+              <div class="centro">
+                <div class="sh" style="padding:0 0 12px"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Evento</span><span class="lado"><i data-lucide="x"></i></span></div>
+                <div class="col g16">
+                  <div class="foto areia" style="height:220px"></div>
+                  <p class="t2">Aulão de beach tennis</p>
+                  <p class="b2 muted">Beach Tennis · Arena Maré Alta</p>
+                  <div class="lg">
+                    <div class="lr"><i data-lucide="clock"></i><span class="rot">Data e hora</span><span class="val">04/10 · 08:00</span></div>
+                    <div class="lr"><i data-lucide="signal"></i><span class="rot">Nível</span><span class="val">Qualquer</span></div>
+                    <div class="lr"><i data-lucide="users"></i><span class="rot">Vagas</span><span class="val">9/16</span></div>
+                    <div class="lr"><i data-lucide="calendar-clock"></i><span class="rot">Inscrições até</span><span class="val">03/10 · 20:00</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Um jogador marcou partida na minha quadra. Preciso fazer alguma coisa?</summary><p>Sim. Ela chega como "Pendente" e só segue depois que você aprova. Se você recusar, a partida sai da quadra.</p></details>
+    <details><summary>E se eu criar um jogo num horário que já está ocupado?</summary><p>O app mostra o que está marcado ali antes de criar. Se você tocar em "Seguir mesmo assim", o compromisso é cancelado ou tirado da quadra e todos os envolvidos são avisados. Reserva paga pelo app é estornada automaticamente.</p></details>
+    <details><summary>Onde lanço o placar de uma partida de torneio?</summary><p>Na tela do torneio. No detalhe da partida o placar de torneio aparece só para leitura.</p></details>
+    <details><summary>Dá para mudar o placar depois de encerrar o jogo?</summary><p>Não. Jogo encerrado não aceita mais placar, convite nem saída.</p></details>
+    <details><summary>O evento pode ter lista de espera?</summary><p>Pode. Ao criar o evento, marque "Permitir lista de espera". O prazo de inscrição é opcional.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Criar sua conta · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* estrutura de Screen: corpo rolável + rodapé fixo (components/Screen.tsx) */
+  .corpo { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 0 20px; overflow: hidden; }
+  .corpo.solto { padding: 0; }
+  .corpo.solto > .pad { padding: 0 20px; }
+  .rodape { flex: none; padding: 12px 20px 34px; display: flex; flex-direction: column; gap: 8px; }
+  /* ScreenHeader: seta à esquerda, X à direita, padding 12/20 */
+  .sh { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; flex: none; }
+  .sh svg { width: 24px; height: 24px; }
+  .sh .vazio { width: 24px; height: 24px; }
+  /* OnboardingProgress: seta, trilha segmentada, "N de M", X */
+  .obp { display: flex; align-items: center; gap: 12px; padding: 12px 20px; flex: none; }
+  .obp svg { width: 24px; height: 24px; flex: none; }
+  .obp .trilha { flex: 1; display: flex; gap: 4px; }
+  .obp .trilha i { flex: 1; height: 4px; border-radius: 999px; background: var(--border); }
+  .obp .trilha i.on { background: var(--primary); }
+  .obp .cap { color: var(--text-muted); white-space: nowrap; }
+  /* StepDots */
+  .stepdots { display: flex; justify-content: center; gap: 4px; }
+  .stepdots i { width: 6px; height: 6px; border-radius: 999px; background: var(--border); }
+  .stepdots i.on { width: 18px; background: var(--primary); }
+  /* MascotHero: círculo pêssego + risco laranja embaixo */
+  .mh-wrap { position: relative; display: flex; justify-content: center; padding-top: 8px; }
+  .mh-wrap .pontos { position: absolute; width: 36px; height: 48px; background-image: radial-gradient(circle, var(--primary-tint) 2.5px, transparent 3px); background-size: 12px 12px; }
+  .mh-wrap .pontos.esq { left: 16px; top: 24px; }
+  .mh-wrap .pontos.dir { right: 16px; bottom: 8px; }
+  .mh { position: relative; width: 194px; height: 194px; flex: none; color: var(--primary); }
+  .mh > svg { position: absolute; inset: 0; }
+  .mh .circ { position: absolute; top: 13px; left: 13px; width: 168px; height: 168px; border-radius: 50%; background: var(--primary-tint); overflow: hidden; display: flex; justify-content: center; align-items: flex-end; }
+  .mh .circ.topo-img { align-items: flex-start; }
+  .mh .circ.centro { align-items: center; }
+  .mh.compacto { width: 90px; height: 90px; }
+  .mh.compacto .circ { top: 7px; left: 7px; width: 76px; height: 76px; }
+  .mh .circ img { max-width: none; flex: none; }
+  /* StepIntro: título + mascote compacto ao lado */
+  .step-intro { display: flex; align-items: center; gap: 12px; padding-top: 8px; }
+  .step-intro .textos { flex: 1; display: grid; gap: 4px; }
+  /* SelectableRow */
+  .sr { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .sr.on { border-color: var(--primary); background: var(--primary-soft); }
+  .sr .txt { flex: 1; display: grid; gap: 2px; }
+  .sr .txt .b1m { color: var(--text); }
+  .sr.on .txt .b1m { color: var(--primary); }
+  .sr .ico { width: 40px; height: 40px; border-radius: 8px; background: var(--primary-wash); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .sr .ico svg { width: 20px; height: 20px; }
+  .sr .marc { width: 22px; height: 22px; border-radius: 11px; border: 1px solid var(--border); background: var(--surface); flex: none; display: flex; align-items: center; justify-content: center; color: #fff; }
+  .sr.on .marc { background: var(--primary); border-color: var(--primary); }
+  .sr .marc svg { width: 12px; height: 12px; }
+  .sr .hex { width: 37px; height: 40px; object-fit: contain; flex: none; }
+  .sr .estrela { width: 20px; height: 20px; color: var(--text-muted); }
+  .sr .estrela.fav { color: var(--accent); fill: var(--accent); }
+  .lista { display: flex; flex-direction: column; gap: 8px; }
+  /* account-type: opção com mascote 44 */
+  .opt-mascote { width: 44px; height: 44px; object-fit: contain; flex: none; }
+  /* permissões */
+  .perm { display: flex; gap: 12px; align-items: flex-start; }
+  .perm .ico { width: 40px; height: 40px; border-radius: 8px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .perm .ico svg { width: 20px; height: 20px; }
+  /* ready: palco de 260 com anel creme e check */
+  .palco { position: relative; width: 260px; height: 260px; margin: 0 auto 32px; display: flex; align-items: center; justify-content: center; }
+  .palco .anel { position: absolute; inset: 0; border-radius: 50%; border: 6px solid var(--surface); background: var(--accent-soft); }
+  .palco img { position: relative; width: 200px; height: 300px; object-fit: contain; margin-bottom: 24px; }
+  .palco .ok { position: absolute; right: 4px; bottom: 18px; width: 64px; height: 64px; border-radius: 999px; background: var(--primary); border: 4px solid var(--background); color: #fff; display: flex; align-items: center; justify-content: center; }
+  .palco .ok svg { width: 28px; height: 28px; stroke-width: 3; }
+  .centro-txt { text-align: center; }
+  .link-l { text-align: center; padding: 8px 0; font: 500 16px/24px var(--font); color: var(--primary); }
+  /* local no onboarding */
+  .lugar { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: 12px; background: var(--primary-wash); }
+  .lugar .pino { width: 40px; height: 40px; border-radius: 999px; background: var(--surface); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .lugar .pino svg { width: 20px; height: 20px; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); font-weight: 500; }
+  .btn { font-weight: 500; }
+  .selectfield { display: flex; flex-direction: column; gap: 6px; }
+  .selectfield .input svg:first-child { color: var(--primary); }
+  /* sign-up */
+  .check-row { display: flex; gap: 8px; align-items: flex-start; }
+  .check-row .cx { width: 20px; height: 20px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface); flex: none; margin-top: 2px; display: flex; align-items: center; justify-content: center; color: #fff; }
+  .check-row .cx.on { background: var(--primary); border-color: var(--primary); }
+  .check-row .cx svg { width: 14px; height: 14px; }
+  .divisor { display: flex; align-items: center; gap: 12px; }
+  .divisor i { flex: 1; height: 1px; background: var(--border); }
+  .sociais { display: flex; justify-content: center; gap: 24px; }
+  .sociais span { width: 56px; height: 56px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-card); display: flex; align-items: center; justify-content: center; }
+  .sociais.off span { opacity: .85; }
+  .pe { display: flex; justify-content: center; align-items: center; padding: 8px 0; }
+  .input .val { color: var(--text); flex: 1; }
+  .input .ph { flex: 1; }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="jogador" data-fluxo="cadastro"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Criar sua conta</h1>
+  <p>Você cria sua conta depois de responder algumas perguntas: escolhe ser jogador, libera as permissões e informa seu nível, seus esportes, onde costuma jogar e seu objetivo. No fim, cria a conta com e-mail ou com Google ou Apple e já entra no Início do app.</p>
+  <ul class="regras">
+    <li>O que você responde antes de criar a conta fica guardado no celular e passa para a sua conta depois do cadastro. Nada se perde.</li>
+    <li>A arena favorita que você escolhe vira um pedido de vínculo com ela nas modalidades que você marcou.</li>
+    <li>O esporte com estrela é o seu favorito: é o nível dele que aparece junto do seu nome.</li>
+    <li>Se você entrar com Google ou Apple sem ter conta, passa pelas mesmas perguntas (sem o X para fechar) e no fim entra direto no app.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 welcome -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Boas-vindas</b><span>É a primeira tela ao abrir o app. Toque em "Começar".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <svg style="position:absolute;top:50px;left:0;color:var(--primary)" width="370" height="480" aria-hidden="true">
+          <circle cx="185" cy="299" r="160" style="fill:var(--primary-tint)"/>
+          <path d="M155.5 466.4 A170 170 0 0 0 352.4 269.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <div class="corpo" style="justify-content:space-between;padding-bottom:58px;position:relative">
+          <div class="col g16" style="align-items:center;padding-top:24px">
+            <img src="../img/logo-completa.png" alt="Desafiaê" style="width:180px;height:55px;object-fit:contain">
+            <img src="../img/mascote-login.png" alt="" style="width:249px;height:371px;object-fit:contain">
+          </div>
+          <div class="col g8" style="padding-bottom:24px">
+            <p class="t2 centro-txt">Seja bem-vindo ao Desafiaê!</p>
+            <p class="b2 muted centro-txt">O app que conecta jogadores, organiza partidas e impulsiona sua evolução.</p>
+          </div>
+          <button class="btn">Começar</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 choose-path -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Como você quer continuar?</b><span>Se você é novo, siga para o cadastro. Se já tem conta ou é moderador, vá para o login.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="corpo">
+          <div class="sh"><i data-lucide="arrow-left"></i><i data-lucide="x"></i></div>
+          <div class="mh-wrap"><span class="pontos esq"></span><span class="pontos dir"></span>
+            <div class="mh"><svg width="194" height="194"><path d="M80.7 189.6 A94 94 0 0 0 189.6 80.7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+              <div class="circ"><img src="../img/mascote-comunicacao.png" alt="" style="width:168px;height:140px"></div></div>
+          </div>
+          <div class="col g4" style="padding:12px 0 24px">
+            <p class="t1 centro-txt">Como você quer <span class="laranja">continuar?</span></p>
+            <p class="b2 muted centro-txt">Escolha uma opção para acessar o app.</p>
+          </div>
+          <div class="lista" style="gap:12px">
+            <div class="sr"><span class="ico"><i data-lucide="user-plus"></i></span><div class="txt"><p class="b1m">Sou novo por aqui</p><p class="b2 muted">Quero criar minha conta no Desafiaê</p></div></div>
+            <div class="sr"><span class="ico"><i data-lucide="log-in"></i></span><div class="txt"><p class="b1m">Já tenho uma conta</p><p class="b2 muted">Fazer login para continuar</p></div></div>
+            <div class="sr"><span class="ico"><i data-lucide="shield-check"></i></span><div class="txt"><p class="b1m">Sou moderador de um torneio</p><p class="b2 muted">Uma arena já criou sua conta — entre com o e-mail e a senha que você recebeu</p></div></div>
+          </div>
+          <p class="cap muted centro-txt" style="padding-top:24px">Ao continuar, você concorda com os <span class="laranja">Termos de Uso</span> e <span class="laranja">Política de Privacidade</span>.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 account-type -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Tipo de conta</b><span>Escolha "Sou Jogador"; o mascote do topo muda com a sua escolha.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="corpo">
+          <div class="sh"><i data-lucide="arrow-left"></i><i data-lucide="x"></i></div>
+          <div class="stepdots"><i></i><i class="on"></i><i></i><i></i></div>
+          <div class="mh-wrap"><span class="pontos esq"></span><span class="pontos dir"></span>
+            <div class="mh"><svg width="194" height="194"><path d="M80.7 189.6 A94 94 0 0 0 189.6 80.7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+              <div class="circ"><img src="../img/mascote-desafio.png" alt="" style="width:168px;height:139px"></div></div>
+          </div>
+          <div class="col g8" style="padding:12px 0 24px">
+            <p class="t2 centro-txt">Como você quer usar o <span class="laranja">Desafiaê?</span></p>
+            <p class="b2 muted centro-txt">Escolha o tipo de conta que mais combina com você.</p>
+          </div>
+          <div class="lista" style="gap:12px">
+            <div class="sr on"><img class="opt-mascote" src="../img/mascote-avatar.png" alt=""><div class="txt"><p class="b1m">Sou Jogador</p><p class="b2 muted">Encontrar e jogar partidas</p></div></div>
+            <div class="sr"><img class="opt-mascote" src="../img/mascote-arena.png" alt=""><div class="txt"><p class="b1m">Sou Arena</p><p class="b2 muted">Gerenciar quadras e jogos</p></div></div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn">Continuar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 permissions -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Permissões</b><span>Um botão só: ao tocar, o celular pede permissão de localização e de notificações.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="corpo">
+          <div class="sh"><i data-lucide="arrow-left"></i><i data-lucide="x"></i></div>
+          <div class="mh-wrap"><span class="pontos esq"></span><span class="pontos dir"></span>
+            <div class="mh"><svg width="194" height="194"><path d="M80.7 189.6 A94 94 0 0 0 189.6 80.7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+              <div class="circ topo-img"><img src="../img/mascote-login.png" alt="" style="width:218px;height:325px"></div></div>
+          </div>
+          <div class="col g4" style="padding:12px 0 24px">
+            <p class="t1 centro-txt">Antes de <span class="laranja">continuar...</span></p>
+            <p class="b2 muted centro-txt">Precisamos de sua permissão para oferecer a melhor experiência possível.</p>
+          </div>
+          <div class="col g16">
+            <div class="perm"><span class="ico"><i data-lucide="map-pin"></i></span><div class="grow col g4" style="gap:2px"><p class="b1m">Localização</p><p class="b2 muted">Encontre partidas e arenas perto de você.</p></div></div>
+            <div class="perm"><span class="ico"><i data-lucide="bell"></i></span><div class="grow col g4" style="gap:2px"><p class="b1m">Notificações</p><p class="b2 muted">Receba convites, lembretes e novidades.</p></div></div>
+            <div class="perm"><span class="ico"><i data-lucide="camera"></i></span><div class="grow col g4" style="gap:2px"><p class="b1m">Câmera</p><p class="b2 muted">Leia o QR Code do ingresso no check-in de torneios e aulas.</p></div></div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn">Continuar</button><p class="cap muted centro-txt" style="padding-top:12px">Você poderá revisar isso nas configurações.</p></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 ready -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Tudo pronto!</b><span>Toque em "Criar conta" para seguir para as perguntas do perfil, ou em "Já tenho conta" para entrar.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="corpo" style="padding-bottom:58px">
+          <div class="sh"><i data-lucide="arrow-left"></i><i data-lucide="x"></i></div>
+          <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:8px">
+            <div class="palco"><span class="anel"></span><img src="../img/mascote-etapa-final.png" alt=""><span class="ok"><i data-lucide="check"></i></span></div>
+            <p class="t1 centro-txt">Tudo <span class="laranja">pronto!</span></p>
+            <p class="b1 muted centro-txt">Agora é só criar sua conta e começar.</p>
+          </div>
+          <div class="col g8"><button class="btn">Criar conta</button><p class="link-l">Já tenho conta</p></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 ob-level -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Nível atual</b><span>Escolha um dos cinco níveis; cada um tem o selo da sua categoria.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="obp"><i data-lucide="arrow-left"></i><div class="trilha"><i class="on"></i><i></i><i></i><i></i><i></i></div><span class="cap">1 de 5</span><i data-lucide="x"></i></div>
+        <div class="corpo" style="gap:24px">
+          <div class="step-intro">
+            <div class="textos"><p class="t1">Qual é seu <span class="laranja">nível atual?</span></p><p class="b2 muted">Isso nos ajuda a encontrar partidas no seu nível.</p></div>
+            <div class="mh compacto"><svg width="90" height="90"><path d="M37.5 87.3 A43 43 0 0 0 87.3 37.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <div class="circ centro"><img src="../img/mascote-em-acao.png" alt="" style="width:74px;height:57px"></div></div>
+          </div>
+          <div class="lista">
+            <div class="sr"><img class="hex" src="../img/categoria-d.png" alt=""><div class="txt"><p class="b1m">Aprendiz</p></div><span class="marc"></span></div>
+            <div class="sr"><img class="hex" src="../img/categoria-c.png" alt=""><div class="txt"><p class="b1m">Iniciante</p></div><span class="marc"></span></div>
+            <div class="sr on"><img class="hex" src="../img/categoria-b.png" alt=""><div class="txt"><p class="b1m">Intermediário</p></div><span class="marc"><i data-lucide="check"></i></span></div>
+            <div class="sr"><img class="hex" src="../img/categoria-a.png" alt=""><div class="txt"><p class="b1m">Avançado</p></div><span class="marc"></span></div>
+            <div class="sr"><img class="hex" src="../img/categoria-p.png" alt=""><div class="txt"><p class="b1m">Profissional</p></div><span class="marc"></span></div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn">Continuar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 ob-sports -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Esportes</b><span>Marque um ou mais esportes (a lista rola). Toque na estrela para escolher o favorito; o primeiro que você marca já vira favorito.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="obp"><i data-lucide="arrow-left"></i><div class="trilha"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><span class="cap">2 de 5</span><i data-lucide="x"></i></div>
+        <div class="corpo" style="gap:24px">
+          <div class="step-intro">
+            <div class="textos"><p class="t1">Quais <span class="laranja">esportes</span> você pratica?</p><p class="b2 muted">Selecione uma ou mais. Toque na estrela para definir sua favorita.</p></div>
+            <div class="mh compacto"><svg width="90" height="90"><path d="M37.5 87.3 A43 43 0 0 0 87.3 37.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <div class="circ topo-img"><img src="../img/mascote-volei.png" alt="" style="width:99px;height:148px"></div></div>
+          </div>
+          <div class="lista">
+            <div class="sr"><div class="txt"><p class="b1m">Futebol</p></div><span class="marc"></span></div>
+            <div class="sr on"><div class="txt"><p class="b1m">Futevôlei</p></div><i data-lucide="star" class="estrela fav"></i><span class="marc"><i data-lucide="check"></i></span></div>
+            <div class="sr on"><div class="txt"><p class="b1m">Beach Tennis</p></div><i data-lucide="star" class="estrela"></i><span class="marc"><i data-lucide="check"></i></span></div>
+            <div class="sr"><div class="txt"><p class="b1m">Vôlei</p></div><span class="marc"></span></div>
+            <div class="sr"><div class="txt"><p class="b1m">Basquete</p></div><span class="marc"></span></div>
+            <div class="sr"><div class="txt"><p class="b1m">Tênis</p></div><span class="marc"></span></div>
+            <div class="sr"><div class="txt"><p class="b1m">Padel</p></div><span class="marc"></span></div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn">Continuar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 ob-location -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Onde costuma jogar</b><span>O app detecta sua localização pelo GPS. Depois, escolha sua arena favorita do estado numa lista com busca.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="obp"><i data-lucide="arrow-left"></i><div class="trilha"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><span class="cap">3 de 5</span><i data-lucide="x"></i></div>
+        <div class="corpo" style="gap:16px">
+          <div class="step-intro">
+            <div class="textos"><p class="t1">Onde você <span class="laranja">costuma jogar?</span></p><p class="b2 muted">Usamos sua localização para mostrar as arenas do seu estado.</p></div>
+            <div class="mh compacto"><svg width="90" height="90"><path d="M37.5 87.3 A43 43 0 0 0 87.3 37.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <div class="circ topo-img"><img src="../img/mascote-beachtennis.png" alt="" style="width:99px;height:148px"></div></div>
+          </div>
+          <div class="lugar"><span class="pino"><i data-lucide="map-pin"></i></span><div class="grow" style="display:grid;gap:2px"><p class="b1m">Campeche - SC</p><p class="cap muted">Arenas listadas para este estado.</p></div></div>
+          <button class="btn sec"><i data-lucide="map-pin"></i>Atualizar localização</button>
+          <div class="selectfield"><p class="b2m muted">Arena favorita</p>
+            <div class="input"><i data-lucide="building-2"></i><span class="val">Arena Maré Alta</span><i data-lucide="chevron-down"></i></div></div>
+          <p class="cap muted">Vira o pedido de vínculo das modalidades escolhidas com essa arena. Dá para trocar depois, modalidade por modalidade, no perfil.</p>
+        </div>
+        <div class="rodape"><button class="btn">Continuar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 9 ob-goals -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">9</div>
+        <div class="passo-txt"><b>Objetivo</b><span>Marque um ou mais objetivos e siga.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="obp"><i data-lucide="arrow-left"></i><div class="trilha"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><span class="cap">4 de 5</span><i data-lucide="x"></i></div>
+        <div class="corpo" style="gap:24px">
+          <div class="step-intro">
+            <div class="textos"><p class="t1">Qual seu objetivo no <span class="laranja">Desafiaê?</span></p><p class="b2 muted">Você pode escolher mais de um.</p></div>
+            <div class="mh compacto"><svg width="90" height="90"><path d="M37.5 87.3 A43 43 0 0 0 87.3 37.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <div class="circ"><img src="../img/mascote-desafio.png" alt="" style="width:76px;height:63px"></div></div>
+          </div>
+          <div class="lista">
+            <div class="sr on"><div class="txt"><p class="b1m">Fazer novas amizades</p></div><span class="marc"><i data-lucide="check"></i></span></div>
+            <div class="sr"><div class="txt"><p class="b1m">Jogar por diversão</p></div><span class="marc"></span></div>
+            <div class="sr on"><div class="txt"><p class="b1m">Evoluir meu nível</p></div><span class="marc"><i data-lucide="check"></i></span></div>
+            <div class="sr"><div class="txt"><p class="b1m">Participar de torneios</p></div><span class="marc"></span></div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn">Continuar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 10 ob-done -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">10</div>
+        <div class="passo-txt"><b>Quase lá!</b><span>Siga para o cadastro. Se você fechar o app aqui, na próxima vez ele abre direto no login.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="obp"><i data-lucide="arrow-left"></i><div class="trilha"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><span class="cap">5 de 5</span><i data-lucide="x"></i></div>
+        <div class="corpo" style="align-items:center;gap:8px;padding-top:32px">
+          <div class="mh-wrap" style="align-self:stretch;margin-bottom:16px"><span class="pontos esq"></span><span class="pontos dir"></span>
+            <div class="mh"><svg width="194" height="194"><path d="M80.7 189.6 A94 94 0 0 0 189.6 80.7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+              <div class="circ"><img src="../img/mascote-comunicacao.png" alt="" style="width:168px;height:140px"></div></div>
+          </div>
+          <p class="t1 centro-txt">Quase <span class="laranja">lá!</span></p>
+          <p class="b2 muted centro-txt">Finalize seu cadastro para entrar em campo.</p>
+        </div>
+        <div class="rodape"><button class="btn">Finalizar cadastro</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 11 sign-up -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">11</div>
+        <div class="passo-txt"><b>Crie sua conta</b><span>Preencha nome, e-mail, senha e confirmação, e aceite os termos. Apple e Google só ficam disponíveis depois do aceite.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="corpo">
+          <div class="sh"><i data-lucide="arrow-left"></i><i data-lucide="x"></i></div>
+          <img src="../img/mascote-comunicacao.png" alt="" style="width:180px;height:156px;object-fit:contain;align-self:center;margin-top:8px">
+          <div class="col g4" style="padding:16px 0 24px"><p class="t1">Crie sua conta</p><p class="b2 muted">É rápido e grátis!</p></div>
+          <div class="col">
+            <div class="input"><i data-lucide="user-round"></i><span class="val">Bia Moreira</span></div>
+            <div class="input"><i data-lucide="mail"></i><span class="val">bia.moreira@email.com</span></div>
+            <div class="input"><i data-lucide="lock"></i><span class="val">••••••••</span><i data-lucide="eye"></i></div>
+            <div class="input foco"><i data-lucide="lock"></i><span class="val">••••••••</span><i data-lucide="eye"></i></div>
+            <div class="check-row"><span class="cx on"><i data-lucide="check"></i></span><p class="b2 muted">Li e aceito os <span class="laranja">Termos de Uso</span> e a <span class="laranja">Política de Privacidade</span></p></div>
+          </div>
+        </div>
+        <div class="rodape" style="padding-top:44px">
+          <button class="btn">Criar conta</button>
+          <div class="divisor"><i></i><span class="b2 muted">ou continue com</span><i></i></div>
+          <div class="sociais">
+            <span><svg width="22" height="22" viewBox="0 0 24 24" aria-label="Apple"><path style="fill:var(--text)" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg></span>
+            <span><svg width="22" height="22" viewBox="0 0 24 24" aria-label="Google"><path fill="#4285f4" d="M22.56 12.25c0-.78-.07-1.530-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.570-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#fbbc05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#ea4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg></span>
+          </div>
+          <div class="pe"><span class="b2 muted">Já tem uma conta?&nbsp;</span><span class="b2m laranja">Entrar</span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 12 verify-otp -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">12</div>
+        <div class="passo-txt"><b>Digite o código</b><span>Digite o código de 6 dígitos que chegou no seu e-mail. Confirmado, você entra direto no Início.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="corpo">
+          <div class="sh"><i data-lucide="arrow-left"></i><i data-lucide="x"></i></div>
+          <div class="col g4" style="padding:16px 0 24px"><p class="t1">Digite o código</p><p class="b2 muted">Enviamos um código de 6 dígitos para bia.moreira@email.com.</p></div>
+          <div class="input foco"><i data-lucide="key-round"></i><span class="val num">482913</span></div>
+        </div>
+        <div class="rodape"><button class="btn">Confirmar</button><p class="b2m muted centro-txt" style="padding:8px 0">Reenviar código em 42s</p></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 13 social: ready -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">13</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Entrou com Google/Apple sem conta</b><span>Se você toca em Google ou Apple na tela de entrar e ainda não tem conta, ela é criada na hora e você vai para o tipo de conta (sem voltar nem fechar). Depois das permissões, a tela "Tudo pronto!" pede para você montar seu perfil.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="corpo" style="padding-bottom:58px">
+          <div class="sh"><i data-lucide="arrow-left"></i><span class="vazio"></span></div>
+          <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:8px">
+            <div class="palco"><span class="anel"></span><img src="../img/mascote-etapa-final.png" alt=""><span class="ok"><i data-lucide="check"></i></span></div>
+            <p class="t1 centro-txt">Tudo <span class="laranja">pronto!</span></p>
+            <p class="b1 muted centro-txt">Agora é só montar seu perfil e começar.</p>
+          </div>
+          <div class="col g8"><button class="btn">Montar meu perfil</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 14 social: ob-done -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">14</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Quase lá! (conta social)</b><span>Você responde as mesmas perguntas de nível, esportes, local e objetivo. No fim, seu perfil é salvo e você entra no app, sem passar pela tela de cadastro.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="obp"><i data-lucide="arrow-left"></i><div class="trilha"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><span class="cap">5 de 5</span></div>
+        <div class="corpo" style="align-items:center;gap:8px;padding-top:32px">
+          <div class="mh-wrap" style="align-self:stretch;margin-bottom:16px"><span class="pontos esq"></span><span class="pontos dir"></span>
+            <div class="mh"><svg width="194" height="194"><path d="M80.7 189.6 A94 94 0 0 0 189.6 80.7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+              <div class="circ"><img src="../img/mascote-comunicacao.png" alt="" style="width:168px;height:140px"></div></div>
+          </div>
+          <p class="t1 centro-txt">Quase <span class="laranja">lá!</span></p>
+          <p class="b2 muted centro-txt">Tudo pronto para você entrar em campo.</p>
+        </div>
+        <div class="rodape"><button class="btn">Começar a jogar</button></div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>O que acontece com o que respondi antes de criar a conta?</summary><p>Fica guardado no celular e passa para a sua conta assim que você termina o cadastro. Nada se perde.</p></details>
+    <details><summary>Posso criar a conta com Google ou Apple?</summary><p>Pode. Na tela "Crie sua conta", os botões de Apple e Google liberam depois que você aceita os termos. Se tocar neles na tela de entrar sem ter conta, a conta é criada na hora e você responde as perguntas do perfil.</p></details>
+    <details><summary>Para que serve a arena favorita?</summary><p>Ela vira um pedido de vínculo com a arena nas modalidades que você marcou. Quando a arena aprova, o vínculo aparece no seu perfil.</p></details>
+    <details><summary>Qual nível aparece junto do meu nome?</summary><p>O do esporte marcado com estrela, que é o seu favorito. Se você não escolher, o primeiro esporte marcado vira o favorito.</p></details>
+    <details><summary>O código não chegou. E agora?</summary><p>Confira se o e-mail digitado está certo. Na tela do código, o reenvio libera depois de 60 segundos.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quadras e preços · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  .btn.claro { font-weight: 500; }
+  .btn.contorno-laranja.claro { background: var(--surface); }
+  .chip.sel-app { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+  .scr-hdr { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; }
+  .scr-hdr svg { width: 24px; height: 24px; }
+  .scr-hdr .t3 { flex: 1; text-align: center; }
+  .rodape-tela { margin-top: auto; display: grid; gap: 8px; padding-top: 12px; }
+  .quadra { display: flex; align-items: center; gap: 16px; }
+  .quadra .grow { display: grid; gap: 2px; }
+  .quadra svg { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .campo-sel { height: 52px; display: flex; align-items: center; gap: 8px; padding: 0 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; font: 400 16px/24px var(--font); }
+  .campo-sel span { flex: 1; }
+  .campo-sel svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .campo-sel .ic-l { color: var(--primary); }
+  .campo-sel .ph { color: var(--text-muted); }
+  .toggle-ios { width: 51px; height: 31px; border-radius: 16px; background: var(--primary); position: relative; flex: none; }
+  .toggle-ios::after { content: ""; position: absolute; top: 2px; right: 2px; width: 27px; height: 27px; border-radius: 14px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+  .sheet.app { background: var(--background); padding: 20px 20px 34px; gap: 8px; }
+  .sheet.app::before { display: none; }
+  .mes-cab { display: flex; align-items: center; justify-content: space-between; padding: 4px 0; }
+  .mes-cab span { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
+  .mes-cab svg { width: 20px; height: 20px; }
+  .gdt { display: grid; grid-template-columns: repeat(7, 1fr); }
+  .gdt span { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 999px; font: 500 14px/20px var(--font); }
+  .gdt.letras span { aspect-ratio: auto; font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .gdt .passado { color: var(--border); }
+  .gdt .hoje { border: 1px solid var(--primary); }
+  .gdt .sel { background: var(--primary); color: var(--text-inverse); }
+  .hchip { padding: 8px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); font: 500 14px/20px var(--font); }
+  .hchip.sel { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+  .hchip.passou { color: var(--border); }
+  .vazio-txt { font: 400 14px/20px var(--font); color: var(--text-muted); }
+
+  /* painel web */
+  .wcab { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .wcab .textos { display: grid; gap: 4px; }
+  .sino { padding: 4px; position: relative; display: flex; }
+  .sino svg { width: 24px; height: 24px; }
+  .wcols { display: flex; gap: 24px; align-items: flex-start; }
+  .wlista { width: 300px; flex: none; display: grid; gap: 12px; }
+  .nova { height: 48px; border-radius: 999px; border: 1px dashed var(--primary-tint); background: var(--primary-wash); display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--primary); font: 500 14px/20px var(--font); }
+  .nova svg { width: 16px; height: 16px; }
+  .cq { border: 1px solid var(--border); background: var(--surface); border-radius: 12px; padding: 16px; display: grid; gap: 4px; }
+  .cq.ativa { border-color: var(--primary); background: var(--primary-wash); }
+  .cq .row { gap: 8px; }
+  .wpainel { flex: 1; min-width: 0; display: grid; gap: 16px; align-content: start; }
+  .campos { display: flex; gap: 16px; }
+  .campos > .campo, .duas > .campo { flex: 1; min-width: 0; display: grid; gap: 8px; align-content: start; }
+  .faixa-ativa { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--background); }
+  .duas { display: flex; gap: 24px; }
+  .tsec { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .item { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-top: 1px solid var(--border); }
+  .item .ico { width: 32px; height: 32px; border-radius: 8px; background: var(--neutral-soft); display: flex; align-items: center; justify-content: center; color: var(--text-muted); flex: none; }
+  .item .ico.quente { background: var(--primary-soft); color: var(--primary); }
+  .item svg { width: 16px; height: 16px; }
+  .item > svg { color: var(--text-muted); flex: none; }
+  .sep { border-top: 1px solid var(--border); padding-top: 16px; display: grid; gap: 8px; }
+  .rodape-p { border-top: 1px solid var(--border); padding-top: 12px; }
+  .card-dt { position: absolute; width: 340px; padding: 16px; display: grid; gap: 8px; background: var(--background); border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 8px 16px rgba(0,0,0,.12); z-index: 9; }
+  .browser-body { position: relative; }
+  .confirma { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 440px; background: var(--surface); border-radius: 12px; box-shadow: 0 12px 32px rgba(31,31,31,.25); padding: 20px; display: grid; gap: 16px; z-index: 9; font: 400 14px/20px var(--font); }
+  .confirma .bts { display: flex; justify-content: flex-end; gap: 8px; }
+  .confirma .bts span { padding: 6px 16px; border-radius: 8px; border: 1px solid var(--border); font: 500 13px/20px var(--font); }
+  .confirma .bts span.ok { background: var(--info); border-color: var(--info); color: var(--text-inverse); }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="arena" data-fluxo="quadras"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Quadras e preços</h1>
+  <p>Em Quadras você cadastra cada quadra com modalidade, preço por hora e duração do horário reservável, cobra mais no horário nobre com faixas de preço e bloqueia períodos de manutenção. No celular, a tela fica em Ajustes.</p>
+  <ul class="regras">
+    <li>Horário sem faixa usa o preço padrão da quadra. Reserva que atravessa faixas é cobrada de forma proporcional.</li>
+    <li>Quadra desativada some da agenda e não aceita reserva.</li>
+    <li>O preço de tabela da quadra é a base do horário relâmpago: a oferta só aplica um desconto sobre ele, nunca um valor digitado.</li>
+    <li>Bloqueio não conta como ocupação no Painel, e quadra bloqueada hoje não entra no alerta de quadra parada.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- ======================= CELULAR ======================= -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 Lista + nova quadra -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Quadras</b><span>Abra pelo menu Ajustes. Você vê as quadras com editar e apagar e, abaixo, o formulário de nova quadra.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:16px">
+          <div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Quadras</p><i data-lucide="x"></i></div>
+          <div class="col">
+            <div class="card quadra"><div class="grow"><p class="b1m">Quadra 1</p><p class="b2 muted">Futevôlei</p></div><i data-lucide="pencil"></i><i data-lucide="trash-2"></i></div>
+            <div class="card quadra"><div class="grow"><p class="b1m">Quadra 2</p><p class="b2 muted">Futevôlei</p></div><i data-lucide="pencil"></i><i data-lucide="trash-2"></i></div>
+            <div class="card quadra"><div class="grow"><p class="b1m">Quadra 3</p><p class="b2 muted">Beach tennis</p></div><i data-lucide="pencil"></i><i data-lucide="trash-2"></i></div>
+          </div>
+          <div class="col">
+            <p class="t3">Nova quadra</p>
+            <div class="input"><span class="ph">Nome da quadra (ex.: Quadra 1)</span></div>
+            <div class="col g8"><p class="b2m muted">Modalidade (opcional)</p><div class="campo-sel"><i data-lucide="volleyball" class="ic-l"></i><span class="ph">Selecione a modalidade</span><i data-lucide="chevron-down"></i></div></div>
+            <p class="b2m muted">Preço por hora</p>
+            <div class="input"><span class="ph">R$ 0,00 (opcional)</span></div>
+          </div>
+          <div class="rodape-tela"><button class="btn claro off">Adicionar quadra</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 Editar -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Editar quadra</b><span>Toque no lápis para mudar nome, modalidade, preço, duração do horário e se a quadra está aberta para reserva.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:12px">
+          <div class="col">
+            <p class="t3">Editar quadra</p>
+            <div class="input foco">Quadra 3</div>
+            <div class="col g8"><p class="b2m muted">Modalidade (opcional)</p><div class="campo-sel"><i data-lucide="volleyball" class="ic-l"></i><span>Beach tennis</span><i data-lucide="chevron-down"></i></div></div>
+            <p class="b2m muted">Preço por hora</p>
+            <div class="input">100,00</div>
+            <p class="b2m muted">Duração do horário reservável</p>
+            <div class="chips"><span class="chip">30 min</span><span class="chip sel-app">60 min</span><span class="chip">90 min</span><span class="chip">120 min</span></div>
+            <div class="row"><p class="b2m muted grow">Aberta pra reserva</p><span class="toggle-ios"></span></div>
+          </div>
+          <div class="col" style="margin-top:4px">
+            <p class="t3">Preço por horário</p>
+            <p class="b2 muted">Cobre mais no horário nobre. Horário sem faixa usa o preço padrão da quadra, e reserva que atravessa faixas é cobrada proporcional.</p>
+          </div>
+          <div class="rodape-tela"><button class="btn claro">Salvar alterações</button><button class="btn contorno claro">Cancelar</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 Faixas de preço -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Preço por horário</b><span>Role a tela para ver as faixas já criadas (a lixeira apaga) e criar uma faixa nova por quadra e dia da semana.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:12px">
+          <p class="t3" style="padding-top:8px">Preço por horário</p>
+          <p class="b2 muted">Cobre mais no horário nobre. Horário sem faixa usa o preço padrão da quadra, e reserva que atravessa faixas é cobrada proporcional.</p>
+          <div class="card quadra"><div class="grow"><p class="b1m">Quadra 1</p><p class="b2 muted">Todo dia · 18:00 – 22:00</p><p class="b2m">R$ 120,00 por hora</p></div><i data-lucide="trash-2"></i></div>
+          <div class="card quadra"><div class="grow"><p class="b1m">Quadra 3</p><p class="b2 muted">Sáb · 07:00 – 12:00</p><p class="b2m">R$ 130,00 por hora</p></div><i data-lucide="trash-2"></i></div>
+          <p class="b2m muted">Quadra</p>
+          <div class="chips"><span class="chip">Quadra 1</span><span class="chip sel-app">Quadra 2</span><span class="chip">Quadra 3</span></div>
+          <p class="b2m muted">Dia da semana</p>
+          <div class="chips"><span class="chip">Todo dia</span><span class="chip">Dom</span><span class="chip">Seg</span><span class="chip">Ter</span><span class="chip">Qua</span><span class="chip">Qui</span><span class="chip sel-app">Sex</span><span class="chip">Sáb</span></div>
+          <div class="row" style="gap:8px"><div class="input grow">18:00</div><div class="input grow">22:00</div></div>
+          <div class="input">120,00</div>
+          <button class="btn claro">Adicionar faixa</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 Bloqueios -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Bloqueios de agenda</b><span>No fim da tela, bloqueie uma quadra ou todas num período, com motivo opcional.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:12px">
+          <p class="t3" style="padding-top:8px">Bloqueios de agenda</p>
+          <p class="b2 muted">Bloqueie um período (manutenção, reforma, evento fechado) pra ninguém reservar essa quadra nesse horário.</p>
+          <div class="card quadra"><div class="grow"><p class="b1m">Quadra 3</p><p class="b2 muted">Hoje · 20:00 – Hoje · 21:00</p><p class="cap muted">Manutenção da areia</p></div><i data-lucide="trash-2"></i></div>
+          <div class="card quadra"><div class="grow"><p class="b1m">Todas as quadras</p><p class="b2 muted">12/10 · 06:00 – 12/10 · 23:00</p><p class="cap muted">Feriado — arena fechada</p></div><i data-lucide="trash-2"></i></div>
+          <p class="b2m muted">Quadra</p>
+          <div class="chips"><span class="chip">Todas as quadras</span><span class="chip sel-app">Quadra 1</span><span class="chip">Quadra 2</span><span class="chip">Quadra 3</span></div>
+          <div class="col g8"><p class="b2m muted">Início do bloqueio</p><div class="campo-sel"><i data-lucide="calendar" class="ic-l"></i><span>02/10/2026 às 06:00</span></div></div>
+          <div class="col g8"><p class="b2m muted">Fim do bloqueio</p><div class="campo-sel"><i data-lucide="calendar" class="ic-l"></i><span class="ph">Selecione data e hora</span></div></div>
+          <div class="input"><span class="ph">Motivo (opcional)</span></div>
+          <button class="btn contorno-laranja claro off">Bloquear</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 DateTimeField -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Escolher data e hora</b><span>Toque no campo de início ou de fim para abrir o calendário com os horários. Dia e hora que já passaram ficam apagados.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body"><p class="t3" style="padding-top:8px">Bloqueios de agenda</p></div>
+        <div class="sheet-veu"></div>
+        <div class="sheet app">
+          <div class="row sb" style="margin-bottom:4px"><p class="t3">Fim do bloqueio</p><i data-lucide="x" class="ic24"></i></div>
+          <div class="mes-cab"><span><i data-lucide="chevron-left" style="color:var(--border)"></i></span><p class="b1m">Outubro 2026</p><span><i data-lucide="chevron-right"></i></span></div>
+          <div class="gdt letras"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+          <div class="gdt">
+            <span></span><span></span><span></span><span></span><span>1</span><span class="sel">2</span><span>3</span>
+            <span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+            <span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span>
+            <span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span>
+            <span>25</span><span>26</span><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span>
+          </div>
+          <p class="b2m muted" style="margin-top:8px">Horário</p>
+          <div class="chips" style="gap:8px">
+            <span class="hchip">10:00</span><span class="hchip">10:30</span><span class="hchip">11:00</span><span class="hchip sel">11:30</span><span class="hchip">12:00</span><span class="hchip">12:30</span><span class="hchip">13:00</span><span class="hchip">13:30</span><span class="hchip">14:00</span><span class="hchip">14:30</span><span class="hchip">15:00</span>
+          </div>
+          <button class="btn claro" style="margin-top:8px">Confirmar</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 Sem quadras -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Arena sem quadra</b><span>Na primeira vez, aparece um aviso no lugar da lista, e o formulário cria a primeira quadra.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:16px">
+          <div class="scr-hdr"><i data-lucide="arrow-left"></i><p class="t3">Quadras</p><i data-lucide="x"></i></div>
+          <p class="vazio-txt">Nenhuma quadra cadastrada ainda. Use o formulário abaixo para criar a primeira.</p>
+          <div class="col">
+            <p class="t3">Nova quadra</p>
+            <div class="input foco">Quadra 1</div>
+            <div class="col g8"><p class="b2m muted">Modalidade (opcional)</p><div class="campo-sel"><i data-lucide="volleyball" class="ic-l"></i><span>Futevôlei</span><i data-lucide="chevron-down"></i></div></div>
+            <p class="b2m muted">Preço por hora</p>
+            <div class="input">90,00</div>
+            <p class="b2m muted">Duração do horário reservável</p>
+            <div class="chips"><span class="chip">30 min</span><span class="chip sel-app">60 min</span><span class="chip">90 min</span><span class="chip">120 min</span></div>
+            <div class="row"><p class="b2m muted grow">Aberta pra reserva</p><span class="toggle-ios"></span></div>
+          </div>
+          <div class="rodape-tela"><button class="btn claro">Adicionar quadra</button></div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ======================= NAVEGADOR ======================= -->
+<section class="trilho-fluxo web" data-plataforma="navegador">
+  <div class="passos">
+
+    <!-- W1 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Quadras no painel</b><span>As quadras ficam numa lista à esquerda, com a primeira já aberta. Tudo da quadra (dados, bloqueios, horários fixos e faixas de preço) aparece no painel à direita.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-courts</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="arena" data-item="Quadras">
+            <div class="shell-conteudo">
+              <div class="wcab"><div class="textos"><p class="t1">Quadras</p><p class="b2 muted">Arena Maré Alta · 3 quadra(s) · 3 ativa(s)</p></div><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div>
+              <div class="wcols">
+                <div class="wlista">
+                  <div class="nova"><i data-lucide="plus"></i>Adicionar quadra</div>
+                  <div class="cq ativa"><div class="row"><p class="b1m grow">Quadra 1</p><span class="tag ok">Ativa</span></div><p class="b2 muted">Futevôlei</p><p class="cap muted">R$ 90,00/hora · reserva de 60 min</p></div>
+                  <div class="cq"><div class="row"><p class="b1m grow">Quadra 2</p><span class="tag ok">Ativa</span></div><p class="b2 muted">Futevôlei</p><p class="cap muted">R$ 90,00/hora · reserva de 60 min</p></div>
+                  <div class="cq"><div class="row"><p class="b1m grow">Quadra 3</p><span class="tag ok">Ativa</span></div><p class="b2 muted">Beach tennis</p><p class="cap muted">R$ 100,00/hora · reserva de 60 min</p></div>
+                </div>
+                <div class="card wpainel">
+                  <div class="row sb"><p class="t3">Editar quadra</p><button class="btn inline claro">Salvar alterações</button></div>
+                  <div class="campos">
+                    <div class="campo"><p class="capm muted">Nome da quadra</p><div class="input">Quadra 1</div></div>
+                    <div class="campo"><p class="b2m muted">Modalidade (opcional)</p><div class="campo-sel"><i data-lucide="volleyball" class="ic-l"></i><span>Futevôlei</span><i data-lucide="chevron-down"></i></div></div>
+                  </div>
+                  <div class="campos">
+                    <div class="campo"><p class="capm muted">Preço por hora</p><div class="input">90,00</div></div>
+                    <div class="campo"><p class="capm muted">Duração do horário reservável</p><div class="chips"><span class="chip">30 min</span><span class="chip sel-app">60 min</span><span class="chip">90 min</span><span class="chip">120 min</span></div></div>
+                  </div>
+                  <div class="faixa-ativa"><div class="grow"><p class="b2m">Aberta pra reserva</p><p class="cap muted">Desativada, ela some da agenda e não aceita reserva.</p></div><span class="toggle-ios"></span></div>
+                  <div class="duas">
+                    <div class="campo">
+                      <div class="tsec"><p class="b1m">Bloqueios de agenda</p><p class="capm laranja">Novo bloqueio</p></div>
+                      <div class="item"><span class="ico"><i data-lucide="lock"></i></span><div class="grow"><p class="b2m">12/10 · 06:00 – 12/10 · 23:00</p><p class="cap muted">Feriado — arena fechada</p></div><i data-lucide="trash-2"></i></div>
+                    </div>
+                    <div class="campo">
+                      <div class="tsec"><p class="b1m">Horário fixo</p><p class="capm laranja">Novo horário fixo</p></div>
+                      <div class="item"><span class="ico quente"><i data-lucide="clock"></i></span><div class="grow"><p class="b2m">Ter · 19:00</p><p class="cap muted">Bia Moreira · 12 semana(s)</p></div><i data-lucide="chevron-right"></i></div>
+                    </div>
+                  </div>
+                  <div class="sep">
+                    <div class="tsec"><p class="b1m">Preço por horário</p><p class="capm laranja">Adicionar faixa</p></div>
+                    <p class="cap muted">Cobre mais no horário nobre. Horário sem faixa usa o preço padrão da quadra, e reserva que atravessa faixas é cobrada proporcional.</p>
+                    <div class="item"><div class="grow"><p class="b2m">Todo dia · 18:00 – 22:00</p><p class="cap muted">R$ 120,00 por hora</p></div><i data-lucide="trash-2"></i></div>
+                  </div>
+                  <div class="rodape-p"><p class="capm vermelho">Remover quadra</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W2 Novo bloqueio + faixa -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Novo bloqueio e nova faixa</b><span>Os links do painel abrem os formulários ali mesmo. O campo de data abre um calendário logo junto dele.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-courts</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="arena" data-item="Quadras">
+            <div class="shell-conteudo">
+              <div class="wcab"><div class="textos"><p class="t1">Quadras</p><p class="b2 muted">Arena Maré Alta · 3 quadra(s) · 3 ativa(s)</p></div><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div>
+              <div class="wcols">
+                <div class="wlista">
+                  <div class="nova"><i data-lucide="plus"></i>Adicionar quadra</div>
+                  <div class="cq"><div class="row"><p class="b1m grow">Quadra 1</p><span class="tag ok">Ativa</span></div><p class="b2 muted">Futevôlei</p><p class="cap muted">R$ 90,00/hora · reserva de 60 min</p></div>
+                  <div class="cq"><div class="row"><p class="b1m grow">Quadra 2</p><span class="tag ok">Ativa</span></div><p class="b2 muted">Futevôlei</p><p class="cap muted">R$ 90,00/hora · reserva de 60 min</p></div>
+                  <div class="cq ativa"><div class="row"><p class="b1m grow">Quadra 3</p><span class="tag ok">Ativa</span></div><p class="b2 muted">Beach tennis</p><p class="cap muted">R$ 100,00/hora · reserva de 60 min</p></div>
+                </div>
+                <div class="card wpainel">
+                  <div class="row sb"><p class="t3">Editar quadra</p><button class="btn inline claro">Salvar alterações</button></div>
+                  <div class="campos">
+                    <div class="campo"><p class="capm muted">Nome da quadra</p><div class="input">Quadra 3</div></div>
+                    <div class="campo"><p class="b2m muted">Modalidade (opcional)</p><div class="campo-sel"><i data-lucide="volleyball" class="ic-l"></i><span>Beach tennis</span><i data-lucide="chevron-down"></i></div></div>
+                  </div>
+                  <div class="campos">
+                    <div class="campo"><p class="capm muted">Preço por hora</p><div class="input">100,00</div></div>
+                    <div class="campo"><p class="capm muted">Duração do horário reservável</p><div class="chips"><span class="chip">30 min</span><span class="chip sel-app">60 min</span><span class="chip">90 min</span><span class="chip">120 min</span></div></div>
+                  </div>
+                  <div class="faixa-ativa"><div class="grow"><p class="b2m">Aberta pra reserva</p><p class="cap muted">Desativada, ela some da agenda e não aceita reserva.</p></div><span class="toggle-ios"></span></div>
+                  <div class="duas">
+                    <div class="campo" style="position:relative">
+                      <div class="tsec"><p class="b1m">Bloqueios de agenda</p><p class="capm laranja">Novo bloqueio</p></div>
+                      <div class="item"><span class="ico"><i data-lucide="lock"></i></span><div class="grow"><p class="b2m">Hoje · 20:00 – Hoje · 21:00</p><p class="cap muted">Manutenção da areia</p></div><i data-lucide="trash-2"></i></div>
+                      <div class="item"><span class="ico"><i data-lucide="lock"></i></span><div class="grow"><p class="b2m">12/10 · 06:00 – 12/10 · 23:00</p><p class="cap muted">Feriado — arena fechada</p></div><i data-lucide="trash-2"></i></div>
+                      <div class="col g8" style="padding-top:8px">
+                        <div class="col g8"><p class="b2m muted">Início do bloqueio</p><div class="campo-sel" style="border-color:var(--primary)"><i data-lucide="calendar" class="ic-l"></i><span class="ph">Selecione data e hora</span></div></div>
+                        <div class="col g8"><p class="b2m muted">Fim do bloqueio</p><div class="campo-sel"><i data-lucide="calendar" class="ic-l"></i><span class="ph">Selecione data e hora</span></div></div>
+                        <div class="input"><span class="ph">Motivo (opcional)</span></div>
+                        <button class="btn contorno-laranja claro off">Bloquear</button>
+                      </div>
+                      <div class="card-dt" style="top:236px;left:0">
+                        <div class="row sb"><p class="t3">Início do bloqueio</p><i data-lucide="x" class="ic24"></i></div>
+                        <div class="mes-cab"><span><i data-lucide="chevron-left" style="color:var(--border)"></i></span><p class="b1m">Setembro 2026</p><span><i data-lucide="chevron-right"></i></span></div>
+                        <div class="gdt letras"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+                        <div class="gdt">
+                          <span></span><span></span><span class="passado">1</span><span class="passado">2</span><span class="passado">3</span><span class="passado">4</span><span class="passado">5</span>
+                          <span class="passado">6</span><span class="passado">7</span><span class="passado">8</span><span class="passado">9</span><span class="passado">10</span><span class="passado">11</span><span class="passado">12</span>
+                          <span class="passado">13</span><span class="passado">14</span><span class="passado">15</span><span class="passado">16</span><span class="passado">17</span><span class="passado">18</span><span class="passado">19</span>
+                          <span class="passado">20</span><span class="passado">21</span><span class="passado">22</span><span class="passado">23</span><span class="passado">24</span><span class="passado">25</span><span class="passado">26</span>
+                          <span class="passado">27</span><span class="hoje">28</span><span class="sel">29</span><span>30</span><span></span><span></span><span></span>
+                        </div>
+                        <p class="b2m muted">Horário</p>
+                        <div class="chips"><span class="hchip">06:00</span><span class="hchip">06:30</span><span class="hchip sel">07:00</span><span class="hchip">07:30</span><span class="hchip">08:00</span><span class="hchip">08:30</span></div>
+                        <button class="btn claro">Confirmar</button>
+                      </div>
+                    </div>
+                    <div class="campo">
+                      <div class="tsec"><p class="b1m">Horário fixo</p><p class="capm laranja">Novo horário fixo</p></div>
+                      <div class="item"><span class="ico quente"><i data-lucide="clock"></i></span><div class="grow"><p class="b2m">Qui · 07:00</p><p class="cap muted">Vini Rocha · 24 semana(s)</p></div><i data-lucide="chevron-right"></i></div>
+                    </div>
+                  </div>
+                  <div class="sep">
+                    <div class="tsec"><p class="b1m">Preço por horário</p><p class="capm laranja">Adicionar faixa</p></div>
+                    <p class="cap muted">Cobre mais no horário nobre. Horário sem faixa usa o preço padrão da quadra, e reserva que atravessa faixas é cobrada proporcional.</p>
+                    <div class="item"><div class="grow"><p class="b2m">Sáb · 07:00 – 12:00</p><p class="cap muted">R$ 130,00 por hora</p></div><i data-lucide="trash-2"></i></div>
+                    <div class="col g8" style="padding-top:8px">
+                      <div class="chips"><span class="chip">Todo dia</span><span class="chip sel-app">Dom</span><span class="chip">Seg</span><span class="chip">Ter</span><span class="chip">Qua</span><span class="chip">Qui</span><span class="chip">Sex</span><span class="chip">Sáb</span></div>
+                      <div class="row" style="gap:8px"><div class="input grow">07:00</div><div class="input grow">12:00</div><div class="input grow">130,00</div></div>
+                      <button class="btn contorno-laranja claro">Adicionar faixa</button>
+                    </div>
+                  </div>
+                  <div class="rodape-p"><p class="capm vermelho">Remover quadra</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W3 Nova quadra -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Adicionar quadra</b><span>Clique no botão tracejado para começar uma quadra nova. Bloqueios, horários fixos e faixas só aparecem depois que a quadra existe.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-courts</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="arena" data-item="Quadras">
+            <div class="shell-conteudo">
+              <div class="wcab"><div class="textos"><p class="t1">Quadras</p><p class="b2 muted">Arena Maré Alta · 3 quadra(s) · 3 ativa(s)</p></div><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div>
+              <div class="wcols">
+                <div class="wlista">
+                  <div class="nova"><i data-lucide="plus"></i>Adicionar quadra</div>
+                  <div class="cq"><div class="row"><p class="b1m grow">Quadra 1</p><span class="tag ok">Ativa</span></div><p class="b2 muted">Futevôlei</p><p class="cap muted">R$ 90,00/hora · reserva de 60 min</p></div>
+                  <div class="cq"><div class="row"><p class="b1m grow">Quadra 2</p><span class="tag ok">Ativa</span></div><p class="b2 muted">Futevôlei</p><p class="cap muted">R$ 90,00/hora · reserva de 60 min</p></div>
+                  <div class="cq"><div class="row"><p class="b1m grow">Quadra 3</p><span class="tag ok">Ativa</span></div><p class="b2 muted">Beach tennis</p><p class="cap muted">R$ 100,00/hora · reserva de 60 min</p></div>
+                </div>
+                <div class="card wpainel">
+                  <div class="row sb"><p class="t3">Nova quadra</p><button class="btn inline claro">Adicionar quadra</button></div>
+                  <div class="campos">
+                    <div class="campo"><p class="capm muted">Nome da quadra</p><div class="input foco">Quadra 4 (coberta)</div></div>
+                    <div class="campo"><p class="b2m muted">Modalidade (opcional)</p><div class="campo-sel"><i data-lucide="volleyball" class="ic-l"></i><span>Vôlei de Praia</span><i data-lucide="chevron-down"></i></div></div>
+                  </div>
+                  <div class="campos">
+                    <div class="campo"><p class="capm muted">Preço por hora</p><div class="input">110,00</div></div>
+                    <div class="campo"><p class="capm muted">Duração do horário reservável</p><div class="chips"><span class="chip">30 min</span><span class="chip">60 min</span><span class="chip sel-app">90 min</span><span class="chip">120 min</span></div></div>
+                  </div>
+                  <div class="faixa-ativa"><div class="grow"><p class="b2m">Aberta pra reserva</p><p class="cap muted">Desativada, ela some da agenda e não aceita reserva.</p></div><span class="toggle-ios"></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W4 Remover -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Remover quadra</b><span>No navegador, apagar pede confirmação. No celular, a lixeira apaga direto.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-courts</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="arena" data-item="Quadras">
+            <div class="shell-conteudo">
+              <div class="wcab"><div class="textos"><p class="t1">Quadras</p><p class="b2 muted">Arena Maré Alta · 3 quadra(s) · 3 ativa(s)</p></div><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div>
+              <div class="wcols">
+                <div class="wlista">
+                  <div class="nova"><i data-lucide="plus"></i>Adicionar quadra</div>
+                  <div class="cq"><div class="row"><p class="b1m grow">Quadra 1</p><span class="tag ok">Ativa</span></div><p class="b2 muted">Futevôlei</p><p class="cap muted">R$ 90,00/hora · reserva de 60 min</p></div>
+                  <div class="cq ativa"><div class="row"><p class="b1m grow">Quadra 2</p><span class="tag ok">Ativa</span></div><p class="b2 muted">Futevôlei</p><p class="cap muted">R$ 90,00/hora · reserva de 60 min</p></div>
+                  <div class="cq"><div class="row"><p class="b1m grow">Quadra 3</p><span class="tag ok">Ativa</span></div><p class="b2 muted">Beach tennis</p><p class="cap muted">R$ 100,00/hora · reserva de 60 min</p></div>
+                </div>
+                <div class="card wpainel">
+                  <div class="row sb"><p class="t3">Editar quadra</p><button class="btn inline claro">Salvar alterações</button></div>
+                  <div class="campos">
+                    <div class="campo"><p class="capm muted">Nome da quadra</p><div class="input">Quadra 2</div></div>
+                    <div class="campo"><p class="b2m muted">Modalidade (opcional)</p><div class="campo-sel"><i data-lucide="volleyball" class="ic-l"></i><span>Futevôlei</span><i data-lucide="chevron-down"></i></div></div>
+                  </div>
+                  <div class="faixa-ativa"><div class="grow"><p class="b2m">Aberta pra reserva</p><p class="cap muted">Desativada, ela some da agenda e não aceita reserva.</p></div><span class="toggle-ios"></span></div>
+                  <div class="duas">
+                    <div class="campo"><div class="tsec"><p class="b1m">Bloqueios de agenda</p><p class="capm laranja">Novo bloqueio</p></div><p class="cap muted">Nenhum bloqueio</p></div>
+                    <div class="campo"><div class="tsec"><p class="b1m">Horário fixo</p><p class="capm laranja">Novo horário fixo</p></div><div class="item"><span class="ico quente"><i data-lucide="clock"></i></span><div class="grow"><p class="b2m">Sáb · 09:00</p><p class="cap muted">Ju Teixeira · 8 semana(s)</p></div><i data-lucide="chevron-right"></i></div></div>
+                  </div>
+                  <div class="sep"><div class="tsec"><p class="b1m">Preço por horário</p><p class="capm laranja">Adicionar faixa</p></div><p class="cap muted">Nenhuma faixa de preço</p></div>
+                  <div class="rodape-p"><p class="capm vermelho">Remover quadra</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="confirma"><b style="font-weight:600">app.desafiae.com diz</b><span>Apagar Quadra 2? Não dá pra desfazer.</span><div class="bts"><span>Cancelar</span><span class="ok">OK</span></div></div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Como cobro mais caro no horário nobre?</summary><p>Crie uma faixa de preço em “Preço por horário”, escolhendo a quadra e o dia da semana. Fora das faixas vale o preço padrão da quadra.</p></details>
+    <details><summary>E se a reserva pegar duas faixas de preço?</summary><p>Ela é cobrada de forma proporcional ao tempo em cada faixa.</p></details>
+    <details><summary>Como fecho a quadra para manutenção?</summary><p>Em “Bloqueios de agenda”, bloqueie uma quadra ou todas pelo período que precisar, com motivo opcional.</p></details>
+    <details><summary>O que acontece se eu desativar uma quadra?</summary><p>Ela some da agenda e deixa de aceitar reservas.</p></details>
+    <details><summary>O bloqueio deixa a quadra como ocupada no Painel?</summary><p>Não. Bloqueio fica fora da ocupação, e quadra bloqueada hoje não entra no alerta de quadra parada.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

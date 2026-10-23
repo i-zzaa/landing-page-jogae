@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meus atletas e vínculos · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* CSS só desta página, sempre com as variáveis do kit (nunca cor solta) */
+  .screen-body.lista { padding: 0; gap: 0; }
+  .app-hdr { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 20px; min-height: 48px; }
+  .app-hdr .lado { width: 24px; display: flex; }
+  .app-hdr .lado svg { width: 24px; height: 24px; }
+  .app-hdr .titulo { flex: 1; text-align: center; font: 600 18px/26px var(--font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .corpo { padding: 12px 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .corpo.g12 { gap: 12px; }
+  .corpo.g8 { gap: 8px; }
+  .rodape { flex: none; padding: 12px 20px 34px; display: flex; flex-direction: column; gap: 8px; background: var(--background); }
+  .btn { font-weight: 500; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.dng { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  .btn.out { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+  .btn.flex1 { flex: 1; }
+  /* SegmentedControl do aparelho: ativa em laranja sólido */
+  .segapp { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .segapp span { flex: 1; text-align: center; padding: 8px 4px; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); white-space: nowrap; }
+  .segapp span.on { background: var(--primary); color: var(--text-inverse); }
+  /* WebSegmented: trilho cinza, ativa branca */
+  .segweb { display: inline-flex; background: var(--neutral-soft); border-radius: 12px; padding: 4px; align-self: flex-start; }
+  .segweb span { height: 30px; display: inline-flex; align-items: center; gap: 4px; padding: 0 12px; border-radius: 8px; font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .segweb span.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow-card); }
+  .segweb span b { font: 500 12px/16px var(--font); color: var(--text-muted); }
+  .chip-aluno { padding: 2px 8px; border-radius: 999px; background: var(--info-soft); color: var(--info); font: 400 12px/16px var(--font); }
+  .chip-aluno.web { background: var(--primary-soft); color: var(--primary-dark); }
+  .chip-mod { padding: 2px 8px; border-radius: 999px; background: var(--primary-wash); color: var(--primary); font: 400 12px/16px var(--font); }
+  .cat { display: block; object-fit: contain; flex: none; }
+  .cat18 { height: 18px; width: 18px; } .cat20 { height: 20px; width: 20px; } .cat24 { height: 24px; width: 24px; } .cat32 { height: 32px; width: 32px; } .cat36 { height: 36px; width: 36px; } .cat42 { height: 42px; width: 42px; }
+  .card.cc { display: flex; flex-direction: column; gap: 8px; }
+  .top-atleta { display: flex; align-items: center; gap: 8px; }
+  .top-atleta .textos { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .titulo-linha { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .chev { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .plano-bloco { display: flex; flex-direction: column; gap: 4px; padding-top: 8px; border-top: 1px solid var(--border); }
+  .ptab-cab, .ptab-lin { display: flex; align-items: center; gap: 8px; }
+  .ptab-cab { padding-bottom: 4px; }
+  .ptab-lin { padding: 8px 0; border-top: 1px solid var(--border); }
+  .ptab-plano { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .ptab-valor { width: 72px; } .ptab-sit { width: 92px; }
+  .ult { padding-top: 8px; border-top: 1px solid var(--border); }
+  .aviso { color: var(--warning); } .perigo { color: var(--danger); }
+  .grupo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .lrow { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; background: var(--surface); }
+  .lrow + .lrow { border-top: 1px solid var(--border); margin-left: 0; }
+  .lrow > svg { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .lrow .rot { flex: 1; font: 400 16px/24px var(--font); }
+  .lrow .val { font: 500 14px/20px var(--font); color: var(--primary); }
+  .sheet.app { background: var(--background); padding: 20px; gap: 12px; border-radius: 20px 20px 0 0; }
+  .sheet.app::before { display: none; }
+  .sheet-cab { display: flex; align-items: center; gap: 12px; }
+  .sheet-cab .t3 { flex: 1; }
+  .sheet-cab svg { width: 24px; height: 24px; }
+  .opcao { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .opcao .txt { flex: 1; display: flex; flex-direction: column; }
+  .alerta-ios { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 270px; background: var(--surface); border-radius: 14px; z-index: 9; overflow: hidden; text-align: center; }
+  .alerta-ios .txt { padding: 18px 16px 16px; display: grid; gap: 4px; }
+  .alerta-ios .txt b { font: 600 17px/22px var(--font); }
+  .alerta-ios .txt span { font: 400 13px/18px var(--font); }
+  .alerta-ios .bts { display: flex; border-top: 1px solid var(--border); }
+  .alerta-ios .bts span { flex: 1; padding: 11px 0; font: 400 17px/22px var(--font); color: var(--info); }
+  .alerta-ios .bts span + span { border-left: 1px solid var(--border); font-weight: 600; }
+  .empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 20px; text-align: center; }
+  .empty img { width: 124px; height: 95px; object-fit: contain; margin-bottom: 4px; }
+  .hscroll { display: flex; gap: 12px; overflow: hidden; }
+  .hcard { width: 240px; flex: none; display: flex; flex-direction: column; gap: 8px; }
+  .toast.ok { background: var(--success); }
+  .toast svg { width: 20px; height: 20px; flex: none; }
+  .stile { flex: 1; display: flex; flex-direction: column; gap: 4px; padding: 12px; }
+  .stile .ico { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .stile .ico svg { width: 18px; height: 18px; }
+  .ico.info { background: var(--info-soft); color: var(--info); } .ico.ouro { background: var(--accent-soft); color: var(--gold); } .ico.verde { background: var(--success-soft); color: var(--success); }
+  .mvp { display: flex; align-items: center; gap: 12px; }
+  .mvp .coroa { width: 44px; height: 44px; border-radius: 22px; background: var(--accent-soft); color: var(--gold); display: flex; align-items: center; justify-content: center; flex: none; }
+  .conq { width: 36px; height: 36px; border-radius: 999px; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; flex: none; }
+  .conq svg { width: 16px; height: 16px; }
+  .fav { background: var(--primary-wash); border-color: var(--primary-tint); display: flex; flex-direction: column; gap: 8px; }
+  .elite { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; background: var(--secondary); color: var(--accent); font: 500 12px/16px var(--font); }
+  .elite svg { width: 12px; height: 12px; }
+  .mod-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; }
+  .mod-row + .mod-row, .mod-row + .mod-painel + .mod-row { border-top: 1px solid var(--border); }
+  .mod-row .rot { flex: 1; font: 400 16px/24px var(--font); }
+  .mod-painel { display: flex; flex-direction: column; gap: 8px; padding: 0 16px 16px; }
+  .niveis-app { display: flex; gap: 16px; }
+  .niveis-app > div { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .moderacao { display: flex; gap: 16px; }
+  .moderacao span { display: inline-flex; align-items: center; gap: 4px; font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .moderacao svg { width: 14px; height: 14px; }
+  .chip.nivel { padding: 0 10px; }
+  /* painel web */
+  .sino { padding: 4px; position: relative; display: inline-flex; }
+  .sino svg { width: 24px; height: 24px; }
+  .sino .badge-dot { top: 0; right: 0; }
+  .filtros { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .busca-web { width: 300px; }
+  .colunas { display: flex; align-items: flex-start; gap: 16px; }
+  .tab-web { flex: 1; min-width: 0; }
+  .wlin { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-top: 1px solid var(--border); }
+  .wlin.cab { border-top: 0; padding: 8px 16px; }
+  .wlin.cab > * { font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .wlin.aberta { background: var(--primary-wash); }
+  .c-atleta { flex: 1; min-width: 170px; display: flex; align-items: center; gap: 8px; }
+  .c-atleta .tx { flex-shrink: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .c-atleta .tx p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .c-plano { width: 190px; display: flex; flex-direction: column; gap: 2px; } .c-valor { width: 110px; } .c-sit { width: 190px; display: flex; flex-direction: column; gap: 4px; align-items: flex-start; } .c-ativ { width: 170px; } .c-seta { width: 16px; color: var(--text-muted); }
+  .apertado .c-plano { width: 150px; } .apertado .c-valor { width: 90px; } .apertado .c-sit { width: 150px; } .apertado .c-atleta { min-width: 120px; }
+  .c-seta svg { width: 16px; height: 16px; }
+  .c-plano, .c-valor, .c-sit, .c-ativ { flex-shrink: 1; min-width: 0; }
+  .shell { min-width: 0; } .shell-conteudo > *, .colunas > * { min-width: 0; }
+  .c-plano p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .painel-lado { width: 340px; flex: none; display: flex; flex-direction: column; gap: 12px; }
+  .painel-topo { display: flex; align-items: center; gap: 12px; }
+  .painel-topo > svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .fechar-q { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex: none; }
+  .fechar-q svg { width: 16px; height: 16px; }
+  .plano-card { display: flex; flex-direction: column; gap: 4px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .acoes-plano { display: flex; flex-direction: column; gap: 8px; padding-top: 4px; }
+  .link { font: 500 12px/16px var(--font); color: var(--primary); }
+  .c-pessoa { flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; } .c-papel { width: 160px; } .c-acao { width: 40px; display: flex; justify-content: flex-end; color: var(--text-muted); }
+  .c-acao svg { width: 20px; height: 20px; }
+  .c-mod { width: 150px; } .c-nivel { width: 170px; display: flex; align-items: center; gap: 8px; } .c-data { width: 110px; }
+  .c-mod2 { width: 170px; } .c-data2 { width: 120px; } .c-acoes { width: 260px; display: flex; gap: 8px; justify-content: flex-end; }
+  .c-acoes .btn { width: auto; flex: 1; }
+  .mod-lista { width: 340px; flex: none; }
+  .mod-lista .topo-l { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 16px 16px 12px; }
+  .mlin { display: flex; align-items: center; gap: 12px; padding: 8px 16px; position: relative; }
+  .mlin.aberta { background: var(--primary-wash); }
+  .mlin.aberta::before { content: ""; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px; border-radius: 0 3px 3px 0; background: var(--primary); }
+  .mlin .tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .mod-det { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+  .mod-ico { width: 48px; height: 48px; border-radius: 999px; background: var(--primary-wash); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .mod-ico svg { width: 20px; height: 20px; }
+  .niveis-web { display: flex; flex-wrap: wrap; gap: 12px; }
+  .niveis-web > div { flex: 1 1 120px; display: flex; flex-direction: column; align-items: center; gap: 8px; border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+  .apagado { opacity: .35; }
+  .perfil-web { width: 100%; max-width: 820px; align-self: center; display: flex; flex-direction: column; gap: 16px; }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="arena" data-fluxo="atletas"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Meus atletas e vínculos</h1>
+  <p>Você liga as modalidades que a arena oferece, aprova quem pede vínculo e os pedidos de nível, acompanha cada atleta numa lista só (com plano, valor e vencimento da mensalidade) e escolhe quem da equipe ajuda a administrar. Tudo começa na aba Ajustes.</p>
+  <ul class="regras">
+    <li>Só a arena com vínculo aprovado do atleta numa modalidade valida o nível dele ali. Se o atleta trocar de arena nessa modalidade ou redeclarar o próprio nível, a validação cai.</li>
+    <li>Plano de aluno e mensalidade valem em qualquer plano ativo da arena, a partir do Básico. Sem plano ativo, a aba "Em aberto" e o botão de confirmar plano não aparecem.</li>
+    <li>Só conta de jogador entra na equipe da arena. O convite recusa conta de arena.</li>
+    <li>Só o administrador convida ou remove pessoas da equipe. Gerente e atendente só veem a lista.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 Ajustes -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Configurações (aba Ajustes)</b><span>Na aba Ajustes você encontra "Modalidades e níveis", "Usuários vinculados" e "Meus atletas".</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body com-abas">
+          <div style="padding:16px 0"><p class="t1">Configurações</p></div>
+          <div class="grupo">
+            <div class="lrow"><i data-lucide="building-2"></i><span class="rot">Perfil da arena</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="wrench"></i><span class="rot">Serviços e estrutura</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="trophy"></i><span class="rot">Modalidades e níveis</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="swords"></i><span class="rot">Desafios de arena</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="repeat"></i><span class="rot">Desafio recorrente</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="layout-grid"></i><span class="rot">Quadras</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="calendar-sync"></i><span class="rot">Horário fixo</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="graduation-cap"></i><span class="rot">Aulas</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="calendar-range"></i><span class="rot">Temporadas</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="clipboard-list"></i><span class="rot">Planos de alunos</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="calendar-clock"></i><span class="rot">Reservas</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="zap"></i><span class="rot">Ofertas relâmpago</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="users"></i><span class="rot">Usuários vinculados</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="chart-line"></i><span class="rot">Analytics</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="users-round"></i><span class="rot">Meus atletas</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="bell"></i><span class="rot">Lembretes</span><i data-lucide="chevron-right" class="chev"></i></div>
+          </div>
+        </div>
+        <div class="tabbar" data-abas="arena" data-ativa="ajustes"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 Modalidades -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Modalidades</b><span>Ligue as modalidades da arena. Toque numa para ver os níveis aceitos e o regulamento padrão de torneio.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Modalidades</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="card"><div class="row sb"><span class="capm muted">O que significa cada nível</span><i data-lucide="chevron-down" class="ic16 muted"></i></div></div>
+            <div class="grupo">
+              <div class="mod-row"><span class="rot">Beach Tennis</span><i data-lucide="chevron-down" class="chev"></i><span class="toggle on"></span></div>
+              <div class="mod-row"><span class="rot">Corrida</span><span class="toggle"></span></div>
+              <div class="mod-row"><span class="rot">CrossFit</span><span class="toggle"></span></div>
+              <div class="mod-row"><span class="rot">Futebol</span><span class="toggle"></span></div>
+              <div class="mod-row"><span class="rot">Futevôlei</span><i data-lucide="chevron-up" class="chev"></i><span class="toggle on"></span></div>
+              <div class="mod-painel">
+                <p class="b2m">Níveis permitidos</p>
+                <div class="niveis-app">
+                  <div><img class="cat cat32" src="../img/categoria-d.png" alt="D"><span class="toggle"></span></div>
+                  <div><img class="cat cat32" src="../img/categoria-c.png" alt="C"><span class="toggle on"></span></div>
+                  <div><img class="cat cat32" src="../img/categoria-b.png" alt="B"><span class="toggle on"></span></div>
+                  <div><img class="cat cat32" src="../img/categoria-a.png" alt="A"><span class="toggle on"></span></div>
+                </div>
+                <div class="col g8" style="margin-top:12px">
+                  <p class="b2m">Regulamento de torneio</p>
+                  <div class="input area" style="min-height:104px"><span class="b2">Tolerância de 15 min de atraso; depois disso é W.O. Bola oficial Mikasa FT-5. Jogos em set único de 18 pontos.</span></div>
+                  <p class="cap muted">O regulamento entra automaticamente nos torneios novos da modalidade. Dá pra ajustar em cada torneio.</p>
+                  <button class="btn sec">Salvar regulamento</button>
+                </div>
+              </div>
+              <div class="mod-row"><span class="rot">Futsal</span><span class="toggle"></span></div>
+              <div class="mod-row"><span class="rot">Hyrox</span><span class="toggle"></span></div>
+              <div class="mod-row"><span class="rot">Padel</span><span class="toggle"></span></div>
+              <div class="mod-row"><span class="rot">Tênis</span><span class="toggle"></span></div>
+              <div class="mod-row"><span class="rot">Vôlei</span><i data-lucide="chevron-down" class="chev"></i><span class="toggle on"></span></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 Painel: seções de pedidos -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Painel — pedidos pendentes</b><span>No Painel, os pedidos de nível e de vínculo aparecem em carrossel. Toque em "Ver todas" ou "Ver todos" para abrir a lista completa.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas" style="gap:32px;padding-top:16px">
+          <div class="col">
+            <div class="sec-hdr"><p class="t3">Precisa de você</p></div>
+            <div class="grupo">
+              <div class="lrow"><div class="grow"><p class="b2m">Mensalidades vencidas</p><p class="cap muted">2 esperando</p></div><i data-lucide="chevron-right" class="ic16 muted"></i></div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="sec-hdr"><p class="t3">Aprovações pendentes</p><a>Ver todas</a></div>
+            <div class="hscroll">
+              <div class="card hcard"><div class="row" style="gap:8px"><span class="avatar sm">B</span><img class="cat cat20" src="../img/categoria-b.png" alt=""><p class="b1m grow">Bia Moreira</p></div><p class="b2 muted">Beach Tennis</p></div>
+              <div class="card hcard"><div class="row" style="gap:8px"><span class="avatar sm">D</span><img class="cat cat20" src="../img/categoria-a.png" alt=""><p class="b1m grow">Duda Martins</p></div><p class="b2 muted">Futevôlei</p></div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="sec-hdr"><p class="t3">Pedidos de vínculo</p><a>Ver todos</a></div>
+            <div class="hscroll">
+              <div class="card hcard"><div class="row" style="gap:8px"><span class="avatar sm">M</span><p class="b1m grow">Marina Costa</p></div><p class="b2 muted">Futevôlei</p></div>
+              <div class="card hcard"><div class="row" style="gap:8px"><span class="avatar sm">T</span><p class="b1m grow">Théo Campos</p></div><p class="b2 muted">Beach Tennis</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="tabbar" data-abas="arena" data-ativa="painel"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 Pedidos de vínculo -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Pedidos de vínculo</b><span>Aprove ou recuse quem pediu para entrar numa modalidade da arena. Os aprovados e os rejeitados ficam nas outras abas.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Pedidos de vínculo</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="segapp"><span class="on">Pendentes</span><span>Aprovados</span><span>Rejeitados</span></div>
+            <div class="col">
+              <div class="card cc"><p class="b1m">Marina Costa</p><p class="b2 muted">Futevôlei · pedido em 26/09</p><div class="row" style="gap:8px;margin-top:8px"><button class="btn dng flex1">Recusar</button><button class="btn flex1">Aprovar</button></div></div>
+              <div class="card cc"><p class="b1m">Théo Campos</p><p class="b2 muted">Beach Tennis · pedido em 27/09</p><div class="row" style="gap:8px;margin-top:8px"><button class="btn dng flex1">Recusar</button><button class="btn flex1">Aprovar</button></div></div>
+              <div class="card cc"><p class="b1m">Iago Souza</p><p class="b2 muted">Vôlei · pedido em 27/09</p><div class="row" style="gap:8px;margin-top:8px"><button class="btn dng flex1">Recusar</button><button class="btn flex1">Aprovar</button></div></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 Pedidos vazio -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Pedidos de vínculo — sem pedidos</b><span>Quando não há pedidos, a tela avisa que eles vão aparecer aqui.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Pedidos de vínculo</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="segapp"><span class="on">Pendentes</span><span>Aprovados</span><span>Rejeitados</span></div>
+            <div class="empty"><img src="../img/mascote-em-acao.png" alt=""><p class="t3">Nada por aqui… por enquanto</p><p class="b2 muted">Pedidos pra entrar numa modalidade da sua arena caem nesta lista.</p></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 Aprovações de nível -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Aprovações de nível</b><span>Escolha o nível a conceder (o nível pedido já vem marcado) e aprove, ou rejeite.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Aprovações de nível</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="segapp"><span class="on">Pendentes</span><span>Aprovados</span><span>Rejeitados</span></div>
+            <div class="col">
+              <div class="card cc">
+                <div class="row" style="gap:8px"><img class="cat cat20" src="../img/categoria-b.png" alt=""><p class="b1m">Bia Moreira</p></div>
+                <p class="b2 muted">Beach Tennis · solicitou nível B · 25/09</p>
+                <p class="cap muted" style="margin-top:4px">Nível a conceder</p>
+                <div class="row" style="gap:8px">
+                  <span class="chip nivel"><img class="cat cat20" src="../img/categoria-d.png" alt="D"></span>
+                  <span class="chip nivel"><img class="cat cat20" src="../img/categoria-c.png" alt="C"></span>
+                  <span class="chip nivel on-laranja"><img class="cat cat20" src="../img/categoria-b.png" alt="B"></span>
+                  <span class="chip nivel"><img class="cat cat20" src="../img/categoria-a.png" alt="A"></span>
+                  <span class="chip nivel"><img class="cat cat20" src="../img/categoria-p.png" alt="P"></span>
+                </div>
+                <div class="row" style="gap:8px;margin-top:8px"><button class="btn dng flex1">Rejeitar</button><button class="btn flex1">Aprovar</button></div>
+              </div>
+              <div class="card cc">
+                <div class="row" style="gap:8px"><img class="cat cat20" src="../img/categoria-a.png" alt=""><p class="b1m">Duda Martins</p></div>
+                <p class="b2 muted">Futevôlei · solicitou nível A · 26/09</p>
+                <p class="cap muted" style="margin-top:4px">Nível a conceder</p>
+                <div class="row" style="gap:8px">
+                  <span class="chip nivel"><img class="cat cat20" src="../img/categoria-d.png" alt="D"></span>
+                  <span class="chip nivel"><img class="cat cat20" src="../img/categoria-c.png" alt="C"></span>
+                  <span class="chip nivel on-laranja"><img class="cat cat20" src="../img/categoria-b.png" alt="B"></span>
+                  <span class="chip nivel"><img class="cat cat20" src="../img/categoria-a.png" alt="A"></span>
+                  <span class="chip nivel"><img class="cat cat20" src="../img/categoria-p.png" alt="P"></span>
+                </div>
+                <div class="row" style="gap:8px;margin-top:8px"><button class="btn dng flex1">Rejeitar</button><button class="btn flex1">Aprovar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 Meus atletas -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Meus atletas</b><span>Seus clientes e alunos ficam numa lista só. Abra o card para ver modalidades, uso da arena e planos; com dois planos, eles aparecem em tabela.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Meus atletas</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo g8">
+            <div class="input"><i data-lucide="search" style="color:var(--primary)"></i><span class="ph">Buscar por nome</span></div>
+            <div class="segapp"><span class="on">Mais recentes</span><span>Sumiram</span><span>Em aberto</span></div>
+          </div>
+          <div class="corpo g12" style="padding-top:12px">
+            <div class="card cc">
+              <div class="top-atleta"><span class="avatar sm">B</span><div class="textos"><div class="titulo-linha"><p class="b1m">Bia Moreira</p><span class="chip-aluno">Aluno</span><span class="tag sem-ponto aviso">Atrasado</span></div></div><i data-lucide="chevron-up" class="chev"></i></div>
+              <div class="row" style="gap:4px"><span class="chip-mod">Futevôlei</span><span class="chip-mod">Beach Tennis</span></div>
+              <p class="b2 muted">14 partida(s) aqui · 6 reserva(s) aqui</p>
+              <div class="plano-bloco">
+                <div class="ptab-cab"><span class="cap muted ptab-plano">PLANO</span><span class="cap muted ptab-valor">VALOR</span><span class="cap muted ptab-sit">SITUAÇÃO</span><span style="width:16px"></span></div>
+                <div class="ptab-lin"><div class="ptab-plano"><p class="b2m">Futevôlei 2x</p><p class="cap laranja">Futevôlei</p></div><span class="b2 muted ptab-valor num">R$ 180,00</span><span class="cap aviso ptab-sit">Venceu em 20/09</span><i data-lucide="chevron-right" class="ic16 muted"></i></div>
+                <div class="ptab-lin"><div class="ptab-plano"><p class="b2m">Beach livre</p><p class="cap laranja">Beach Tennis</p></div><span class="b2 muted ptab-valor num">R$ 240,00</span><span class="cap muted ptab-sit">Vence em 10/10</span><i data-lucide="chevron-right" class="ic16 muted"></i></div>
+              </div>
+              <div class="ult"><p class="cap muted">Última vez: 27/09</p></div>
+            </div>
+            <div class="card cc">
+              <div class="top-atleta"><span class="avatar sm">C</span><div class="textos"><div class="titulo-linha"><p class="b1m">Caio Nunes</p><span class="chip-aluno">Aluno</span><span class="tag sem-ponto ok">Em dia</span></div><p class="cap muted">Nenhuma mensalidade em aberto</p></div><i data-lucide="chevron-down" class="chev"></i></div>
+            </div>
+            <div class="card cc">
+              <div class="top-atleta"><span class="avatar sm">D</span><div class="textos"><div class="titulo-linha"><p class="b1m">Duda Martins</p></div></div><i data-lucide="chevron-down" class="chev"></i></div>
+            </div>
+            <div class="card cc">
+              <div class="top-atleta"><span class="avatar sm">L</span><div class="textos"><div class="titulo-linha"><p class="b1m">Léo Andrade</p><span class="chip-aluno">Aluno</span><span class="tag sem-ponto aviso">Aguardando pagamento</span></div><p class="cap muted">Vence em 05/10</p></div><i data-lucide="chevron-down" class="chev"></i></div>
+            </div>
+            <div class="card cc">
+              <div class="top-atleta"><span class="avatar sm">P</span><div class="textos"><div class="titulo-linha"><p class="b1m">Pedro Salles</p></div></div><i data-lucide="chevron-down" class="chev"></i></div>
+            </div>
+          </div>
+          <div style="flex:1"></div>
+        </div>
+        <div class="rodape"><button class="btn sec">Confirmar plano de aluno</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 Folha do plano -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Ações do plano</b><span>Toque num plano para ver as ações: marcar a mensalidade como paga (quando há uma em aberto) ou cancelar o plano.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Meus atletas</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo g8">
+            <div class="input"><i data-lucide="search" style="color:var(--primary)"></i><span class="ph">Buscar por nome</span></div>
+            <div class="segapp"><span class="on">Mais recentes</span><span>Sumiram</span><span>Em aberto</span></div>
+          </div>
+          <div class="corpo"><div class="card cc"><div class="top-atleta"><span class="avatar sm">B</span><div class="textos"><div class="titulo-linha"><p class="b1m">Bia Moreira</p><span class="chip-aluno">Aluno</span><span class="tag sem-ponto aviso">Atrasado</span></div></div><i data-lucide="chevron-up" class="chev"></i></div></div></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="sheet app">
+          <div class="sheet-cab"><p class="t3">Futevôlei 2x</p><i data-lucide="x"></i></div>
+          <p class="b2 muted">Futevôlei</p>
+          <p class="b2 muted">R$ 180,00/mês · 2x por semana</p>
+          <p class="cap aviso">Venceu em 20/09</p>
+          <button class="btn out">Marcar como pago</button>
+          <button class="btn dng">Cancelar plano</button>
+          <div style="height:14px"></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 9 Alerta marcar pago -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">9</div>
+        <div class="passo-txt"><b>Confirmar pagamento</b><span>Use quando o aluno pagou direto na arena. "Cancelar plano" pede uma confirmação parecida.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Meus atletas</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo g8">
+            <div class="input"><i data-lucide="search" style="color:var(--primary)"></i><span class="ph">Buscar por nome</span></div>
+            <div class="segapp"><span class="on">Mais recentes</span><span>Sumiram</span><span>Em aberto</span></div>
+          </div>
+          <div class="corpo"><div class="card cc"><div class="top-atleta"><span class="avatar sm">B</span><div class="textos"><div class="titulo-linha"><p class="b1m">Bia Moreira</p><span class="chip-aluno">Aluno</span><span class="tag sem-ponto aviso">Atrasado</span></div></div><i data-lucide="chevron-up" class="chev"></i></div></div></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="alerta-ios">
+          <div class="txt"><b>Marcar como pago?</b><span>Use quando o aluno pagou R$ 180,00 direto na arena.</span></div>
+          <div class="bts"><span>Voltar</span><span>Marcar pago</span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 10 Em aberto -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">10</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Meus atletas — Em aberto</b><span>Mostra só quem tem mensalidade em aberto; a vencida aparece em laranja. Se não houver nenhuma, aparece "Nenhuma mensalidade em aberto".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Meus atletas</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo g8">
+            <div class="input"><i data-lucide="search" style="color:var(--primary)"></i><span class="ph">Buscar por nome</span></div>
+            <div class="segapp"><span>Mais recentes</span><span>Sumiram</span><span class="on">Em aberto</span></div>
+          </div>
+          <div class="corpo g12" style="padding-top:12px">
+            <div class="card cc"><div class="top-atleta"><span class="avatar sm">C</span><div class="textos"><div class="titulo-linha"><p class="b1m">Carol Prado</p><span class="chip-aluno">Aluno</span><span class="tag sem-ponto aviso">Atrasado</span></div><p class="cap aviso">Venceu em 15/09</p></div><i data-lucide="chevron-down" class="chev"></i></div></div>
+            <div class="card cc"><div class="top-atleta"><span class="avatar sm">B</span><div class="textos"><div class="titulo-linha"><p class="b1m">Bia Moreira</p><span class="chip-aluno">Aluno</span><span class="tag sem-ponto aviso">Atrasado</span></div><div class="row" style="gap:8px"><p class="cap aviso">Venceu em 20/09</p><p class="cap muted">2 planos</p></div></div><i data-lucide="chevron-down" class="chev"></i></div></div>
+            <div class="card cc"><div class="top-atleta"><span class="avatar sm">L</span><div class="textos"><div class="titulo-linha"><p class="b1m">Léo Andrade</p><span class="chip-aluno">Aluno</span><span class="tag sem-ponto aviso">Aguardando pagamento</span></div><p class="cap muted">Vence em 05/10</p></div><i data-lucide="chevron-down" class="chev"></i></div></div>
+          </div>
+          <div style="flex:1"></div>
+        </div>
+        <div class="rodape"><button class="btn sec">Confirmar plano de aluno</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 11 Sumiram -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">11</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Meus atletas — Sumiram</b><span>Mostra quem não aparece há 21 dias ou mais. "Chamar de volta" manda um convite para até 50 pessoas sem plano, e o aviso diz quantos convites saíram.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="toast ok"><i data-lucide="circle-check"></i>Convite enviado para 3 cliente(s).</div>
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Meus atletas</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo g8">
+            <div class="input"><i data-lucide="search" style="color:var(--primary)"></i><span class="ph">Buscar por nome</span></div>
+            <div class="segapp"><span>Mais recentes</span><span class="on">Sumiram</span><span>Em aberto</span></div>
+          </div>
+          <div class="corpo g12" style="padding-top:12px">
+            <div class="card cc">
+              <div class="top-atleta"><span class="avatar sm">N</span><div class="textos"><p class="b1m">Nanda Ribeiro</p></div><i data-lucide="chevron-up" class="chev"></i></div>
+              <div class="row" style="gap:4px"><span class="chip-mod">Futevôlei</span></div>
+              <p class="b2 muted">5 partida(s) aqui · 1 reserva(s) aqui</p>
+              <div class="ult"><p class="cap aviso">Sumiu há 23 dias</p></div>
+            </div>
+            <div class="card cc"><div class="top-atleta"><span class="avatar sm">G</span><div class="textos"><p class="b1m">Gui Barros</p></div><i data-lucide="chevron-down" class="chev"></i></div></div>
+            <div class="card cc"><div class="top-atleta"><span class="avatar sm">R</span><div class="textos"><p class="b1m">Rafa Lopes</p></div><i data-lucide="chevron-down" class="chev"></i></div></div>
+          </div>
+          <div style="flex:1"></div>
+        </div>
+        <div class="rodape"><button class="btn"><i data-lucide="send"></i>Chamar de volta (3)</button><button class="btn sec">Confirmar plano de aluno</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 12 Confirmar plano de aluno -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">12</div>
+        <div class="passo-txt"><b>Confirmar plano de aluno</b><span>Escolha um aluno vinculado e, na etapa seguinte, o plano dele. Aparece em qualquer plano ativo da arena, a partir do Básico.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Meus atletas</span><span class="lado"><i data-lucide="x"></i></span></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="sheet app">
+          <div class="sheet-cab"><p class="t3">Confirmar plano de aluno</p><i data-lucide="x"></i></div>
+          <p class="b2 muted">Escolha um aluno vinculado e o plano dele. A primeira mensalidade fica em aberto a partir de hoje.</p>
+          <div class="input"><i data-lucide="search" style="color:var(--primary)"></i><span class="ph">Buscar aluno</span></div>
+          <div>
+            <div class="opcao"><div class="txt"><span class="b1">Duda Martins</span><span class="b2 muted">Futevôlei, Beach Tennis</span></div><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="opcao"><div class="txt"><span class="b1">Marina Costa</span><span class="b2 muted">Futevôlei</span></div><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="opcao"><div class="txt"><span class="b1">Pedro Salles</span><span class="b2 muted">Futevôlei</span></div><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="opcao" style="border-bottom:0"><div class="txt"><span class="b1">Théo Campos</span><span class="b2 muted">Beach Tennis</span></div><i data-lucide="chevron-right" class="chev"></i></div>
+          </div>
+          <div style="height:14px"></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 13 Perfil do jogador -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">13</div>
+        <div class="passo-txt"><b>Perfil do jogador</b><span>Toque no card para abrir o perfil do jogador. Pela conta da arena não existe "Desafiar", mas dá para denunciar ou bloquear.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Jogador</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo" style="gap:0;padding-bottom:32px">
+            <div class="row" style="padding:16px 0"><span class="avatar xl">B</span><div class="col g4 grow"><div class="row" style="gap:4px"><p class="t3">Bia Moreira</p><span class="elite"><i data-lucide="gem"></i>Elite</span></div><div class="row" style="gap:4px"><img class="cat cat18" src="../img/categoria-b.png" alt=""><span class="b2 muted">Futevôlei</span></div></div></div>
+            <div class="moderacao" style="margin-bottom:12px"><span><i data-lucide="flag"></i>Denunciar</span><span><i data-lucide="user-x"></i>Bloquear</span></div>
+            <div class="card row" style="margin-bottom:16px;gap:12px"><span class="mod-ico" style="width:40px;height:40px"><i data-lucide="trophy"></i></span><div class="grow"><p class="b2m">4º</p><p class="cap muted">Florianópolis · Futevôlei · entre 38 atletas</p></div><i data-lucide="chevron-right" class="ic16 muted"></i></div>
+            <div class="row" style="gap:8px;margin-bottom:24px">
+              <div class="card stile"><span class="ico info"><i data-lucide="calendar"></i></span><span class="cap muted">Partidas</span><span class="t2">32</span></div>
+              <div class="card stile"><span class="ico ouro"><i data-lucide="trophy"></i></span><span class="cap muted">Vitórias</span><span class="t2">21</span></div>
+              <div class="card stile"><span class="ico verde"><i data-lucide="target"></i></span><span class="cap muted">Desempenho</span><span class="t2">66%</span></div>
+            </div>
+            <div class="card mvp" style="margin-bottom:24px"><span class="coroa"><i data-lucide="crown" class="ic"></i></span><div class="grow"><div class="row" style="gap:6px"><p class="t3">5x</p><p class="b1m">Craque do jogo</p></div><p class="cap muted">Eleito pelos jogadores no fim da partida</p></div></div>
+            <div class="col" style="margin-bottom:24px">
+              <p class="t3">Você x Bia Moreira</p>
+              <div class="empty" style="padding:16px 20px"><span class="mod-ico" style="background:var(--surface-alt);color:var(--text-muted);width:64px;height:64px"><i data-lucide="swords"></i></span><p class="t3">Vocês ainda não se enfrentaram</p><p class="b2 muted">Desafie pra começar o histórico.</p></div>
+            </div>
+            <div class="col" style="margin-bottom:24px">
+              <p class="t3">Conquistas</p>
+              <div class="row" style="gap:8px"><span class="conq"><i data-lucide="award"></i></span><div class="grow"><p class="b2m">Primeira vitória</p><p class="cap muted">Ganhou a primeira partida com placar lançado.</p></div></div>
+              <div class="row" style="gap:8px"><span class="conq"><i data-lucide="award"></i></span><div class="grow"><p class="b2m">Dez partidas</p><p class="cap muted">Jogou 10 partidas no app.</p></div></div>
+            </div>
+            <div class="col">
+              <p class="t3">Modalidades</p>
+              <div class="card fav"><div class="row" style="gap:8px"><img class="cat cat36" src="../img/categoria-b.png" alt=""><div class="col g4" style="gap:2px"><div class="row" style="gap:4px"><p class="b1m">Futevôlei</p><i data-lucide="star" class="ic16" style="color:var(--accent);fill:var(--accent)"></i></div><p class="cap muted">640 pts · 26 jogos</p></div></div><p class="cap muted">Validado por Arena Maré Alta · 12/08</p><div class="progress"><i style="width:100%"></i></div></div>
+              <div class="col g4"><div class="row sb"><div class="row" style="gap:4px"><img class="cat cat18" src="../img/categoria-c.png" alt=""><span class="cap muted">Beach Tennis</span></div><span class="cap muted">180 pts · 6 jogos</span></div><p class="cap muted">Validado por Arena Maré Alta · 03/09</p><div class="progress"><i style="width:28%;background:var(--text-muted)"></i></div></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 14 Usuários vinculados -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">14</div>
+        <div class="passo-txt"><b>Usuários vinculados</b><span>O administrador escolhe o papel, busca o jogador e toca em "Convidar". A lixeira tira a pessoa da equipe, com confirmação.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body lista">
+          <div class="app-hdr"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Usuários vinculados</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="col g8">
+              <p class="t3">Convidar</p>
+              <p class="b2m muted">Papel do convidado</p>
+              <div class="chips"><span class="chip">Administrador</span><span class="chip">Gerente</span><span class="chip on-laranja">Atendente</span><span class="chip">Professor</span></div>
+              <div class="input foco"><i data-lucide="search" style="color:var(--primary)"></i><span>Carol</span><i data-lucide="x" style="margin-left:auto"></i></div>
+              <div class="grupo">
+                <div class="lrow"><span class="avatar sm">C</span><span class="rot">Carol Prado</span><span class="b2m laranja">Convidar</span><i data-lucide="user-round"></i></div>
+                <div class="lrow"><span class="avatar sm">C</span><span class="rot">Carolina Dias</span><span class="b2m muted">Já vinculado</span><i data-lucide="user-round"></i></div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card row"><span class="avatar sm">A</span><div class="grow col g4" style="gap:2px"><p class="b1m">André Moura (você)</p><p class="b2 muted">Administrador</p></div><i data-lucide="trash-2" class="ic muted"></i></div>
+              <div class="card row"><span class="avatar sm">C</span><div class="grow col g4" style="gap:2px"><p class="b1m">Carolina Dias</p><p class="b2 muted">Gerente</p></div><i data-lucide="trash-2" class="ic muted"></i></div>
+              <div class="card row"><span class="avatar sm">V</span><div class="grow col g4" style="gap:2px"><p class="b1m">Vini Rocha</p><p class="b2 muted">Professor</p></div><i data-lucide="trash-2" class="ic muted"></i></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- NAVEGADOR -->
+<section class="trilho-fluxo web" data-plataforma="navegador">
+  <div class="passos">
+
+    <!-- W1 Modalidades e níveis -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Modalidades e níveis</b><span>No navegador, as modalidades ficam à esquerda (ativas primeiro). Clique numa para ver ao lado os níveis aceitos e o regulamento de torneio.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-modalities</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="pessoas" data-item="Modalidades e níveis">
+            <div class="shell-conteudo" style="gap:16px">
+              <div class="painel-cab"><div class="textos"><p class="t1">Modalidades e níveis</p><p class="b2 muted">Arena Maré Alta · 3 de 13 modalidades ativas</p></div><div class="acoes"><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div class="colunas" style="gap:24px;flex:1;min-height:0">
+                <div class="card sem-pad mod-lista">
+                  <div class="topo-l"><p class="b2m">Modalidades</p><p class="cap muted">3 ativas</p></div>
+                  <div class="mlin aberta"><div class="tx"><p class="b2m">Futevôlei</p><p class="cap muted">4 níveis · regulamento salvo</p></div><span class="toggle on"></span></div>
+                  <div class="mlin"><div class="tx"><p class="b2">Beach Tennis</p><p class="cap muted">4 níveis · sem regulamento</p></div><span class="toggle on"></span></div>
+                  <div class="mlin"><div class="tx"><p class="b2">Vôlei</p><p class="cap muted">4 níveis · sem regulamento</p></div><span class="toggle on"></span></div>
+                  <div class="mlin"><div class="tx"><p class="b2 muted">Corrida</p></div><span class="toggle"></span></div>
+                  <div class="mlin"><div class="tx"><p class="b2 muted">CrossFit</p></div><span class="toggle"></span></div>
+                  <div class="mlin"><div class="tx"><p class="b2 muted">Futebol</p></div><span class="toggle"></span></div>
+                  <div class="mlin"><div class="tx"><p class="b2 muted">Futebol Society</p></div><span class="toggle"></span></div>
+                  <div class="mlin"><div class="tx"><p class="b2 muted">Futsal</p></div><span class="toggle"></span></div>
+                  <div class="mlin"><div class="tx"><p class="b2 muted">Hyrox</p></div><span class="toggle"></span></div>
+                  <div class="mlin"><div class="tx"><p class="b2 muted">Padel</p></div><span class="toggle"></span></div>
+                  <div class="mlin"><div class="tx"><p class="b2 muted">Tênis</p></div><span class="toggle"></span></div>
+                </div>
+                <div class="card mod-det">
+                  <div class="painel-topo"><span class="mod-ico"><i data-lucide="volleyball"></i></span><div class="grow col" style="gap:2px"><p class="t2">Futevôlei</p><p class="cap muted">3 quadra(s) · 2 plano(s) de alunos · 4 torneio(s)</p></div><span class="tag sem-ponto ok">Ativa na arena</span></div>
+                  <div class="col">
+                    <div class="row sb" style="align-items:baseline"><p class="b2m">Níveis permitidos</p><p class="cap muted">Quem está fora do nível não entra nas partidas desta modalidade</p></div>
+                    <div class="niveis-web">
+                      <div><img class="cat cat42 apagado" src="../img/categoria-d.png" alt=""><span class="capm muted">Aprendiz</span><span class="toggle"></span></div>
+                      <div><img class="cat cat42" src="../img/categoria-c.png" alt=""><span class="capm">Iniciante</span><span class="toggle on"></span></div>
+                      <div><img class="cat cat42" src="../img/categoria-b.png" alt=""><span class="capm">Intermediário</span><span class="toggle on"></span></div>
+                      <div><img class="cat cat42" src="../img/categoria-a.png" alt=""><span class="capm">Avançado</span><span class="toggle on"></span></div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="col g4"><p class="b2m">Regulamento de torneio</p><p class="cap muted">O regulamento entra automaticamente nos torneios novos da modalidade. Dá pra ajustar em cada torneio.</p></div>
+                    <div class="input area" style="min-height:130px"><span class="b2">Tolerância de 15 min de atraso; depois disso é W.O. Bola oficial Mikasa FT-5. Jogos em set único de 18 pontos.</span></div>
+                    <div class="row sb"><span class="cap muted num">108/5000</span><button class="btn inline off" style="padding:0 24px">Salvar regulamento</button></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W2 Pedidos de vínculo -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Pedidos de vínculo</b><span>Os pedidos aparecem em tabela, com "Recusar" e "Aprovar" na própria linha.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-sport-requests</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="pessoas" data-item="Pedidos de vínculo">
+            <div class="shell-conteudo" style="gap:16px">
+              <div class="painel-cab"><div class="textos"><p class="t1">Pedidos de vínculo</p><p class="b2 muted">Arena Maré Alta · 3 pedidos</p></div><div class="acoes"><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div class="segweb" style="margin-top:8px"><span class="on">Pendentes <b>3</b></span><span>Aprovados</span><span>Rejeitados</span></div>
+              <div class="card sem-pad">
+                <div class="wlin cab"><span class="c-atleta">ATLETA</span><span class="c-mod2">MODALIDADE</span><span class="c-data2">DATA</span><span class="c-acoes"></span></div>
+                <div class="wlin"><div class="c-atleta"><span class="avatar md">M</span><p class="b2m">Marina Costa</p></div><span class="b2 muted c-mod2">Futevôlei</span><span class="cap muted c-data2">26/09</span><div class="c-acoes"><button class="btn dng">Recusar</button><button class="btn">Aprovar</button></div></div>
+                <div class="wlin"><div class="c-atleta"><span class="avatar md">T</span><p class="b2m">Théo Campos</p></div><span class="b2 muted c-mod2">Beach Tennis</span><span class="cap muted c-data2">27/09</span><div class="c-acoes"><button class="btn dng">Recusar</button><button class="btn">Aprovar</button></div></div>
+                <div class="wlin"><div class="c-atleta"><span class="avatar md">I</span><p class="b2m">Iago Souza</p></div><span class="b2 muted c-mod2">Vôlei</span><span class="cap muted c-data2">27/09</span><div class="c-acoes"><button class="btn dng">Recusar</button><button class="btn">Aprovar</button></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W3 Aprovações de nível -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Aprovações de nível</b><span>Clique na linha para abrir o painel ao lado. Escolha o nível a conceder e aprove ou rejeite.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-approvals</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="pessoas" data-item="Aprovações de nível">
+            <div class="shell-conteudo" style="gap:16px">
+              <div class="painel-cab"><div class="textos"><p class="t1">Aprovações de nível</p><p class="b2 muted">Arena Maré Alta · 2 pedidos</p></div><div class="acoes"><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div class="segweb" style="margin-top:8px"><span class="on">Pendentes <b>2</b></span><span>Aprovados</span><span>Rejeitados</span></div>
+              <div class="colunas">
+                <div class="card sem-pad tab-web">
+                  <div class="wlin cab"><span class="c-atleta" style="min-width:0">ATLETA</span><span class="c-mod">MODALIDADE</span><span class="c-nivel">NÍVEL PEDIDO</span><span class="c-data">DATA</span></div>
+                  <div class="wlin aberta"><div class="c-atleta" style="min-width:0"><span class="avatar md">B</span><p class="b2m">Bia Moreira</p></div><span class="b2 muted c-mod">Beach Tennis</span><div class="c-nivel"><img class="cat cat20" src="../img/categoria-b.png" alt=""><span class="b2">B</span></div><span class="cap muted c-data">25/09</span></div>
+                  <div class="wlin"><div class="c-atleta" style="min-width:0"><span class="avatar md">D</span><p class="b2m">Duda Martins</p></div><span class="b2 muted c-mod">Futevôlei</span><div class="c-nivel"><img class="cat cat20" src="../img/categoria-a.png" alt=""><span class="b2">A</span></div><span class="cap muted c-data">26/09</span></div>
+                </div>
+                <div class="card painel-lado">
+                  <div class="painel-topo"><span class="avatar">B</span><div class="grow"><p class="t3">Bia Moreira</p><p class="cap muted">Beach Tennis · solicitou nível B · 25/09</p></div><i data-lucide="x"></i></div>
+                  <p class="capm muted">Nível a conceder</p>
+                  <div class="chips">
+                    <span class="chip nivel"><img class="cat cat20" src="../img/categoria-d.png" alt="D"></span>
+                    <span class="chip nivel"><img class="cat cat20" src="../img/categoria-c.png" alt="C"></span>
+                    <span class="chip nivel on-laranja"><img class="cat cat20" src="../img/categoria-b.png" alt="B"></span>
+                    <span class="chip nivel"><img class="cat cat20" src="../img/categoria-a.png" alt="A"></span>
+                    <span class="chip nivel"><img class="cat cat20" src="../img/categoria-p.png" alt="P"></span>
+                  </div>
+                  <div class="col g8" style="padding-top:8px;border-top:1px solid var(--border)"><button class="btn">Aprovar</button><button class="btn dng">Rejeitar</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W4 Meus atletas -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Meus atletas</b><span>Plano, valor e situação aparecem em colunas, então você vê quem está devendo sem abrir ninguém. Atleta com dois planos tem uma linha para cada.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-customers</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="pessoas" data-item="Meus atletas">
+            <div class="shell-conteudo" style="gap:16px">
+              <div class="painel-cab"><div class="textos"><p class="t1">Meus atletas</p><p class="b2 muted">Arena Maré Alta · 12 atletas · 4 alunos com plano</p></div><div class="acoes"><button class="btn inline sec">Confirmar plano de aluno</button><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div class="filtros" style="margin-top:8px"><div class="input busca-web"><i data-lucide="search"></i><span class="ph">Buscar por nome</span></div><div class="segweb"><span class="on">Todos <b>12</b></span><span>Alunos <b>4</b></span><span>Sumiram</span><span>Em aberto <b>3</b></span></div></div>
+              <div class="card sem-pad">
+                <div class="wlin cab"><span class="c-atleta">ATLETA</span><span class="c-plano">PLANO</span><span class="c-valor">VALOR</span><span class="c-sit">SITUAÇÃO</span><span class="c-ativ">ATIVIDADE</span><span class="c-seta"></span></div>
+                <div class="wlin"><div class="c-atleta"><span class="avatar md">B</span><div class="tx"><p class="b2m">Bia Moreira</p><p class="cap muted">Última vez: 27/09</p></div><span class="chip-aluno web">Aluno</span></div><div class="c-plano"><p class="b2">Futevôlei 2x</p><p class="cap laranja">Futevôlei · 2x por semana</p></div><div class="c-valor"><p class="b2m num">R$ 180,00</p></div><div class="c-sit"><span class="tag sem-ponto aviso">Atrasado</span><p class="cap perigo">Venceu em 20/09</p></div><div class="c-ativ"><p class="cap muted">14 partida(s) · 6 reserva(s)</p></div><span class="c-seta"><i data-lucide="chevron-right"></i></span></div>
+                <div class="wlin"><div class="c-atleta"></div><div class="c-plano"><p class="b2">Beach livre</p><p class="cap laranja">Beach Tennis · 3x por semana</p></div><div class="c-valor"><p class="b2m num">R$ 240,00</p></div><div class="c-sit"><span class="tag sem-ponto ok">Em dia</span><p class="cap muted">Vence em 10/10</p></div><div class="c-ativ"></div><span class="c-seta"></span></div>
+                <div class="wlin"><div class="c-atleta"><span class="avatar md">C</span><div class="tx"><p class="b2m">Caio Nunes</p><p class="cap muted">Última vez: 26/09</p></div><span class="chip-aluno web">Aluno</span></div><div class="c-plano"><p class="b2">Futevôlei 2x</p><p class="cap laranja">Futevôlei · 2x por semana</p></div><div class="c-valor"><p class="b2m num">R$ 180,00</p></div><div class="c-sit"><span class="tag sem-ponto ok">Em dia</span><p class="cap muted">Nenhuma mensalidade em aberto</p></div><div class="c-ativ"><p class="cap muted">11 partida(s) · 4 reserva(s)</p></div><span class="c-seta"><i data-lucide="chevron-right"></i></span></div>
+                <div class="wlin"><div class="c-atleta"><span class="avatar md">D</span><div class="tx"><p class="b2m">Duda Martins</p><p class="cap muted">Última vez: 25/09</p></div></div><div class="c-plano"><p class="b2 muted">—</p></div><div class="c-valor"><p class="b2m muted">—</p></div><div class="c-sit"><p class="b2 muted">—</p></div><div class="c-ativ"><p class="cap muted">9 partida(s) · 3 reserva(s)</p></div><span class="c-seta"><i data-lucide="chevron-right"></i></span></div>
+                <div class="wlin"><div class="c-atleta"><span class="avatar md">L</span><div class="tx"><p class="b2m">Léo Andrade</p><p class="cap muted">Última vez: 24/09</p></div><span class="chip-aluno web">Aluno</span></div><div class="c-plano"><p class="b2">Futevôlei 3x</p><p class="cap laranja">Futevôlei · 3x por semana</p></div><div class="c-valor"><p class="b2m num">R$ 220,00</p></div><div class="c-sit"><span class="tag sem-ponto aviso">Aguardando pagamento</span><p class="cap muted">Vence em 05/10</p></div><div class="c-ativ"><p class="cap muted">7 partida(s) · 2 reserva(s)</p></div><span class="c-seta"><i data-lucide="chevron-right"></i></span></div>
+                <div class="wlin"><div class="c-atleta"><span class="avatar md">P</span><div class="tx"><p class="b2m">Pedro Salles</p><p class="cap muted">Última vez: 22/09</p></div></div><div class="c-plano"><p class="b2 muted">—</p></div><div class="c-valor"><p class="b2m muted">—</p></div><div class="c-sit"><p class="b2 muted">—</p></div><div class="c-ativ"><p class="cap muted">6 partida(s) · 0 reserva(s)</p></div><span class="c-seta"><i data-lucide="chevron-right"></i></span></div>
+                <div class="wlin"><div class="c-atleta"><span class="avatar md">N</span><div class="tx"><p class="b2m">Nanda Ribeiro</p><p class="cap perigo">Sumiu há 23 dias</p></div></div><div class="c-plano"><p class="b2 muted">—</p></div><div class="c-valor"><p class="b2m muted">—</p></div><div class="c-sit"><p class="b2 muted">—</p></div><div class="c-ativ"><p class="cap muted">5 partida(s) · 1 reserva(s)</p></div><span class="c-seta"><i data-lucide="chevron-right"></i></span></div>
+                <div style="padding:16px;border-top:1px solid var(--border)"><button class="btn sec">Carregar mais</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W5 Meus atletas painel -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Atleta aberto ao lado</b><span>Clique na linha para abrir o atleta ao lado, com marcar pago, cancelar plano (pede confirmação) e "Ver perfil completo".</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-customers</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="pessoas" data-item="Meus atletas">
+            <div class="shell-conteudo" style="gap:16px">
+              <div class="painel-cab"><div class="textos"><p class="t1">Meus atletas</p><p class="b2 muted">Arena Maré Alta · 12 atletas · 4 alunos com plano</p></div><div class="acoes"><button class="btn inline sec">Confirmar plano de aluno</button><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div class="filtros" style="margin-top:8px"><div class="input busca-web"><i data-lucide="search"></i><span class="ph">Buscar por nome</span></div><div class="segweb"><span class="on">Todos <b>12</b></span><span>Alunos <b>4</b></span><span>Sumiram</span><span>Em aberto <b>3</b></span></div></div>
+              <div class="colunas apertado">
+                <div class="card sem-pad tab-web">
+                  <div class="wlin cab"><span class="c-atleta">ATLETA</span><span class="c-plano">PLANO</span><span class="c-valor">VALOR</span><span class="c-sit">SITUAÇÃO</span><span class="c-seta"></span></div>
+                  <div class="wlin aberta"><div class="c-atleta"><span class="avatar md">B</span><div class="tx"><p class="b2m">Bia Moreira</p><p class="cap muted">Última vez: 27/09</p></div></div><div class="c-plano"><p class="b2">Futevôlei 2x</p><p class="cap laranja">Futevôlei · 2x por semana</p></div><div class="c-valor"><p class="b2m num">R$ 180,00</p></div><div class="c-sit"><span class="tag sem-ponto aviso">Atrasado</span><p class="cap perigo">Venceu em 20/09</p></div><span class="c-seta"><i data-lucide="chevron-right"></i></span></div>
+                  <div class="wlin aberta"><div class="c-atleta"></div><div class="c-plano"><p class="b2">Beach livre</p><p class="cap laranja">Beach Tennis · 3x por semana</p></div><div class="c-valor"><p class="b2m num">R$ 240,00</p></div><div class="c-sit"><span class="tag sem-ponto ok">Em dia</span><p class="cap muted">Vence em 10/10</p></div><span class="c-seta"></span></div>
+                  <div class="wlin"><div class="c-atleta"><span class="avatar md">C</span><div class="tx"><p class="b2m">Caio Nunes</p><p class="cap muted">Última vez: 26/09</p></div></div><div class="c-plano"><p class="b2">Futevôlei 2x</p><p class="cap laranja">Futevôlei · 2x por semana</p></div><div class="c-valor"><p class="b2m num">R$ 180,00</p></div><div class="c-sit"><span class="tag sem-ponto ok">Em dia</span><p class="cap muted">Nenhuma mensalidade em aberto</p></div><span class="c-seta"><i data-lucide="chevron-right"></i></span></div>
+                  <div class="wlin"><div class="c-atleta"><span class="avatar md">D</span><div class="tx"><p class="b2m">Duda Martins</p><p class="cap muted">Última vez: 25/09</p></div></div><div class="c-plano"><p class="b2 muted">—</p></div><div class="c-valor"><p class="b2m muted">—</p></div><div class="c-sit"><p class="b2 muted">—</p></div><span class="c-seta"><i data-lucide="chevron-right"></i></span></div>
+                  <div class="wlin"><div class="c-atleta"><span class="avatar md">L</span><div class="tx"><p class="b2m">Léo Andrade</p><p class="cap muted">Última vez: 24/09</p></div></div><div class="c-plano"><p class="b2">Futevôlei 3x</p><p class="cap laranja">Futevôlei · 3x por semana</p></div><div class="c-valor"><p class="b2m num">R$ 220,00</p></div><div class="c-sit"><span class="tag sem-ponto aviso">Aguardando pagamento</span><p class="cap muted">Vence em 05/10</p></div><span class="c-seta"><i data-lucide="chevron-right"></i></span></div>
+                </div>
+                <div class="card painel-lado">
+                  <div class="painel-topo"><span class="avatar">B</span><div class="grow"><p class="t3">Bia Moreira</p><p class="cap muted">Última vez: 27/09</p></div><i data-lucide="x"></i></div>
+                  <div class="row" style="gap:4px"><span class="chip-mod">Futevôlei</span><span class="chip-mod">Beach Tennis</span></div>
+                  <p class="b2 muted">14 partida(s) aqui · 6 reserva(s) aqui</p>
+                  <div class="plano-card">
+                    <div class="row" style="gap:8px"><p class="b2m grow">Futevôlei 2x</p><span class="tag sem-ponto aviso">Atrasado</span></div>
+                    <p class="cap laranja">Futevôlei</p>
+                    <p class="b2">R$ 180,00/mês · 2x por semana</p>
+                    <p class="cap perigo">Venceu em 20/09</p>
+                    <div class="acoes-plano"><button class="btn sec">Marcar pago</button><button class="btn dng">Cancelar plano</button></div>
+                  </div>
+                  <div class="plano-card">
+                    <div class="row" style="gap:8px"><p class="b2m grow">Beach livre</p><span class="tag sem-ponto ok">Em dia</span></div>
+                    <p class="cap laranja">Beach Tennis</p>
+                    <p class="b2">R$ 240,00/mês · 3x por semana</p>
+                    <p class="cap muted">Vence em 10/10</p>
+                    <div class="acoes-plano"><button class="btn sec">Marcar pago</button><button class="btn dng">Cancelar plano</button></div>
+                  </div>
+                  <span class="link">Ver perfil completo</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W6 Sumiram -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Meus atletas — Sumiram</b><span>Na aba "Sumiram", o botão "Chamar de volta" fica no topo, ao lado de confirmar plano.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-customers</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="pessoas" data-item="Meus atletas">
+            <div class="shell-conteudo" style="gap:16px">
+              <div class="painel-cab"><div class="textos"><p class="t1">Meus atletas</p><p class="b2 muted">Arena Maré Alta · 12 atletas · 4 alunos com plano</p></div><div class="acoes"><button class="btn inline sec">Confirmar plano de aluno</button><button class="btn inline"><i data-lucide="send"></i>Chamar de volta (3)</button><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div class="filtros" style="margin-top:8px"><div class="input busca-web"><i data-lucide="search"></i><span class="ph">Buscar por nome</span></div><div class="segweb"><span>Todos <b>12</b></span><span>Alunos <b>4</b></span><span class="on">Sumiram</span><span>Em aberto <b>3</b></span></div></div>
+              <div class="card sem-pad">
+                <div class="wlin cab"><span class="c-atleta">ATLETA</span><span class="c-plano">PLANO</span><span class="c-valor">VALOR</span><span class="c-sit">SITUAÇÃO</span><span class="c-ativ">ATIVIDADE</span><span class="c-seta"></span></div>
+                <div class="wlin"><div class="c-atleta"><span class="avatar md">N</span><div class="tx"><p class="b2m">Nanda Ribeiro</p><p class="cap perigo">Sumiu há 23 dias</p></div></div><div class="c-plano"><p class="b2 muted">—</p></div><div class="c-valor"><p class="b2m muted">—</p></div><div class="c-sit"><p class="b2 muted">—</p></div><div class="c-ativ"><p class="cap muted">5 partida(s) · 1 reserva(s)</p></div><span class="c-seta"><i data-lucide="chevron-right"></i></span></div>
+                <div class="wlin"><div class="c-atleta"><span class="avatar md">G</span><div class="tx"><p class="b2m">Gui Barros</p><p class="cap perigo">Sumiu há 29 dias</p></div></div><div class="c-plano"><p class="b2 muted">—</p></div><div class="c-valor"><p class="b2m muted">—</p></div><div class="c-sit"><p class="b2 muted">—</p></div><div class="c-ativ"><p class="cap muted">3 partida(s) · 0 reserva(s)</p></div><span class="c-seta"><i data-lucide="chevron-right"></i></span></div>
+                <div class="wlin"><div class="c-atleta"><span class="avatar md">R</span><div class="tx"><p class="b2m">Rafa Lopes</p><p class="cap perigo">Sumiu há 41 dias</p></div></div><div class="c-plano"><p class="b2 muted">—</p></div><div class="c-valor"><p class="b2m muted">—</p></div><div class="c-sit"><p class="b2 muted">—</p></div><div class="c-ativ"><p class="cap muted">2 partida(s) · 1 reserva(s)</p></div><span class="c-seta"><i data-lucide="chevron-right"></i></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W7 Perfil do jogador -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Perfil do jogador</b><span>"Ver perfil completo" abre o perfil no meio da tela. O ranking e a origem do nível só aparecem no celular.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/player/bia-moreira</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="pessoas" data-item="Meus atletas">
+            <div class="shell-conteudo" style="gap:0">
+              <div class="perfil-web">
+                <div class="app-hdr" style="padding:0 20px"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="titulo">Jogador</span><span class="lado"><i data-lucide="x"></i></span></div>
+                <div style="padding:0 20px;display:flex;flex-direction:column">
+                  <div class="row" style="padding:16px 0"><span class="avatar xl">B</span><div class="col g4 grow"><div class="row" style="gap:4px"><p class="t3">Bia Moreira</p><span class="elite"><i data-lucide="gem"></i>Elite</span></div><div class="row" style="gap:4px"><img class="cat cat18" src="../img/categoria-b.png" alt=""><span class="b2 muted">Futevôlei</span></div></div></div>
+                  <div class="moderacao" style="margin-bottom:12px"><span><i data-lucide="flag"></i>Denunciar</span><span><i data-lucide="user-x"></i>Bloquear</span></div>
+                  <div class="row" style="gap:8px;margin-bottom:24px">
+                    <div class="card stile"><span class="ico info"><i data-lucide="calendar"></i></span><span class="cap muted">Partidas</span><span class="t2">32</span></div>
+                    <div class="card stile"><span class="ico ouro"><i data-lucide="trophy"></i></span><span class="cap muted">Vitórias</span><span class="t2">21</span></div>
+                    <div class="card stile"><span class="ico verde"><i data-lucide="target"></i></span><span class="cap muted">Desempenho</span><span class="t2">66%</span></div>
+                  </div>
+                  <div class="card mvp" style="margin-bottom:24px"><span class="coroa"><i data-lucide="crown" class="ic"></i></span><div class="grow"><div class="row" style="gap:6px"><p class="t3">5x</p><p class="b1m">Craque do jogo</p></div><p class="cap muted">Eleito pelos jogadores no fim da partida</p></div></div>
+                  <div class="col" style="margin-bottom:24px"><p class="t3">Você x Bia Moreira</p><p class="b2 muted">Vocês ainda não se enfrentaram · Desafie pra começar o histórico.</p></div>
+                  <div class="col"><p class="t3">Conquistas</p><div class="row" style="gap:8px"><span class="conq"><i data-lucide="award"></i></span><div class="grow"><p class="b2m">Primeira vitória</p><p class="cap muted">Ganhou a primeira partida com placar lançado.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W8 Usuários vinculados -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Usuários vinculados</b><span>"Vincular pessoa" abre o painel "Convidar" ao lado da tabela: escolha o papel, busque a pessoa e toque em "Convidar" no resultado.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-members</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="pessoas" data-item="Usuários vinculados">
+            <div class="shell-conteudo" style="gap:16px">
+              <div class="painel-cab"><div class="textos"><p class="t1">Usuários vinculados</p><p class="b2 muted">Arena Maré Alta · 3 pessoas vinculadas</p></div><div class="acoes"><span class="sino"><i data-lucide="bell"></i><span class="badge-dot">3</span></span></div></div>
+              <div class="colunas" style="gap:24px">
+                <div class="card sem-pad tab-web">
+                  <div class="wlin cab"><span class="c-pessoa">PESSOA</span><span class="c-papel">PAPEL</span><span class="c-acao"></span></div>
+                  <div class="wlin"><div class="c-pessoa"><span class="avatar md">A</span><p class="b2m">André Moura (você)</p></div><span class="b2 muted c-papel">Administrador</span><span class="c-acao"><i data-lucide="trash-2"></i></span></div>
+                  <div class="wlin"><div class="c-pessoa"><span class="avatar md">C</span><p class="b2m">Carolina Dias</p></div><span class="b2 muted c-papel">Gerente</span><span class="c-acao"><i data-lucide="trash-2"></i></span></div>
+                  <div class="wlin"><div class="c-pessoa"><span class="avatar md">V</span><p class="b2m">Vini Rocha</p></div><span class="b2 muted c-papel">Professor</span><span class="c-acao"><i data-lucide="trash-2"></i></span></div>
+                </div>
+                <div class="card painel-lado" style="gap:16px">
+                  <div class="painel-topo"><p class="t2 grow">Convidar</p><span class="fechar-q"><i data-lucide="x"></i></span></div>
+                  <div class="col g8"><p class="capm muted">Papel do convidado</p><div class="chips"><span class="chip">Administrador</span><span class="chip">Gerente</span><span class="chip on-laranja">Atendente</span><span class="chip">Professor</span></div></div>
+                  <div class="input foco"><i data-lucide="search" style="color:var(--primary)"></i><span>Carol</span><i data-lucide="x" style="margin-left:auto"></i></div>
+                  <div class="col g8">
+                    <div class="row"><span class="avatar sm">C</span><p class="b2 grow">Carol Prado</p><span class="capm laranja">Convidar</span></div>
+                    <div class="row"><span class="avatar sm">C</span><p class="b2 grow">Carolina Dias</p><span class="capm muted">Já vinculado</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Quem pode validar o nível de um atleta?</summary><p>Só a arena com vínculo aprovado do atleta naquela modalidade. Se ele trocar de arena na modalidade ou redeclarar o próprio nível, a validação cai.</p></details>
+    <details><summary>Uma conta de arena pode entrar na minha equipe?</summary><p>Não. Só conta de jogador entra na equipe da arena; o convite recusa conta de arena.</p></details>
+    <details><summary>Quem da equipe pode convidar ou remover pessoas?</summary><p>Só o administrador. Gerente e atendente veem a equipe, mas não mudam nada.</p></details>
+    <details><summary>O que faz o botão "Chamar de volta"?</summary><p>Na aba "Sumiram", ele manda um convite para até 50 pessoas sem plano que não aparecem há 21 dias ou mais. Quem já recebeu convite nos últimos 30 dias ou ainda não jogou nem reservou na arena fica de fora.</p></details>
+    <details><summary>Por que não vejo a aba "Em aberto"?</summary><p>A mensalidade vale em qualquer plano ativo da arena, a partir do Básico. Sem plano ativo, a aba "Em aberto" e o botão de confirmar plano não aparecem.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reservar quadra e horário relâmpago · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* ScreenHeader: seta simples à esquerda, título, X à direita */
+  .cab-app { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 20px; flex: none; }
+  .cab-app .lado-ic { min-width: 28px; display: flex; gap: 12px; align-items: center; }
+  .cab-app .lado-ic.fim { justify-content: flex-end; }
+  .cab-app svg { width: 28px; height: 28px; }
+  .cab-app .t3 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cab-app .acao-txt { font: 500 14px/20px var(--font); color: var(--primary); }
+  .corpo { padding: 16px 20px 32px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
+  .rodape-fixo { padding: 12px 20px 36px; display: flex; flex-direction: column; gap: 8px; background: var(--background); flex: none; }
+  .chip.desab { opacity: .5; color: var(--text-muted); }
+  .dia-nav { display: flex; align-items: center; justify-content: center; gap: 24px; }
+  .dia-nav .seta-dia { width: 32px; height: 32px; border-radius: 999px; background: var(--surface); display: inline-flex; align-items: center; justify-content: center; }
+  .dia-nav svg { width: 20px; height: 20px; }
+  .centro { text-align: center; }
+  .estado { display: flex; flex-direction: column; align-items: center; gap: 16px; padding-top: 24px; }
+  .estado > svg { width: 48px; height: 48px; }
+  .segura { display: flex; align-items: center; justify-content: center; gap: 4px; color: var(--warning); }
+  .segura svg { width: 16px; height: 16px; }
+  .qr-card { align-self: center; padding: 24px; }
+  .qr.grande { width: 220px; height: 220px; }
+  .pix-cod { font: 400 12px/16px var(--mono); word-break: break-all; margin: 0; }
+  .riscado { text-decoration: line-through; }
+  .porque { display: flex; align-items: center; gap: 8px; background: var(--info-soft); border-radius: 12px; padding: 16px; color: var(--info); }
+  .porque svg { width: 16px; height: 16px; flex: none; }
+  .linha-ic { display: flex; align-items: center; gap: 8px; }
+  .linha-ic svg { width: 16px; height: 16px; flex: none; }
+  /* estado vazio (EmptyState / QueryState) */
+  .vazio { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; padding: 24px 12px; }
+  .vazio .circ { width: 64px; height: 64px; border-radius: 999px; background: var(--primary-wash); color: var(--primary); display: flex; align-items: center; justify-content: center; }
+  .vazio .circ svg { width: 28px; height: 28px; }
+  .vazio img { width: 180px; }
+  /* alerta nativo do iOS (Alert.alert) */
+  .alerta-ios { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 270px; border-radius: 14px; background: var(--surface); z-index: 9; overflow: hidden; text-align: center; }
+  .alerta-ios .txt { padding: 18px 16px 16px; display: grid; gap: 4px; }
+  .alerta-ios .bt { border-top: 1px solid var(--border); height: 44px; display: flex; align-items: center; justify-content: center; font: 400 16px/20px var(--font); color: var(--info); }
+  .alerta-ios .bt.forte { font-weight: 600; }
+  .alerta-ios .bt.perigo { color: var(--danger); }
+  /* banner da Home (HomeBanner) */
+  .banner { background: var(--primary-wash); border-color: var(--primary-tint); display: flex; flex-direction: column; gap: 0; }
+  .banner .fundo { display: flex; align-items: flex-end; justify-content: space-between; margin-top: 16px; }
+  .banner .fundo img { width: 150px; height: 128px; object-fit: contain; margin: -40px -8px -24px 0; }
+  .btn.fino { height: 44px; width: auto; align-self: flex-start; padding: 0 16px; }
+  .rapidos { display: flex; gap: 8px; }
+  .rapidos > div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 16px 0; border-radius: 12px; background: var(--surface); border: 1px solid var(--border); font: 500 12px/16px var(--font); }
+  .rapidos > div.on { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+  .rapidos svg { width: 28px; height: 28px; }
+  .sino { position: relative; } .sino svg { width: 28px; height: 28px; }
+  .sino .badge-dot { top: -4px; right: -6px; }
+  /* notificação */
+  .notif { display: flex; gap: 12px; align-items: flex-start; }
+  .notif svg { width: 24px; height: 24px; color: var(--text-muted); flex: none; }
+  /* ingresso (tickets) */
+  .ticket { display: flex; align-items: center; background: var(--primary-wash); border: 1px solid var(--primary-tint); border-radius: 16px; padding: 16px; box-shadow: var(--shadow-card); }
+  .ticket.off { opacity: .5; }
+  .ticket .ic-caixa { width: 26px; height: 26px; border-radius: 8px; background: var(--surface); display: inline-flex; align-items: center; justify-content: center; color: var(--primary); flex: none; }
+  .ticket .ic-caixa svg { width: 16px; height: 16px; }
+  .ticket .picote { align-self: stretch; margin: -17px 16px; width: 18px; display: flex; flex-direction: column; align-items: center; }
+  .ticket .picote i { width: 18px; height: 9px; background: var(--background); border: 1.5px solid var(--primary-tint); display: block; }
+  .ticket .picote i:first-child { border-top: 0; border-radius: 0 0 9px 9px; }
+  .ticket .picote i:last-child { border-bottom: 0; border-radius: 9px 9px 0 0; }
+  .ticket .picote b { flex: 1; border-left: 2px dashed var(--primary-tint); }
+  .ticket .canhoto { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; text-align: right; }
+  .ticket .pilula { background: var(--surface); border-radius: 999px; padding: 2px 8px; }
+  .select { justify-content: space-between; }
+  .select .ph { flex: 1; }
+
+  /* animacoes de 2026-09-29 (implementadas no app) */
+  .an-rever { align-self: center; }
+  .an-rever svg { width: 18px; height: 18px; }
+  .an-phone .corpo, .an-phone .screen-body { overflow: hidden; }
+  .an-phone .screen-body > * { flex-shrink: 0; }
+  /* pontos */
+  .an-pontos { display: grid; justify-items: center; gap: 2px; padding: 16px; border-radius: 12px; background: var(--success-soft); border: 1px solid var(--success); }
+  .play .an-pontos { animation: an-pop .45s cubic-bezier(.2,1.4,.4,1) both; }
+  .an-pontos .n { font: 600 20px/28px var(--font); color: var(--success); display: inline-block; }
+  .play .an-pontos .n.bate { animation: an-bate .4s cubic-bezier(.2,1.6,.4,1) both; }
+  /* pago */
+  .an-pago { position: relative; width: 96px; height: 96px; margin: 0 auto; display: grid; place-items: center; }
+  .an-pago .anel { position: absolute; width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--success); opacity: 0; }
+  .an-pago .circ { width: 72px; height: 72px; border-radius: 50%; background: var(--success-soft); display: grid; place-items: center; color: var(--success); }
+  .an-pago .circ svg { width: 40px; height: 40px; stroke-width: 3; }
+  .play .an-pago .circ { animation: an-pop .5s cubic-bezier(.2,1.5,.4,1) both; }
+  .play .an-pago .anel { animation: an-anel .65s ease-out .12s both; }
+  .play .an-pago .circ svg { animation: an-check .5s cubic-bezier(.2,1.8,.4,1) .22s both; }
+  /* ingresso */
+  .an-fenda { overflow: hidden; }
+  .play .an-bilhete { animation: an-imprime .9s both; }
+  /* campeao */
+  .an-campeao { position: relative; overflow: hidden; display: grid; justify-items: center; gap: 4px; padding: 24px 16px; border-radius: 12px; background: var(--accent-soft); border: 1px solid var(--gold); }
+  .an-campeao .trofeu { width: 64px; height: 64px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; color: var(--gold); margin-bottom: 4px; }
+  .an-campeao .trofeu svg { width: 32px; height: 32px; }
+  .play .an-campeao .trofeu { animation: an-trofeu .7s cubic-bezier(.2,1.6,.4,1) .15s both; }
+  .an-campeao i.cf { position: absolute; top: 0; width: 6px; height: 10px; border-radius: 1px; opacity: 0; }
+  .an-campeao i.cf.l { width: 10px; height: 6px; }
+  .play .an-campeao i.cf { animation: an-confete 1.3s cubic-bezier(.55,0,1,.45) var(--d) both; }
+  @keyframes an-pop { 0% { transform: scale(.85); opacity: .4; } 100% { transform: none; opacity: 1; } }
+  @keyframes an-bate { 0% { transform: scale(1); } 35% { transform: scale(1.25); } 100% { transform: none; } }
+  @keyframes an-anel { 0% { opacity: .7; transform: scale(.8); } 100% { opacity: 0; transform: scale(1.45); } }
+  @keyframes an-check { 0% { transform: scale(0) rotate(-25deg); } 100% { transform: none; } }
+  @keyframes an-imprime { 0% { opacity: 0; transform: translateY(-220px) scale(.96); } 55% { opacity: 1; transform: translateY(14px); } 78% { transform: translateY(-4px); } 100% { opacity: 1; transform: none; } }
+  @keyframes an-trofeu { 0% { transform: scale(0) rotate(-30deg); } 100% { transform: none; } }
+  @keyframes an-confete { 0% { opacity: 0; transform: translateY(-16px) rotate(0); } 6% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; transform: translateY(200px) rotate(var(--r)); } }
+  @media (prefers-reduced-motion: reduce) { .play .an-pontos, .play .an-pontos .n.bate, .play .an-pago .circ, .play .an-pago .anel, .play .an-pago .circ svg, .play .an-bilhete, .play .an-campeao .trofeu { animation: none; } .an-campeao i.cf { display: none; } }
+
+  /* topo da página da arena (app/(app)/arena/[id].tsx) — mesmo desenho de Arena › Perfil */
+  .screen.ap { background: var(--secondary); }
+  .ap-rola { flex: 1; min-height: 0; overflow: hidden; background: var(--background); display: flex; flex-direction: column; }
+  .ap-rola.topo-escuro { background: var(--secondary); }
+  .ap-foto { height: 290px; flex: none; border-radius: 0; }
+  .ap-degrade { position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg,
+    color-mix(in srgb, var(--secondary) 55%, transparent) 0%, transparent 30%,
+    color-mix(in srgb, var(--secondary) 15%, transparent) 55%,
+    color-mix(in srgb, var(--secondary) 92%, transparent) 90%, var(--secondary) 100%); }
+  .ap-nav { position: absolute; top: 8px; left: 16px; right: 16px; display: flex; align-items: center; gap: 8px; z-index: 2; }
+  .ap-redondo { width: 38px; height: 38px; border-radius: 999px; background: var(--overlay); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; flex: none; }
+  .ap-redondo svg { width: 20px; height: 20px; }
+  .ap-cont { position: absolute; top: 160px; right: 16px; z-index: 2; padding: 2px 8px; border-radius: 999px; background: var(--overlay); color: var(--text-inverse); font: 500 12px/16px var(--font); }
+  .ap-ident { position: absolute; left: 20px; right: 20px; bottom: 16px; z-index: 2; display: flex; flex-direction: column; gap: 8px; color: var(--text-inverse); }
+  .ap-linha { display: flex; align-items: center; gap: 4px; }
+  .ap-linha svg { width: 14px; height: 14px; }
+  .ap-inv-muted { color: var(--text-inverse-muted); }
+  .ap-aberta { align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--text-inverse) 14%, transparent); background: color-mix(in srgb, var(--text-inverse) 8%, transparent);
+    font: 500 12px/16px var(--font); color: var(--text-inverse); }
+  .ap-ponto { width: 7px; height: 7px; border-radius: 4px; background: var(--success); flex: none; }
+  .ap-ponto.fechada { background: var(--danger); }
+  .ap-faixa { flex: none; background: var(--secondary); color: var(--text-inverse); display: flex; align-items: center; gap: 12px; padding: 4px 20px 48px; }
+  .ap-faixa .grow { display: grid; gap: 2px; }
+  .ap-ir { display: inline-flex; align-items: center; gap: 4px; padding: 8px 12px; border-radius: 999px; white-space: nowrap;
+    border: 1px solid color-mix(in srgb, var(--text-inverse) 14%, transparent); background: color-mix(in srgb, var(--text-inverse) 8%, transparent);
+    font: 500 14px/20px var(--font); color: var(--text-inverse); }
+  .ap-ir svg { width: 16px; height: 16px; color: var(--primary); }
+  /* abas: sobem 24 por cima da faixa e ficam presas no topo ao rolar */
+  .ap-abas { flex: none; margin-top: -24px; padding: 16px 20px 8px; background: var(--background); border-radius: 20px 20px 0 0; position: relative; }
+  .ap-abas.presa { margin-top: 0; }
+  .ap-seg { display: flex; gap: 4px; padding: 4px; border-radius: 8px; background: var(--surface-alt); }
+  .ap-seg span { flex: 1; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 8px 0; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .ap-seg span.on { background: var(--primary); color: var(--text-inverse); }
+  .ap-seg i.pt { width: 7px; height: 7px; border-radius: 4px; background: var(--primary); }
+  .ap-seg span.on i.pt { background: var(--text-inverse); }
+  .ap-conteudo { display: flex; flex-direction: column; gap: 24px; padding: 12px 0 32px; background: var(--background); }
+  .ap-pad { padding: 0 20px; }
+  .ap-conteudo .sec-h .t3 { font-size: 18px; }
+  /* CoverCard: capa num quarto do card, texto ao lado */
+  .cc { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); }
+  .cc-capa { position: absolute; top: 0; bottom: 0; left: 0; width: 25%; border-radius: 12px 0 0 12px; overflow: hidden; background: var(--primary-wash); color: var(--primary); display: flex; align-items: center; justify-content: center; }
+  .cc-capa > svg { width: 24px; height: 24px; }
+  .cc-capa.foto { border-radius: 12px 0 0 12px; }
+  .cc-txt { margin-left: 25%; padding: 16px; display: grid; gap: 2px; min-width: 0; }
+  .cc-lin { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .ell { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .tag.st-ic { padding: 4px; align-self: center; }
+  .tag.st-ic svg { width: 16px; height: 16px; }
+  .ap-carrossel { display: flex; gap: 12px; padding: 0 20px; overflow: hidden; }
+  .ap-carrossel .cc { width: 240px; flex: none; }
+  .cc-traco { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  .cc-traco rect { x: .75px; y: .75px; width: calc(100% - 1.5px); height: calc(100% - 1.5px); rx: 12px; fill: none; stroke: var(--primary-tint); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 30 70; animation: ap-traco 2.8s linear infinite; }
+  @keyframes ap-traco { to { stroke-dashoffset: -100; } }
+  @media (prefers-reduced-motion: reduce) { .cc-traco rect { animation: none; stroke-dasharray: none; stroke-width: 1.5; } }
+  .ap-bolinhas { display: flex; justify-content: center; margin-top: 8px; }
+  .ap-bolinhas i { width: 6px; height: 6px; border-radius: 999px; background: var(--border); margin: 4px 6px; }
+  .ap-bolinhas i.on { width: 18px; background: var(--primary); }
+  /* rodapé fixo: diária e Reservar quadra */
+  .ap-rodape { flex: none; background: var(--surface); border-top: 1px solid var(--border); padding: 16px 20px 34px; display: flex; flex-direction: column; gap: 8px; position: relative; z-index: 3; }
+  .ap-rodape .row { gap: 16px; }
+  .ap-rodape .btn { flex: 1; width: auto; }
+  .ap-rodape .nota-centro { text-align: center; }
+  .estrela { color: var(--accent); fill: var(--accent); }
+  .ap-conteudo .sec-h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .ap-conteudo .sec-h a { font: 500 14px/20px var(--font); color: var(--primary); }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="jogador" data-fluxo="reserva-quadra"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Reservar quadra e horário relâmpago</h1>
+  <p>Você escolhe quadra, dia e horário na página da arena, paga por Pix ou cartão enquanto o horário fica guardado e acompanha tudo em Minhas reservas. Quando a arena solta um horário ocioso com desconto, o horário relâmpago, você recebe o aviso se joga a modalidade na cidade e pode reservar ou criar uma partida naquele horário.</p>
+  <ul class="regras">
+    <li>O preço do horário relâmpago é sempre um desconto sobre o preço de tabela da quadra.</li>
+    <li>Quem joga a modalidade na cidade da arena recebe o aviso do horário relâmpago no celular.</li>
+    <li>O horário relâmpago vira uma reserva comum: pagamento, prazo para pagar e estorno seguem as regras de sempre.</li>
+    <li>Reserva paga pelo app só pode ser cancelada pelo app até 24h antes, com estorno integral.</li>
+    <li>Só conta de jogador reserva.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Página da arena</b><span>Pela busca de arenas, abra a arena e toque em "Reservar quadra", fixo no rodapé com a diária.</span></div>
+      </div>
+      <div class="phone"><div class="screen ap" data-status="inversa">
+        <div class="ap-rola">
+          <div class="ap-foto foto quadra">
+            <div class="ap-degrade"></div>
+            <div class="ap-nav"><span class="ap-redondo"><i data-lucide="arrow-left"></i></span><span class="grow"></span><span class="ap-redondo"><i data-lucide="ellipsis"></i></span><span class="ap-redondo"><i data-lucide="x"></i></span></div>
+            <span class="ap-cont">1/3</span>
+            <div class="ap-ident">
+              <p class="t2">Arena Maré Alta</p>
+              <div class="ap-linha"><i data-lucide="star" class="estrela"></i><span class="b2m">4,8</span><span class="b2 ap-inv-muted">· 37 avaliações</span></div>
+              <span class="ap-aberta"><i class="ap-ponto"></i>Aberta agora · 06:00–22:00</span>
+            </div>
+          </div>
+          <div class="ap-faixa">
+            <div class="grow"><p class="b2m">Rua das Gaivotas, 410</p><p class="cap ap-inv-muted">Campeche · Florianópolis · SC</p></div>
+            <span class="ap-ir"><i data-lucide="navigation"></i>Como chegar</span>
+          </div>
+          <div class="ap-abas"><div class="ap-seg"><span class="on">Sobre</span><span class="">Eventos<i class="pt"></i></span><span class="">Aulas</span></div></div>
+          <div class="ap-conteudo">
+            <div>
+              <div class="ap-pad"><div class="sec-h"><span class="t3">Acontecendo na arena</span><a>Ver todos</a></div></div>
+              <div class="ap-carrossel">
+                <div class="cc"><div class="cc-capa"><span class="tag ok st-ic"><i data-lucide="repeat"></i></span></div><div class="cc-txt"><p class="cap muted ell">Desafio · outubro de 2026</p><p class="b2m ell">Maré Alta × Ponta do Sol</p><div class="cc-lin"><p class="cap muted ell grow">Futevôlei</p></div></div><svg class="cc-traco" aria-hidden="true"><rect pathLength="100"></rect></svg></div>
+                <div class="cc"><div class="cc-capa"><span class="tag info st-ic"><i data-lucide="trophy"></i></span></div><div class="cc-txt"><p class="cap muted ell">Torneio · 06/10</p><p class="b2m ell">Copa Maré Alta · Etapa 3</p><div class="cc-lin"><p class="cap muted ell grow">Beach Tennis</p></div></div></div>
+                <div class="cc"><div class="cc-capa"><span class="tag ok st-ic"><i data-lucide="calendar-days"></i></span></div><div class="cc-txt"><p class="cap muted ell">Evento · 11/10 · 08:00</p><p class="b2m ell">Aulão de beach tennis</p><div class="cc-lin"><p class="cap muted ell grow">9/16</p></div></div></div>
+                <div class="cc"><div class="cc-capa"><span class="tag ok st-ic"><i data-lucide="trophy"></i></span></div><div class="cc-txt"><p class="cap muted ell">Torneio · 12/12</p><p class="b2m ell">Open de Verão Maré Alta</p><div class="cc-lin"><p class="cap muted ell grow">Futevôlei</p></div></div></div>
+              </div>
+              <div class="ap-bolinhas"><i class="on"></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="ap-pad"><p class="b2 muted">Três quadras de areia a duas quadras da praia. Futevôlei e beach tennis de manhã cedo até as 22h.</p></div>
+          </div>
+        </div>
+        <div class="ap-rodape">
+          
+          <div class="row"><div><p class="cap muted">Diária</p><p class="t3 num">R$ 120,00</p></div><button class="btn"><i data-lucide="calendar-plus"></i>Reservar quadra</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Reservar quadra</b><span>Escolha a quadra, passe pelos dias e toque num horário livre; o valor aparece no rodapé.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="cab-app"><span class="lado-ic"><i data-lucide="arrow-left"></i></span><span class="t3">Reservar quadra</span><span class="lado-ic fim"><i data-lucide="x"></i></span></div>
+        <div class="corpo" style="padding-top:8px">
+          <p class="t3">Quadra</p>
+          <div class="chips"><span class="chip">Quadra 1</span><span class="chip">Quadra 2</span><span class="chip on-laranja">Quadra 3</span></div>
+          <p class="t3">Dia</p>
+          <div class="dia-nav"><span class="seta-dia"><i data-lucide="chevron-left"></i></span><span class="b1m">ter., 29 de set.</span><span class="seta-dia"><i data-lucide="chevron-right"></i></span></div>
+          <p class="t3">Horário</p>
+          <div class="chips">
+            <span class="chip desab">07:00</span><span class="chip">08:00</span><span class="chip">09:00</span><span class="chip desab">17:00</span>
+            <span class="chip desab">18:00</span><span class="chip on-laranja">19:00</span><span class="chip">20:00</span><span class="chip">21:00</span>
+          </div>
+          <div class="input"><span class="ph">Observação (opcional)</span></div>
+        </div>
+        <div class="rodape-fixo">
+          <p class="b1m">Valor: R$ 120,00</p>
+          <button class="btn">Reservar e pagar</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Horário acabou de ser tomado</b><span>Se alguém reservou antes de você, aparece um aviso e o botão para entrar na fila daquele horário.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="toast" style="background:var(--danger)"><i data-lucide="circle-alert" class="ic"></i>Esse horário acabou de ser reservado por outra pessoa.</div>
+        <div class="cab-app"><span class="lado-ic"><i data-lucide="arrow-left"></i></span><span class="t3">Reservar quadra</span><span class="lado-ic fim"><i data-lucide="x"></i></span></div>
+        <div class="corpo" style="padding-top:8px">
+          <p class="t3">Quadra</p>
+          <div class="chips"><span class="chip">Quadra 1</span><span class="chip">Quadra 2</span><span class="chip on-laranja">Quadra 3</span></div>
+          <p class="t3">Dia</p>
+          <div class="dia-nav"><span class="seta-dia"><i data-lucide="chevron-left"></i></span><span class="b1m">ter., 29 de set.</span><span class="seta-dia"><i data-lucide="chevron-right"></i></span></div>
+          <p class="t3">Horário</p>
+          <div class="chips">
+            <span class="chip desab">07:00</span><span class="chip">08:00</span><span class="chip">09:00</span><span class="chip desab">17:00</span>
+            <span class="chip desab">18:00</span><span class="chip on-laranja">19:00</span><span class="chip">20:00</span><span class="chip">21:00</span>
+          </div>
+          <div class="input"><span class="ph">Observação (opcional)</span></div>
+        </div>
+        <div class="rodape-fixo">
+          <p class="b1m">Valor: R$ 120,00</p>
+          <button class="btn contorno"><i data-lucide="bell-ring"></i>Avise-me se vagar</button>
+          <button class="btn">Reservar e pagar</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Arena sem pagamento online</b><span>Se a arena não tem Mercado Pago conectado, a reserva pelo app não abre. Nesse caso, fale direto com a arena.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="cab-app"><span class="lado-ic"><i data-lucide="arrow-left"></i></span><span class="t3">Reservar quadra</span><span class="lado-ic fim"><i data-lucide="x"></i></span></div>
+        <div class="corpo">
+          <div class="vazio">
+            <div class="circ"><i data-lucide="wallet-cards"></i></div>
+            <p class="t3">Reserva pelo app indisponível</p>
+            <p class="b2 muted">Essa arena ainda não ativou o pagamento online. Fale direto com a arena pra reservar.</p>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Pagamento da reserva · Pix</b><span>O horário fica guardado enquanto o relógio corre. O QR do Pix aparece sozinho e a tela confirma quando o pagamento cai.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="cab-app"><span class="lado-ic"><i data-lucide="arrow-left"></i></span><span class="t3">Pagamento da reserva</span><span class="lado-ic fim"><i data-lucide="x"></i></span></div>
+        <div class="corpo" style="padding-top:8px">
+          <div class="card col g4">
+            <p class="b1m">Arena Maré Alta</p>
+            <p class="b2 muted">Quadra 3 · 29/09 · 19:00</p>
+            <p class="b1m">R$ 114,00</p>
+            <p class="cap verde">De R$ 120,00, com R$ 6,00 de desconto do seu plano</p>
+          </div>
+          <div class="segura"><i data-lucide="clock"></i><span class="b2m">Horário segurado por 29:41</span></div>
+          <div class="seg"><span class="on">Pix</span><span>Cartão</span></div>
+          <div class="card qr-card"><div class="qr grande"></div></div>
+          <p class="b2 muted centro">Escaneie o QR Code no app do seu banco pra pagar com Pix.</p>
+          <p class="cap muted centro">Ou copie o código abaixo (Pix copia e cola):</p>
+          <div class="card"><p class="pix-cod">00020126580014br.gov.bcb.pix0136a1f4c2e8-7d3b-4f6a-9c21-5e8b0d7f3a4652040000530398654061114.005802BR5915ARENA MARE ALTA6013FLORIANOPOLIS62070503***6304B1C7</p></div>
+          <p class="cap muted centro">Assim que o pagamento cair, a reserva vai pra arena confirmar.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Pagamento da reserva · Cartão</b><span>Em Cartão, o botão abre o pagamento do Mercado Pago no navegador e você volta para o app no fim.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="cab-app"><span class="lado-ic"><i data-lucide="arrow-left"></i></span><span class="t3">Pagamento da reserva</span><span class="lado-ic fim"><i data-lucide="x"></i></span></div>
+        <div class="corpo" style="padding-top:8px">
+          <div class="card col g4">
+            <p class="b1m">Arena Maré Alta</p>
+            <p class="b2 muted">Quadra 3 · 29/09 · 19:00</p>
+            <p class="b1m">R$ 114,00</p>
+            <p class="cap verde">De R$ 120,00, com R$ 6,00 de desconto do seu plano</p>
+          </div>
+          <div class="segura"><i data-lucide="clock"></i><span class="b2m">Horário segurado por 27:12</span></div>
+          <div class="seg"><span>Pix</span><span class="on">Cartão</span></div>
+          <p class="b2 muted centro">Você paga na página segura do Mercado Pago e volta pro app no fim.</p>
+          <button class="btn"><i data-lucide="credit-card"></i>Pagar com cartão</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Pagamento confirmado</b><span>Quando o pagamento é confirmado, a tela muda sozinha. Falta só a arena aprovar a reserva.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="cab-app"><span class="lado-ic"><i data-lucide="arrow-left"></i></span><span class="t3">Pagamento da reserva</span><span class="lado-ic fim"><i data-lucide="x"></i></span></div>
+        <div class="corpo" style="padding-top:8px">
+          <div class="card col g4">
+            <p class="b1m">Arena Maré Alta</p>
+            <p class="b2 muted">Quadra 3 · 29/09 · 19:00</p>
+            <p class="b1m">R$ 114,00</p>
+            <p class="cap verde">De R$ 120,00, com R$ 6,00 de desconto do seu plano</p>
+          </div>
+          <div class="estado">
+            <i data-lucide="circle-check" class="verde"></i>
+            <p class="t3 centro">Pagamento confirmado</p>
+            <p class="b2 muted centro">Agora é só a arena confirmar a reserva. Avisamos você por notificação.</p>
+            <button class="btn">Ver minhas reservas</button>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Prazo pra pagar acabou</b><span>Se o relógio zera sem pagamento, o horário é liberado e você volta a escolher.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="cab-app"><span class="lado-ic"><i data-lucide="arrow-left"></i></span><span class="t3">Pagamento da reserva</span><span class="lado-ic fim"><i data-lucide="x"></i></span></div>
+        <div class="corpo" style="padding-top:8px">
+          <div class="card col g4">
+            <p class="b1m">Arena Maré Alta</p>
+            <p class="b2 muted">Quadra 3 · 29/09 · 19:00</p>
+            <p class="b1m">R$ 114,00</p>
+            <p class="cap verde">De R$ 120,00, com R$ 6,00 de desconto do seu plano</p>
+          </div>
+          <div class="estado">
+            <i data-lucide="clock" class="muted"></i>
+            <p class="t3 centro">O prazo pra pagar acabou</p>
+            <p class="b2 muted centro">O horário foi liberado. Se um pagamento cair depois disso, confirmamos a reserva se o horário ainda estiver livre ou devolvemos o valor.</p>
+            <button class="btn">Escolher horário</button>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 9 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">9</div>
+        <div class="passo-txt"><b>Minhas reservas</b><span>A lista mostra o status e o pagamento de cada reserva; ela também abre pelas Configurações. Reserva paga só pode ser cancelada até 24h antes.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="cab-app"><span class="lado-ic"><i data-lucide="arrow-left"></i></span><span class="t3">Minhas reservas</span><span class="lado-ic fim"><i data-lucide="x"></i></span></div>
+        <div class="corpo" style="padding-top:16px">
+          <div class="card col g4">
+            <div class="row sb"><p class="b1m">Arena Maré Alta</p><span class="capm" style="color:var(--warning)">Aguardando pagamento</span></div>
+            <p class="b2 muted">Quadra 1 · 02/10 · 07:00</p>
+            <p class="b2m">R$ 90,00 · Pague até 10:12</p>
+            <button class="btn"><i data-lucide="wallet"></i>Pagar</button>
+            <button class="btn contorno">Cancelar reserva</button>
+          </div>
+          <div class="card col g4">
+            <div class="row sb"><p class="b1m">Arena Maré Alta</p><span class="capm" style="color:var(--warning)">Aguardando aprovação</span></div>
+            <p class="b2 muted">Quadra 3 · 29/09 · 19:00</p>
+            <p class="b2m">R$ 120,00 · Pago</p>
+            <p class="cap muted">Reserva paga só pode ser cancelada pelo app até 24h antes. Fale com a arena.</p>
+          </div>
+          <div class="card col g4">
+            <div class="row sb"><p class="b1m">Arena Maré Alta</p><span class="capm verde">Confirmada</span></div>
+            <p class="b2 muted">Quadra 2 · 05/10 · 18:00</p>
+            <p class="b2m">R$ 120,00 · Pago</p>
+            <button class="btn contorno">Cancelar reserva</button>
+          </div>
+          <div class="card col g4">
+            <div class="row sb"><p class="b1m">Arena Maré Alta</p><span class="capm vermelho">Recusada</span></div>
+            <p class="b2 muted">Quadra 1 · 20/09 · 20:00</p>
+            <p class="b2m">R$ 120,00 · Estornado</p>
+          </div>
+          <div class="card col g4">
+            <div class="row sb"><p class="b1m">Arena Maré Alta</p><span class="capm muted">Expirada</span></div>
+            <p class="b2 muted">Quadra 3 · 14/09 · 09:00</p>
+            <p class="b2m">R$ 90,00</p>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 10 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">10</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Cancelar reserva paga</b><span>Ao cancelar uma reserva paga pelo app, você confirma antes, porque o valor é estornado.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="cab-app"><span class="lado-ic"><i data-lucide="arrow-left"></i></span><span class="t3">Minhas reservas</span><span class="lado-ic fim"><i data-lucide="x"></i></span></div>
+        <div class="corpo" style="padding-top:16px">
+          <div class="card col g4">
+            <div class="row sb"><p class="b1m">Arena Maré Alta</p><span class="capm verde">Confirmada</span></div>
+            <p class="b2 muted">Quadra 2 · 05/10 · 18:00</p>
+            <p class="b2m">R$ 120,00 · Pago</p>
+            <button class="btn contorno">Cancelar reserva</button>
+          </div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="alerta-ios">
+          <div class="txt"><p class="b1m">Cancelar reserva?</p><p class="cap">O valor pago volta integralmente pra você.</p></div>
+          <div class="bt forte">Manter reserva</div>
+          <div class="bt perigo">Cancelar reserva</div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 11 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">11</div>
+        <div class="passo-txt"><b>Aviso de horário relâmpago</b><span>Quando a arena solta um horário com desconto, você recebe push e notificação se joga a modalidade na cidade. Toque para abrir a oferta.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="cab-app"><span class="lado-ic"><i data-lucide="arrow-left"></i></span><span class="t3">Notificações</span><span class="lado-ic fim"><span class="acao-txt">Limpar</span><i data-lucide="x"></i></span></div>
+        <div class="corpo" style="padding-top:8px">
+          <div class="chips nowrap"><span class="chip on-laranja">Todas</span><span class="chip">Convites</span><span class="chip">Alertas</span></div>
+          <div class="card notif">
+            <div class="grow col g4"><p class="b1m">Quadra livre com desconto</p><p class="b2 muted">Arena Maré Alta liberou Quadra 3 por R$ 84.00.</p><p class="cap muted">Hoje · 17:32</p></div>
+            <i data-lucide="trash-2"></i>
+          </div>
+          <div class="card notif">
+            <div class="grow col g4"><p class="b1m muted">Reserva confirmada</p><p class="b2 muted">Arena Maré Alta confirmou sua reserva na Quadra 2.</p><p class="cap muted">27/09 · 10:05</p></div>
+            <i data-lucide="trash-2"></i>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 12 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">12</div>
+        <div class="passo-txt"><b>Oferta na Home</b><span>Enquanto a oferta vale, ela aparece no topo da Início, antes de tudo que pode esperar.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas">
+          <div class="row sb top" style="padding-top:20px">
+            <div class="col g4"><p class="t1">Olá, Bia!</p><div class="row" style="gap:6px"><img src="../img/categoria-b.png" alt="" style="width:18px;height:18px"><span class="b2 muted">Beach tennis</span></div></div>
+            <span class="sino"><i data-lucide="bell"></i><span class="badge-dot">1</span></span>
+          </div>
+          <div class="rapidos">
+            <div><i data-lucide="plus"></i>Criar partida</div>
+            <div><i data-lucide="search"></i>Buscar</div>
+            <div class="on"><i data-lucide="zap"></i>Desafiar jogador</div>
+          </div>
+          <div class="card banner">
+            <div class="col g4">
+              <div class="row sb"><p class="t3 grow">Quadra livre com desconto</p><i data-lucide="chevron-right" class="ic24"></i></div>
+              <p class="b2 muted">Arena Maré Alta soltou um horário por R$ 84,00.</p>
+              <p class="cap muted">Hoje · 19:00 · Quadra 3</p>
+            </div>
+            <div class="fundo">
+              <button class="btn fino">Ver oferta</button>
+              <img src="../img/mascote-em-acao.png" alt="">
+            </div>
+          </div>
+        </div>
+        <div class="tabbar" data-abas="jogador" data-ativa="inicio"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 13 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">13</div>
+        <div class="passo-txt"><b>Horário relâmpago</b><span>Você vê o preço de tabela riscado, o tempo que a oferta ainda vale e por que recebeu o aviso. Reserve sozinho ou crie uma partida naquele horário para chamar gente.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="cab-app"><span class="lado-ic"><i data-lucide="arrow-left"></i></span><span class="t3">Horário relâmpago</span><span class="lado-ic fim"><i data-lucide="x"></i></span></div>
+        <div class="corpo" style="padding-top:0">
+          <div class="card col g8">
+            <div class="row" style="gap:8px"><i data-lucide="zap" class="ic24 laranja"></i><p class="t3 grow">Arena Maré Alta</p></div>
+            <div class="linha-ic muted"><i data-lucide="map-pin"></i><span class="b2">Florianópolis, SC</span></div>
+            <div class="linha-ic"><i data-lucide="clock" class="muted"></i><span class="b2">Hoje · 19:00 até 20:00 · Quadra 3</span></div>
+            <div class="row" style="gap:8px"><span class="b2 muted riscado">R$ 120,00</span><span class="t1 laranja">R$ 84,00</span></div>
+            <div class="linha-ic" style="color:var(--warning)"><i data-lucide="timer" class="ic12"></i><span class="cap">Expira em 47 minutos ou quando alguém reservar</span></div>
+          </div>
+          <div class="porque"><i data-lucide="info"></i><span class="cap">Você recebeu porque joga Beach tennis em Florianópolis. Outras 23 pessoas foram avisadas.</span></div>
+          <button class="btn">Reservar agora · R$ 84,00</button>
+          <button class="btn contorno-laranja"><i data-lucide="plus"></i>Criar partida neste horário</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 14 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">14</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Oferta que não vale mais</b><span>Se alguém reservou antes ou o prazo venceu, a oferta some e resta ir para a página da arena.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="cab-app"><span class="lado-ic"><i data-lucide="arrow-left"></i></span><span class="t3">Horário relâmpago</span><span class="lado-ic fim"><i data-lucide="x"></i></span></div>
+        <div class="corpo" style="padding-top:0">
+          <div class="card col g8">
+            <div class="row" style="gap:8px"><i data-lucide="zap" class="ic24 laranja"></i><p class="t3 grow">Arena Maré Alta</p></div>
+            <div class="linha-ic muted"><i data-lucide="map-pin"></i><span class="b2">Florianópolis, SC</span></div>
+            <div class="linha-ic"><i data-lucide="clock" class="muted"></i><span class="b2">Hoje · 19:00 até 20:00 · Quadra 3</span></div>
+            <div class="row" style="gap:8px"><span class="b2 muted riscado">R$ 120,00</span><span class="t1 laranja">R$ 84,00</span></div>
+          </div>
+          <div class="porque"><i data-lucide="info"></i><span class="cap">Você recebeu porque joga Beach tennis em Florianópolis. Outras 23 pessoas foram avisadas.</span></div>
+          <p class="b2 muted">Essa oferta não está mais valendo.</p>
+          <button class="btn contorno-laranja">Ver a arena</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 15 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">15</div>
+        <div class="passo-txt"><b>Meus tickets</b><span>Abra pelo Perfil: seus ingressos de torneio, com busca por arena e filtro de data. Ingresso usado ou expirado fica apagado.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="cab-app"><span class="lado-ic"><i data-lucide="arrow-left"></i></span><span class="t3">Meus tickets</span><span class="lado-ic fim"><i data-lucide="x"></i></span></div>
+        <div class="col g8" style="padding:0 20px 16px">
+          <div class="input"><i data-lucide="search"></i><span class="ph">Buscar por arena</span></div>
+          <div class="input select"><span class="ph">Todas as datas</span><i data-lucide="chevron-down"></i></div>
+        </div>
+        <div class="col" style="padding:0 20px;gap:16px">
+          <div class="ticket">
+            <div class="grow col" style="gap:2px">
+              <div class="row" style="gap:4px;margin-bottom:4px"><span class="ic-caixa"><i data-lucide="trophy"></i></span><span class="cap muted">Beach tennis · Arena Maré Alta</span></div>
+              <p class="b2m">Open de Verão Maré Alta</p>
+              <p class="cap muted">Bia e Carol</p>
+            </div>
+            <div class="picote"><i></i><b></b><i></i></div>
+            <div class="canhoto">
+              <div><p class="cap muted">DATA</p><p class="capm">12/12/2026</p></div>
+              <div><p class="cap muted">HORÁRIO</p><p class="capm muted">A definir</p></div>
+            </div>
+          </div>
+          <div class="ticket off">
+            <div class="grow col" style="gap:2px">
+              <div class="row" style="gap:4px;margin-bottom:4px"><span class="ic-caixa"><i data-lucide="trophy"></i></span><span class="cap muted">Futevôlei · Arena Maré Alta</span></div>
+              <p class="b2m">Copa Campeche de Futevôlei</p>
+              <p class="cap muted">Bia e Júlia</p>
+            </div>
+            <div class="picote"><i></i><b></b><i></i></div>
+            <div class="canhoto">
+              <div><p class="cap muted">DATA</p><p class="capm">06/09/2026</p></div>
+              <div><p class="cap muted">HORÁRIO</p><p class="capm muted">A definir</p></div>
+              <span class="pilula cap muted">Usado</span>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">16</div>
+        <div class="passo-txt"><b>Pagamento confirmado</b><span>Quando o Pix cai, um check verde aparece no círculo para confirmar o pagamento. O mesmo vale para aula avulsa e mensalidade.</span></div>
+      </div>
+      <div class="phone an-phone" data-anima><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><span class="lado"><i data-lucide="arrow-left" class="ic24"></i></span><span class="titulo">Pagamento da reserva</span><span class="lado"><i data-lucide="x" class="ic24"></i></span></div>
+          <div class="card col g4"><p class="b2m">Arena Maré Alta</p><p class="cap muted">Quadra 1 · 28/09 · 07:00</p><p class="b1m">R$ 72,00</p></div>
+          <div class="col g8" style="align-items:center;padding-top:16px">
+            <div class="an-pago"><span class="anel"></span><span class="circ"><i data-lucide="check"></i></span></div>
+            <p class="t3">Pagamento confirmado</p><p class="b2 muted" style="text-align:center">Sua reserva está confirmada. Bom jogo!</p>
+            <button class="btn inline">Ver minhas reservas</button>
+          </div>
+        </div>
+      </div></div>
+      <button type="button" class="btn contorno inline an-rever"><i data-lucide="rotate-ccw"></i>Rever animação</button>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Quanto tempo tenho para pagar?</summary><p>O horário fica guardado enquanto o relógio da tela de pagamento corre. Se ele zerar sem pagamento, o horário é liberado e você escolhe de novo.</p></details>
+    <details><summary>Posso cancelar e receber o dinheiro de volta?</summary><p>Sim, se a reserva foi paga pelo app e faltam 24h ou mais. Cancele em Minhas reservas e o estorno é integral.</p></details>
+    <details><summary>O horário que eu queria foi tomado. E agora?</summary><p>Entre na fila daquele horário pelo botão que aparece junto do aviso.</p></details>
+    <details><summary>O que é horário relâmpago?</summary><p>É um horário ocioso que a arena oferece com desconto sobre o preço de tabela. Depois de reservado, vira uma reserva comum.</p></details>
+    <details><summary>Por que não consigo reservar nesta arena pelo app?</summary><p>A arena ainda não conectou o Mercado Pago. Fale direto com ela.</p></details>
+  </div>
+</section>
+
+<script>
+  /* "Rever animação" de cada passo novo: tira .play, forca o reflow e devolve.
+     Os pontos contam de 0 ate o total, como o PointsEarnedCard do app. */
+  (function () {
+    function contar(el) {
+      var n = el.querySelector('.n'); if (!n) return;
+      var total = +n.dataset.total, t0 = performance.now();
+      n.classList.remove('bate');
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { n.textContent = '+' + total + ' pts'; return; }
+      (function passo(t) {
+        var p = Math.min((t - t0) / 900, 1);
+        n.textContent = '+' + Math.round(total * (1 - Math.pow(1 - p, 3))) + ' pts';
+        if (p < 1) requestAnimationFrame(passo); else { void n.offsetWidth; n.classList.add('bate'); }
+      })(t0);
+    }
+    function tocar(alvo) {
+      alvo.classList.remove('play'); void alvo.offsetWidth; alvo.classList.add('play');
+      alvo.querySelectorAll('.an-pontos').forEach(contar);
+    }
+    document.querySelectorAll('[data-anima]').forEach(function (alvo) {
+      tocar(alvo);
+      var b = alvo.parentNode.querySelector('.an-rever');
+      if (b) b.addEventListener('click', function () { tocar(alvo); });
+    });
+  })();
+</script>
+<script src="../kit.js"></script>
+</body>
+</html>

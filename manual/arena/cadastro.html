@@ -1,0 +1,996 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cadastrar sua arena · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* CSS só desta página, sempre com as variáveis do kit (nunca cor solta) */
+  .input svg { flex: none; }
+  .input span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .marca { width: 22px; height: 22px; flex: none; }
+  .marca.p { width: 19px; height: 19px; }
+  .sh { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; min-height: 48px; }
+  .sh svg { width: 24px; height: 24px; }
+  .sh .vazio { width: 24px; }
+  .tela-footer { display: flex; flex-direction: column; flex: 1; }
+  .tela-footer .miolo { flex: 1; }
+  .tela-footer .rodape { padding-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .intro-tela { display: grid; gap: 4px; padding: 16px 0 24px; }
+  .input .olho { margin-left: auto; }
+  .input.travado { background: var(--surface-alt); }
+
+  /* MascotHero: círculo pêssego com a linha laranja contornando embaixo */
+  .mh { position: relative; flex: none; }
+  .mh .bola { position: absolute; border-radius: 50%; background: var(--primary-tint); overflow: hidden; display: flex; align-items: flex-end; justify-content: center; }
+  .mh .bola.centro { align-items: center; }
+  .mh .aro { position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; border-bottom-color: var(--primary); border-right-color: var(--primary); transform: rotate(-10deg); }
+  .mh.hero { width: 194px; height: 194px; margin: 0 auto; }
+  .mh.hero .bola { inset: 13px; }
+  .mh.hero .aro { border-width: 3px; }
+  .mh.compacto { width: 90px; height: 90px; }
+  .mh.compacto .bola { inset: 7px; }
+  .mh.web { width: 142px; height: 142px; }
+  .mh.web .bola { inset: 11px; }
+  .mh.web .aro { border-width: 3px; }
+  .mh .bola img { width: 100%; }
+  .mh .bola img.arena { width: auto; height: 145%; }
+  .mh .bola img.alto { width: auto; height: 110%; }
+  .pontos { position: absolute; width: 36px; height: 48px; background-image: radial-gradient(circle, var(--primary-tint) 2.5px, transparent 3px); background-size: 12px 12px; }
+
+  /* OnboardingProgress: seta, trilha em 7 segmentos, contador e X */
+  .obp { display: flex; align-items: center; gap: 12px; padding: 12px 20px; }
+  .obp svg { width: 24px; height: 24px; flex: none; }
+  .obp .trilha { flex: 1; display: flex; gap: 4px; }
+  .obp .trilha i { flex: 1; height: 4px; border-radius: 999px; background: var(--border); display: block; }
+  .obp .trilha i.on { background: var(--primary); }
+  .ob-tela { flex: 1; display: flex; flex-direction: column; }
+  .ob-corpo { flex: 1; padding: 0 20px; display: flex; flex-direction: column; gap: 24px; }
+  .ob-corpo.g16 { gap: 16px; }
+  .ob-rodape { padding: 12px 20px 16px; }
+  .step-intro { display: flex; align-items: center; gap: 12px; padding-top: 8px; }
+  .step-intro .txt { flex: 1; display: grid; gap: 4px; }
+  .campo { display: grid; gap: 8px; }
+
+  /* account-type */
+  .opcao { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .opcao.on { border-color: var(--primary); background: var(--primary-soft); }
+  .opcao img { width: 44px; height: 44px; object-fit: contain; flex: none; }
+  .step-dots { display: flex; gap: 6px; justify-content: center; }
+  .step-dots i { width: 8px; height: 8px; border-radius: 4px; background: var(--border); display: block; }
+  .step-dots i.on { width: 24px; background: var(--primary); }
+  .perm { display: flex; gap: 12px; align-items: flex-start; }
+  .perm .q { width: 40px; height: 40px; border-radius: 8px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .perm .q svg { width: 20px; height: 20px; }
+
+  /* ready */
+  .palco { width: 260px; height: 260px; position: relative; margin: 0 auto; }
+  .palco .anel { position: absolute; inset: 0; border-radius: 50%; background: var(--accent-soft); border: 12px solid var(--surface); }
+  .palco img { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); width: 200px; height: 250px; object-fit: contain; }
+  .palco .ok { position: absolute; right: 4px; bottom: 18px; width: 64px; height: 64px; border-radius: 999px; background: var(--primary); border: 4px solid var(--background); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; }
+  .palco .ok svg { width: 28px; height: 28px; stroke-width: 3; }
+
+  /* localização */
+  .lugar { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: 12px; background: var(--primary-wash); }
+  .lugar .pino { width: 40px; height: 40px; border-radius: 999px; background: var(--surface); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .lugar .pino svg { width: 20px; height: 20px; }
+  .btn.secundario { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.terciario { background: transparent; color: var(--primary); width: auto; align-self: flex-start; padding: 0 4px; }
+  .btn.contorno-cinza { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+
+  /* SelectableRow (modalidades) */
+  .sr { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .sr.on { border-color: var(--primary); background: var(--primary-soft); }
+  .sr.on .b1m { color: var(--primary); }
+  .sr .marcador { width: 22px; height: 22px; border-radius: 11px; border: 1px solid var(--border); background: var(--surface); flex: none; display: flex; align-items: center; justify-content: center; }
+  .sr.on .marcador { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+  .sr .marcador svg { width: 12px; height: 12px; }
+
+  /* ladrilhos (estrutura e pagamento) */
+  .ladrilhos { display: flex; flex-wrap: wrap; gap: 12px; }
+  .ladrilho { width: calc((100% - 24px) / 3.3); aspect-ratio: 1; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; font: 500 12px/16px var(--font); color: var(--text); padding: 0 4px; }
+  .ladrilho svg { width: 24px; height: 24px; color: var(--text-muted); }
+  .ladrilho.on { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
+  .ladrilho.on svg { color: var(--primary); }
+  .ladrilhos.linha { flex-wrap: nowrap; gap: 8px; justify-content: center; }
+  .ladrilhos.linha .ladrilho { width: auto; flex: 1; }
+
+  /* fotos */
+  .fotos { display: flex; flex-wrap: wrap; gap: 8px; }
+  .fotos .slot { width: 84px; height: 84px; border-radius: 12px; overflow: hidden; position: relative; }
+  .fotos .slot .x { position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; border-radius: 999px; background: var(--overlay); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; }
+  .fotos .slot .x svg { width: 14px; height: 14px; }
+  .fotos .add { border: 1px dashed var(--border); background: var(--surface); color: var(--primary); display: flex; align-items: center; justify-content: center; }
+  .fotos .add svg { width: 22px; height: 22px; }
+  .foto.areia { background: linear-gradient(160deg, var(--primary-tint), var(--accent) 120%); }
+  .foto.noite { background: linear-gradient(160deg, var(--secondary), var(--primary-dark) 160%); }
+  .foto.quadra, .foto.areia, .foto.noite { border-radius: 0; height: 100%; }
+
+  /* SegmentedControl */
+  .seg.cheio > span { cursor: default; }
+
+  /* ArenaPlanCard */
+  .plano { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .plano.recomendado { border: 2px solid var(--primary); }
+  .plano.escolhido { border: 2px solid var(--primary); background: var(--primary-wash); }
+  .plano .selo { align-self: flex-end; padding: 2px 8px; border-radius: 999px; background: var(--primary); color: var(--text-inverse); font: 500 12px/16px var(--font); }
+  .plano .preco { display: flex; align-items: baseline; gap: 4px; }
+  .plano .feats { display: flex; flex-direction: column; gap: 8px; margin: 8px 0; }
+  .plano .feats div { display: flex; align-items: center; gap: 8px; font: 400 14px/20px var(--font); }
+  .plano .feats svg { width: 16px; height: 16px; color: var(--primary); flex: none; }
+
+  .divisor { display: flex; align-items: center; gap: 12px; }
+  .divisor i { flex: 1; height: 1px; background: var(--border); display: block; }
+  .sociais { display: flex; justify-content: center; gap: 24px; }
+  .sociais span { width: 56px; height: 56px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-card); display: flex; align-items: center; justify-content: center; opacity: .85; }
+  .aceite { display: flex; gap: 8px; align-items: flex-start; }
+  .aceite .check { width: 20px; height: 20px; border-radius: 6px; }
+
+  /* ---------- navegador: WebOnboardingLayout ---------- */
+  .wob { flex: 1; display: flex; background: var(--background); }
+  .wob-painel { width: 460px; flex: none; background: var(--secondary); padding: 32px; display: flex; flex-direction: column; gap: 24px; }
+  .wob-painel .marca-web { display: flex; align-items: center; gap: 8px; color: var(--text-inverse); font: 500 16px/24px var(--font); }
+  .wob-painel .marca-web img { width: 26px; height: 32px; object-fit: contain; }
+  .wob-painel .chamada { display: flex; align-items: center; gap: 16px; }
+  .wob-painel .chamada img { width: 72px; height: 72px; object-fit: contain; }
+  .wob-painel .lista { display: flex; flex-direction: column; gap: 2px; }
+  .wob-painel .ps { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-radius: 12px; color: var(--text-inverse-muted); font: 400 16px/24px var(--font); }
+  .wob-painel .ps.atual { background: var(--primary-translucent); color: var(--text-inverse); font-weight: 500; }
+  .wob-painel .mk { width: 26px; height: 26px; border-radius: 999px; border: 1px solid var(--text-muted); display: flex; align-items: center; justify-content: center; font: 400 12px/16px var(--font); color: var(--text-muted); flex: none; }
+  .wob-painel .ps.atual .mk { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+  .wob-painel .ps.feito .mk { background: var(--primary-translucent); border-color: transparent; color: var(--primary); }
+  .wob-painel .mk svg { width: 12px; height: 12px; }
+  .wob-painel .folga { flex: 1; }
+  .wob-painel .rodape-p { display: flex; align-items: flex-end; gap: 12px; }
+  .wob-painel .rodape-p img { width: 150px; height: 150px; object-fit: contain; }
+  .wob-painel .rodape-p p { flex: 1; margin: 0 0 12px; color: var(--text-inverse-muted); font: 400 14px/20px var(--font); }
+  .wob-lado { flex: 1; position: relative; display: flex; flex-direction: column; justify-content: center; padding: 24px 20px; min-width: 0; }
+  .wob-lado .pontos.t { left: 32px; top: 32px; } .wob-lado .pontos.b { right: 32px; bottom: 32px; }
+  .wob-col { width: 100%; max-width: 520px; align-self: center; display: flex; flex-direction: column; gap: 24px; position: relative; }
+  .wob-col.w620 { max-width: 620px; } .wob-col.w860 { max-width: 860px; }
+  .wob-cab { display: grid; gap: 8px; }
+  .wob-cab .linha { display: flex; align-items: center; gap: 16px; }
+  .wob-cab .linha .txt { flex: 1; display: grid; gap: 4px; }
+  .wob-rod { display: flex; align-items: center; justify-content: space-between; }
+  .wob-rod .btn { width: auto; }
+  .wob-rod .btn.continuar { padding: 0 32px; }
+  .wob-conta { text-align: center; margin-top: -12px; }
+  .grade2 { display: flex; flex-wrap: wrap; gap: 12px; }
+  .grade2 > * { flex: 1 1 48%; }
+  .grade4 { display: flex; flex-wrap: wrap; gap: 16px; }
+  .grade4 .ladrilho { flex: 1 1 22%; width: auto; aspect-ratio: auto; height: 104px; padding: 0 8px; }
+  .lugar.web { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
+  .lugar.web .pino { width: 42px; height: 42px; background: var(--primary-soft); }
+  .area-fotos { height: 190px; border-radius: 14px; border: 2px dashed var(--primary-tint); background: var(--primary-wash); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+  .area-fotos svg { width: 34px; height: 34px; color: var(--primary); }
+  .vagas { display: flex; gap: 12px; }
+  .vagas > div { flex: 1; aspect-ratio: 1; border-radius: 12px; overflow: hidden; position: relative; }
+  .vagas .vazia { border: 1px dashed var(--border); background: var(--surface); }
+  .vagas .x { position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; border-radius: 999px; background: var(--overlay-strong); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; z-index: 1; }
+  .vagas .x svg { width: 12px; height: 12px; }
+  .planos-linha { display: flex; gap: 16px; align-items: stretch; }
+  .planos-linha .plano { flex: 1; }
+  .planos-linha .plano .feats { flex-grow: 1; }
+  .aviso-app { display: flex; gap: 12px; align-items: flex-start; padding: 16px; border-radius: 14px; border: 1px solid var(--primary-tint); background: var(--warning-soft); }
+  .aviso-app svg { width: 20px; height: 20px; color: var(--warning); flex: none; }
+  .btn-social { flex: 1 1 200px; height: 48px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; gap: 8px; font: 500 16px/24px var(--font); }
+  .apagado { opacity: .5; }
+  .screen-web { flex: 1; display: flex; flex-direction: column; }
+  .screen-web .miolo { width: 100%; max-width: 1180px; align-self: center; padding: 16px 24px; flex: 1; }
+  .screen-web .rodape { padding: 12px 20px 16px; }
+
+  /* proposta: verify-otp.web.tsx — código em 6 casas */
+  .otp { display: flex; gap: 10px; }
+  .otp span { width: 56px; height: 64px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface);
+    display: flex; align-items: center; justify-content: center; font: 600 26px/1 var(--font); font-variant-numeric: tabular-nums; color: var(--text); position: relative; }
+  .otp span.foco { border: 2px solid var(--primary); }
+  .otp span.foco::after { content: ""; width: 2px; height: 28px; background: var(--primary); border-radius: 1px; }
+  .otp .traco { width: 12px; border: 0; background: none; color: var(--text-muted); font-weight: 400; }
+  .otp-email { display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; padding: 6px 6px 6px 12px; border-radius: 999px; background: var(--surface-alt); }
+  .otp-email svg { width: 16px; height: 16px; color: var(--text-muted); }
+  .otp-email .troca { font: 500 13px/18px var(--font); color: var(--primary); background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 3px 10px; }
+  .otp-reenvio { display: flex; flex-direction: column; gap: 4px; }
+  .otp-reenvio .linha { display: flex; gap: 6px; align-items: center; }
+  .otp-reenvio svg { width: 16px; height: 16px; color: var(--text-muted); }
+
+  /* SegmentedControl do app: pílula laranja sobre o cinza (components/SegmentedControl.tsx) */
+  .app-seg { background: var(--surface-alt); border-radius: 8px; padding: 4px; }
+  .app-seg span { border-radius: 6px; }
+  .app-seg span.on { background: var(--primary); color: var(--text-inverse); box-shadow: none; }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="arena" data-fluxo="cadastro"></header>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="apple" viewBox="0 0 24 24"><path fill="currentColor" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></symbol>
+  <!-- G colorido: é a marca do Google, igual ao components/BrandIcons.tsx -->
+  <symbol id="google" viewBox="0 0 24 24">
+    <path fill="#4285f4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+    <path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+    <path fill="#fbbc05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+    <path fill="#ea4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+  </symbol>
+</svg>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Cadastrar sua arena</h1>
+  <p>Você escolhe “Sou Arena”, responde 7 passos (nome e CNPJ, localização, modalidades, estrutura, valor e pagamento, fotos e plano) e só então cria a conta. Depois de confirmar o e-mail com o código, você conclui a assinatura do plano escolhido.</p>
+  <ul class="regras">
+    <li>No passo 7, o botão do plano só escolhe e segue para criar a conta. Se o preço da loja não aparecer, vale o preço de tabela.</li>
+    <li>Suas respostas ficam guardadas no aparelho até a conta existir. Dá para parar no meio e voltar de onde parou.</li>
+    <li>O CNPJ é conferido na Receita Federal antes de você seguir do passo 1.</li>
+    <li>Durante o cadastro você só escolhe o plano: nada é cobrado. A assinatura vem depois de criar a conta e confirmar o e-mail.</li>
+    <li>Sem assinatura ativa, a arena não usa o app. O plano Básico já libera o uso.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 account-type -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Tipo de conta</b><span>Em “Sou novo por aqui”, escolha “Sou Arena”.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body tela-footer">
+          <div class="miolo col g16">
+            <div class="sh"><i data-lucide="arrow-left"></i><i data-lucide="x"></i></div>
+            <div class="step-dots"><i class="on"></i><i></i><i></i><i></i></div>
+            <div style="position:relative">
+              <span class="pontos" style="left:16px; top:24px"></span><span class="pontos" style="right:16px; bottom:8px"></span>
+              <div class="mh hero"><div class="bola centro"><img class="arena" src="../img/mascote-arena.png" alt=""></div><div class="aro"></div></div>
+            </div>
+            <div class="col g8" style="padding: 0 0 8px">
+              <p class="t2" style="text-align:center">Como você quer usar o <span class="laranja">Desafiaê?</span></p>
+              <p class="b2 muted" style="text-align:center">Escolha o tipo de conta que mais combina com você.</p>
+            </div>
+            <div class="col">
+              <div class="opcao"><img src="../img/mascote-avatar.png" alt=""><div class="grow col" style="gap:2px"><p class="b1m">Sou Jogador</p><p class="b2 muted">Encontrar e jogar partidas</p></div></div>
+              <div class="opcao on"><img src="../img/mascote-arena.png" alt=""><div class="grow col" style="gap:2px"><p class="b1m laranja">Sou Arena</p><p class="b2 muted">Gerenciar quadras e jogos</p></div></div>
+            </div>
+          </div>
+          <div class="rodape"><button class="btn">Continuar</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 permissions -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Antes de continuar</b><span>Toque no botão. Em seguida, o celular pede permissão de localização e de notificações.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body tela-footer">
+          <div class="miolo col g16">
+            <div class="sh"><i data-lucide="arrow-left"></i><i data-lucide="x"></i></div>
+            <div style="position:relative">
+              <span class="pontos" style="left:16px; top:24px"></span><span class="pontos" style="right:16px; bottom:8px"></span>
+              <div class="mh hero"><div class="bola" style="align-items:flex-start"><img src="../img/mascote-login.png" alt="" style="width:130%"></div><div class="aro"></div></div>
+            </div>
+            <div class="col g4" style="padding-bottom: 12px">
+              <p class="t1" style="text-align:center">Antes de <span class="laranja">continuar...</span></p>
+              <p class="b2 muted" style="text-align:center">Precisamos de sua permissão para oferecer a melhor experiência possível.</p>
+            </div>
+            <div class="col g16">
+              <div class="perm"><span class="q"><i data-lucide="map-pin"></i></span><div class="grow col" style="gap:2px"><p class="b1m">Localização</p><p class="b2 muted">Encontre partidas e arenas perto de você.</p></div></div>
+              <div class="perm"><span class="q"><i data-lucide="bell"></i></span><div class="grow col" style="gap:2px"><p class="b1m">Notificações</p><p class="b2 muted">Receba convites, lembretes e novidades.</p></div></div>
+              <div class="perm"><span class="q"><i data-lucide="camera"></i></span><div class="grow col" style="gap:2px"><p class="b1m">Câmera</p><p class="b2 muted">Leia o QR Code do ingresso no check-in de torneios e aulas.</p></div></div>
+            </div>
+          </div>
+          <div class="rodape">
+            <button class="btn">Continuar</button>
+            <p class="cap muted" style="text-align:center; padding-top: 4px">Você poderá revisar isso nas configurações da arena.</p>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 ready -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Tudo pronto</b><span>Toque em “Criar conta” para começar o passo 1. Se você já tem conta, toque em “Já tenho conta”.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="justify-content: space-between; padding-bottom: 24px">
+          <div class="sh"><i data-lucide="arrow-left"></i><i data-lucide="x"></i></div>
+          <div class="col g8" style="flex:1; justify-content:center">
+            <div class="palco"><div class="anel"></div><img src="../img/mascote-arena.png" alt=""><div class="ok"><i data-lucide="check"></i></div></div>
+            <p class="t1" style="text-align:center; margin-top: 16px">Tudo <span class="laranja">pronto!</span></p>
+            <p class="b1 muted" style="text-align:center">Agora é só criar sua conta e começar.</p>
+          </div>
+          <div class="col g8">
+            <button class="btn">Criar conta</button>
+            <p class="b1m laranja" style="text-align:center; padding: 8px 0">Já tenho conta</p>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 nome -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Nome e CNPJ (1 de 7)</b><span>Digite o nome da arena e o CNPJ. O botão libera quando o CNPJ tem os 14 dígitos.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="ob-tela">
+          <div class="obp" data-passo="1"></div>
+          <div class="ob-corpo">
+            <div class="step-intro"><div class="txt"><p class="t1">Vamos começar com o <span class="laranja">básico</span></p><p class="b2 muted">Qual o nome da sua arena?</p></div><div class="mh compacto"><div class="bola centro"><img class="arena" src="../img/mascote-arena.png" alt=""></div><div class="aro"></div></div></div>
+            <div class="campo"><p class="b2m muted">Nome da arena</p><div class="input"><span>Arena Maré Alta</span></div></div>
+            <div class="campo"><p class="b2m muted">CNPJ</p><div class="input foco"><span class="num">34.512.908/0001-47</span></div></div>
+          </div>
+          <div class="ob-rodape"><button class="btn">Continuar</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 cnpj erro -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>CNPJ não encontrado</b><span>Se a Receita não encontrar o CNPJ ativo, o aviso aparece embaixo do campo. Corrija e tente de novo.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="ob-tela">
+          <div class="obp" data-passo="1"></div>
+          <div class="ob-corpo">
+            <div class="step-intro"><div class="txt"><p class="t1">Vamos começar com o <span class="laranja">básico</span></p><p class="b2 muted">Qual o nome da sua arena?</p></div><div class="mh compacto"><div class="bola centro"><img class="arena" src="../img/mascote-arena.png" alt=""></div><div class="aro"></div></div></div>
+            <div class="campo"><p class="b2m muted">Nome da arena</p><div class="input"><span>Arena Maré Alta</span></div></div>
+            <div class="campo"><p class="b2m muted">CNPJ</p><div class="input foco"><span class="num">34.512.908/0001-74</span></div><p class="cap vermelho">Não encontramos esse CNPJ ativo na Receita Federal.</p></div>
+          </div>
+          <div class="ob-rodape"><button class="btn">Continuar</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 localização -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Localização (2 de 7)</b><span>Use a localização do celular ou digite o endereço para buscar.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="ob-tela">
+          <div class="obp" data-passo="2"></div>
+          <div class="ob-corpo g16">
+            <div class="step-intro"><div class="txt"><p class="t1">Onde sua arena está <span class="laranja">localizada?</span></p><p class="b2 muted">Use sua localização para os jogadores encontrarem a arena por perto.</p></div><div class="mh compacto"><div class="bola centro"><img class="arena" src="../img/mascote-arena.png" alt=""></div><div class="aro"></div></div></div>
+            <div class="lugar"><span class="pino"><i data-lucide="map-pin"></i></span><div class="grow col" style="gap:2px"><p class="b1m">Campeche - SC</p><p class="cap muted">Os jogadores vão encontrar sua arena por esta região.</p></div></div>
+            <button class="btn secundario"><i data-lucide="map-pin"></i>Atualizar localização</button>
+            <div class="campo">
+              <p class="b2m muted">Endereço</p>
+              <div class="input"><span>Rua das Gaivotas, 410</span></div>
+              <button class="btn terciario"><i data-lucide="search"></i>Buscar este endereço</button>
+              <p class="cap muted">A cidade e o estado vêm da localização detectada.</p>
+            </div>
+          </div>
+          <div class="ob-rodape"><button class="btn">Continuar</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 modalidades -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Modalidades (3 de 7)</b><span>Marque todas as modalidades da arena. Sem nenhuma marcada, o botão fica apagado.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="ob-tela">
+          <div class="obp" data-passo="3"></div>
+          <div class="ob-corpo">
+            <div class="step-intro"><div class="txt"><p class="t1">Quais <span class="laranja">modalidades</span> sua arena oferece?</p><p class="b2 muted">Selecione todos os que se aplicam.</p></div><div class="mh compacto"><div class="bola centro"><img class="arena" src="../img/mascote-arena.png" alt=""></div><div class="aro"></div></div></div>
+            <div class="col g8">
+              <div class="sr on"><p class="b1m grow">Beach Tennis</p><span class="marcador"><i data-lucide="check"></i></span></div>
+              <div class="sr on"><p class="b1m grow">Futevôlei</p><span class="marcador"><i data-lucide="check"></i></span></div>
+              <div class="sr on"><p class="b1m grow">Vôlei</p><span class="marcador"><i data-lucide="check"></i></span></div>
+              <div class="sr"><p class="b1m grow">Futebol</p><span class="marcador"></span></div>
+              <div class="sr"><p class="b1m grow">Tênis</p><span class="marcador"></span></div>
+              <div class="sr"><p class="b1m grow">Padel</p><span class="marcador"></span></div>
+              <div class="sr"><p class="b1m grow">Pickleball</p><span class="marcador"></span></div>
+              <div class="sr"><p class="b1m grow">Corrida</p><span class="marcador"></span></div>
+              <div class="sr"><p class="b1m grow">CrossFit</p><span class="marcador"></span></div>
+              <div class="sr"><p class="b1m grow">Hyrox</p><span class="marcador"></span></div>
+            </div>
+          </div>
+          <div class="ob-rodape"><button class="btn">Continuar</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 estrutura -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Estrutura e comodidades (4 de 7)</b><span>Toque no que a arena oferece. Este passo é opcional.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="ob-tela">
+          <div class="obp" data-passo="4"></div>
+          <div class="ob-corpo">
+            <div class="step-intro"><div class="txt"><p class="t1"><span class="laranja">Estrutura</span> e comodidades</p><p class="b2 muted">Marque o que sua arena oferece.</p></div><div class="mh compacto"><div class="bola centro"><img class="arena" src="../img/mascote-arena.png" alt=""></div><div class="aro"></div></div></div>
+            <div class="ladrilhos">
+              <div class="ladrilho on"><i data-lucide="door-open"></i>Vestiário</div>
+              <div class="ladrilho on"><i data-lucide="coffee"></i>Lanchonete</div>
+              <div class="ladrilho on"><i data-lucide="car"></i>Estacionamento</div>
+              <div class="ladrilho"><i data-lucide="paw-print"></i>Pet Friendly</div>
+              <div class="ladrilho"><i data-lucide="plus"></i>Outros</div>
+            </div>
+          </div>
+          <div class="ob-rodape"><button class="btn">Continuar</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 9 valor -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">9</div>
+        <div class="passo-txt"><b>Valor e pagamento (5 de 7)</b><span>Informe o valor da diária e marque as formas de pagamento aceitas.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="ob-tela">
+          <div class="obp" data-passo="5"></div>
+          <div class="ob-corpo">
+            <div class="step-intro"><div class="txt"><p class="t1"><span class="laranja">Valor</span> e pagamento</p><p class="b2 muted">Quanto custa a diária e como você recebe?</p></div><div class="mh compacto"><div class="bola centro"><img class="arena" src="../img/mascote-arena.png" alt=""></div><div class="aro"></div></div></div>
+            <div class="campo"><p class="b2m muted">Valor da diária</p><div class="input foco"><span class="num">R$ 40,00</span></div></div>
+            <div class="campo">
+              <p class="b2m muted">Formas de pagamento</p>
+              <div class="ladrilhos linha">
+                <div class="ladrilho on"><i data-lucide="qr-code"></i>Pix</div>
+                <div class="ladrilho on"><i data-lucide="credit-card"></i>Cartão de crédito</div>
+                <div class="ladrilho"><i data-lucide="landmark"></i>Cartão de débito</div>
+                <div class="ladrilho on"><i data-lucide="banknote"></i>Dinheiro</div>
+              </div>
+            </div>
+          </div>
+          <div class="ob-rodape"><button class="btn">Continuar</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 10 fotos -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">10</div>
+        <div class="passo-txt"><b>Logo e fotos (6 de 7)</b><span>Escolha até 5 fotos da galeria; o X tira uma. Você pode pular e mandar depois.</span><span class="ramo">Logo</span><span>No topo do passo, "Escolher logo" manda o logo da arena (opcional, imagem quadrada). Ele vira o círculo da sua arena em "Arenas perto de você", na Início dos jogadores; sem logo, vale a primeira foto. Dá para pôr ou trocar depois em Editar arena.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="ob-tela">
+          <div class="obp" data-passo="6"></div>
+          <div class="ob-corpo g16">
+            <div class="step-intro"><div class="txt"><p class="t1"><span class="laranja">Fotos</span> da sua arena</p><p class="b2 muted">Adicione fotos para apresentar sua arena para os jogadores.</p></div><div class="mh compacto"><div class="bola centro"><img class="arena" src="../img/mascote-arena.png" alt=""></div><div class="aro"></div></div></div>
+            <div class="fotos">
+              <div class="slot"><div class="foto quadra"></div><span class="x"><i data-lucide="x"></i></span></div>
+              <div class="slot"><div class="foto areia"></div><span class="x"><i data-lucide="x"></i></span></div>
+              <div class="slot"><div class="foto noite"></div><span class="x"><i data-lucide="x"></i></span></div>
+              <div class="slot add"><i data-lucide="plus"></i></div>
+            </div>
+            <p class="cap muted" style="text-align:center">Você pode adicionar mais fotos depois.</p>
+          </div>
+          <div class="ob-rodape"><button class="btn">Continuar</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 11 plano -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">11</div>
+        <div class="passo-txt"><b>Escolha seu plano (7 de 7)</b><span>Escolha mensal ou anual e toque no botão do plano para seguir. Se a loja não mostrar o preço, vale o preço de tabela.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="ob-tela">
+          <div class="obp" data-passo="7"></div>
+          <div class="ob-corpo" style="gap: 12px; padding-top: 8px; padding-bottom: 32px">
+            <div class="step-intro"><div class="txt"><p class="t1">Escolha seu <span class="laranja">plano</span></p><p class="b2 muted">Escolha o plano da sua arena no Desafiaê. Você confirma o pagamento logo após criar sua conta.</p></div><div class="mh compacto"><div class="bola centro"><img class="arena" src="../img/mascote-arena.png" alt=""></div><div class="aro"></div></div></div>
+            <div class="seg cheio app-seg"><span class="on">Mensal</span><span>Anual</span></div>
+            <div class="plano">
+              <p class="t2">Elite</p>
+              <div class="preco"><span class="t1 laranja num">R$ 449,90</span><span class="b2 muted">/mês</span></div>
+              <div class="feats">
+                <div><i data-lucide="check"></i>Gerenciamento de serviços</div><div><i data-lucide="check"></i>Partidas</div><div><i data-lucide="check"></i>Torneios</div><div><i data-lucide="check"></i>Cadastro das quadras</div><div><i data-lucide="check"></i>Visibilidade no Desafiaê</div><div><i data-lucide="check"></i>Aulas, turmas e mensalidade de alunos</div><div><i data-lucide="check"></i>Financeiro completo</div><div><i data-lucide="check"></i>Reservas de quadras</div><div><i data-lucide="check"></i>Desafio das arenas</div><div><i data-lucide="check"></i>Desafio recorrente</div><div><i data-lucide="check"></i>Temporada (circuito de torneios)</div><div><i data-lucide="check"></i>TotalPass e Wellhub</div><div><i data-lucide="check"></i>Analytics da arena</div>
+              </div>
+              <button class="btn">Assinar Elite</button>
+            </div>
+            <div class="plano">
+              <p class="t2">Premium</p>
+              <div class="preco"><span class="t1 laranja num">R$ 289,90</span><span class="b2 muted">/mês</span></div>
+              <div class="feats">
+                <div><i data-lucide="check"></i>Gerenciamento de serviços</div><div><i data-lucide="check"></i>Partidas</div><div><i data-lucide="check"></i>Torneios</div><div><i data-lucide="check"></i>Cadastro das quadras</div><div><i data-lucide="check"></i>Visibilidade no Desafiaê</div><div><i data-lucide="check"></i>Aulas, turmas e mensalidade de alunos</div><div><i data-lucide="check"></i>Financeiro completo</div><div><i data-lucide="check"></i>Reservas de quadras</div><div><i data-lucide="check"></i>Desafio das arenas</div><div><i data-lucide="check"></i>Desafio recorrente</div>
+              </div>
+              <button class="btn">Assinar Premium</button>
+            </div>
+            <div class="plano recomendado">
+              <span class="selo">Recomendado</span>
+              <p class="t2">Básico</p>
+              <div class="preco"><span class="t1 laranja num">R$ 189,90</span><span class="b2 muted">/mês</span></div>
+              <div class="feats">
+                <div><i data-lucide="check"></i>Gerenciamento de serviços</div><div><i data-lucide="check"></i>Partidas</div><div><i data-lucide="check"></i>Torneios</div><div><i data-lucide="check"></i>Cadastro das quadras</div><div><i data-lucide="check"></i>Visibilidade no Desafiaê</div><div><i data-lucide="check"></i>Aulas, turmas e mensalidade de alunos</div>
+              </div>
+              <button class="btn">Continuar</button>
+            </div>
+            <p class="cap muted" style="text-align:center">A assinatura renova automaticamente todo mês até você cancelar, cobrada na conta da loja do aparelho. <span class="laranja">Termos de uso</span> e <span class="laranja">Política de privacidade</span>.</p>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 12 sign-up -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">12</div>
+        <div class="passo-txt"><b>Criar conta</b><span>O nome da arena vem do passo 1. Preencha e-mail e senha e marque o aceite; Apple e Google só liberam depois dele.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body tela-footer">
+          <div class="miolo">
+            <div class="sh"><i data-lucide="arrow-left"></i><i data-lucide="x"></i></div>
+            <div class="intro-tela"><p class="t1">Criar conta</p><p class="b2 muted">Vamos começar</p></div>
+            <div class="col">
+              <div class="input travado"><i data-lucide="user-round"></i><span>Arena Maré Alta</span></div>
+              <div class="input"><i data-lucide="mail"></i><span>contato@arenamarealta.com.br</span></div>
+              <div class="input foco"><i data-lucide="lock"></i><span>••••••••••</span><i data-lucide="eye" class="olho"></i></div>
+              <div class="aceite"><span class="check on"><i data-lucide="check"></i></span><p class="b2 muted">Li e aceito os <span class="laranja">Termos de Uso</span> e a <span class="laranja">Política de Privacidade</span></p></div>
+            </div>
+          </div>
+          <div class="rodape">
+            <button class="btn">Criar conta</button>
+            <div class="divisor"><i></i><span class="b2 muted">ou continue com</span><i></i></div>
+            <div class="sociais"><span><svg class="marca"><use href="#apple"/></svg></span><span><svg class="marca"><use href="#google"/></svg></span></div>
+            <p class="b2 muted" style="text-align:center; padding: 8px 0">Já tem uma conta? <span class="b2m laranja">Entrar</span></p>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 13 verify-otp -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">13</div>
+        <div class="passo-txt"><b>Digite o código</b><span>Confirme o e-mail com os 6 dígitos. Em seguida, o app abre a assinatura do plano que você escolheu.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body tela-footer">
+          <div class="miolo">
+            <div class="sh"><i data-lucide="arrow-left"></i><i data-lucide="x"></i></div>
+            <div class="intro-tela"><p class="t1">Digite o código</p><p class="b2 muted">Enviamos um código de 6 dígitos para contato@arenamarealta.com.br.</p></div>
+            <div class="input foco"><i data-lucide="key-round"></i><span class="num">730541</span></div>
+          </div>
+          <div class="rodape">
+            <button class="btn">Confirmar</button>
+            <p class="b2m muted" style="text-align:center; padding: 8px 0">Reenviar código em 51s</p>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- NAVEGADOR -->
+<section class="trilho-fluxo web" data-plataforma="navegador">
+  <div class="passos">
+
+    <!-- W1 nome -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Nome e CNPJ</b><span>Comece por “Cadastrar minha arena”, na tela de entrar, ou pelo site. A coluna lateral mostra os 7 passos; se você parou no meio, volta de onde parou.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/ob-arena-name</div></div>
+        <div class="browser-body">
+          <div class="wob">
+            <div class="wob-painel" data-passo="1"></div>
+            <div class="wob-lado">
+              <span class="pontos t"></span><span class="pontos b"></span>
+              <div class="wob-col">
+                <div class="wob-cab"><p class="cap muted">Passo 1 de 7</p><div class="linha"><div class="txt"><p class="t1">Vamos começar com o <span class="laranja">básico</span></p><p class="b1 muted">Qual o nome da sua arena?</p></div><div class="mh web"><div class="bola centro"><img class="alto" src="../img/mascote-login.png" alt=""></div><div class="aro"></div></div></div></div>
+                <div class="campo"><p class="b2m muted">Nome da arena</p><div class="input"><span>Arena Maré Alta</span></div></div>
+                <div class="campo"><p class="b2m muted">CNPJ</p><div class="input foco"><span class="num">34.512.908/0001-47</span></div><p class="cap muted">Conferimos o CNPJ na Receita antes de seguir.</p></div>
+                <div class="wob-rod"><span></span><button class="btn continuar">Continuar</button></div>
+                <p class="b2 muted wob-conta">Já tem conta? <span class="b2m laranja">Entrar</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W2 localização -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Localização</b><span>Use a localização do navegador ou digite o endereço para buscar.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/ob-arena-location</div></div>
+        <div class="browser-body">
+          <div class="wob">
+            <div class="wob-painel" data-passo="2"></div>
+            <div class="wob-lado">
+              <span class="pontos t"></span><span class="pontos b"></span>
+              <div class="wob-col">
+                <div class="wob-cab"><p class="cap muted">Passo 2 de 7</p><div class="linha"><div class="txt"><p class="t1">Onde sua arena está <span class="laranja">localizada?</span></p><p class="b1 muted">Use sua localização para os jogadores encontrarem a arena por perto.</p></div><div class="mh web"><div class="bola centro"><img class="alto" src="../img/mascote-beachtennis.png" alt=""></div><div class="aro"></div></div></div></div>
+                <div class="col">
+                  <div class="lugar web"><span class="pino"><i data-lucide="map-pin"></i></span><div class="grow col" style="gap:2px"><p class="b1m">Campeche - SC</p><p class="cap muted">Os jogadores vão encontrar sua arena por esta região.</p></div></div>
+                  <button class="btn secundario"><i data-lucide="map-pin"></i>Atualizar localização</button>
+                </div>
+                <div class="campo">
+                  <p class="b2m muted">Endereço</p>
+                  <div class="input"><span>Rua das Gaivotas, 410</span></div>
+                  <button class="btn contorno-cinza inline" style="align-self:flex-start"><i data-lucide="search"></i>Buscar este endereço</button>
+                  <p class="cap muted">A cidade e o estado vêm da localização detectada.</p>
+                </div>
+                <div class="wob-rod"><button class="btn contorno-cinza">Voltar</button><button class="btn continuar">Continuar</button></div>
+                <p class="b2 muted wob-conta">Já tem conta? <span class="b2m laranja">Entrar</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W3 modalidades -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Modalidades</b><span>Marque as modalidades da arena.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/ob-arena-sports</div></div>
+        <div class="browser-body">
+          <div class="wob">
+            <div class="wob-painel" data-passo="3"></div>
+            <div class="wob-lado">
+              <div class="wob-col w620">
+                <div class="wob-cab"><p class="cap muted">Passo 3 de 7</p><div class="linha"><div class="txt"><p class="t1">Quais <span class="laranja">modalidades</span> sua arena oferece?</p><p class="b1 muted">Selecione todos os que se aplicam.</p></div><div class="mh web"><div class="bola centro"><img src="../img/mascote-em-acao.png" alt="" style="width:115%"></div><div class="aro"></div></div></div></div>
+                <div class="grade2">
+                  <div class="sr on"><p class="b1m grow">Beach Tennis</p><span class="marcador"><i data-lucide="check"></i></span></div>
+                  <div class="sr on"><p class="b1m grow">Futevôlei</p><span class="marcador"><i data-lucide="check"></i></span></div>
+                  <div class="sr on"><p class="b1m grow">Vôlei</p><span class="marcador"><i data-lucide="check"></i></span></div>
+                  <div class="sr"><p class="b1m grow">Futebol</p><span class="marcador"></span></div>
+                  <div class="sr"><p class="b1m grow">Tênis</p><span class="marcador"></span></div>
+                  <div class="sr"><p class="b1m grow">Padel</p><span class="marcador"></span></div>
+                  <div class="sr"><p class="b1m grow">Pickleball</p><span class="marcador"></span></div>
+                  <div class="sr"><p class="b1m grow">Corrida</p><span class="marcador"></span></div>
+                </div>
+                <div class="wob-rod"><button class="btn contorno-cinza">Voltar</button><button class="btn continuar">Continuar</button></div>
+                <p class="b2 muted wob-conta">Já tem conta? <span class="b2m laranja">Entrar</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W4 estrutura -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Estrutura e comodidades</b><span>Marque o que a arena oferece. Este passo é opcional.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/ob-arena-structure</div></div>
+        <div class="browser-body">
+          <div class="wob">
+            <div class="wob-painel" data-passo="4"></div>
+            <div class="wob-lado">
+              <span class="pontos t"></span><span class="pontos b"></span>
+              <div class="wob-col w620">
+                <div class="wob-cab"><p class="cap muted">Passo 4 de 7</p><div class="linha"><div class="txt"><p class="t1"><span class="laranja">Estrutura</span> e comodidades</p><p class="b1 muted">Marque o que sua arena oferece.</p></div><div class="mh web"><div class="bola centro"><img class="alto" src="../img/mascote-volei.png" alt=""></div><div class="aro"></div></div></div></div>
+                <div class="grade4">
+                  <div class="ladrilho on"><i data-lucide="door-open"></i>Vestiário</div>
+                  <div class="ladrilho on"><i data-lucide="coffee"></i>Lanchonete</div>
+                  <div class="ladrilho on"><i data-lucide="car"></i>Estacionamento</div>
+                  <div class="ladrilho"><i data-lucide="paw-print"></i>Pet Friendly</div>
+                  <div class="ladrilho"><i data-lucide="plus"></i>Outros</div>
+                </div>
+                <div class="wob-rod"><button class="btn contorno-cinza">Voltar</button><button class="btn continuar">Continuar</button></div>
+                <p class="b2 muted wob-conta">Já tem conta? <span class="b2m laranja">Entrar</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W5 valor -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Valor e pagamento</b><span>Informe o valor da diária e as formas de pagamento aceitas.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/ob-arena-pricing</div></div>
+        <div class="browser-body">
+          <div class="wob">
+            <div class="wob-painel" data-passo="5"></div>
+            <div class="wob-lado">
+              <span class="pontos t"></span><span class="pontos b"></span>
+              <div class="wob-col w620">
+                <div class="wob-cab"><p class="cap muted">Passo 5 de 7</p><div class="linha"><div class="txt"><p class="t1"><span class="laranja">Valor</span> e pagamento</p><p class="b1 muted">Quanto custa a diária e como você recebe?</p></div><div class="mh web"><div class="bola centro"><img class="alto" src="../img/mascote-futevolei.png" alt=""></div><div class="aro"></div></div></div></div>
+                <div class="campo"><p class="b2m muted">Valor da diária</p><div class="input foco"><span class="num">R$ 40,00</span></div></div>
+                <div class="campo">
+                  <p class="b2m muted">Formas de pagamento</p>
+                  <div class="grade4">
+                    <div class="ladrilho on"><i data-lucide="qr-code"></i>Pix</div>
+                    <div class="ladrilho on"><i data-lucide="credit-card"></i>Cartão de crédito</div>
+                    <div class="ladrilho"><i data-lucide="landmark"></i>Cartão de débito</div>
+                    <div class="ladrilho on"><i data-lucide="banknote"></i>Dinheiro</div>
+                  </div>
+                </div>
+                <div class="wob-rod"><button class="btn contorno-cinza">Voltar</button><button class="btn continuar">Continuar</button></div>
+                <p class="b2 muted wob-conta">Já tem conta? <span class="b2m laranja">Entrar</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W6 fotos -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Logo e fotos</b><span>Arraste as fotos do computador para a área indicada. Cabem até 5.</span><span class="ramo">Logo</span><span>No mesmo passo dá para escolher o logo da arena (opcional), que vira o círculo dela na Início dos jogadores.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/ob-arena-photos</div></div>
+        <div class="browser-body">
+          <div class="wob">
+            <div class="wob-painel" data-passo="6"></div>
+            <div class="wob-lado">
+              <div class="wob-col w620">
+                <div class="wob-cab"><p class="cap muted">Passo 6 de 7</p><div class="linha"><div class="txt"><p class="t1"><span class="laranja">Fotos</span> da sua arena</p><p class="b1 muted">Adicione fotos para apresentar sua arena para os jogadores.</p></div><div class="mh web"><div class="bola centro"><img class="alto" src="../img/mascote-etapa-final.png" alt=""></div><div class="aro"></div></div></div></div>
+                <div class="area-fotos"><i data-lucide="image-up"></i><p class="b1m">Escolha as fotos no computador</p><p class="b2 muted">até 5 fotos</p></div>
+                <div class="vagas">
+                  <div><div class="foto quadra"></div><span class="x"><i data-lucide="x"></i></span></div>
+                  <div><div class="foto areia"></div><span class="x"><i data-lucide="x"></i></span></div>
+                  <div><div class="foto noite"></div><span class="x"><i data-lucide="x"></i></span></div>
+                  <div class="vazia"></div>
+                  <div class="vazia"></div>
+                </div>
+                <p class="cap muted" style="text-align:center">Você pode adicionar mais fotos depois.</p>
+                <div class="wob-rod"><button class="btn contorno-cinza">Voltar</button><button class="btn continuar">Continuar</button></div>
+                <p class="b2 muted wob-conta">Já tem conta? <span class="b2m laranja">Entrar</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W7 plano -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Plano</b><span>Os três planos aparecem lado a lado com o preço de tabela. Clique em “Escolher” no plano e depois em “Criar conta”. Nada é cobrado aqui.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/ob-arena-plan</div></div>
+        <div class="browser-body">
+          <div class="wob">
+            <div class="wob-painel" data-passo="7"></div>
+            <div class="wob-lado">
+              <div class="wob-col w860">
+                <div class="wob-cab"><p class="cap muted">Passo 7 de 7</p><div class="linha"><div class="txt"><p class="t1">Escolha seu <span class="laranja">plano</span></p><p class="b1 muted">Escolha o plano da sua arena no Desafiaê. Você confirma o pagamento logo após criar sua conta.</p></div><div class="mh web"><div class="bola"><img src="../img/mascote-desafio.png" alt=""></div><div class="aro"></div></div></div></div>
+                <div class="seg cheio"><span class="on">Mensal</span><span>Anual</span></div>
+                <div class="planos-linha">
+                  <div class="plano recomendado">
+                    <span class="selo">Recomendado</span>
+                    <p class="t2">Básico</p>
+                    <div class="preco"><span class="t1 laranja num">R$ 189,90</span><span class="b2 muted">/mês</span></div>
+                    <div class="feats"><div><i data-lucide="check"></i>Gerenciamento de serviços</div><div><i data-lucide="check"></i>Partidas</div><div><i data-lucide="check"></i>Torneios</div><div><i data-lucide="check"></i>Cadastro das quadras</div><div><i data-lucide="check"></i>Visibilidade no Desafiaê</div><div><i data-lucide="check"></i>Aulas, turmas e mensalidade de alunos</div></div>
+                    <button class="btn">Escolher</button>
+                  </div>
+                  <div class="plano escolhido">
+                    <p class="t2">Premium</p>
+                    <div class="preco"><span class="t1 laranja num">R$ 289,90</span><span class="b2 muted">/mês</span></div>
+                    <div class="feats"><div><i data-lucide="check"></i>Gerenciamento de serviços</div><div><i data-lucide="check"></i>Partidas</div><div><i data-lucide="check"></i>Torneios</div><div><i data-lucide="check"></i>Cadastro das quadras</div><div><i data-lucide="check"></i>Visibilidade no Desafiaê</div><div><i data-lucide="check"></i>Aulas, turmas e mensalidade de alunos</div><div><i data-lucide="check"></i>Financeiro completo</div><div><i data-lucide="check"></i>Reservas de quadras</div><div><i data-lucide="check"></i>Desafio das arenas</div><div><i data-lucide="check"></i>Desafio recorrente</div></div>
+                    <button class="btn">Plano escolhido</button>
+                  </div>
+                  <div class="plano">
+                    <p class="t2">Elite</p>
+                    <div class="preco"><span class="t1 laranja num">R$ 449,90</span><span class="b2 muted">/mês</span></div>
+                    <div class="feats"><div><i data-lucide="check"></i>Gerenciamento de serviços</div><div><i data-lucide="check"></i>Partidas</div><div><i data-lucide="check"></i>Torneios</div><div><i data-lucide="check"></i>Cadastro das quadras</div><div><i data-lucide="check"></i>Visibilidade no Desafiaê</div><div><i data-lucide="check"></i>Aulas, turmas e mensalidade de alunos</div><div><i data-lucide="check"></i>Financeiro completo</div><div><i data-lucide="check"></i>Reservas de quadras</div><div><i data-lucide="check"></i>Desafio das arenas</div><div><i data-lucide="check"></i>Desafio recorrente</div><div><i data-lucide="check"></i>Temporada (circuito de torneios)</div><div><i data-lucide="check"></i>TotalPass e Wellhub</div><div><i data-lucide="check"></i>Analytics da arena</div></div>
+                    <button class="btn">Escolher</button>
+                  </div>
+                </div>
+                <div class="aviso-app"><i data-lucide="smartphone"></i><p class="b2 grow">Sua conta é criada agora e o cadastro fica completo. <span class="b2m">O pagamento do plano é confirmado no aplicativo</span>, no celular — a cobrança de assinatura passa pela loja do aparelho.</p></div>
+                <div class="wob-rod"><button class="btn contorno-cinza">Voltar</button><button class="btn continuar">Criar conta</button></div>
+                <p class="b2 muted wob-conta">Já tem conta? <span class="b2m laranja">Entrar</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W8 conta -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Criar a conta</b><span>O nome vem do passo 1. Preencha e-mail e senha e marque o aceite; Google e Apple só liberam depois dele.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/sign-up?type=arena</div></div>
+        <div class="browser-body">
+          <div class="wob">
+            <div class="wob-painel" data-passo="8"></div>
+            <div class="wob-lado">
+              <div class="wob-col">
+                <div class="wob-cab"><p class="cap muted">Último passo</p><div class="linha"><div class="txt"><p class="t1">Agora é só criar sua <span class="laranja">conta</span></p><p class="b1 muted">É com esse e-mail e senha que você entra no painel da arena.</p></div><div class="mh web"><div class="bola centro"><img class="alto" src="../img/mascote-desafiado.png" alt=""></div><div class="aro"></div></div></div></div>
+                <div class="col">
+                  <div class="campo"><p class="b2m muted">Nome da arena</p><div class="input travado"><span>Arena Maré Alta</span></div></div>
+                  <div class="campo"><p class="b2m muted">E-mail</p><div class="input"><span>contato@arenamarealta.com.br</span></div></div>
+                  <div class="campo"><p class="b2m muted">Senha</p><div class="input foco"><span>••••••••••</span><i data-lucide="eye" class="olho"></i></div><p class="cap muted">Mínimo de 6 caracteres</p></div>
+                  <div class="aceite"><span class="check"></span><p class="b2 muted">Li e aceito os <span class="laranja">Termos de Uso</span> e a <span class="laranja">Política de Privacidade</span></p></div>
+                </div>
+                <div class="divisor"><i></i><span class="b2 muted">ou continue com</span><i></i></div>
+                <div class="row wrap" style="gap:8px">
+                  <div class="btn-social apagado"><svg class="marca p"><use href="#google"/></svg>Continuar com Google</div>
+                  <div class="btn-social apagado"><svg class="marca p"><use href="#apple"/></svg>Continuar com Apple</div>
+                </div>
+                <div class="wob-rod"><button class="btn contorno-cinza">Voltar</button><button class="btn continuar off">Criar conta</button></div>
+                <p class="b2 muted wob-conta">Já tem conta? <span class="b2m laranja">Entrar</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W9 otp (proposta) -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">9</div>
+        <div class="passo-txt"><b>Digite o código</b><span>Digite os 6 dígitos ou cole o código do e-mail, que preenche todas as casas. “Trocar” e “Voltar” levam de volta para criar a conta.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/verify-otp?type=signup</div></div>
+        <div class="browser-body">
+          <div class="wob">
+            <div class="wob-painel" data-passo="8"></div>
+            <div class="wob-lado">
+              <div class="wob-col">
+                <div class="wob-cab"><p class="cap muted">Confirme seu e-mail</p><div class="linha"><div class="txt"><p class="t1">Digite o <span class="laranja">código</span></p><p class="b1 muted">Enviamos um código de 6 dígitos para o e-mail abaixo.</p></div><div class="mh web"><div class="bola centro"><img class="alto" src="../img/mascote-comunicacao.png" alt=""></div><div class="aro"></div></div></div></div>
+                <div class="col g16">
+                  <div class="otp-email"><i data-lucide="mail"></i><span class="b2m">contato@arenamarealta.com.br</span><span class="troca">Trocar</span></div>
+                  <div class="otp"><span>7</span><span>3</span><span>0</span><span class="traco">–</span><span>5</span><span>4</span><span class="foco"></span></div>
+                  <div class="otp-reenvio">
+                    <div class="linha"><i data-lucide="rotate-cw"></i><span class="b2 muted">Não chegou? <span class="b2m">Reenviar código em 51s</span></span></div>
+                    <p class="cap muted">Confira também a caixa de spam.</p>
+                  </div>
+                </div>
+                <div class="wob-rod"><button class="btn contorno-cinza">Voltar</button><button class="btn continuar off">Confirmar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">10</div>
+        <div class="passo-txt"><b>Código completo</b><span>Com os 6 dígitos, o “Confirmar” acende. Se o código estiver errado, aparece um aviso de erro.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/verify-otp?type=signup</div></div>
+        <div class="browser-body">
+          <div class="wob">
+            <div class="wob-painel" data-passo="8"></div>
+            <div class="wob-lado">
+              <div class="wob-col">
+                <div class="wob-cab"><p class="cap muted">Confirme seu e-mail</p><div class="linha"><div class="txt"><p class="t1">Digite o <span class="laranja">código</span></p><p class="b1 muted">Enviamos um código de 6 dígitos para o e-mail abaixo.</p></div><div class="mh web"><div class="bola centro"><img class="alto" src="../img/mascote-comunicacao.png" alt=""></div><div class="aro"></div></div></div></div>
+                <div class="col g16">
+                  <div class="otp-email"><i data-lucide="mail"></i><span class="b2m">contato@arenamarealta.com.br</span><span class="troca">Trocar</span></div>
+                  <div class="otp"><span>7</span><span>3</span><span>0</span><span class="traco">–</span><span>5</span><span>4</span><span>1</span></div>
+                  <div class="otp-reenvio">
+                    <div class="linha"><i data-lucide="rotate-cw"></i><span class="b2 muted">Não chegou? <span class="b2m laranja">Reenviar código</span></span></div>
+                    <p class="cap muted">Confira também a caixa de spam.</p>
+                  </div>
+                </div>
+                <div class="wob-rod"><button class="btn contorno-cinza">Voltar</button><button class="btn continuar">Confirmar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Posso parar o cadastro no meio?</summary><p>Pode. Suas respostas ficam guardadas e você volta de onde parou.</p></details>
+    <details><summary>O app disse que o CNPJ não foi encontrado. E agora?</summary><p>O CNPJ é conferido na Receita Federal e precisa estar ativo. Confira os 14 dígitos e tente de novo.</p></details>
+    <details><summary>Preciso mandar as fotos agora?</summary><p>Não. O passo das fotos pode ser pulado, e você manda depois.</p></details>
+    <details><summary>Vou pagar durante o cadastro?</summary><p>Não. No passo do plano você só escolhe. A assinatura vem depois de criar a conta e confirmar o e-mail com o código.</p></details>
+    <details><summary>O preço do plano não apareceu. Consigo seguir?</summary><p>Consegue. O botão continua funcionando e vale o preço de tabela do plano.</p></details>
+  </div>
+</section>
+
+<script>
+  /* monta a trilha do aparelho (OnboardingProgress) e a coluna grafite do navegador (WebOnboardingLayout) */
+  (function () {
+    var NOMES = ['Nome e CNPJ', 'Localização', 'Modalidades', 'Estrutura e comodidades', 'Valor e pagamento', 'Fotos', 'Plano'];
+    document.querySelectorAll('.obp[data-passo]').forEach(function (o) {
+      var n = +o.dataset.passo, t = '';
+      for (var i = 1; i <= 7; i++) t += '<i' + (i <= n ? ' class="on"' : '') + '></i>';
+      o.innerHTML = '<i data-lucide="arrow-left"></i><div class="trilha">' + t + '</div><span class="cap muted">' + n + ' de 7</span><i data-lucide="x"></i>';
+    });
+    document.querySelectorAll('.wob-painel[data-passo]').forEach(function (p) {
+      var n = +p.dataset.passo, l = '';
+      NOMES.forEach(function (nome, i) {
+        var k = i + 1, cls = k < n ? ' feito' : k === n ? ' atual' : '';
+        l += '<div class="ps' + cls + '"><span class="mk">' + (k < n ? '<i data-lucide="check"></i>' : k) + '</span>' + nome + '</div>';
+      });
+      p.innerHTML = '<div class="marca-web"><img src="../img/logo-simbolo-laranja.png" alt="">DESAFIAÊ</div>' +
+        '<div class="chamada"><img src="../img/mascote-arena.png" alt=""><div class="col g4"><p class="cap" style="color:var(--text-inverse-muted)">Cadastro da arena</p><p class="t2" style="color:var(--text-inverse)">7 passos, uns 5 minutos</p></div></div>' +
+        '<div class="lista">' + l + '</div><div class="folga"></div>' +
+        '<div class="rodape-p"><img src="../img/mascote-comunicacao.png" alt=""><p>Dá pra parar no meio: o cadastro fica guardado e você volta de onde parou.</p></div>';
+    });
+  })();
+</script>
+<script src="../kit.js"></script>
+</body>
+</html>

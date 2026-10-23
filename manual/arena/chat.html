@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chat das partidas · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* ScreenHeader das telas de detalhe */
+  .sh { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; min-height: 48px; flex: none; }
+  .sh .ld { min-width: 24px; display: flex; gap: 12px; align-items: center; justify-content: flex-end; }
+  .sh svg { width: 24px; height: 24px; }
+  .sh .tt { font: 600 18px/26px var(--font); flex: 1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .screen-body.g12 { gap: 12px; }
+  .rodape { flex: none; padding: 12px 20px 34px; display: flex; flex-direction: column; gap: 8px; background: var(--background); }
+  .btn { font-weight: 500; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.perigo-c { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  .lg { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .lr { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; background: var(--surface); position: relative; }
+  .lr + .lr::before { content: ""; position: absolute; top: 0; left: 16px; right: 0; height: 1px; background: var(--border); }
+  .lr .l { flex: 1; font: 400 16px/24px var(--font); }
+  .lr .v { font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .lr > svg { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .cat { height: 20px; width: auto; flex: none; display: block; }
+  .cat.c28 { height: 28px; }
+  .screen .avatar, .browser .avatar { background: var(--primary); color: var(--text-inverse); font-weight: 500; }
+
+  /* MatchChatCard */
+  .mcc { display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
+  .mcc .ico { width: 48px; height: 48px; border-radius: 999px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .mcc .ico svg { width: 20px; height: 20px; }
+  .mcc .tx { flex: 1; min-width: 0; display: grid; }
+  .mcc .tx .cap { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mcc .nl { min-width: 24px; height: 24px; padding: 0 8px; border-radius: 999px; background: var(--primary); color: var(--text-inverse); font: 500 12px/24px var(--font); text-align: center; flex: none; }
+  .mcc > svg { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .aro-chat { outline: 2px solid var(--primary); outline-offset: 3px; }
+
+  /* tela do chat (celular) */
+  .chat-cab { display: flex; align-items: center; gap: 4px; padding: 8px; border-bottom: 1px solid var(--border); background: var(--surface); flex: none; }
+  .chat-cab .bt { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; flex: none; }
+  .chat-cab .bt svg { width: 24px; height: 24px; }
+  .chat-cab .tx { flex: 1; min-width: 0; display: grid; }
+  .chat-cab .tx p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .fixo { display: flex; align-items: center; gap: 8px; margin: 12px 20px 0; padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; flex: none; }
+  .fixo > svg { width: 20px; height: 20px; color: var(--primary); flex: none; }
+  .fixo .tx { flex: 1; min-width: 0; display: grid; }
+  .fio { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; padding: 12px 20px; }
+  .dia { align-self: center; margin: 12px 0 4px; font: 500 12px/16px var(--font); color: var(--text-muted); }
+  .sis { align-self: center; max-width: 90%; margin: 4px 0; padding: 8px 12px; border-radius: 999px; background: var(--neutral-soft); font: 400 12px/16px var(--font); text-align: center; }
+  .regul { display: flex; flex-direction: column; gap: 4px; margin: 4px 0; padding: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
+  .regul .cab-r { display: flex; align-items: center; gap: 8px; }
+  .regul .cab-r svg { width: 20px; height: 20px; color: var(--primary); }
+  .regul .corte { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .msg { display: flex; align-items: flex-end; gap: 8px; }
+  .msg.ini { margin-top: 8px; }
+  .msg.meu { justify-content: flex-end; }
+  .msg .slot { width: 32px; flex: none; }
+  .msg .col-b { max-width: 78%; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+  .msg.meu .col-b { align-items: flex-end; }
+  .bal { display: flex; flex-direction: column; gap: 4px; padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px 14px 14px 4px; }
+  .msg.meu .bal { background: var(--primary-soft); border-color: var(--primary-soft); border-radius: 14px 14px 4px 14px; }
+  .bal .hora { align-self: flex-end; font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .bal .nome { display: flex; align-items: center; gap: 8px; font: 500 12px/16px var(--font); }
+  .nome.c0 { color: var(--primary-dark); } .nome.c1 { color: var(--info); } .nome.c2 { color: var(--success); }
+  .etq { padding: 0 8px; border-radius: 999px; font: 400 12px/16px var(--font); }
+  .etq.mod { background: var(--neutral-soft); color: var(--text); }
+  .av-fant { width: 32px; height: 32px; border-radius: 999px; background: var(--neutral-soft); color: var(--text-muted); display: flex; align-items: center; justify-content: center; flex: none; }
+  .av-fant svg { width: 16px; height: 16px; }
+  .bal.fant { background: transparent; border: 1px dashed var(--neutral); max-width: 78%; }
+  .bal.fant .b2 { font-style: italic; color: var(--text-muted); }
+  .bal.toque { box-shadow: 0 0 0 2px var(--primary-tint); }
+  .rbar { display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-card); }
+  .rbar span { width: 36px; height: 36px; border-radius: 999px; display: flex; align-items: center; justify-content: center; }
+  .rbar span.on { background: var(--primary-soft); }
+  .rbar svg { width: 22px; height: 22px; }
+  .rchips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: -4px; }
+  .rchip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); font: 500 12px/16px var(--font); }
+  .rchip.on { border-color: var(--primary); background: var(--primary-soft); color: var(--primary-dark); }
+  .rchip svg { width: 12px; height: 12px; }
+  .r-like { color: var(--info); } .r-love { color: var(--danger); } .r-haha { color: var(--accent); } .r-fire { color: var(--warning); } .r-clap { color: var(--primary-dark); } .r-wow { color: var(--accent); }
+  .pe { flex: none; display: flex; flex-direction: column; gap: 8px; padding: 8px 20px 34px; background: var(--background); }
+  .campo { display: flex; align-items: flex-end; gap: 8px; }
+  .campo .in { flex: 1; min-height: 48px; padding: 12px 16px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface-alt); font: 400 14px/20px var(--font); color: var(--text-muted); }
+  .campo .env { width: 48px; height: 48px; border-radius: 999px; background: var(--neutral); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; flex: none; }
+  .campo .env svg { width: 20px; height: 20px; }
+  .campo .emo { width: 48px; height: 48px; border-radius: 999px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); flex: none; }
+  .campo .emo svg { width: 20px; height: 20px; }
+  .folha { position: absolute; left: 0; right: 0; bottom: 0; z-index: 8; background: var(--background); border-radius: 20px 20px 0 0; padding: 20px 20px 32px; display: flex; flex-direction: column; gap: 4px; }
+  .fcab { display: flex; align-items: center; gap: 8px; padding-bottom: 4px; }
+  .fcab svg { width: 24px; height: 24px; }
+  .acao { display: flex; align-items: center; gap: 12px; padding: 12px 0; }
+  .acao > svg { width: 24px; height: 24px; flex: none; }
+  .acao.perigo { color: var(--danger); }
+  .acao .tx { flex: 1; display: grid; }
+
+  /* categoria do torneio na gestão da arena (resumo) */
+  .hero-c { min-height: 120px; padding: 16px; border-radius: 14px; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; color: var(--text-inverse); background: linear-gradient(0deg, var(--overlay-strong), var(--overlay-strong)), linear-gradient(160deg, var(--accent) 0%, var(--primary) 60%, var(--primary-dark) 100%); }
+
+  /* painel web */
+  .wph { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex: none; }
+  .wph .tit { display: flex; align-items: center; gap: 8px; }
+  .wph .tit > svg { width: 24px; height: 24px; }
+  .sino { padding: 4px; position: relative; display: flex; }
+  .sino svg { width: 24px; height: 24px; }
+  .sino .badge-dot { top: 0; right: 0; }
+  .voltar { display: inline-flex; align-items: center; gap: 4px; color: var(--primary); font: 500 14px/20px var(--font); margin-bottom: -20px; flex: none; }
+  .voltar svg { width: 16px; height: 16px; }
+  .shell-sub .it .cont { margin-left: auto; min-width: 24px; height: 24px; padding: 0 8px; border-radius: 999px; background: var(--primary); color: var(--text-inverse); font: 500 12px/24px var(--font); text-align: center; }
+  .shell-conteudo.chat { gap: 24px; }
+  .colunas { flex: 1; min-height: 0; display: flex; gap: 24px; }
+  /* tabela dos Jogos (games.web.tsx) */
+  .segw { display: inline-flex; background: var(--surface-alt); border-radius: 999px; padding: 4px; gap: 4px; }
+  .segw span { padding: 6px 16px; border-radius: 999px; font: 500 14px/20px var(--font); color: var(--text-muted); display: flex; gap: 6px; align-items: baseline; }
+  .segw span small { font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .segw span.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow-card); }
+  .tl { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-top: 1px solid var(--border); font: 400 14px/20px var(--font); }
+  .tl.cab { border-top: 0; padding: 8px 16px; }
+  .tl.cab span { font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .tl.aberta { background: var(--primary-wash); }
+  .c-q { width: 130px; flex: none; } .c-qd { width: 100px; flex: none; } .c-at { width: 64px; flex: none; text-align: right; } .c-sit { width: 120px; flex: none; padding-left: 12px; }
+  .painel-lat { width: 320px; flex: none; display: flex; flex-direction: column; gap: 12px; }
+  .painel-lat.aro { border: 2px solid var(--primary); }
+  .ficha { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .ficha img { width: 20px; height: 22px; object-fit: contain; }
+  .jog { display: flex; align-items: center; gap: 8px; }
+  .cols { display: flex; gap: 16px; align-items: flex-start; }
+  /* caixa de Mensagens */
+  .caixa { width: 380px; flex: none; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; }
+  .caixa .topo-c { display: flex; flex-direction: column; gap: 12px; padding: 16px; }
+  .caixa .input { height: 52px; }
+  .conv { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-top: 1px solid var(--border); }
+  .conv.aberta { background: var(--primary-wash); }
+  .conv .ic-c { width: 40px; height: 40px; border-radius: 999px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .conv .ic-c svg { width: 20px; height: 20px; }
+  .conv .tx { flex: 1; min-width: 0; display: grid; }
+  .conv .tx p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .conv .meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex: none; }
+  .conv .meta .nl { min-width: 24px; height: 24px; padding: 0 8px; border-radius: 999px; background: var(--primary); color: var(--text-inverse); font: 500 12px/24px var(--font); text-align: center; }
+  /* MatchChatPanel */
+  .painel-chat { flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: hidden; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; position: relative; }
+  .painel-chat .barra { display: flex; align-items: center; gap: 12px; padding: 12px 8px 12px 20px; border-bottom: 1px solid var(--border); flex: none; }
+  .painel-chat .barra .tx { flex: 1; min-width: 0; display: grid; }
+  .painel-chat .barra .tx p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .painel-lat .mcc .b1m { white-space: nowrap; }
+  .painel-chat .barra .menu { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; }
+  .painel-chat .barra .menu svg { width: 24px; height: 24px; }
+  .painel-chat .fio { background: var(--background); padding: 12px 24px; }
+  .painel-chat .pe { padding: 12px 20px 16px; border-top: 1px solid var(--border); background: var(--surface); }
+  .msg .hover-r { width: 32px; height: 32px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); display: flex; align-items: center; justify-content: center; flex: none; align-self: center; }
+  .msg .hover-r.on { background: var(--surface-alt); }
+  .msg .hover-r svg { width: 16px; height: 16px; }
+  /* coluna lateral do chat no painel */
+  .lateral { width: 320px; flex: none; display: flex; flex-direction: column; gap: 16px; }
+  .lateral .card { display: flex; flex-direction: column; gap: 12px; }
+  .lateral .lin { display: flex; align-items: center; gap: 12px; }
+  .lateral .lin > svg { width: 20px; height: 20px; color: var(--primary); flex: none; }
+  .lateral .lin .grow { display: grid; }
+  .liberar { padding: 8px 12px; border-radius: 999px; border: 1px solid var(--primary); color: var(--primary); font: 500 12px/16px var(--font); }
+  /* estreito: pílulas em cima da conversa */
+  .pilulas { display: flex; flex-wrap: wrap; gap: 12px; flex: none; margin-bottom: -12px; }
+  .pilula { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .pilula > svg { width: 20px; height: 20px; color: var(--primary); flex: none; }
+  .pilula.larga { flex: 1 1 240px; }
+  .pilula .tx { flex: 1; min-width: 0; display: grid; }
+  .pilula .ch { width: 16px; height: 16px; color: var(--text-muted); }
+  .pilula .us { color: var(--text); }
+  /* modal no meio da tela (folhas do chat no navegador) */
+  .veu-w { position: absolute; inset: 0; background: var(--overlay); z-index: 7; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .modal-w { width: 100%; max-width: 480px; background: var(--background); border-radius: 20px; padding: 20px; display: flex; flex-direction: column; gap: 4px; }
+  .modal-w.lista { max-width: 420px; gap: 12px; }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="arena" data-fluxo="chat"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Chat das partidas</h1>
+  <p>Você conversa com quem joga nas partidas que sua arena organiza e nas categorias dos seus torneios, sempre com o nome da arena, e modera a conversa: apaga mensagem, impede alguém de escrever e denuncia. No navegador há a caixa de Mensagens com todas as conversas; no celular, cada chat abre pelo card da partida ou da categoria.</p>
+  <ul class="regras">
+    <li>Sua arena entra no chat das partidas que criou, dos desafios recorrentes e das categorias dos torneios dela (ou em que foi desafiada). Nas outras partidas da quadra, o card do chat não aparece.</li>
+    <li>Quem gerencia pelo painel (dono, administrador, gerente) fala como a arena: a mensagem sai com o nome dela e a etiqueta Organizadora, nunca com o nome da pessoa. Quem joga ou modera aquele jogo fala com o próprio nome.</li>
+    <li>Como organizadora, você pode apagar mensagens e impedir alguém de escrever; a pessoa continua no jogo e lendo. Outra organizadora e o moderador do torneio não podem ser impedidos.</li>
+    <li>Uma denúncia já esconde a mensagem para todos até a análise. A denúncia vale contra quem escreveu, ou contra a arena, se a mensagem saiu com o nome dela.</li>
+    <li>As notificações do chat chegam na conta da arena, agrupadas: no máximo uma a cada 5 minutos por chat. Gerente e administrador só recebem pelo que forem como pessoa.</li>
+    <li>A caixa de Mensagens existe só no navegador e mostra só os chats que já foram abertos por alguém. A conversa com a mensagem mais nova vem primeiro.</li>
+    <li>O chat fecha 48 horas depois do fim da partida ou da categoria, e o histórico continua visível.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 CARD NA PARTIDA -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">1</div>
+        <div class="passo-txt"><b>Card na partida</b><span>Na aba Jogos, abra a partida que sua arena criou: o card do chat mostra a última mensagem e as não lidas. No celular não há caixa de Mensagens.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body g12">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Detalhes da partida</span><span class="ld"><i data-lucide="pencil"></i><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="row sb"><p class="t2">Futevôlei</p><span class="tag sem-ponto info">Confirmada</span></div>
+          <div class="row" style="gap:0"><span class="b2 muted">11/10 · 19:30 · </span><span class="b2m laranja">Arena Maré Alta</span></div>
+          <div class="foto quadra" style="height:150px"></div>
+          <div class="mcc aro-chat">
+            <span class="ico"><i data-lucide="message-circle"></i></span>
+            <div class="tx"><span class="b1m">Chat da partida</span><span class="cap muted">Duda Alves: A quadra tem iluminação até que horas?</span></div>
+            <span class="nl">2</span><i data-lucide="chevron-right"></i>
+          </div>
+          <div class="lg">
+            <div class="lr"><i data-lucide="signal"></i><span class="l">Nível</span><img class="cat c28" src="../img/categoria-c.png" alt="C"></div>
+            <div class="lr"><i data-lucide="eye"></i><span class="l">Visibilidade</span><span class="v">Público</span></div>
+            <div class="lr"><i data-lucide="grid-2x2"></i><span class="l">Formato</span><span class="v">2x2</span></div>
+          </div>
+          <div class="sec-hdr"><span class="t3">Participantes (4)</span></div>
+          <div class="lg">
+            <div class="lr"><span class="avatar sm">B</span><img class="cat" src="../img/categoria-c.png" alt=""><span class="l">Bia Moreira</span><i data-lucide="chevron-right"></i></div>
+            <div class="lr"><span class="avatar sm">R</span><img class="cat" src="../img/categoria-c.png" alt=""><span class="l">Rafa Lima</span><i data-lucide="chevron-right"></i></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 CONVERSA COMO ARENA -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">2</div>
+        <div class="passo-txt"><b>Conversa como Arena Maré Alta</b><span>Suas mensagens aparecem à direita, com o nome da arena. No topo aparece o total de atletas, não os nomes. Não há respostas rápidas, e o aviso de que você fala como a arena fica acima do campo.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="chat-cab">
+          <span class="bt"><i data-lucide="arrow-left"></i></span>
+          <div class="tx"><p class="b1m">Futevôlei · 11/10 · 19:30</p><p class="cap muted">4 atletas</p></div>
+          <span class="bt"><i data-lucide="ellipsis-vertical"></i></span>
+        </div>
+        <div class="fixo"><i data-lucide="map-pin"></i><div class="tx"><span class="capm">Arena Maré Alta · Quadra 1</span><span class="cap muted">11/10 · 19:30</span></div><span class="capm laranja">Como chegar</span></div>
+        <div class="fio">
+          <span class="dia">Ontem</span>
+          <div class="msg meu ini"><div class="col-b"><div class="bal"><p class="b2">Partida confirmada! Quadra 1 reservada pra vocês. Qualquer coisa é só chamar aqui.</p><span class="hora">18:30</span></div></div></div>
+          <div class="msg ini"><div class="slot"><span class="avatar md">B</span></div><div class="col-b"><div class="bal"><span class="nome c0">Bia Moreira</span><p class="b2">Valeu! Sábado 19h30 então.</p><span class="hora">18:42</span></div>
+            <div class="rchips"><span class="rchip"><i data-lucide="thumbs-up" class="r-like"></i>2</span></div></div></div>
+          <span class="dia">Hoje</span>
+          <div class="msg ini"><div class="slot"><span class="avatar md">D</span></div><div class="col-b"><div class="bal"><span class="nome c2">Duda Alves</span><p class="b2">A quadra tem iluminação até que horas?</p><span class="hora">09:12</span></div></div></div>
+          <div class="msg meu ini"><div class="col-b"><div class="bal"><p class="b2">Até as 23h. Estacionamento liberado pra quem joga.</p><span class="hora">09:20</span></div></div></div>
+        </div>
+        <div class="pe">
+          <span class="cap muted">Você fala como Arena Maré Alta</span>
+          <div class="campo"><div class="in">Mensagem pro grupo</div><span class="env"><i data-lucide="send"></i></span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 MODERAR -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">3</div>
+        <div class="passo-txt"><b>Moderar</b><span>Toque na mensagem de alguém para apagar, impedir de escrever ou denunciar. A mensagem apagada vira "Mensagem apagada pela organização"; quando alguém é impedido, todos veem um aviso automático.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="chat-cab">
+          <span class="bt"><i data-lucide="arrow-left"></i></span>
+          <div class="tx"><p class="b1m">Futevôlei · 11/10 · 19:30</p><p class="cap muted">4 atletas</p></div>
+          <span class="bt"><i data-lucide="ellipsis-vertical"></i></span>
+        </div>
+        <div class="fixo"><i data-lucide="map-pin"></i><div class="tx"><span class="capm">Arena Maré Alta · Quadra 1</span><span class="cap muted">11/10 · 19:30</span></div><span class="capm laranja">Como chegar</span></div>
+        <div class="fio">
+          <div class="msg meu ini"><div class="col-b"><div class="bal"><p class="b2">Até as 23h. Estacionamento liberado pra quem joga.</p><span class="hora">09:20</span></div></div></div>
+          <div class="msg ini"><div class="slot"><span class="avatar md">R</span></div><div class="col-b"><div class="bal toque"><span class="nome c1">Rafa Lima</span><p class="b2">Essa quadra 1 é a pior da arena, sempre cheia de buraco</p><span class="hora">09:26</span></div></div></div>
+          <div class="msg ini"><div class="slot"><span class="avatar md">N</span></div><div class="col-b"><div class="bal"><span class="nome c2">Nina Prado</span><p class="b2">Joguei lá semana passada, tava ótima</p><span class="hora">09:28</span></div></div></div>
+          <div class="msg ini"><div class="slot"><span class="avatar md">B</span></div><div class="col-b"><div class="bal"><span class="nome c0">Bia Moreira</span><p class="b2">Bora focar no jogo, gente</p><span class="hora">09:30</span></div></div></div>
+        </div>
+        <div class="pe">
+          <span class="cap muted">Você fala como Arena Maré Alta</span>
+          <div class="campo"><div class="in">Mensagem pro grupo</div><span class="env"><i data-lucide="send"></i></span></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="folha">
+          <div class="fcab"><span class="capm muted grow">Mensagem de Rafa Lima</span><i data-lucide="x"></i></div>
+          <div class="acao perigo"><i data-lucide="trash-2"></i><span class="b1">Apagar mensagem</span></div>
+          <div class="acao"><i data-lucide="message-circle-off"></i><div class="tx"><span class="b1">Impedir Rafa de escrever</span><span class="cap muted">Continua na partida e lendo o chat</span></div></div>
+          <div class="acao"><i data-lucide="flag"></i><span class="b1">Denunciar mensagem</span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 CATEGORIA: CARD -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">4</div>
+        <div class="passo-txt"><span class="ramo">Torneio</span><b>Card na categoria</b><span>Na gestão da categoria, abaixo das equipes, fica o card "Chat da categoria". Você entra como organizadora; quem você chamou para moderar entra com o próprio nome.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body g12">
+          <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="tt">Dupla Mista</span><span class="ld"><i data-lucide="x"></i></span></div>
+          <div class="hero-c"><p class="t3">Copa Maré Alta de Futevôlei</p><p class="cap">10/10 – 11/10 · Arena Maré Alta</p></div>
+          <div class="sec-hdr"><span class="t3">Equipes (8)</span></div>
+          <div class="lg">
+            <div class="lr"><span class="l">Areia Fina</span><span class="tag sem-ponto ok">Confirmada</span></div>
+            <div class="lr"><span class="l">Pé na Areia</span><span class="tag sem-ponto ok">Confirmada</span></div>
+            <div class="lr"><span class="l">Duplinha</span><span class="tag sem-ponto ok">Confirmada</span></div>
+          </div>
+          <div class="mcc aro-chat">
+            <span class="ico"><i data-lucide="message-circle"></i></span>
+            <div class="tx"><span class="b1m">Chat da categoria</span><span class="cap muted">Léo Tavares: Aviso: quadra 3 atrasou uns 15 min.</span></div>
+            <span class="nl">3</span><i data-lucide="chevron-right"></i>
+          </div>
+          <button class="btn sec">Ver chaveamento</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 CATEGORIA: CHAT -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">5</div>
+        <div class="passo-txt"><span class="ramo">Torneio</span><b>Chat da categoria</b><span>A conversa começa com o regulamento do torneio. As mensagens da arena ficam do seu lado; o moderador do torneio aparece com a etiqueta Moderador e não pode ser impedido.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="chat-cab">
+          <span class="bt"><i data-lucide="arrow-left"></i></span>
+          <div class="tx"><p class="b1m">Copa Maré Alta de Futevôlei · Dupla Mista</p><p class="cap muted">16 atletas</p></div>
+          <span class="bt"><i data-lucide="ellipsis-vertical"></i></span>
+        </div>
+        <div class="fio">
+          <div class="regul">
+            <div class="cab-r"><i data-lucide="file-text"></i><span class="b2m">Regulamento do torneio</span></div>
+            <p class="cap corte">Tolerância de 10 minutos de atraso; depois disso é W.O. Jogos em set único de 18 pontos, com 2 de vantagem até o teto de 21. Bola oficial fornecida pela arena. Uso de camisa da equipe obrigatório a partir das quartas.</p>
+            <span class="capm laranja">Ler regulamento completo</span>
+            <span class="cap muted" style="align-self:flex-end">Enviado pela organização ao abrir o chat</span>
+          </div>
+          <span class="dia">Hoje</span>
+          <div class="msg meu ini"><div class="col-b"><div class="bal"><p class="b2">Chaveamento publicado! Primeiros jogos às 8h, quadras 1 a 4.</p><span class="hora">08:02</span></div></div></div>
+          <div class="msg ini"><div class="slot"><span class="avatar md">L</span></div><div class="col-b"><div class="bal"><span class="nome c1">Léo Tavares <span class="etq mod">Moderador</span></span><p class="b2">Aviso: quadra 3 atrasou uns 15 min.</p><span class="hora">09:41</span></div></div></div>
+          <div class="msg ini"><div class="slot"><span class="avatar md">B</span></div><div class="col-b"><div class="bal"><span class="nome c0">Bia Moreira</span><p class="b2">Valeu, Léo! Estamos na quadra 2 esperando</p><span class="hora">09:43</span></div></div></div>
+        </div>
+        <div class="pe">
+          <span class="cap muted">Você fala como Arena Maré Alta</span>
+          <div class="campo"><div class="in">Mensagem pro grupo</div><span class="env"><i data-lucide="send"></i></span></div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- NAVEGADOR -->
+<section class="trilho-fluxo web" data-plataforma="navegador">
+  <div class="passos">
+
+    <!-- 1 JOGOS -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">1</div>
+        <div class="passo-txt"><b>Jogos com o chat na ficha</b><span>Na ficha lateral da partida que sua arena organiza, o card do chat fica logo abaixo da situação. O menu do painel ganha o item Mensagens, com o total de não lidas.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/games</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="painel" data-item="Jogos">
+            <div class="shell-conteudo" style="gap:16px">
+              <div class="wph"><div class="col g4"><p class="t1">Jogos</p><p class="b2 muted">Arena Maré Alta · 3 hoje</p></div><div class="row"><button class="btn inline">Criar jogo</button><span class="sino"><i data-lucide="bell"></i></span></div></div>
+              <div><span class="segw"><span class="on">Partidas <small>48</small></span><span>Torneios <small>3</small></span><span>Desafios de arena <small>2</small></span></span></div>
+              <div class="cols">
+                <div class="card sem-pad" style="flex:1;min-width:0">
+                  <div class="tl cab"><span class="c-q">HORÁRIO</span><span class="c-qd">QUADRA</span><span class="grow">ATIVIDADE</span><span class="c-at">ATLETAS</span><span class="c-sit">SITUAÇÃO</span></div>
+                  <div class="tl"><span class="c-q b2m">11/10 · 18:00</span><span class="c-qd muted">Quadra 2</span><span class="grow">Beach Tennis</span><span class="c-at muted">4/4</span><span class="c-sit"><span class="tag sem-ponto info">Confirmada</span></span></div>
+                  <div class="tl aberta"><span class="c-q b2m">11/10 · 19:30</span><span class="c-qd muted">Quadra 1</span><span class="grow">Futevôlei</span><span class="c-at muted">4/4</span><span class="c-sit"><span class="tag sem-ponto info">Confirmada</span></span></div>
+                  <div class="tl"><span class="c-q b2m">12/10 · 07:00</span><span class="c-qd muted">Quadra 3</span><span class="grow">Beach Tennis</span><span class="c-at muted">2/4</span><span class="c-sit"><span class="tag sem-ponto ok">Aberta</span></span></div>
+                  <div class="tl"><span class="c-q b2m">12/10 · 08:00</span><span class="c-qd muted">Quadra 1</span><span class="grow">Futevôlei</span><span class="c-at muted">3/4</span><span class="c-sit"><span class="tag sem-ponto ok">Aberta</span></span></div>
+                  <div class="tl"><span class="c-q b2m">04/10 · 17:30</span><span class="c-qd muted">Quadra 1</span><span class="grow">Futevôlei</span><span class="c-at muted">4/4</span><span class="c-sit"><span class="tag sem-ponto neutro">Concluída</span></span></div>
+                </div>
+                <div class="card painel-lat aro">
+                  <div class="row top sb"><div class="grow col" style="gap:2px"><p class="t3">Futevôlei</p><span class="cap muted">11/10 · 19:30 · Quadra 1</span></div><i data-lucide="x" class="ic muted"></i></div>
+                  <span class="tag sem-ponto info">Confirmada</span>
+                  <div class="mcc aro-chat">
+                    <span class="ico"><i data-lucide="message-circle"></i></span>
+                    <div class="tx"><span class="b1m">Chat da partida</span><span class="cap muted">Duda Alves: A quadra tem iluminação até que horas?</span></div>
+                    <span class="nl">2</span><i data-lucide="chevron-right"></i>
+                  </div>
+                  <div class="ficha"><span class="cap muted">Nível</span><img src="../img/categoria-c.png" alt="C"></div>
+                  <div class="ficha"><span class="cap muted">Formato</span><span class="b2">2x2</span></div>
+                  <div class="ficha"><span class="cap muted">ATLETAS</span><span class="b2">4/4</span></div>
+                  <div class="col g8"><span class="cap muted">Participantes (4)</span>
+                    <div class="jog"><span class="avatar sm">B</span><span class="b2 grow">Bia Moreira</span></div>
+                    <div class="jog"><span class="avatar sm">R</span><span class="b2 grow">Rafa Lima</span></div>
+                    <div class="jog"><span class="avatar sm">D</span><span class="b2 grow">Duda Alves</span></div>
+                    <div class="jog"><span class="avatar sm">N</span><span class="b2 grow">Nina Prado</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 MENSAGENS -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">2</div>
+        <div class="passo-txt"><b>Mensagens</b><span>Todas as conversas das partidas e torneios da sua arena, a mais nova primeiro, com busca e filtros. Clique numa para abrir ao lado e marcá-la como lida; você fala como a arena e tem botão de emoji no campo.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-messages</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="painel" data-item="Mensagens">
+            <div class="shell-conteudo chat">
+              <div class="wph"><div class="col g4"><p class="t1">Mensagens</p><p class="b2 muted">Chats das partidas e torneios que a arena organiza · 5 não lidas</p></div><span class="sino"><i data-lucide="bell"></i></span></div>
+              <div class="colunas">
+                <div class="caixa">
+                  <div class="topo-c">
+                    <div class="input"><i data-lucide="search"></i><span class="ph">Buscar conversa</span></div>
+                    <div class="chips"><span class="chip on-laranja">Todos</span><span class="chip">Não lidas</span><span class="chip">Partidas</span><span class="chip">Torneios</span></div>
+                  </div>
+                  <div class="conv aberta"><span class="ic-c"><i data-lucide="message-circle"></i></span><div class="tx"><p class="b2m">Futevôlei · 11/10 19:30</p><p class="cap muted">Duda: A quadra tem iluminação até que horas?</p></div><div class="meta"><span class="cap muted">09:12</span><span class="nl">2</span></div></div>
+                  <div class="conv"><span class="ic-c"><i data-lucide="trophy"></i></span><div class="tx"><p class="b2m">Copa Maré Alta de Futevôlei · Dupla Mista</p><p class="cap muted">Léo: Aviso: quadra 3 atrasou uns 15 min.</p></div><div class="meta"><span class="cap muted">08:40</span><span class="nl">3</span></div></div>
+                  <div class="conv"><span class="ic-c"><i data-lucide="message-circle"></i></span><div class="tx"><p class="b2">Beach Tennis · 12/10 07:00</p><p class="cap muted">Você: Bolas novas na quadra 3</p></div><div class="meta"><span class="cap muted">05/10</span></div></div>
+                  <div class="conv"><span class="ic-c"><i data-lucide="trophy"></i></span><div class="tx"><p class="b2">Desafio Maré x Ponte · Mista</p><p class="cap muted">Arena Ponte: Chaveamento sai amanhã</p></div><div class="meta"><span class="cap muted">04/10</span></div></div>
+                  <div class="conv"><span class="ic-c"><i data-lucide="message-circle"></i></span><div class="tx"><p class="b2">Futevôlei · 14/10 19:00</p><p class="cap muted">Nina: Confirmado pra terça</p></div><div class="meta"><span class="cap muted">04/10</span></div></div>
+                </div>
+                <div class="painel-chat">
+                  <div class="barra"><div class="tx"><p class="b1m">Futevôlei · 11/10 · 19:30</p><p class="cap muted">4 atletas</p></div><span class="b2m laranja">Abrir partida</span><span class="menu"><i data-lucide="ellipsis-vertical"></i></span></div>
+                  <div class="fio">
+                    <span class="dia">Ontem</span>
+                    <div class="msg meu ini"><div class="col-b"><div class="bal"><p class="b2">Partida confirmada! Quadra 1 reservada pra vocês. Qualquer coisa é só chamar aqui.</p><span class="hora">18:30</span></div></div></div>
+                    <div class="msg ini"><div class="slot"><span class="avatar md">B</span></div><div class="col-b"><div class="bal"><span class="nome c0">Bia Moreira</span><p class="b2">Valeu! Sábado 19h30 então.</p><span class="hora">18:42</span></div>
+                      <div class="rchips"><span class="rchip"><i data-lucide="thumbs-up" class="r-like"></i>2</span></div></div></div>
+                    <div class="msg ini"><span class="av-fant"><i data-lucide="message-circle-off"></i></span><div class="bal fant"><p class="b2">Mensagem oculta após denúncia</p><span class="hora">19:10</span></div></div>
+                    <span class="dia">Hoje</span>
+                    <div class="msg ini"><div class="slot"><span class="avatar md">D</span></div><div class="col-b"><div class="bal"><span class="nome c2">Duda Alves</span><p class="b2">A quadra tem iluminação até que horas?</p><span class="hora">09:12</span></div></div></div>
+                  </div>
+                  <div class="pe">
+                    <span class="cap muted">Você fala como Arena Maré Alta</span>
+                    <div class="campo"><span class="emo"><i data-lucide="smile"></i></span><div class="in">Mensagem pro grupo</div><span class="env"><i data-lucide="send"></i></span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 CHAT LARGO -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">3</div>
+        <div class="passo-txt"><b>Chat da partida no painel</b><span>Pelo card da ficha, o chat abre em tela própria: a conversa no meio e, na coluna lateral, o local, os participantes, quem está impedido de escrever (com "Liberar") e a opção de silenciar. O menu continua marcado em Mensagens.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/chat/8f2c</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="painel" data-item="Mensagens" data-contador="3">
+            <div class="shell-conteudo chat">
+              <span class="voltar"><i data-lucide="arrow-left"></i>Voltar</span>
+              <div class="wph"><div class="col g4"><p class="t1">Chat da partida</p><p class="b2 muted">Futevôlei · 11/10 · 19:30</p></div><span class="sino"><i data-lucide="bell"></i></span></div>
+              <div class="colunas">
+                <div class="painel-chat">
+                  <div class="barra"><div class="tx"><p class="b1m">Futevôlei · 11/10 · 19:30</p><p class="cap muted">4 atletas</p></div><span class="b2m laranja">Abrir partida</span><span class="menu"><i data-lucide="ellipsis-vertical"></i></span></div>
+                  <div class="fio">
+                    <div class="msg meu ini"><div class="col-b"><div class="bal"><p class="b2">Partida confirmada! Quadra 1 reservada pra vocês. Qualquer coisa é só chamar aqui.</p><span class="hora">18:30</span></div></div></div>
+                    <div class="msg ini"><span class="av-fant"><i data-lucide="message-circle-off"></i></span><div class="bal fant"><p class="b2">Mensagem oculta após denúncia</p><span class="hora">19:10</span></div></div>
+                    <span class="dia">Hoje</span>
+                    <div class="msg ini"><div class="slot"><span class="avatar md">D</span></div><div class="col-b"><div class="bal"><span class="nome c2">Duda Alves</span><p class="b2">A quadra tem iluminação até que horas?</p><span class="hora">09:12</span></div></div></div>
+                    <div class="msg meu ini"><div class="col-b"><div class="bal"><p class="b2">Até as 23h. Estacionamento liberado pra quem joga.</p><span class="hora">09:20</span></div></div></div>
+                    <span class="sis">Rafa Lima não pode mais escrever neste chat</span>
+                  </div>
+                  <div class="pe">
+                    <span class="cap muted">Você fala como Arena Maré Alta</span>
+                    <div class="campo"><span class="emo"><i data-lucide="smile"></i></span><div class="in">Mensagem pro grupo</div><span class="env"><i data-lucide="send"></i></span></div>
+                  </div>
+                </div>
+                <div class="lateral">
+                  <div class="card">
+                    <span class="capm muted">Local</span>
+                    <div class="lin"><i data-lucide="map-pin"></i><div class="grow"><span class="b2m">Arena Maré Alta · Quadra 1</span><span class="cap muted">11/10 · 19:30</span></div></div>
+                    <div class="lin"><i data-lucide="navigation" class="ic16"></i><span class="b2m laranja">Como chegar</span></div>
+                  </div>
+                  <div class="card">
+                    <span class="capm muted">Participantes (4)</span>
+                    <div class="lin"><span class="avatar md">B</span><div class="grow"><span class="b2m">Bia Moreira</span></div></div>
+                    <div class="lin"><span class="avatar md">R</span><div class="grow"><span class="b2m">Rafa Lima</span><span class="cap muted">Impedido de escrever</span></div></div>
+                    <div class="lin"><span class="avatar md">D</span><div class="grow"><span class="b2m">Duda Alves</span></div></div>
+                    <div class="lin"><span class="avatar md">N</span><div class="grow"><span class="b2m">Nina Prado</span></div></div>
+                  </div>
+                  <div class="card">
+                    <span class="capm muted">Impedidos de escrever</span>
+                    <div class="lin"><span class="avatar md">R</span><span class="b2m grow">Rafa Lima</span><span class="liberar">Liberar</span></div>
+                  </div>
+                  <div class="card">
+                    <div class="lin"><span class="b2 grow">Silenciar este chat</span><span class="toggle"></span></div>
+                    <span class="cap muted">O chat fecha 48h depois do fim. Clique numa mensagem pra apagar, impedir quem mandou ou denunciar.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 MODERAR NO NAVEGADOR -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">4</div>
+        <div class="passo-txt"><b>Moderar no navegador</b><span>Clique numa mensagem para ver as mesmas ações do celular numa janela no meio da tela: apagar, impedir de escrever e denunciar.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/chat/8f2c</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="painel" data-item="Mensagens" data-contador="3">
+            <div class="shell-conteudo chat">
+              <span class="voltar"><i data-lucide="arrow-left"></i>Voltar</span>
+              <div class="wph"><div class="col g4"><p class="t1">Chat da partida</p><p class="b2 muted">Futevôlei · 11/10 · 19:30</p></div><span class="sino"><i data-lucide="bell"></i></span></div>
+              <div class="colunas">
+                <div class="painel-chat">
+                  <div class="barra"><div class="tx"><p class="b1m">Futevôlei · 11/10 · 19:30</p><p class="cap muted">4 atletas</p></div><span class="b2m laranja">Abrir partida</span><span class="menu"><i data-lucide="ellipsis-vertical"></i></span></div>
+                  <div class="fio">
+                    <span class="dia">Hoje</span>
+                    <div class="msg ini"><div class="slot"><span class="avatar md">D</span></div><div class="col-b"><div class="bal"><span class="nome c2">Duda Alves</span><p class="b2">A quadra tem iluminação até que horas?</p><span class="hora">09:12</span></div></div></div>
+                    <div class="msg meu ini"><div class="col-b"><div class="bal"><p class="b2">Até as 23h. Estacionamento liberado pra quem joga.</p><span class="hora">09:20</span></div></div></div>
+                    <div class="msg ini"><div class="slot"><span class="avatar md">R</span></div><div class="col-b"><div class="bal toque"><span class="nome c1">Rafa Lima</span><p class="b2">Essa quadra 1 é a pior da arena, sempre cheia de buraco</p><span class="hora">09:26</span></div></div></div>
+                  </div>
+                  <div class="pe">
+                    <span class="cap muted">Você fala como Arena Maré Alta</span>
+                    <div class="campo"><span class="emo"><i data-lucide="smile"></i></span><div class="in">Mensagem pro grupo</div><span class="env"><i data-lucide="send"></i></span></div>
+                  </div>
+                </div>
+                <div class="lateral">
+                  <div class="card">
+                    <span class="capm muted">Local</span>
+                    <div class="lin"><i data-lucide="map-pin"></i><div class="grow"><span class="b2m">Arena Maré Alta · Quadra 1</span><span class="cap muted">11/10 · 19:30</span></div></div>
+                    <div class="lin"><i data-lucide="navigation" class="ic16"></i><span class="b2m laranja">Como chegar</span></div>
+                  </div>
+                  <div class="card">
+                    <span class="capm muted">Participantes (4)</span>
+                    <div class="lin"><span class="avatar md">B</span><div class="grow"><span class="b2m">Bia Moreira</span></div></div>
+                    <div class="lin"><span class="avatar md">R</span><div class="grow"><span class="b2m">Rafa Lima</span></div></div>
+                    <div class="lin"><span class="avatar md">D</span><div class="grow"><span class="b2m">Duda Alves</span></div></div>
+                    <div class="lin"><span class="avatar md">N</span><div class="grow"><span class="b2m">Nina Prado</span></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="veu-w">
+            <div class="modal-w">
+              <div class="fcab"><span class="capm muted grow">Mensagem de Rafa Lima</span><i data-lucide="x"></i></div>
+              <div class="acao perigo"><i data-lucide="trash-2"></i><span class="b1">Apagar mensagem</span></div>
+              <div class="acao"><i data-lucide="message-circle-off"></i><div class="tx"><span class="b1">Impedir Rafa de escrever</span><span class="cap muted">Continua na partida e lendo o chat</span></div></div>
+              <div class="acao"><i data-lucide="flag"></i><span class="b1">Denunciar mensagem</span></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 REAGIR NO NAVEGADOR -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">5</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Reagir com o mouse</b><span>Passe o mouse num balão para ver o botão de reagir, com as mesmas seis reações do celular. O botão de emoji do campo abre uma grade com 32 emojis de esporte e reação, inseridos onde está o cursor.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-messages</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="painel" data-item="Mensagens" data-contador="3">
+            <div class="shell-conteudo chat">
+              <div class="wph"><div class="col g4"><p class="t1">Mensagens</p><p class="b2 muted">Chats das partidas e torneios que a arena organiza · 3 não lidas</p></div><span class="sino"><i data-lucide="bell"></i></span></div>
+              <div class="colunas">
+                <div class="caixa">
+                  <div class="topo-c">
+                    <div class="input"><i data-lucide="search"></i><span class="ph">Buscar conversa</span></div>
+                    <div class="chips"><span class="chip on-laranja">Todos</span><span class="chip">Não lidas</span><span class="chip">Partidas</span><span class="chip">Torneios</span></div>
+                  </div>
+                  <div class="conv"><span class="ic-c"><i data-lucide="message-circle"></i></span><div class="tx"><p class="b2">Futevôlei · 11/10 19:30</p><p class="cap muted">Você: Até as 23h. Estacionamento liberado pra quem joga.</p></div><div class="meta"><span class="cap muted">09:20</span></div></div>
+                  <div class="conv aberta"><span class="ic-c"><i data-lucide="trophy"></i></span><div class="tx"><p class="b2">Copa Maré Alta de Futevôlei · Dupla Mista</p><p class="cap muted">Bia: Valeu, Léo! Estamos na quadra 2 esperando</p></div><div class="meta"><span class="cap muted">09:43</span></div></div>
+                  <div class="conv"><span class="ic-c"><i data-lucide="message-circle"></i></span><div class="tx"><p class="b2">Beach Tennis · 12/10 07:00</p><p class="cap muted">Você: Bolas novas na quadra 3</p></div><div class="meta"><span class="cap muted">05/10</span></div></div>
+                  <div class="conv"><span class="ic-c"><i data-lucide="trophy"></i></span><div class="tx"><p class="b2m">Desafio Maré x Ponte · Mista</p><p class="cap muted">Arena Ponte: Chaveamento sai amanhã</p></div><div class="meta"><span class="cap muted">04/10</span><span class="nl">3</span></div></div>
+                </div>
+                <div class="painel-chat">
+                  <div class="barra"><div class="tx"><p class="b1m">Copa Maré Alta de Futevôlei · Dupla Mista</p><p class="cap muted">16 atletas</p></div><span class="b2m laranja">Abrir categoria</span><span class="menu"><i data-lucide="ellipsis-vertical"></i></span></div>
+                  <div class="fio">
+                    <span class="dia">Hoje</span>
+                    <div class="msg meu ini"><div class="col-b"><div class="bal"><p class="b2">Chaveamento publicado! Primeiros jogos às 8h, quadras 1 a 4.</p><span class="hora">08:02</span></div>
+                      <div class="rchips"><span class="rchip"><i data-lucide="flame" class="r-fire"></i>4</span><span class="rchip"><i data-lucide="hand" class="r-clap"></i>2</span></div></div></div>
+                    <div class="msg ini"><div class="slot"><span class="avatar md">L</span></div><div class="col-b">
+                      <div class="rbar"><span><i data-lucide="thumbs-up" class="r-like"></i></span><span><i data-lucide="heart" class="r-love"></i></span><span><i data-lucide="laugh" class="r-haha"></i></span><span><i data-lucide="flame" class="r-fire"></i></span><span><i data-lucide="hand" class="r-clap"></i></span><span><i data-lucide="sparkles" class="r-wow"></i></span></div>
+                      <div class="bal"><span class="nome c1">Léo Tavares <span class="etq mod">Moderador</span></span><p class="b2">Aviso: quadra 3 atrasou uns 15 min.</p><span class="hora">09:41</span></div>
+                    </div><span class="hover-r on"><i data-lucide="smile-plus"></i></span></div>
+                    <div class="msg ini"><div class="slot"><span class="avatar md">B</span></div><div class="col-b"><div class="bal"><span class="nome c0">Bia Moreira</span><p class="b2">Valeu, Léo! Estamos na quadra 2 esperando</p><span class="hora">09:43</span></div></div></div>
+                  </div>
+                  <div class="pe">
+                    <span class="cap muted">Você fala como Arena Maré Alta</span>
+                    <div class="campo"><span class="emo"><i data-lucide="smile"></i></span><div class="in">Mensagem pro grupo</div><span class="env"><i data-lucide="send"></i></span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 ESTREITO -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">6</div>
+        <div class="passo-txt"><span class="ramo">Janela estreita</span><b>Chat no painel estreito</b><span>Em janela mais estreita, a coluna lateral vira dois botões acima da conversa: o local, com "Como chegar", e os participantes, com quantos estão impedidos. Em janela ainda menor, o menu vira uma gaveta aberta pelo botão ao lado do título, e a caixa de Mensagens mostra só a lista; clicar numa conversa abre esta tela.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser" style="width:900px">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/chat/8f2c</div></div>
+        <div class="browser-body">
+          <div class="shell-conteudo chat" style="padding:24px">
+            <span class="voltar"><i data-lucide="arrow-left"></i>Voltar</span>
+            <div class="wph"><div class="tit"><i data-lucide="menu"></i><div class="col g4"><p class="t1">Chat da partida</p><p class="b2 muted">Futevôlei · 11/10 · 19:30</p></div></div><span class="sino"><i data-lucide="bell"></i></span></div>
+            <div class="pilulas">
+              <div class="pilula larga"><i data-lucide="map-pin"></i><div class="tx"><span class="capm">Arena Maré Alta · Quadra 1</span><span class="cap muted">11/10 · 19:30</span></div><span class="capm laranja">Como chegar</span></div>
+              <div class="pilula"><i data-lucide="users" class="us"></i><span class="capm">4 participantes · 1 impedido</span><i data-lucide="chevron-right" class="ch"></i></div>
+            </div>
+            <div class="colunas">
+              <div class="painel-chat">
+                <div class="barra"><div class="tx"><p class="b1m">Futevôlei · 11/10 · 19:30</p><p class="cap muted">4 atletas</p></div><span class="b2m laranja">Abrir partida</span><span class="menu"><i data-lucide="ellipsis-vertical"></i></span></div>
+                <div class="fio">
+                  <span class="dia">Hoje</span>
+                  <div class="msg ini"><div class="slot"><span class="avatar md">D</span></div><div class="col-b"><div class="bal"><span class="nome c2">Duda Alves</span><p class="b2">A quadra tem iluminação até que horas?</p><span class="hora">09:12</span></div></div></div>
+                  <div class="msg meu ini"><div class="col-b"><div class="bal"><p class="b2">Até as 23h. Estacionamento liberado pra quem joga.</p><span class="hora">09:20</span></div></div></div>
+                  <div class="msg ini"><span class="av-fant"><i data-lucide="message-circle-off"></i></span><div class="bal fant"><p class="b2">Mensagem apagada pela organização</p><span class="hora">09:26</span></div></div>
+                  <span class="sis">Rafa Lima não pode mais escrever neste chat</span>
+                </div>
+                <div class="pe">
+                  <span class="cap muted">Você fala como Arena Maré Alta</span>
+                  <div class="campo"><span class="emo"><i data-lucide="smile"></i></span><div class="in">Mensagem pro grupo</div><span class="env"><i data-lucide="send"></i></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 PARTICIPANTES NO ESTREITO -->
+    <div class="passo">
+      <div class="passo-cab"><div class="passo-num">7</div>
+        <div class="passo-txt"><span class="ramo">Janela estreita</span><b>Participantes e local</b><span>O botão de participantes abre numa janela o mesmo conteúdo da coluna lateral, com "Liberar" para quem foi impedido e a opção de silenciar.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser" style="width:900px">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/chat/8f2c</div></div>
+        <div class="browser-body">
+          <div class="shell-conteudo chat" style="padding:24px">
+            <span class="voltar"><i data-lucide="arrow-left"></i>Voltar</span>
+            <div class="wph"><div class="tit"><i data-lucide="menu"></i><div class="col g4"><p class="t1">Chat da partida</p><p class="b2 muted">Futevôlei · 11/10 · 19:30</p></div></div><span class="sino"><i data-lucide="bell"></i></span></div>
+            <div class="pilulas">
+              <div class="pilula larga"><i data-lucide="map-pin"></i><div class="tx"><span class="capm">Arena Maré Alta · Quadra 1</span><span class="cap muted">11/10 · 19:30</span></div><span class="capm laranja">Como chegar</span></div>
+              <div class="pilula"><i data-lucide="users" class="us"></i><span class="capm">4 participantes · 1 impedido</span><i data-lucide="chevron-right" class="ch"></i></div>
+            </div>
+            <div class="colunas"><div class="painel-chat">
+              <div class="barra"><div class="tx"><p class="b1m">Futevôlei · 11/10 · 19:30</p><p class="cap muted">4 atletas</p></div><span class="b2m laranja">Abrir partida</span><span class="menu"><i data-lucide="ellipsis-vertical"></i></span></div>
+              <div class="fio">
+                <div class="msg meu ini"><div class="col-b"><div class="bal"><p class="b2">Até as 23h. Estacionamento liberado pra quem joga.</p><span class="hora">09:20</span></div></div></div>
+                <span class="sis">Rafa Lima não pode mais escrever neste chat</span>
+              </div>
+              <div class="pe"><span class="cap muted">Você fala como Arena Maré Alta</span><div class="campo"><span class="emo"><i data-lucide="smile"></i></span><div class="in">Mensagem pro grupo</div><span class="env"><i data-lucide="send"></i></span></div></div>
+            </div></div>
+          </div>
+          <div class="veu-w">
+            <div class="modal-w lista">
+              <div class="fcab"><p class="t3 grow">Participantes e local</p><i data-lucide="x"></i></div>
+              <div class="lateral" style="width:auto">
+                <div class="card">
+                  <span class="capm muted">Local</span>
+                  <div class="lin"><i data-lucide="map-pin"></i><div class="grow"><span class="b2m">Arena Maré Alta · Quadra 1</span><span class="cap muted">11/10 · 19:30</span></div></div>
+                  <div class="lin"><i data-lucide="navigation" class="ic16"></i><span class="b2m laranja">Como chegar</span></div>
+                </div>
+                <div class="card">
+                  <span class="capm muted">Participantes (4)</span>
+                  <div class="lin"><span class="avatar md">B</span><div class="grow"><span class="b2m">Bia Moreira</span></div></div>
+                  <div class="lin"><span class="avatar md">R</span><div class="grow"><span class="b2m">Rafa Lima</span><span class="cap muted">Impedido de escrever</span></div></div>
+                  <div class="lin"><span class="avatar md">D</span><div class="grow"><span class="b2m">Duda Alves</span></div></div>
+                  <div class="lin"><span class="avatar md">N</span><div class="grow"><span class="b2m">Nina Prado</span></div></div>
+                </div>
+                <div class="card">
+                  <span class="capm muted">Impedidos de escrever</span>
+                  <div class="lin"><span class="avatar md">R</span><span class="b2m grow">Rafa Lima</span><span class="liberar">Liberar</span></div>
+                </div>
+                <div class="card">
+                  <div class="lin"><span class="b2 grow">Silenciar este chat</span><span class="toggle"></span></div>
+                  <span class="cap muted">O chat fecha 48h depois do fim. Clique numa mensagem pra apagar, impedir quem mandou ou denunciar.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Por que minha mensagem sai com o nome da arena?</summary><p>Quem gerencia pelo painel (dono, administrador, gerente) fala como a arena, com a etiqueta Organizadora. Se você joga ou modera aquele jogo, fala com o próprio nome.</p></details>
+    <details><summary>Em quais chats minha arena participa?</summary><p>Nos das partidas que ela criou, dos desafios recorrentes e das categorias dos torneios dela, ou em que foi desafiada. Nas outras partidas da quadra o card do chat não aparece.</p></details>
+    <details><summary>O que acontece quando impeço alguém de escrever?</summary><p>A pessoa continua no jogo e lendo a conversa, só não escreve. Todos veem um aviso automático. No navegador, você libera quem foi impedido pelos participantes, em "Liberar".</p></details>
+    <details><summary>Até quando o chat fica aberto?</summary><p>Até 48 horas depois do fim da partida ou da categoria. Depois disso o histórico continua visível.</p></details>
+    <details><summary>Não acho a caixa de Mensagens no celular. Onde fica?</summary><p>Ela só existe no navegador. No celular, abra o chat pelo card da partida ou da categoria.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+<script>
+  /* o menu do kit ainda não lista Mensagens no Painel (AppShell.web.tsx: Início, Jogos, Mensagens, Notificações, Lembretes) */
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.shell[data-area="painel"]').forEach(function (sh) {
+      var sub = sh.querySelector('.shell-sub');
+      if (!sub) return;
+      var itens = Array.prototype.slice.call(sub.querySelectorAll('.it'));
+      var existente = itens.find(function (e) { return e.textContent.trim().indexOf('Mensagens') === 0; });
+      if (!existente) {
+        var jogos = itens.find(function (e) { return e.textContent.trim() === 'Jogos'; });
+        if (!jogos) return;
+        existente = document.createElement('div');
+        existente.className = 'it';
+        existente.textContent = 'Mensagens';
+        jogos.insertAdjacentElement('afterend', existente);
+      }
+      if (sh.dataset.item === 'Mensagens') existente.classList.add('ativo');
+      if (!existente.querySelector('.cont')) existente.insertAdjacentHTML('beforeend', '<span class="cont">' + (sh.dataset.contador || '5') + '</span>');
+    });
+  });
+</script>
+</body>
+</html>

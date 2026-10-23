@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nível validado · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* CSS só desta página, sempre com as variáveis do kit (nunca cor solta) */
+  /* peças do app que o kit não tem igual (ScreenHeader, SegmentedControl, Chip, Button, Avatar, Alert do iOS) */
+  .hdr { padding: 0; min-height: 50px; }
+  .hdr > svg { width: 24px; height: 24px; flex: none; }
+  .hdr .titulo { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hdr .vazio { width: 24px; flex: none; }
+  .corpo { display: flex; flex-direction: column; gap: 12px; }
+  .segx { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .segx > span { flex: 1; text-align: center; padding: 8px 4px; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); white-space: nowrap; }
+  .segx > span.on { background: var(--primary); color: var(--text-inverse); }
+  .chip.on { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+  .btn { font-weight: 500; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.out { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+  .btn.dng { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  .btn.ter { background: transparent; color: var(--primary); height: auto; padding: 10px 0; }
+  .btn.dis { opacity: .5; }
+  .avatar { background: var(--primary); color: var(--text-inverse); font-weight: 500; }
+  .rodape { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 20px 34px; background: var(--background); display: flex; flex-direction: column; gap: 8px; z-index: 3; }
+  .grupo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .grupo .lr { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; font: 400 16px/24px var(--font); }
+  .grupo .lr + .lr { border-top: 1px solid var(--border); margin-left: 16px; padding-left: 0; }
+  .grupo .lr > svg:first-child { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .grupo .lr .rot { flex: 1; min-width: 0; }
+  .grupo .lr .val { font: 500 14px/20px var(--font); color: var(--primary); }
+  .grupo .lr .chev { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .grupo .lr.perigo, .grupo .lr.perigo > svg:first-child { color: var(--danger); }
+  .alerta-veu { position: absolute; inset: 0; background: var(--overlay); z-index: 7; display: flex; align-items: center; justify-content: center; }
+  .alerta { width: 270px; background: var(--surface-alt); border-radius: 14px; text-align: center; overflow: hidden; }
+  .alerta .al-txt { padding: 18px 16px 16px; display: grid; gap: 4px; }
+  .alerta .al-txt b { font: 600 17px/22px var(--font); }
+  .alerta .al-txt span { font: 400 13px/17px var(--font); }
+  .alerta .al-bts { display: flex; border-top: 1px solid var(--border); }
+  .alerta .al-bts > span { flex: 1; padding: 11px 8px; font: 400 17px/22px var(--font); color: var(--info); }
+  .alerta .al-bts > span + span { border-left: 1px solid var(--border); }
+  .alerta .al-bts > span.forte { font-weight: 600; }
+  .alerta .al-bts > span.perigo { color: var(--danger); }
+  .alerta.pilha .al-bts { flex-direction: column; }
+  .alerta.pilha .al-bts > span + span { border-left: 0; border-top: 1px solid var(--border); }
+  .toastx { position: absolute; left: 20px; right: 20px; top: 60px; border-radius: 14px; padding: 12px 14px; display: flex; gap: 10px; align-items: center; z-index: 9; font: 500 14px/20px var(--font); background: var(--success-soft); color: var(--text); border: 1px solid var(--success); box-shadow: var(--shadow-card); }
+  .toastx svg { color: var(--success); }
+  .toastx.erro { background: var(--danger-soft); border-color: var(--danger); }
+  .toastx.erro svg { color: var(--danger); }
+  .toastx svg { width: 20px; height: 20px; flex: none; }
+  .mh { position: relative; width: 90px; height: 90px; flex: none; }
+  .mh::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; border-left-color: var(--primary); border-bottom-color: var(--primary); transform: rotate(20deg); }
+  .mh .c { position: absolute; inset: 7px; border-radius: 50%; background: var(--primary-tint); overflow: hidden; display: flex; align-items: flex-end; justify-content: center; }
+  .mh .c img { width: 88%; }
+  .cat { height: 20px; width: auto; flex: none; }
+
+  .cabeca { display: flex; align-items: center; gap: 12px; padding: 16px 0; }
+  .cabeca .id { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .cabeca .id .row { gap: 4px; }
+  .cabeca .id img { height: 18px; width: auto; }
+  .elite { width: 18px; height: 18px; border-radius: 999px; background: var(--primary); display: inline-flex; align-items: center; justify-content: center; color: var(--text-inverse); flex: none; }
+  .elite svg { width: 11px; height: 11px; }
+  .fav { background: var(--primary-wash); border-color: var(--primary-tint); display: flex; flex-direction: column; gap: 8px; }
+  .star { width: 14px; height: 14px; color: var(--accent); fill: var(--accent); }
+  .prov { display: flex; align-items: center; gap: 4px; }
+  .prov svg { width: 12px; height: 12px; flex: none; }
+  .progress.cinza > i { background: var(--text-muted); }
+  .status-lin { display: flex; align-items: flex-start; gap: 4px; margin-bottom: 4px; }
+  .status-lin .tag { padding: 4px 8px; }
+  .modal-lin { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+  /* SelectableRow */
+  .sel { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+  .sel.on { border-color: var(--primary); background: var(--primary-soft); }
+  .sel img { height: 40px; width: auto; }
+  .sel .marc { width: 22px; height: 22px; border-radius: 11px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; flex: none; }
+  .sel.on .marc { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+  .sel .marc svg { width: 12px; height: 12px; }
+  .vazio { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 20px; text-align: center; }
+  .vazio .ic-wrap { width: 64px; height: 64px; border-radius: 999px; background: var(--surface-alt); display: flex; align-items: center; justify-content: center; color: var(--text-muted); margin-bottom: 4px; }
+  .vazio .ic-wrap svg { width: 28px; height: 28px; }
+  .vazio .btn { margin-top: 12px; }
+  /* LevelLegend e regras */
+  .legenda { display: flex; flex-direction: column; gap: 8px; }
+  .legenda .lv { display: flex; align-items: center; gap: 8px; }
+  .legenda .lv img { height: 24px; width: auto; }
+  .acordeao { display: flex; flex-direction: column; gap: 8px; }
+  .acordeao .row svg { width: 20px; height: 20px; }
+  .icone-acao svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .selx { display: flex; flex-direction: column; gap: 8px; }
+  .selx .rot { font: 500 14px/20px var(--font); color: var(--text-muted); }
+  /* folha de nível (Modal do edit-sports) */
+  .folha { position: absolute; left: 0; right: 0; bottom: 0; background: var(--background); border-radius: 20px 20px 0 0; padding: 20px 20px 40px; z-index: 8; display: flex; flex-direction: column; gap: 12px; }
+  .alerta-amarelo { display: flex; align-items: center; gap: 8px; background: var(--warning-soft); border-radius: 8px; padding: 8px; }
+  .alerta-amarelo svg { width: 16px; height: 16px; color: var(--warning); flex: none; }
+  .opcao { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .opcao img { height: 28px; width: auto; }
+  .opcao .ok { width: 20px; height: 20px; color: var(--primary); }
+  /* vitrine de selos */
+  .selos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px 8px; }
+  .selos div { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+  .selos img { height: 44px; width: auto; }
+
+</style>
+</head>
+<body>
+<header id="proto" data-lado="jogador" data-fluxo="nivel-validado"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Nível validado</h1>
+  <p>Você declara seu nível em cada modalidade e pede à arena em que tem vínculo que valide. Depois de validado, seu perfil, o ranking e o passaporte mostram "Validado por", com o nome da arena e a data.</p>
+  <ul class="regras">
+    <li>Só a arena com vínculo aprovado seu naquela modalidade pode validar o nível.</li>
+    <li>Trocar de arena na modalidade derruba a validação: o nível volta a ser declarado até a nova arena validar.</li>
+    <li>Redeclarar o seu nível também derruba a validação. O app avisa antes de você escolher, e o histórico fica guardado.</li>
+    <li>O selo mostra qual arena validou e quando. Sem validação, aparece "Nível declarado por você".</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Perfil · modalidades</b><span>Cada modalidade mostra de onde vem o nível. Se você tem vínculo aprovado mas ainda não pediu avaliação, toque em "Pedir avaliação de nível".</span><span class="ramo">Alternativa</span><span>Sem arena na modalidade: "Vincular arena". Vínculo esperando a arena: "Aguardando arena".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas" style="gap:0">
+          <div class="cabeca"><span class="avatar xl">B</span><div class="id"><div class="row"><p class="t3">Bia Moreira</p><span class="elite"><i data-lucide="gem"></i></span></div><div class="row"><img src="../img/categoria-b.png" alt=""><span class="b2 muted">Beach tennis</span></div></div><i data-lucide="settings" class="ic24 muted"></i></div>
+          <div class="sec-hdr" style="margin:8px 0 12px"><p class="t3">Modalidades</p><a>Compartilhar passaporte</a></div>
+          <div class="card fav" style="margin-bottom:16px">
+            <div class="row" style="gap:8px"><img src="../img/categoria-b.png" alt="" style="height:36px"><div><div class="row" style="gap:4px"><p class="b1m">Beach tennis</p><i data-lucide="star" class="star"></i></div><p class="cap muted">195 pts</p></div></div>
+            <div class="prov"><i data-lucide="user-pen" class="muted"></i><span class="cap muted">Nível declarado por você, sem validação de arena</span></div>
+            <div class="progress"><i style="width:100%"></i></div>
+          </div>
+          <div class="modal-lin">
+            <div class="row sb"><span class="cap muted">Futevôlei</span><span class="cap muted">60 pts</span></div>
+            <div class="status-lin"><span class="cap laranja">Pedir avaliação de nível</span></div>
+            <div class="progress cinza"><i style="width:31%"></i></div>
+          </div>
+          <div class="modal-lin">
+            <div class="row sb"><span class="cap muted">Vôlei</span><span class="cap muted">20 pts</span></div>
+            <div class="status-lin"><span class="cap laranja">Vincular arena</span></div>
+            <div class="progress cinza"><i style="width:10%"></i></div>
+          </div>
+        </div>
+        <div class="tabbar" data-abas="jogador" data-ativa="perfil"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Pedir avaliação de nível</b><span>Escolha o nível que você acha que joga e envie. O pedido vai para a arena com vínculo aprovado nessa modalidade, que confirma ou ajusta.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="padding-bottom:110px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Futevôlei</span><span style="width:24px"></span></div>
+          <p class="b2 muted">Escolha o nível que você acha que joga — sua arena favorita confirma ou ajusta.</p>
+          <div class="col g8">
+            <div class="sel"><img src="../img/categoria-d.png" alt=""><p class="b1m grow">Aprendiz</p><span class="marc"></span></div>
+            <div class="sel on"><img src="../img/categoria-c.png" alt=""><p class="b1m grow laranja">Iniciante</p><span class="marc"><i data-lucide="check"></i></span></div>
+            <div class="sel"><img src="../img/categoria-b.png" alt=""><p class="b1m grow">Intermediário</p><span class="marc"></span></div>
+            <div class="sel"><img src="../img/categoria-a.png" alt=""><p class="b1m grow">Avançado</p><span class="marc"></span></div>
+            <div class="sel"><img src="../img/categoria-p.png" alt=""><p class="b1m grow">Profissional</p><span class="marc"></span></div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn">Enviar pedido</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Sem arena na modalidade</b><span class="ramo">Alternativa</span><span>Sem vínculo aprovado, não há quem avalie: a tela leva para Minhas modalidades, onde você escolhe a arena.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Vôlei</span><span style="width:24px"></span></div>
+          <div class="vazio">
+            <span class="ic-wrap"><i data-lucide="map-pin"></i></span>
+            <p class="t3">Vincule uma arena a essa modalidade primeiro</p>
+            <p class="b2 muted">Só a arena aprovada nessa modalidade pode avaliar seu nível.</p>
+            <button class="btn sec">Minhas modalidades</button>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Pedido na arena</b><span>De volta ao perfil, a modalidade fica "Pendente" até a arena responder.</span><span class="ramo">Alternativa</span><span>Se a arena recusar: etiqueta "Rejeitado" e o link "Nível recusado — pedir de novo".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas" style="gap:0">
+          <div class="cabeca"><span class="avatar xl">B</span><div class="id"><div class="row"><p class="t3">Bia Moreira</p><span class="elite"><i data-lucide="gem"></i></span></div><div class="row"><img src="../img/categoria-b.png" alt=""><span class="b2 muted">Beach tennis</span></div></div><i data-lucide="settings" class="ic24 muted"></i></div>
+          <div class="sec-hdr" style="margin:8px 0 12px"><p class="t3">Modalidades</p><a>Compartilhar passaporte</a></div>
+          <div class="card fav" style="margin-bottom:16px">
+            <div class="row" style="gap:8px"><img src="../img/categoria-b.png" alt="" style="height:36px"><div><div class="row" style="gap:4px"><p class="b1m">Beach tennis</p><i data-lucide="star" class="star"></i></div><p class="cap muted">195 pts</p></div></div>
+            <div class="prov"><i data-lucide="user-pen" class="muted"></i><span class="cap muted">Nível declarado por você, sem validação de arena</span></div>
+            <div class="progress"><i style="width:100%"></i></div>
+          </div>
+          <div class="modal-lin">
+            <div class="row sb"><span class="cap muted">Futevôlei</span><span class="cap muted">60 pts</span></div>
+            <div class="status-lin"><span class="tag sem-ponto aviso">Pendente</span><span class="cap muted">Aguardando aprovação de Arena Maré Alta</span></div>
+            <div class="progress cinza"><i style="width:31%"></i></div>
+          </div>
+          <div class="modal-lin">
+            <div class="row sb"><span class="cap muted">Vôlei</span><span class="cap muted">20 pts</span></div>
+            <div class="status-lin"><span class="tag sem-ponto erro">Rejeitado</span><span class="cap laranja">Nível recusado — pedir de novo</span></div>
+            <div class="progress cinza"><i style="width:10%"></i></div>
+          </div>
+        </div>
+        <div class="tabbar" data-abas="jogador" data-ativa="perfil"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Nível validado</b><span>Aprovado, o selo da modalidade vem com "Validado por", o nome da arena e a data. Quem abre o seu perfil e encontra um nível sem validação lê "Nível declarado pelo jogador, sem validação".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas" style="gap:0">
+          <div class="cabeca"><span class="avatar xl">B</span><div class="id"><div class="row"><p class="t3">Bia Moreira</p><span class="elite"><i data-lucide="gem"></i></span></div><div class="row"><img src="../img/categoria-b.png" alt=""><span class="b2 muted">Beach tennis</span></div></div><i data-lucide="settings" class="ic24 muted"></i></div>
+          <div class="sec-hdr" style="margin:8px 0 12px"><p class="t3">Modalidades</p><a>Compartilhar passaporte</a></div>
+          <div class="card fav" style="margin-bottom:16px">
+            <div class="row" style="gap:8px"><img src="../img/categoria-b.png" alt="" style="height:36px"><div><div class="row" style="gap:4px"><p class="b1m">Beach tennis</p><i data-lucide="star" class="star"></i></div><p class="cap muted">195 pts</p></div></div>
+            <div class="prov"><i data-lucide="badge-check" class="verde"></i><span class="cap">Validado por Arena Maré Alta · 12/09</span></div>
+            <div class="progress"><i style="width:100%"></i></div>
+          </div>
+          <div class="modal-lin">
+            <div class="row sb"><div class="row" style="gap:4px"><img src="../img/categoria-c.png" alt="" style="height:18px"><span class="cap muted">Futevôlei</span></div><span class="cap muted">60 pts</span></div>
+            <div class="prov"><i data-lucide="badge-check" class="verde"></i><span class="cap">Validado por Arena Maré Alta · 28/09</span></div>
+            <div class="progress cinza"><i style="width:31%"></i></div>
+          </div>
+        </div>
+        <div class="tabbar" data-abas="jogador" data-ativa="perfil"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Minhas modalidades · legenda e regras</b><span>"O que significa cada nível" abre a legenda dos cinco selos; "Como funciona o nível validado" abre as regras. Toque no selo de uma modalidade para trocar o nível.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body" style="padding-bottom:110px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Minhas modalidades</span><i data-lucide="x"></i></div>
+          <p class="b2 muted">Toque na estrela pra marcar a favorita — é o nível dela que aparece junto do seu nome.</p>
+          <div class="card legenda">
+            <div class="row sb"><span class="capm muted">O que significa cada nível</span><i data-lucide="chevron-up" class="ic16 muted"></i></div>
+            <div class="lv"><img src="../img/categoria-d.png" alt=""><div class="grow"><p class="b2m">Aprendiz</p><p class="cap muted">Está começando agora — ainda aprendendo as regras e os fundamentos básicos.</p></div></div>
+            <div class="lv"><img src="../img/categoria-c.png" alt=""><div class="grow"><p class="b2m">Iniciante</p><p class="cap muted">Já joga com alguma regularidade e domina o básico, mas ainda está evoluindo a técnica.</p></div></div>
+            <div class="lv"><img src="../img/categoria-b.png" alt=""><div class="grow"><p class="b2m">Intermediário</p><p class="cap muted">Joga com consistência, entende bem as regras e já tem repertório tático.</p></div></div>
+            <div class="lv"><img src="../img/categoria-a.png" alt=""><div class="grow"><p class="b2m">Avançado</p><p class="cap muted">Joga há bastante tempo, com boa técnica e consistência em partidas competitivas.</p></div></div>
+            <div class="lv"><img src="../img/categoria-p.png" alt=""><div class="grow"><p class="b2m">Profissional</p><p class="cap muted">Compete ou já competiu em nível profissional ou federado.</p></div></div>
+          </div>
+          <div class="card acordeao">
+            <div class="row sb"><div class="row" style="gap:8px"><i data-lucide="list-checks" class="laranja"></i><span class="b1m">Como funciona o nível validado</span></div><i data-lucide="chevron-up" class="muted"></i></div>
+            <p class="b2 muted">• Só a arena com vínculo aprovado na modalidade pode validar o seu nível.</p>
+            <p class="b2 muted">• Trocar de arena na modalidade derruba a validação: o nível volta a declarado até a nova arena validar.</p>
+            <p class="b2 muted">• Mudar o próprio nível derruba a validação.</p>
+            <p class="b2 muted">• O selo mostra qual arena validou e quando.</p>
+          </div>
+          <div class="card col g8">
+            <div class="row"><img src="../img/categoria-b.png" alt="" style="height:36px"><p class="b1m grow">Beach tennis</p><span class="row icone-acao" style="gap:12px"><i data-lucide="star" style="color:var(--accent);fill:var(--accent)"></i><i data-lucide="trash-2"></i></span></div>
+            <div class="selx"><span class="rot">Arena vinculada</span><div class="input"><span class="grow">Arena Maré Alta</span><i data-lucide="chevron-down"></i></div></div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn dis">Salvar alterações</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Trocar o próprio nível</b><span>Se o seu nível está validado, o app avisa antes da escolha que a validação vai cair. Escolhido e salvo o nível, a modalidade volta a "Nível declarado por você".</span><span class="ramo">Alternativa</span><span>Trocar a arena vinculada também derruba a validação: ao salvar, sai um pedido de vínculo novo ("O pedido de vínculo será enviado à arena ao salvar.").</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Minhas modalidades</span><i data-lucide="x"></i></div>
+          <p class="b2 muted">Toque na estrela pra marcar a favorita — é o nível dela que aparece junto do seu nome.</p>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="folha">
+          <div class="row sb"><p class="t3">Nível em Beach tennis</p><i data-lucide="x" class="ic24"></i></div>
+          <div class="alerta-amarelo"><i data-lucide="circle-alert"></i><span class="cap grow">Seu nível está validado por Arena Maré Alta. Se você mudar agora, a validação cai e o nível volta a ser declarado por você.</span></div>
+          <div>
+            <div class="opcao"><img src="../img/categoria-d.png" alt=""><div class="grow"><p class="b1m">Aprendiz</p><p class="b2 muted">Está começando agora — ainda aprendendo as regras e os fundamentos básicos.</p></div></div>
+            <div class="opcao"><img src="../img/categoria-c.png" alt=""><div class="grow"><p class="b1m">Iniciante</p><p class="b2 muted">Já joga com alguma regularidade e domina o básico, mas ainda está evoluindo a técnica.</p></div></div>
+            <div class="opcao"><img src="../img/categoria-b.png" alt=""><div class="grow"><p class="b1m">Intermediário</p><p class="b2 muted">Joga com consistência, entende bem as regras e já tem repertório tático.</p></div><i data-lucide="check" class="ok"></i></div>
+            <div class="opcao"><img src="../img/categoria-a.png" alt=""><div class="grow"><p class="b1m">Avançado</p><p class="b2 muted">Joga há bastante tempo, com boa técnica e consistência em partidas competitivas.</p></div></div>
+            <div class="opcao" style="border-bottom:0"><img src="../img/categoria-p.png" alt=""><div class="grow"><p class="b1m">Profissional</p><p class="b2 muted">Compete ou já competiu em nível profissional ou federado.</p></div></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Referência: selos de nível</b><span>Quadro de consulta (não é uma tela do app). Cada modalidade tem a própria escala: D a P nos esportes de quadra, INI/SC/RX/RX+ no CrossFit e OP/PRO no Hyrox. Sem nível, o selo fica vazio.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <p class="t3" style="margin-top:12px">Beach tennis, futevôlei e vôlei</p>
+          <div class="selos">
+            <div><img src="../img/categoria-d.png" alt=""><span class="cap">Aprendiz</span></div>
+            <div><img src="../img/categoria-c.png" alt=""><span class="cap">Iniciante</span></div>
+            <div><img src="../img/categoria-b.png" alt=""><span class="cap">Intermediário</span></div>
+            <div><img src="../img/categoria-a.png" alt=""><span class="cap">Avançado</span></div>
+            <div><img src="../img/categoria-p.png" alt=""><span class="cap">Profissional</span></div>
+          </div>
+          <p class="t3">CrossFit</p>
+          <div class="selos">
+            <div><img src="../img/categoria-ini.png" alt=""><span class="cap">Iniciante</span></div>
+            <div><img src="../img/categoria-sc.png" alt=""><span class="cap">Scaled</span></div>
+            <div><img src="../img/categoria-rx.png" alt=""><span class="cap">RX</span></div>
+            <div><img src="../img/categoria-rxp.png" alt=""><span class="cap">RX+</span></div>
+          </div>
+          <p class="t3">Hyrox</p>
+          <div class="selos">
+            <div><img src="../img/categoria-op.png" alt=""><span class="cap">Open</span></div>
+            <div><img src="../img/categoria-pro.png" alt=""><span class="cap">Pro</span></div>
+            <div><img src="../img/categoria-ausente.png" alt=""><span class="cap muted">Sem nível</span></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Quem pode validar meu nível?</summary><p>Só a arena com quem você tem vínculo aprovado naquela modalidade.</p></details>
+    <details><summary>Não aparece "Pedir avaliação de nível". Por quê?</summary><p>Você ainda não tem vínculo aprovado com uma arena nessa modalidade. Escolha a arena em Minhas modalidades e espere a aprovação.</p></details>
+    <details><summary>Troquei meu nível e perdi a validação. Por quê?</summary><p>Redeclarar o próprio nível derruba a validação, e o app avisa antes. Peça a avaliação de novo para a arena validar o nível novo.</p></details>
+    <details><summary>Mudei de arena. Meu nível continua validado?</summary><p>Não. O nível volta a ser declarado até a nova arena validar.</p></details>
+    <details><summary>A arena recusou meu pedido. E agora?</summary><p>No perfil, toque em "Nível recusado — pedir de novo" e envie outro pedido.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

@@ -1,0 +1,1364 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jogar um torneio · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* ScreenHeader: seta e X soltos, sem círculo */
+  .cab { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; margin: 0; }
+  .cab .lado-e, .cab .lado-d { min-width: 24px; display: flex; gap: 12px; align-items: center; justify-content: flex-end; }
+  .cab .lado-e { justify-content: flex-start; }
+  .cab svg { width: 24px; height: 24px; }
+  .cab .t3 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cab.branco { color: var(--text-inverse); }
+  .corpo { display: flex; flex-direction: column; gap: 12px; }
+  .rodape { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 20px 34px; background: var(--background); display: flex; flex-direction: column; gap: 8px; z-index: 3; }
+  .com-rodape { padding-bottom: 110px; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.perigo-c { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  .btn.mini { height: 36px; font-size: 14px; width: auto; padding: 0 14px; }
+  .centro { text-align: center; }
+
+  /* SegmentedControl do app: raio 8, selecionado laranja */
+  .segc { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .segc > span { flex: 1; text-align: center; padding: 8px 0; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .segc > span.on { background: var(--primary); color: var(--text-inverse); }
+
+  /* hero do torneio (sem capa: bege; com capa: véu escuro) */
+  .hero { padding: 16px; border-radius: 14px; background: var(--primary-soft); display: flex; flex-direction: column; gap: 4px; }
+  .hero.capa { min-height: 160px; justify-content: flex-end; background: linear-gradient(0deg, var(--overlay-strong), var(--overlay-strong)), linear-gradient(160deg, var(--accent) 0%, var(--primary) 60%, var(--primary-dark) 100%); color: var(--text-inverse); }
+  .pill-esporte { align-self: flex-start; margin-top: 4px; padding: 4px 12px; border-radius: 999px; background: var(--surface); color: var(--primary); font: 500 12px/16px var(--font); }
+  .tag-s { display: inline-flex; align-items: center; padding: 4px 8px; border-radius: 999px; border: 1px solid; font: 500 12px/16px var(--font); align-self: flex-start; white-space: nowrap; }
+  .tag-s.verde { color: var(--success); background: var(--success-soft); border-color: #d9e8db; }
+  .tag-s.azul { color: var(--info); background: var(--info-soft); border-color: #dbe6f5; }
+  .tag-s.amarelo { color: var(--warning); background: var(--warning-soft); border-color: #fbe6cf; }
+  .denunciar { display: flex; align-items: center; gap: 4px; color: var(--text-muted); font: 400 12px/16px var(--font); }
+  .denunciar svg { width: 14px; height: 14px; }
+  .sec-t { font: 600 18px/26px var(--font); margin: 8px 0 0; }
+
+  /* CoverCard: capa em 1/4 do card */
+  .cover-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); display: flex; overflow: hidden; }
+  .cover-card .capa-q { width: 25%; flex: none; background: var(--primary-wash); display: flex; align-items: center; justify-content: center; color: var(--primary); }
+  .cover-card .capa-q.foto-a { background: linear-gradient(160deg, var(--accent), var(--primary-dark)); }
+  .cover-card .capa-q.foto-b { background: linear-gradient(160deg, var(--info), var(--secondary)); }
+  .cover-card .capa-q svg { width: 24px; height: 24px; }
+  .cover-card .txt { flex: 1; min-width: 0; padding: 16px; display: flex; flex-direction: column; gap: 2px; }
+  .cover-card .linha { display: flex; align-items: center; gap: 8px; }
+  .cover-card .linha .cap { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* categoria */
+  .cat-card .row { gap: 8px; }
+  .preco { display: flex; flex-direction: column; align-items: flex-end; }
+  .stats { display: flex; gap: 8px; }
+  .tile { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+  .tile .ico { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: var(--primary-translucent); color: var(--primary); margin-bottom: 4px; }
+  .tile .ico.ok { background: var(--success-soft); color: var(--success); }
+  .tile .ico svg { width: 16px; height: 16px; }
+  .info { padding: 4px 16px; }
+  .info-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+  .info-row + .info-row { border-top: 1px solid var(--border); }
+  .info-row .ib { width: 32px; height: 32px; border-radius: 8px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .info-row .ib svg { width: 16px; height: 16px; }
+  .fechado { display: flex; align-items: center; gap: 8px; padding: 12px; border-radius: 12px; background: var(--neutral-soft); color: var(--text-muted); font: 400 14px/20px var(--font); }
+  .fechado svg { width: 16px; height: 16px; flex: none; }
+
+  /* folha do app: fundo claro, raio 20, título + X */
+  .folha { position: absolute; left: 0; right: 0; bottom: 0; background: var(--background); border-radius: 20px 20px 0 0; padding: 20px 20px 40px; z-index: 8; display: flex; flex-direction: column; gap: 12px; }
+  .folha-cab { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .folha-cab svg { width: 24px; height: 24px; }
+  .opcao { display: flex; align-items: center; gap: 8px; padding: 12px; border-radius: 14px; border: 1px solid var(--border); }
+  .opcao .chev, .cat-card .chev { width: 16px; height: 16px; color: var(--text-muted); flex: none; }
+
+  /* equipe */
+  .pessoa { display: flex; align-items: center; gap: 8px; padding: 12px 16px; }
+  .pessoa .nome { flex: 1; min-width: 0; font: 500 16px/24px var(--font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ver-perfil { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .nivel { width: 20px; height: 20px; flex: none; }
+  .linha2 { display: flex; gap: 8px; align-items: center; }
+  .linha2 > * { flex: 1; }
+
+  /* pagamento */
+  .qr-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); padding: 16px; align-self: center; }
+  .qr-card .qr { width: 220px; height: 220px; border-width: 0; outline: 0; }
+  .codigo { font: 400 11px/16px var(--mono); word-break: break-all; }
+  .desconto { color: var(--success); }
+
+  /* ingresso retrato */
+  .ingresso { background: var(--primary-wash); border: 1px solid var(--primary-tint); border-radius: 20px; padding: 12px; box-shadow: var(--shadow-card); position: relative; overflow: hidden; }
+  .ingresso .marca { display: flex; align-items: center; justify-content: space-between; }
+  .ingresso .logo { width: 88px; height: 27px; object-fit: contain; }
+  .badge-lj { border: 1px solid var(--primary); border-radius: 999px; padding: 3px 8px; color: var(--primary); font: 500 12px/16px var(--font); }
+  .campos { display: flex; gap: 8px; margin-top: 4px; }
+  .campo { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .campo .cap { text-transform: uppercase; color: var(--text-muted); }
+  .perfura { display: flex; align-items: center; margin: 8px -13px 0; }
+  .perfura .meia { width: 16px; height: 32px; flex: none; background: var(--background); border: 1.5px solid var(--primary-tint); border-left: 0; border-radius: 0 16px 16px 0; }
+  .perfura .meia.dir { border: 1.5px solid var(--primary-tint); border-right: 0; border-radius: 16px 0 0 16px; }
+  .perfura .tracos { flex: 1; border-top: 2px dashed var(--primary-tint); }
+  .pago { display: flex; align-items: center; gap: 8px; padding: 8px; border-radius: 12px; border: 1px solid var(--primary-tint); background: var(--surface); margin-top: 4px; }
+  .pago .bola { width: 24px; height: 24px; border-radius: 12px; background: var(--primary); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; flex: none; }
+  .pago .bola svg { width: 16px; height: 16px; }
+  .qr-sec { display: flex; flex-direction: column; align-items: center; gap: 2px; margin-top: 4px; }
+  .qr-box { background: var(--surface); padding: 8px; border-radius: 12px; margin-top: 2px; }
+  .qr-box .qr { width: 72px; height: 72px; border: 0; outline: 0; background-size: auto; }
+  .chegou { display: flex; align-items: center; gap: 4px; color: var(--success); font: 500 12px/16px var(--font); }
+  .chegou svg { width: 16px; height: 16px; }
+
+  /* ingresso deitado: celular girado */
+  .phone.deitado { width: 844px; height: 390px; }
+  .phone.deitado::after { top: 50%; left: 21px; transform: translateY(-50%); width: 32px; height: 110px; }
+  .phone.deitado > .screen { width: 824px; min-height: 370px; }
+  .deitado-corpo { flex: 1; display: flex; align-items: center; justify-content: center; padding: 16px 44px; position: relative; }
+  .deitado-corpo .voltar { position: absolute; top: 12px; left: 44px; width: 20px; height: 20px; }
+  .ing-d { display: flex; background: var(--primary-wash); border: 1px solid var(--primary-tint); border-radius: 20px; padding: 16px; box-shadow: var(--shadow-card); width: 100%; }
+  .ing-d .masc { width: 90px; display: flex; align-items: center; justify-content: center; }
+  .ing-d .masc img { width: 84px; height: 73px; object-fit: contain; }
+  .ing-d .principal { flex: 2.6; padding: 0 16px; display: flex; flex-direction: column; gap: 2px; justify-content: center; }
+  .ing-d .logo { width: 100px; height: 31px; object-fit: contain; }
+  .ing-d .baixo { display: flex; gap: 12px; margin-top: 8px; }
+  .ing-d .baixo-e { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .ing-d .div { height: 1px; background: var(--primary-tint); }
+  .ing-d .qrcol { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .ing-d .qrcol .qr { width: 88px; height: 88px; }
+  .ing-d .perf-v { width: 2px; border-left: 2px dashed var(--primary-tint); margin: -16px 12px; }
+  .ing-d .canhoto { flex: 1; display: flex; flex-direction: column; gap: 8px; padding-left: 8px; }
+  .resumo { display: flex; align-items: center; gap: 8px; }
+  .resumo svg { width: 18px; height: 18px; color: var(--primary); flex: none; }
+  .resumo .cap { text-transform: uppercase; color: var(--text-muted); }
+
+  /* chaveamento */
+  .meta { margin-top: -4px; }
+  .arvore { position: relative; height: 560px; margin: 4px -20px 0; padding-left: 20px; overflow: hidden; }
+  .rodada { position: absolute; top: 0; width: 200px; text-align: center; font: 500 12px/16px var(--font); color: var(--text-muted); }
+  .mcard { position: absolute; width: 200px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+  .mcard.solto { position: static; width: auto; }
+  .time { display: flex; align-items: center; gap: 8px; }
+  .time .nm { flex: 1; min-width: 0; font: 500 14px/20px var(--font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-muted); }
+  .time.venceu .nm { color: var(--text); }
+  .time .pt { font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .time.venceu .pt { color: var(--primary); }
+  .av28 { width: 28px; height: 28px; border-radius: 14px; background: var(--primary-tint); color: var(--primary-dark); font: 500 11px/28px var(--font); text-align: center; flex: none; }
+  .duo { display: flex; } .duo .av28 + .av28 { margin-left: -10px; border: 2px solid var(--surface); line-height: 24px; }
+  .st { display: flex; align-items: center; gap: 4px; margin-top: 2px; font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .st i { width: 6px; height: 6px; border-radius: 3px; background: var(--text-muted); display: block; }
+  .st i.ok { background: var(--success); } .st i.lj { background: var(--primary); }
+  .fios { position: absolute; left: 20px; top: 0; }
+
+  /* versus (lista de partidas) */
+  .vs { display: flex; align-items: center; gap: 8px; }
+  .vs .lado { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; font: 500 14px/20px var(--font); }
+  .vs .meio { min-width: 64px; text-align: center; font: 600 18px/26px var(--font); color: var(--text-muted); }
+  .vs-rod { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+  .vs-rod .st { margin: 0; }
+
+  /* resultado (fundo laranja) */
+  .screen.laranja-bg { background: var(--primary); }
+  .marca-dagua { position: absolute; width: 150px; opacity: .12; z-index: 0; }
+  .res { background: var(--surface); border-radius: 12px; box-shadow: var(--shadow-card); padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 16px; position: relative; z-index: 1; }
+  .res .marca { display: flex; align-items: center; justify-content: space-between; align-self: stretch; }
+  .res .logo { width: 88px; height: 27px; object-fit: contain; }
+  .placar { display: flex; align-items: center; align-self: stretch; gap: 8px; }
+  .placar .lado { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .placar .lado.perdeu { opacity: .5; }
+  .placar .nome { display: flex; align-items: center; gap: 4px; font: 500 16px/24px var(--font); text-align: center; }
+  .placar .nome svg { width: 16px; height: 16px; color: var(--gold); flex: none; }
+  .placar .num { display: flex; align-items: center; gap: 8px; }
+  .vencedor { display: flex; align-items: flex-end; align-self: stretch; gap: 8px; padding: 12px 0 0 16px; border-radius: 14px; background: var(--primary-soft); overflow: hidden; }
+  .vencedor .tx { flex: 1; display: flex; flex-direction: column; gap: 4px; padding-bottom: 16px; }
+  .vencedor img { width: 116px; height: 96px; object-fit: contain; }
+  .local { display: flex; align-items: center; gap: 4px; color: var(--text-muted); font: 400 12px/16px var(--font); }
+  .local svg { width: 16px; height: 16px; }
+
+  /* confronto pendente */
+  .vs-grande { display: flex; align-items: center; gap: 8px; padding: 12px 0; }
+  .vs-grande .lado { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; font: 500 16px/24px var(--font); }
+  .vs-grande .meio { display: flex; flex-direction: column; align-items: center; }
+  .vs-grande .meio img { width: 72px; height: 72px; object-fit: contain; }
+  .agenda { display: flex; align-items: center; gap: 8px; border: 1px solid var(--border); border-radius: 12px; padding: 12px; background: var(--surface); }
+  .agenda .ls { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .agenda .l { display: flex; align-items: center; gap: 8px; font: 400 14px/20px var(--font); }
+  .agenda .l svg { width: 16px; height: 16px; color: var(--text-muted); }
+
+  /* placar */
+  .set-box { background: var(--surface-alt); border-radius: 14px; padding: 12px; display: flex; align-items: center; justify-content: center; gap: 16px; }
+  .cont { width: 128px; display: flex; align-items: center; justify-content: center; gap: 12px; }
+  .cont svg { width: 20px; height: 20px; }
+  .cont .caixa { width: 56px; height: 56px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; font: 600 20px/28px var(--font); color: var(--primary); }
+
+  /* torneios que modero */
+  .apito { position: relative; margin-top: 24px; margin-bottom: 8px; padding: 16px 100px 16px 16px; border-radius: 12px; border: 2px solid var(--primary); background: var(--secondary); color: var(--text-inverse); display: flex; flex-direction: column; gap: 4px; }
+  .apito img { position: absolute; right: 8px; bottom: 0; width: 88px; height: 132px; object-fit: contain; object-position: bottom; }
+  .mod { display: flex; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .mod .faixa { width: 4px; background: var(--primary); flex: none; }
+  .mod .faixa.escura { background: var(--secondary); } .mod .faixa.cinza { background: var(--border); }
+  .mod.fim { opacity: .6; }
+  .mod .ct { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .mod .thumb { width: 64px; height: 64px; border-radius: 8px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .mod .thumb.foto { background: linear-gradient(160deg, var(--accent), var(--primary-dark)); }
+  .mod .thumb svg { width: 24px; height: 24px; }
+  .selo { display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px; border-radius: 999px; font: 500 12px/16px var(--font); letter-spacing: 1px; background: var(--primary); color: var(--text-inverse); }
+  .selo.escuro { background: var(--secondary); } .selo.cinza { background: var(--neutral-soft); color: var(--text-muted); }
+  .selo i { width: 6px; height: 6px; border-radius: 3px; background: var(--text-inverse); display: block; }
+  .apitar { display: flex; align-items: center; gap: 4px; color: var(--primary); font: 500 14px/20px var(--font); }
+  .apitar svg { width: 16px; height: 16px; }
+
+  /* estado vazio */
+  .vazio { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 20px; text-align: center; }
+  .vazio .circ { width: 64px; height: 64px; border-radius: 999px; background: var(--surface-alt); display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+  .vazio .circ svg { width: 28px; height: 28px; }
+
+  .tabela-cl .hd, .tabela-cl .ln { display: flex; align-items: center; }
+  .tabela-cl .ln { padding: 4px 0; }
+  .tabela-cl .eq { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tabela-cl .n { width: 44px; text-align: center; font-variant-numeric: tabular-nums; }
+
+  /* animacoes de 2026-09-29 (implementadas no app) */
+  .an-rever { align-self: center; }
+  .an-rever svg { width: 18px; height: 18px; }
+  .an-phone .corpo, .an-phone .screen-body { overflow: hidden; }
+  .an-phone .screen-body > * { flex-shrink: 0; }
+  /* pontos */
+  .an-pontos { display: grid; justify-items: center; gap: 2px; padding: 16px; border-radius: 12px; background: var(--success-soft); border: 1px solid var(--success); }
+  .play .an-pontos { animation: an-pop .45s cubic-bezier(.2,1.4,.4,1) both; }
+  .an-pontos .n { font: 600 20px/28px var(--font); color: var(--success); display: inline-block; }
+  .play .an-pontos .n.bate { animation: an-bate .4s cubic-bezier(.2,1.6,.4,1) both; }
+  /* pago */
+  .an-pago { position: relative; width: 96px; height: 96px; margin: 0 auto; display: grid; place-items: center; }
+  .an-pago .anel { position: absolute; width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--success); opacity: 0; }
+  .an-pago .circ { width: 72px; height: 72px; border-radius: 50%; background: var(--success-soft); display: grid; place-items: center; color: var(--success); }
+  .an-pago .circ svg { width: 40px; height: 40px; stroke-width: 3; }
+  .play .an-pago .circ { animation: an-pop .5s cubic-bezier(.2,1.5,.4,1) both; }
+  .play .an-pago .anel { animation: an-anel .65s ease-out .12s both; }
+  .play .an-pago .circ svg { animation: an-check .5s cubic-bezier(.2,1.8,.4,1) .22s both; }
+  /* ingresso */
+  .an-fenda { overflow: hidden; }
+  .play .an-bilhete { animation: an-imprime .9s both; }
+  /* campeao */
+  .an-campeao { position: relative; overflow: hidden; display: grid; justify-items: center; gap: 4px; padding: 24px 16px; border-radius: 12px; background: var(--accent-soft); border: 1px solid var(--gold); }
+  .an-campeao .trofeu { width: 64px; height: 64px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; color: var(--gold); margin-bottom: 4px; }
+  .an-campeao .trofeu svg { width: 32px; height: 32px; }
+  .play .an-campeao .trofeu { animation: an-trofeu .7s cubic-bezier(.2,1.6,.4,1) .15s both; }
+  .an-campeao i.cf { position: absolute; top: 0; width: 6px; height: 10px; border-radius: 1px; opacity: 0; }
+  .an-campeao i.cf.l { width: 10px; height: 6px; }
+  .play .an-campeao i.cf { animation: an-confete 1.3s cubic-bezier(.55,0,1,.45) var(--d) both; }
+  @keyframes an-pop { 0% { transform: scale(.85); opacity: .4; } 100% { transform: none; opacity: 1; } }
+  @keyframes an-bate { 0% { transform: scale(1); } 35% { transform: scale(1.25); } 100% { transform: none; } }
+  @keyframes an-anel { 0% { opacity: .7; transform: scale(.8); } 100% { opacity: 0; transform: scale(1.45); } }
+  @keyframes an-check { 0% { transform: scale(0) rotate(-25deg); } 100% { transform: none; } }
+  @keyframes an-imprime { 0% { opacity: 0; transform: translateY(-220px) scale(.96); } 55% { opacity: 1; transform: translateY(14px); } 78% { transform: translateY(-4px); } 100% { opacity: 1; transform: none; } }
+  @keyframes an-trofeu { 0% { transform: scale(0) rotate(-30deg); } 100% { transform: none; } }
+  @keyframes an-confete { 0% { opacity: 0; transform: translateY(-16px) rotate(0); } 6% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; transform: translateY(200px) rotate(var(--r)); } }
+
+  /* ---- 2026-10-06: chave redesenhada, dupla eliminação, craque e link ao vivo ---- */
+  .proto-tokens, .browser, .phone { --surface-glass: rgba(255,255,255,.68); --background-veil: rgba(252,251,250,.62); }
+  .tlin.ab .nm { color: var(--text); }
+  .st2 { display: flex; align-items: center; gap: 4px; margin-top: 2px; font: 400 12px/16px var(--font); color: var(--text-muted); white-space: nowrap; }
+  .st2 b { font-weight: 500; color: var(--text); }
+  .st2 i { width: 6px; height: 6px; border-radius: 3px; display: block; background: var(--text-muted); }
+  .st2.ok i { background: var(--success); } .st2.prox i { background: var(--primary); }
+  .lados { display: flex; flex-direction: column; gap: 24px; }
+  .lado-chave { display: flex; flex-direction: column; gap: 8px; }
+  .lado-tit { display: grid; gap: 2px; padding: 0 20px; }
+  .lado-arv { padding-left: 20px; overflow: hidden; }
+  /* craque (TournamentMatchMvpCard / TournamentCategoryMvp) */
+  .card.craque { display: flex; align-items: center; gap: 12px; padding: 12px; }
+  .craque .medalha { width: 40px; height: 40px; border-radius: 20px; background: var(--accent-soft); color: var(--gold); display: flex; align-items: center; justify-content: center; flex: none; }
+  .craque .medalha svg { width: 24px; height: 24px; fill: var(--gold); }
+  .craque .medalha.vazia svg { fill: none; }
+  .craque .retrato { position: relative; padding-top: 20px; display: flex; justify-content: center; flex: none; }
+  .craque .retrato svg { position: absolute; top: 0; width: 24px; height: 24px; color: var(--gold); fill: var(--gold); z-index: 1; }
+  .ouro { color: var(--gold); }
+  .logo-br { display: block; aspect-ratio: 360 / 117; background: url(data:image/png;base64,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) center / contain no-repeat; }
+  /* link ao vivo (web/tournament-live.html) */
+  .lv { background: var(--background); color: var(--text); font: 400 14px/20px var(--font); display: flex; flex-direction: column; }
+  .lv-capa { position: relative; display: flex; flex-direction: column; justify-content: space-between; background: var(--primary-soft); padding: 16px; min-height: 280px; }
+  .lv-capa .lv-barra { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .lv-capa .lv-barra img { height: 30px; width: auto; display: block; }
+  .ao-vivo { display: inline-flex; align-items: center; gap: 6px; background: var(--success-soft); color: var(--success); font: 600 12px/16px var(--font); letter-spacing: .6px; padding: 4px 10px; border-radius: 999px; }
+  .ao-vivo i { width: 6px; height: 6px; border-radius: 3px; background: var(--success); display: block; }
+  .lv-capa .lv-info { display: flex; flex-direction: column; gap: 4px; }
+  .lv-capa .esporte { align-self: flex-start; font: 500 12px/16px var(--font); padding: 2px 8px; border-radius: 999px; background: var(--surface); color: var(--primary-dark); margin-bottom: 4px; }
+  .lv-capa h2 { margin: 0; font: 600 24px/32px var(--font); }
+  .lv-abas { display: flex; gap: 24px; padding: 0 16px; border-bottom: 1px solid var(--border); background: var(--background); }
+  .lv-abas span { padding: 12px 0 10px; font-weight: 500; color: var(--text-muted); border-bottom: 2px solid transparent; white-space: nowrap; }
+  .lv-abas span.on { color: var(--primary); border-bottom-color: var(--primary); }
+  .lv-main { padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+  .lv-tit { margin: 0; font: 600 16px/24px var(--font); display: flex; align-items: center; gap: 8px; }
+  .lv-tit span { font: 500 12px/16px var(--font); color: var(--text-muted); }
+  .lv-jogo { background: var(--surface); border: 1px solid var(--primary); border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 0 0 3px var(--primary-translucent); }
+  .lv-jogo .topo-j { display: flex; justify-content: space-between; gap: 8px; font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .lv-jogo .topo-j b { color: var(--primary); font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+  .lv-jogo .topo-j b::before { content: ""; width: 6px; height: 6px; border-radius: 3px; background: var(--primary); }
+  .lv-busca { display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); color: var(--text-muted); font: 400 16px/20px var(--font); }
+  .lv-busca svg { width: 16px; height: 16px; flex: none; }
+  .lv-quadro { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); background: var(--surface); }
+  .lv-quadro .rolagem { position: relative; padding: 16px; overflow: hidden; }
+  .lv-arvore { position: relative; margin: 0 auto; }
+  .lv-arvore > svg { position: absolute; left: 0; top: 0; }
+  .lv-rodada { position: absolute; text-align: center; font: 500 12px/16px var(--font); color: var(--text-muted); }
+  .lv-card { position: absolute; background: var(--surface); border: 1px solid var(--primary-tint); border-radius: 12px; padding: 8px 10px; display: flex; flex-direction: column; gap: 4px; }
+  .lv-lista .lv-card { position: static; }
+  .lv-card.rolando { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-translucent); }
+  .lv-st { display: flex; align-items: center; gap: 6px; font: 400 12px/16px var(--font); color: var(--text-muted); white-space: nowrap; }
+  .lv-st i { width: 6px; height: 6px; border-radius: 3px; flex: none; display: block; }
+  .lv-st b { font-weight: 600; color: var(--text); }
+  .lv-st em { font-style: normal; margin-left: auto; }
+  .lv-time { display: flex; align-items: center; gap: 8px; min-height: 28px; }
+  .lv-time .nome { flex: 1; min-width: 0; font: 500 13px/18px var(--font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-muted); }
+  .lv-time.venceu .nome, .lv-time.aberto .nome { color: var(--text); }
+  .lv-time .nome em { font-style: normal; font-weight: 400; }
+  .lv-time .placar { font-weight: 500; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .lv-time.venceu .placar { color: var(--primary); }
+  .lv-duo { display: flex; }
+  .lv-av { width: 24px; height: 24px; border-radius: 12px; background: var(--primary-soft); color: var(--primary-dark); font: 500 10px/1 var(--font); display: grid; place-items: center; border: 1.5px solid var(--surface); flex: none; }
+  .lv-duo .lv-av + .lv-av { margin-left: -8px; }
+  .lv-av.vazio { background: var(--surface-alt); color: var(--text-muted); }
+  .lv-campeao { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; text-align: center; }
+  .lv-campeao .taca, .lv-campeao-m .taca { width: 44px; height: 44px; border-radius: 22px; background: var(--primary); color: var(--text-inverse); display: grid; place-items: center; flex: none; }
+  .lv-campeao .taca svg, .lv-campeao-m .taca svg { width: 22px; height: 22px; }
+  .lv-campeao b { font-weight: 600; }
+  .lv-campeao span:last-child { font-size: 12px; color: var(--text-muted); }
+  .lv-legenda { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .lv-legenda span { display: inline-flex; align-items: center; gap: 6px; }
+  .lv-legenda i { width: 6px; height: 6px; border-radius: 3px; display: block; }
+  .lv-mascote { display: flex; align-items: center; gap: 12px; background: var(--primary-wash); border: 1px solid var(--primary-tint); border-radius: 20px; padding: 12px; }
+  .lv-mascote img { width: 56px; height: 56px; object-fit: contain; flex: none; }
+  .lv-mascote p { margin: 0; font-weight: 500; }
+  .lv-rodape { margin: 8px 16px 16px; padding: 20px 16px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+  .lv-rodape > img { height: 28px; width: auto; }
+  .lv-rodape p { margin: 0; color: var(--text-muted); font-size: 13px; }
+  .lv-rodape .qr { width: 148px; height: 148px; margin: 0; border-width: 10px; }
+  .lv-baixar { height: 44px; padding: 0 20px; border-radius: 12px; display: inline-flex; align-items: center; background: var(--primary); color: var(--text-inverse); font-weight: 500; }
+  /* celular: uma fase por vez */
+  .lv-pilulas { display: flex; gap: 6px; background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 4px; }
+  .lv-pilulas span { flex: 1 0 auto; text-align: center; padding: 8px 12px; border-radius: 999px; font: 500 13px/18px var(--font); color: var(--text-muted); display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
+  .lv-pilulas span.on { background: var(--primary); color: var(--text-inverse); }
+  .lv-pilulas span i { width: 6px; height: 6px; border-radius: 3px; background: var(--primary); display: block; }
+  .lv-pilulas span.on i { background: var(--text-inverse); }
+  .lv-lista { display: flex; flex-direction: column; gap: 8px; }
+  .lv-lista .lv-card { padding: 10px 12px; }
+  .lv-lista .lv-time .nome { font-size: 14px; }
+  .lv-prox { align-self: center; padding: 8px 16px; font-weight: 500; color: var(--primary); }
+
+  /* chave do app (TournamentMatchCard) nas telas novas */
+  .arvore2 { position: relative; }
+  .arvore2 svg.fios { position: absolute; left: 0; top: 0; overflow: visible; }
+  .rodada-rot { position: absolute; font: 500 12px/16px var(--font); color: var(--text-muted); text-align: center; }
+  .arvore2 .mcard { height: 104px; }
+  .tlin { display: flex; align-items: center; gap: 8px; }
+  .tlin .nm { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .tlin.win .nm { color: var(--text); }
+  .tlin .pl { font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .tlin.win .pl { color: var(--primary); }
+  .tlin .duo i { width: 28px; height: 28px; border-radius: 14px; background: var(--primary-tint); color: var(--primary-dark); font: 500 10px/28px var(--font); font-style: normal; text-align: center; }
+  .tlin .duo i + i { margin-left: -10px; border: 2px solid var(--surface); line-height: 24px; }
+  .jg { margin: 0 -20px; }
+  .meta2 { margin-top: -12px; }
+  /* navegador do celular abrindo o link ao vivo */
+  .url-cel { flex: none; display: flex; align-items: center; justify-content: center; gap: 6px; margin: 0 16px 8px; height: 36px; border-radius: 12px; background: var(--surface-alt); font: 400 13px/18px var(--font); color: var(--text); }
+  .url-cel svg { width: 12px; height: 12px; }
+  .lv-capa .lv-barra img.logo-cel { height: 30px; }
+  @media (prefers-reduced-motion: reduce) { .play .an-pontos, .play .an-pontos .n.bate, .play .an-pago .circ, .play .an-pago .anel, .play .an-pago .circ svg, .play .an-bilhete, .play .an-campeao .trofeu { animation: none; } .an-campeao i.cf { display: none; } }
+  /* ---- 2026-10-07: aba Ranking (RankingRow, TournamentCategoryRanking) ---- */
+  .rk-sec { display: flex; flex-direction: column; gap: 8px; }
+  .rkx { display: flex; align-items: center; gap: 12px; padding: 12px; }
+  .rkx.eu { background: var(--primary-wash); border-color: var(--primary-tint); }
+  .rkx .pos { width: 20px; flex: none; text-align: center; font: 500 16px/24px var(--font); color: var(--text-muted); }
+  .rkx .avw { position: relative; flex: none; display: inline-flex; }
+  .rkx .med { position: absolute; right: -4px; bottom: -4px; width: 22px; height: 22px; border-radius: 999px; border: 2px solid var(--surface); color: var(--text-inverse); font: 500 11px/18px var(--font); text-align: center; }
+  .rkx .med.m1 { background: var(--gold); } .rkx .med.m2 { background: var(--silver); } .rkx .med.m3 { background: var(--bronze); }
+  .rkx .coroa { position: absolute; top: -2px; right: -2px; width: 20px; height: 20px; border-radius: 10px; background: var(--gold); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; }
+  .rkx .coroa svg { width: 12px; height: 12px; fill: var(--text-inverse); }
+  .rkx .nm { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .rkx .pts { display: flex; align-items: center; gap: 4px; flex: none; }
+  .rkx .pts svg { width: 14px; height: 14px; }
+  .rkx .tr1 { color: var(--gold); } .rkx .tr2 { color: var(--silver); } .rkx .tr3 { color: var(--bronze); }
+  .podio-rk { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .podio-rk > svg { width: 24px; height: 24px; color: var(--gold); }
+  .podio-rk .degraus { display: flex; align-items: flex-end; gap: 8px; align-self: stretch; }
+  .podio-rk .lugar { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+  .podio-rk .degrau { align-self: stretch; border-radius: 12px 12px 4px 4px; display: flex; justify-content: center; padding-top: 8px; color: var(--text-inverse); font: 600 18px/26px var(--font); }
+  .podio-rk .d1 { height: 96px; background: var(--gold); } .podio-rk .d2 { height: 72px; background: var(--silver); } .podio-rk .d3 { height: 56px; background: var(--bronze); }
+  .chips-rola { display: flex; gap: 8px; flex-wrap: nowrap; overflow: hidden; }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="jogador" data-fluxo="torneio"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Jogar um torneio</h1>
+  <p>Você acha um torneio aberto (que pode ter mais de uma modalidade), escolhe a categoria em que se encaixa, cria a sua equipe (e vira capitão), convida e aprova quem pede para entrar, paga o ingresso (em valor único ou por lote), espera a aprovação da organização e acompanha chaveamento, partidas, craque e o ranking da categoria, inclusive pelo link ao vivo. No fim desta página está o passo a passo de quem foi convidado pela arena para moderar: lançar placar, escolher o craque do jogo e fazer o check-in.</p>
+  <ul class="regras">
+    <li>O torneio pode ter várias modalidades. Cada categoria tem uma modalidade só, data e hora próprias (dentro do período do torneio), regulamento e premiação do 1º ao 3º.</li>
+    <li>A categoria pode limitar quem joga: níveis aceitos, só nível validado por uma arena, gênero (livre, masculino, feminino ou misto) e idade. O servidor confere cada pessoa que entra na equipe; na mista, a equipe precisa de um homem e uma mulher.</li>
+    <li>A inscrição é por categoria: quem cria a equipe vira capitão, convida o elenco e aprova quem pede para entrar.</li>
+    <li>Na dupla, o nome da equipe é sempre o dos dois ("Bia e Carla"; na mista, a mulher primeiro). De 3 pessoas para cima, o capitão escolhe o nome.</li>
+    <li>Até o chaveamento, o capitão tira integrante e passa a capitania, e qualquer um sai. Capitão que sai passa a capitania para o confirmado mais antigo.</li>
+    <li>Equipe completa e paga fica "Aguardando aprovação" até a arena ou o moderador aprovar. Só equipe aprovada entra no chaveamento, e mudar a formação derruba a aprovação.</li>
+    <li>Com ingresso por lote, cada atleta paga o lote aberto na hora do próprio pagamento. Abrir o pagamento guarda a sua vaga por 30 minutos com o preço travado.</li>
+    <li>Quem pagou pelo app e sai, é tirado ou tem a equipe removida recebe o estorno automático, no Pix ou no cartão.</li>
+    <li>O ingresso é pago por Pix ou cartão, direto para a arena. Quando a arena repassa a taxa, o preço que aparece já inclui a taxa de serviço.</li>
+    <li>Só a arena organizadora cancela o torneio, e só antes de começar. Quem pagou recebe o estorno automaticamente, no Pix ou no cartão.</li>
+    <li>O moderador lança placar e aprova equipes, mas não cancela torneio. A arena pode chamar um moderador a qualquer momento, inclusive no dia e durante o torneio, até ele encerrar.</li>
+    <li>Na dupla eliminação ninguém sai depois de um jogo só: quem perde na chave principal cai na repescagem e só sai na segunda derrota.</li>
+    <li>O craque do jogo em torneio não é votado: quem lança o placar escolhe, se quiser, e pode trocar até a data de fim do torneio. A coroa da categoria vai para quem foi escolhido mais vezes.</li>
+    <li>O ranking do torneio é sempre de uma categoria, e quem pontua é a equipe. Na liga vale a tabela (pontos, depois vitórias, depois saldo); no mata-mata e na dupla eliminação, a posição vem da fase em que a equipe caiu, e quem cai na mesma fase divide a posição (5º a 8º).</li>
+    <li>A colocação do ranking da categoria é a mesma que vale pontos no circuito.</li>
+    <li>Só conta de jogador participa. Conta de arena não entra em torneio.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 lista -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Torneios perto de você</b><span>No Início, toque num card de "Torneios perto de você" para abrir o torneio, ou em "Ver todos" para a lista completa. O card mostra a arena, a data e as modalidades do torneio.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/categoria/categoria-completa-10-home.jpg" alt="Início com a seção Torneios perto de você e o card da Copa Verão Multi, de Futevôlei e Beach Tennis"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 detalhes -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Detalhes do torneio</b><span>O torneio pode ter mais de uma modalidade: elas aparecem nas pílulas do topo. Embaixo ficam a arena ("Ver perfil da arena"), a data com hora de início e de fim, o endereço e as categorias. Se o torneio é etapa de um circuito, aparece também o card da etapa. O ícone de compartilhar fica no topo, e "Denunciar" logo abaixo da descrição.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/categoria/categoria-completa-11-torneio.jpg" alt="Detalhes do torneio Copa Verão Multi, com Futevôlei e Beach Tennis, arena, data, endereço e botão Como chegar"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- categorias -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Categorias</b><span>Cada categoria tem a própria modalidade, data e hora, que podem ser diferentes das do torneio. O card mostra os níveis aceitos (os hexágonos), o gênero ("Misto") e a idade ("18+") quando a categoria limita, a premiação e o preço. Toque em "Quero me inscrever" ou direto num card.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/categoria/categoria-completa-12-categorias.jpg" alt="Lista de categorias: Dupla Open de Futevôlei níveis B e A, Dupla Mista de Beach Tennis 18+ e Dupla Iniciante níveis D e C"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- lote no torneio -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Ingresso por lote</b><span>Quando a arena vende em lotes, o card da categoria mostra o preço do lote aberto agora e quantos ingressos restam nele ("Resta 1 no Lote 2").</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/lote/lote-01-torneio.jpg" alt="Card da Dupla Open com R$ 132,00 e o aviso Resta 1 no Lote 2"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- como chegar -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Como chegar</b><span>O botão "Como chegar" abre uma folha com o endereço e as opções "Abrir no Waze" e "Abrir no Google Maps".</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/categoria/categoria-completa-13-como-chegar.jpg" alt="Folha Como chegar com Abrir no Waze e Abrir no Google Maps"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- compartilhar -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Compartilhar torneio</b><span>O ícone de compartilhar abre "Instagram Stories", "WhatsApp", "Link ao vivo do chaveamento" e "Mais opções". A imagem do torneio vai pronta para postar.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/categoria/categoria-completa-14-compartilhar.jpg" alt="Folha Compartilhar torneio com Instagram Stories, WhatsApp, Link ao vivo do chaveamento e Mais opções"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 escolha categoria -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Escolha a categoria</b><span>Com mais de uma categoria, "Quero me inscrever" abre esta lista para você escolher; com uma só, você vai direto.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Detalhes do torneio</span><span class="lado-d"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <div class="hero capa"><p class="t3">Copa Maré Alta de Futevôlei</p><p class="cap">10/10 – 11/10 · Arena Maré Alta</p><span class="pill-esporte">Futevôlei</span></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="folha">
+          <div class="folha-cab"><p class="t3">Escolha a categoria</p><i data-lucide="x"></i></div>
+          <div class="opcao"><p class="b1m grow">Dupla Open</p><div class="preco"><p class="b2m laranja">R$ 63,00</p><p class="cap muted">inclui taxa de serviço</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+          <div class="opcao"><p class="b1m grow">Dupla Mista</p><div class="preco"><p class="b2m laranja">R$ 63,00</p><p class="cap muted">inclui taxa de serviço</p></div><i data-lucide="chevron-right" class="chev"></i></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 categoria -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Categoria</b><span>No topo ficam a inscrição, as equipes e as confirmadas, e em "Como funciona" o formato, o tamanho da equipe e quando ela é confirmada. Mais abaixo aparecem "Quem pode jogar" (níveis aceitos, nível validado, gênero e idade), a "Premiação" do 1º ao 3º e o "Regulamento", que é próprio da categoria. Se você se encaixa, toque em "Criar equipe".</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/categoria/categoria-completa-16-quem-pode-jogar.jpg" alt="Categoria Dupla Open com Quem pode jogar níveis B e A, Premiação do 1º ao 3º e Regulamento"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- bloqueio -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">9</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Você não se encaixa</b><span>Se a categoria não aceita o seu nível, o app avisa embaixo ("Essa categoria é dos níveis B e A. Seu nível no Futevôlei é C.") e o botão "Criar equipe" fica desativado. O mesmo vale para categoria que pede nível validado por uma arena, gênero ou idade. O servidor confere de novo cada pessoa que entra na equipe: ao criar, ao convidar e ao pedir para entrar.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/categoria/categoria-completa-15-bloqueio-nivel.jpg" alt="Categoria Dupla Open com o aviso Essa categoria é dos níveis B e A. Seu nível no Futevôlei é C, e o botão Criar equipe desativado"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- antes de entrar -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">10</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Antes de entrar</b><span>Se a categoria limita gênero ou idade e o seu perfil ainda não tem esse dado, a folha "Antes de entrar" pede o gênero (Feminino ou Masculino) e a data de nascimento. Toque em "Salvar e continuar". Esses dados ficam só com o Desafiaê e com a arena do torneio. Na categoria mista, a equipe precisa ter um homem e uma mulher.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/categoria/categoria-completa-17-antes-de-entrar.jpg" alt="Folha Antes de entrar com Gênero, Data de nascimento e o botão Salvar e continuar"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- lotes na categoria -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">11</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Categoria com lotes</b><span>Em "Ingressos" aparecem os lotes: o que esgotou, o "aberto agora" com quantos restam e até quando vale, e o "próximo". O preço é por atleta: cada um paga o lote aberto na hora do próprio pagamento. Se você já tem equipe, o card dela aparece embaixo e o botão vira "Ver minha equipe".</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/lote/lote-02-categoria.jpg" alt="Ingressos da categoria: Lote 1 esgotado, Lote 2 aberto agora a R$ 132,00 com Resta 1, Lote 3 próximo a R$ 154,00"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 nova equipe -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">12</div>
+        <div class="passo-txt"><b>Nova equipe</b><span>Em "Quem joga com você?", busque o parceiro pelo nome ou troque para "E-mail". Na dupla o nome da equipe é automático, sempre o nome dos dois; na mista, a mulher vem primeiro. Você vira o capitão. Em equipe de 3 ou mais, quem dá o nome é o capitão.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/equipes/equipes-01-criar.jpg" alt="Tela Nova equipe com Quem joga com você?, busca por Nome ou E-mail e o card Nome da equipe"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- parceiro escolhido -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">13</div>
+        <div class="passo-txt"><b>Parceiro escolhido</b><span>Escolhido o parceiro, o card "Nome da equipe" já mostra o nome da dupla ("Jogador 35 e Jogador 36"). Ele vale quando o parceiro aceitar. Toque em "Criar e convidar" para criar a equipe e mandar o convite.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/equipes/equipes-02-parceiro-escolhido.jpg" alt="Parceiro Jogador E2E 36 selecionado e o nome da equipe Jogador 35 e Jogador 36, com o botão Criar e convidar Jogador"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 equipe capitão -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">14</div>
+        <div class="passo-txt"><b>Equipe (visão do capitão)</b><span>A equipe nasce "Em formação", com o convite pendente e o seu valor em "Pagar". Até o parceiro aceitar, o título mostra só o seu nome. Quando sobra vaga, você também convida por nome ou e-mail daqui, e aprova ou recusa quem pediu para entrar.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/equipes/equipes-03-equipe-criada.jpg" alt="Equipe em formação com Pagar R$ 50,00, Jogador E2E 36 com convite pendente e o capitão Jogador E2E 35"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- cancelar convite -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">15</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Cancelar convite</b><span>Os três pontinhos ao lado de quem foi convidado abrem "Cancelar convite" (o convite some e a vaga fica livre) e "Ver perfil".</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/equipes/equipes-04-sheet-convite.jpg" alt="Folha do convidado com Cancelar convite e Ver perfil"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 pagamento pix -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">16</div>
+        <div class="passo-txt"><b>Pagamento (Pix)</b><span>O QR do Pix aparece ao abrir a tela. Pague no app do seu banco: assim que o pagamento cai, a tela troca sozinha para o ingresso.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Pagamento</span><span class="lado-d"><i data-lucide="x"></i></span></div>
+          <div class="corpo" style="align-items:stretch">
+            <p class="b1m centro">Valor: R$ 60,00</p>
+            <p class="cap centro desconto">De R$ 63,00, com R$ 3,00 de desconto do seu plano</p>
+            <p class="cap muted centro">Esse valor já inclui a taxa de serviço do Desafiaê.</p>
+            <div class="segc"><span class="on">Pix</span><span>Cartão</span></div>
+            <div class="qr-card"><div class="qr"></div></div>
+            <p class="b2 muted centro">Escaneie o QR Code no app do seu banco pra pagar com Pix.</p>
+            <p class="cap muted centro">Ou copie o código abaixo (Pix copia e cola):</p>
+            <div class="card"><p class="codigo">00020126580014br.gov.bcb.pix0136a8f1c2d4-5e6f-4a7b-9c8d-0e1f2a3b4c5d520400005303986540560.005802BR5916ARENA MARE ALTA6013FLORIANOPOLIS62070503***6304B1A7</p></div>
+            <p class="cap muted centro">Assim que o pagamento cair, seu ingresso é liberado automaticamente.</p>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 cartão -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">17</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Pagamento com cartão</b><span>Na aba "Cartão", o pagamento abre no Mercado Pago, no navegador, e volta para o app no fim. Se o Pix expirar, toque em "Gerar novo QR".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Pagamento</span><span class="lado-d"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <p class="b1m centro">Valor: R$ 60,00</p>
+            <p class="cap centro desconto">De R$ 63,00, com R$ 3,00 de desconto do seu plano</p>
+            <p class="cap muted centro">Esse valor já inclui a taxa de serviço do Desafiaê.</p>
+            <div class="segc"><span>Pix</span><span class="on">Cartão</span></div>
+            <p class="b2 muted centro">Você paga na página segura do Mercado Pago e volta pro app no fim.</p>
+            <button class="btn"><i data-lucide="credit-card"></i>Pagar com cartão</button>
+            <div class="divider" style="margin:12px 0"></div>
+            <p class="cap muted centro">Se o Pix tiver expirado:</p>
+            <p class="b1m centro">Esse código Pix expirou</p>
+            <p class="b2 muted centro">Gere um novo código pra continuar o pagamento.</p>
+            <button class="btn"><i data-lucide="refresh-cw"></i>Gerar novo QR</button>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- lote virou -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">18</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>O lote virou</b><span>Se o lote mudou entre a sua entrada na equipe e o seu pagamento, a tela da equipe avisa ("O Lote 1 virou") e mostra o preço novo. Em "Sua inscrição" aparece o lote que você vai pagar e quantos ingressos restam nele. Quem já pagou fica com o lote em que pagou.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/lote/lote-03-equipe.jpg" alt="Equipe Dupla 8 com o aviso O Lote 1 virou e Sua inscrição no Lote 2 por R$ 132,00"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- vaga guardada -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">19</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Vaga guardada</b><span>Com lotes, abrir o pagamento guarda a sua vaga no lote por 30 minutos, com o preço travado, no Pix ou no cartão. O relógio no topo mostra quanto tempo falta. Se o tempo acabar, a vaga volta para o lote e você reserva de novo, pelo preço do lote aberto naquela hora.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/lote/lote-04-pagamento.jpg" alt="Pagamento com o aviso Sua vaga no Lote 2 está guardada e o relógio em 26:17, valor R$ 132,00 e QR do Pix"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 9 ingresso -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">20</div>
+        <div class="passo-txt"><b>Ingresso</b><span>Com o ingresso pago, você vê o QR do check-in. O ícone de girar abre o ingresso deitado.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Ingresso</span><span class="lado-d"><i data-lucide="rotate-cw"></i><i data-lucide="x"></i></span></div>
+          <div class="ingresso">
+            <div class="marca"><img class="logo" src="../img/logo-completa.png" alt="Desafiaê"><span class="badge-lj">COPA MARÉ ALTA DE FUTEVÔLEI</span></div>
+            <img src="../img/mascote-login.png" alt="" style="width:48px;height:42px;object-fit:contain;display:block;margin:4px auto 0">
+            <p class="t3 centro" style="margin-top:4px">INGRESSO DE INSCRIÇÃO</p>
+            <p class="cap muted centro">Este ingresso confirma a inscrição da equipe no torneio.</p>
+            <div class="campos" style="margin-top:8px">
+              <div class="campo"><span class="cap">Torneio</span><span class="b2m">Copa Maré Alta de Futevôlei</span></div>
+              <div class="campo"><span class="cap">Categoria</span><span class="b2m">Dupla Open</span></div>
+              <div class="campo"><span class="cap">Arena</span><span class="b2m">Arena Maré Alta</span></div>
+            </div>
+            <div class="campos">
+              <div class="campo"><span class="cap">Data</span><span class="b2m">10/10</span></div>
+              <div class="campo"><span class="cap">Horário</span><span class="b2m">A definir</span></div>
+            </div>
+            <div class="perfura"><span class="meia"></span><span class="tracos"></span><span class="meia dir"></span></div>
+            <img class="logo" src="../img/logo-completa.png" alt="" style="margin-top:4px">
+            <div class="campos">
+              <div class="campo"><span class="cap">Equipe</span><span class="b2m">Maré Cheia</span></div>
+              <div class="campo"><span class="cap">Capitão</span><span class="b2m">Bia Moreira</span></div>
+              <div class="campo"><span class="cap">Quantidade</span><span class="b2m">2 de 2 jogadores</span></div>
+            </div>
+            <div class="pago"><span class="bola"><i data-lucide="check"></i></span><span class="cap grow"><b class="b2m laranja">PAGO</b><span class="muted">&nbsp;&nbsp;|&nbsp;&nbsp;Inscrição confirmada.</span></span></div>
+            <div class="qr-sec">
+              <span class="capm laranja">CHECK-IN</span>
+              <div class="qr-box"><div class="qr"></div></div>
+              <span class="capm muted" style="letter-spacing:1px">JG-MARC-7F3A</span>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 10 ingresso deitado -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">21</div>
+        <div class="passo-txt"><b>Ingresso deitado</b><span>A tela fica na horizontal, com um canhoto de resumo. Depois do check-in aparece "Check-in feito".</span></div>
+      </div>
+      <div class="phone deitado"><div class="screen" data-sem-status>
+        <div class="deitado-corpo">
+          <i data-lucide="arrow-left" class="voltar"></i>
+          <div class="ing-d">
+            <div class="masc"><img src="../img/mascote-login.png" alt=""></div>
+            <div class="principal">
+              <div class="row"><img class="logo" src="../img/logo-completa.png" alt="Desafiaê"><span class="badge-lj">COPA MARÉ ALTA DE FUTEVÔLEI</span></div>
+              <p class="t2" style="margin-top:4px">Ingresso de inscrição</p>
+              <p class="cap muted">Este ingresso confirma a inscrição da equipe no torneio.</p>
+              <div class="campos" style="margin-top:8px;gap:12px">
+                <div class="campo"><span class="cap">Torneio</span><span class="b2m">Copa Maré Alta de Futevôlei</span></div>
+                <div class="campo"><span class="cap">Categoria</span><span class="b2m">Dupla Open</span></div>
+                <div class="campo"><span class="cap">Arena</span><span class="b2m">Arena Maré Alta</span></div>
+              </div>
+              <div class="baixo">
+                <div class="baixo-e">
+                  <div class="campos" style="gap:12px"><div class="campo"><span class="cap">Data</span><span class="b2m">10/10</span></div><div class="campo"><span class="cap">Horário</span><span class="b2m">A definir</span></div></div>
+                  <div class="div"></div>
+                  <div class="campos" style="gap:12px;margin:0"><div class="campo"><span class="cap">Equipe</span><span class="b2m">Maré Cheia</span></div><div class="campo"><span class="cap">Capitão</span><span class="b2m">Bia Moreira</span></div><div class="campo"><span class="cap">Quantidade</span><span class="b2m">2 de 2 jogadores</span></div></div>
+                  <div class="pago" style="padding:4px 8px"><span class="bola" style="width:22px;height:22px"><i data-lucide="check"></i></span><span class="cap grow"><b class="b2m laranja">PAGO</b><span class="muted">&nbsp;&nbsp;|&nbsp;&nbsp;Inscrição confirmada.</span></span></div>
+                </div>
+                <div class="qrcol"><span class="capm laranja">CHECK-IN</span><div class="qr-box"><div class="qr"></div></div><span class="capm muted" style="letter-spacing:1px">JG-MARC-7F3A</span><span class="chegou"><i data-lucide="check"></i>Check-in feito</span></div>
+              </div>
+            </div>
+            <div class="perf-v"></div>
+            <div class="canhoto">
+              <img class="logo" src="../img/logo-completa.png" alt="">
+              <div class="resumo"><i data-lucide="trophy"></i><div><p class="cap">Torneio</p><p class="b2m">Copa Maré Alta de Futevôlei</p></div></div>
+              <div class="resumo"><i data-lucide="calendar"></i><div><p class="cap">Data</p><p class="b2m">10/10</p></div></div>
+              <div class="resumo"><i data-lucide="clock"></i><div><p class="cap">Horário</p><p class="b2m">A definir</p></div></div>
+              <div class="resumo"><i data-lucide="map-pin"></i><div><p class="cap">Arena</p><p class="b2m">Arena Maré Alta</p></div></div>
+              <div class="resumo"><i data-lucide="users"></i><div><p class="cap">Equipe</p><p class="b2m">Maré Cheia</p></div></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- aguardando aprovacao -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">22</div>
+        <div class="passo-txt"><b>Esperando a aprovação</b><span>Com a equipe completa e paga, ela fica "Aguardando aprovação": a arena ou o moderador confere e aprova, e só equipe aprovada entra no chaveamento. Se a formação muda depois disso, a aprovação cai e a equipe espera de novo. Pelo "Ver ingresso" você abre o seu ingresso.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/equipes/equipes-12-equipe-completa.jpg" alt="Equipe Jogador 35 e Jogador 36 com a etiqueta Aguardando aprovação e o botão Ver ingresso"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- folha do capitao -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">23</div>
+        <div class="passo-txt"><span class="ramo">Capitão</span><b>Passar a capitania ou tirar alguém</b><span>Como capitão, os três pontinhos ao lado de um integrante abrem "Passar a capitania" (ele passa a convidar, tirar e renomear, e você continua na equipe), "Tirar da equipe" (a vaga fica livre) e "Ver perfil". Dá para fazer isso até o chaveamento ser gerado. Quem foi tirado e tinha pago pelo app recebe o estorno automático.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/equipes/equipes-13-sheet-capitao.jpg" alt="Folha do integrante com Passar a capitania, Tirar da equipe e Ver perfil"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- capitania passada -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">24</div>
+        <div class="passo-txt"><span class="ramo">Capitão</span><b>Capitania passada</b><span>O app confirma ("Jogador E2E 36 agora é o capitão.") e a lista troca: quem recebeu vira "Capitão" e você passa a "Confirmado".</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/equipes/equipes-14-capitania-passada.jpg" alt="Aviso Jogador E2E 36 agora é o capitão, com a lista da equipe atualizada"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- sair -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">25</div>
+        <div class="passo-txt"><b>Sair da equipe</b><span>Qualquer um sai até o chaveamento, por "Sair da equipe". A vaga fica livre para o capitão convidar outra pessoa. Se quem sai é o capitão, a capitania passa para o confirmado mais antigo; se ninguém mais confirmou, a equipe é desfeita. Quem pagou pelo app recebe o estorno automático, no Pix ou no cartão.</span></div>
+      </div>
+      <div class="phone print"><div class="screen"><img src="../img/prints/equipes/equipes-15-sair.jpg" alt="Confirmação Sair da equipe? com os botões Ficar e Sair"></div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- chaveamento -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">26</div>
+        <div class="passo-txt"><b>Chaveamento</b><span>Na categoria, toque em "Ver chaveamento". A chave aparece espelhada: metade de cada lado e a final no meio, com a disputa de 3º embaixo. Arraste para os lados; dupla aparece com os dois nomes. O botão de compartilhar manda o link ao vivo.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-rodape">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Chaveamento</span><span class="lado-d"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <p class="b2 muted meta">Copa Maré Alta de Futevôlei</p>
+          <p class="cap muted meta2">Futevôlei · Dupla Open · Arena Maré Alta</p>
+          <div class="jg" style="padding:4px 0 0 20px;overflow:hidden"><div class="arvore2" style="width:1160px;height:346px"><svg class="fios" width="1160" height="346" fill="none" stroke="var(--primary-tint)" stroke-width="2"><path d="M200 80 C220 80 220 119.1 240 119.1"/><path d="M200 204 C220 204 220 164.9 240 164.9"/><path d="M440 142 C460 142 460 119.1 480 119.1"/><path d="M720 142 C700 142 700 164.9 680 164.9"/><path d="M960 80 C940 80 940 119.1 920 119.1"/><path d="M960 204 C940 204 940 164.9 920 164.9"/></svg><span class="rodada-rot" style="left:0px;top:0px;width:200px">Quartas de final</span><span class="rodada-rot" style="left:240px;top:0px;width:200px">Semifinal</span><span class="rodada-rot" style="left:480px;top:0px;width:200px">Final</span><span class="rodada-rot" style="left:720px;top:0px;width:200px">Semifinal</span><span class="rodada-rot" style="left:960px;top:0px;width:200px">Quartas de final</span><span class="rodada-rot" style="left:480px;top:214px;width:200px">Disputa de 3º lugar</span><div class="mcard" style="left:0px;top:28px;width:200px"><div class="tlin win"><span class="duo"><i>BM</i><i>DM</i></span><span class="nm">Bia Moreira &amp; Duda Martins</span><span class="pl">18</span></div><div class="tlin"><span class="duo"><i>GB</i><i>RL</i></span><span class="nm">Gui Barros &amp; Rafa Lopes</span><span class="pl">12</span></div><span class="st2 ok"><i></i>Finalizada</span></div><div class="mcard" style="left:0px;top:152px;width:200px"><div class="tlin win"><span class="duo"><i>NR</i><i>JT</i></span><span class="nm">Nanda Ribeiro &amp; Ju Teixeira</span><span class="pl">18</span></div><div class="tlin"><span class="duo"><i>MC</i><i>BL</i></span><span class="nm">Marina Costa &amp; Bruno Lima</span><span class="pl">16</span></div><span class="st2 ok"><i></i>Finalizada</span></div><div class="mcard" style="left:240px;top:90px;width:200px"><div class="tlin ab"><span class="duo"><i>BM</i><i>DM</i></span><span class="nm">Bia Moreira &amp; Duda Martins</span></div><div class="tlin ab"><span class="duo"><i>NR</i><i>JT</i></span><span class="nm">Nanda Ribeiro &amp; Ju Teixeira</span></div><span class="st2 prox"><i></i>Próxima</span></div><div class="mcard" style="left:480px;top:90px;width:200px"><div class="tlin"><span class="duo"><i>–</i></span><span class="nm">A definir</span></div><div class="tlin"><span class="duo"><i>–</i></span><span class="nm">A definir</span></div><span class="st2 esp"><i></i>Aguardando</span></div><div class="mcard" style="left:720px;top:90px;width:200px"><div class="tlin ab"><span class="duo"><i>CN</i><i>LA</i></span><span class="nm">Caio Nunes &amp; Léo Andrade</span></div><div class="tlin"><span class="duo"><i>–</i></span><span class="nm">A definir</span></div><span class="st2 esp"><i></i>Aguardando</span></div><div class="mcard" style="left:960px;top:28px;width:200px"><div class="tlin win"><span class="duo"><i>CN</i><i>LA</i></span><span class="nm">Caio Nunes &amp; Léo Andrade</span><span class="pl">18</span></div><div class="tlin"><span class="duo"><i>TC</i><i>IS</i></span><span class="nm">Théo Campos &amp; Iago Souza</span><span class="pl">9</span></div><span class="st2 ok"><i></i>Finalizada</span></div><div class="mcard" style="left:960px;top:152px;width:200px"><div class="tlin ab"><span class="duo"><i>PS</i><i>VR</i></span><span class="nm">Pedro Salles &amp; Vini Rocha</span></div><div class="tlin ab"><span class="duo"><i>CP</i><i>TF</i></span><span class="nm">Carol Prado &amp; Tati Freitas</span></div><span class="st2 prox"><i></i>Em quadra</span></div><div class="mcard" style="left:480px;top:242px;width:200px"><div class="tlin"><span class="duo"><i>–</i></span><span class="nm">A definir</span></div><div class="tlin"><span class="duo"><i>–</i></span><span class="nm">A definir</span></div><span class="st2 esp"><i></i>Aguardando</span></div></div></div>
+        </div>
+        <div class="rodape"><button class="btn">Ver partidas</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- dupla eliminação -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">27</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Dupla eliminação</b><span>Em dupla eliminação aparecem três chaves empilhadas (principal, repescagem e grande final), cada jogo com número. O lado ainda vazio diz de onde vem quem chega, como "Perdedor J4" ou "Vencedor J3".</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body com-rodape">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Chaveamento</span><span class="lado-d"><i data-lucide="share-2"></i><i data-lucide="x"></i></span></div>
+          <p class="b2 muted meta">Copa Maré Alta de Futevôlei</p>
+          <p class="cap muted meta2">Futevôlei · Dupla Iniciante · Arena Maré Alta</p>
+          <div class="jg" style="padding-top:4px"><div class="lados"><div class="lado-chave"><div class="lado-tit"><p class="b1m">Chave principal</p><p class="cap muted">Todo mundo começa aqui. Perdeu, cai na repescagem.</p></div><div class="lado-arv"><div class="arvore2" style="width:680px;height:132px"><svg class="fios" width="680" height="132" fill="none" stroke="var(--primary-tint)" stroke-width="2"><path d="M200 80 C220 80 220 57.1 240 57.1"/><path d="M480 80 C460 80 460 102.9 440 102.9"/></svg><span class="rodada-rot" style="left:0px;top:0px;width:200px">Semifinal</span><span class="rodada-rot" style="left:240px;top:0px;width:200px">Final da principal</span><span class="rodada-rot" style="left:480px;top:0px;width:200px">Semifinal</span><div class="mcard" style="left:0px;top:28px;width:200px"><div class="tlin win"><span class="duo"><i>BM</i><i>DM</i></span><span class="nm">Bia Moreira &amp; Duda Martins</span><span class="pl">18</span></div><div class="tlin"><span class="duo"><i>CP</i><i>TF</i></span><span class="nm">Carol Prado &amp; Tati Freitas</span><span class="pl">14</span></div><span class="st2 ok"><b>J1</b><i></i>Finalizada</span></div><div class="mcard" style="left:240px;top:28px;width:200px"><div class="tlin ab"><span class="duo"><i>BM</i><i>DM</i></span><span class="nm">Bia Moreira &amp; Duda Martins</span></div><div class="tlin ab"><span class="duo"><i>CN</i><i>LA</i></span><span class="nm">Caio Nunes &amp; Léo Andrade</span></div><span class="st2 prox"><b>J4</b><i></i>Próxima</span></div><div class="mcard" style="left:480px;top:28px;width:200px"><div class="tlin win"><span class="duo"><i>CN</i><i>LA</i></span><span class="nm">Caio Nunes &amp; Léo Andrade</span><span class="pl">18</span></div><div class="tlin"><span class="duo"><i>NR</i><i>JT</i></span><span class="nm">Nanda Ribeiro &amp; Ju Teixeira</span><span class="pl">16</span></div><span class="st2 ok"><b>J2</b><i></i>Finalizada</span></div></div></div></div><div class="lado-chave"><div class="lado-tit"><p class="b1m">Repescagem</p><p class="cap muted">Perdeu uma vez, continua. Perdeu duas, está fora.</p></div><div class="lado-arv"><div class="arvore2" style="width:440px;height:132px"><svg class="fios" width="440" height="132" fill="none" stroke="var(--primary-tint)" stroke-width="2"><path d="M200 80 C220 80 220 102.9 240 102.9"/></svg><span class="rodada-rot" style="left:0px;top:0px;width:200px">Rodada 1</span><span class="rodada-rot" style="left:240px;top:0px;width:200px">Final da repescagem</span><div class="mcard" style="left:0px;top:28px;width:200px"><div class="tlin ab"><span class="duo"><i>CP</i><i>TF</i></span><span class="nm">Carol Prado &amp; Tati Freitas</span></div><div class="tlin ab"><span class="duo"><i>NR</i><i>JT</i></span><span class="nm">Nanda Ribeiro &amp; Ju Teixeira</span></div><span class="st2 prox"><b>J3</b><i></i>Em quadra</span></div><div class="mcard" style="left:240px;top:28px;width:200px"><div class="tlin"><span class="duo"><i>–</i></span><span class="nm">Perdedor J4</span></div><div class="tlin"><span class="duo"><i>–</i></span><span class="nm">Vencedor J3</span></div><span class="st2 esp"><b>J5</b><i></i>Aguardando</span></div></div></div></div><div class="lado-chave"><div class="lado-tit"><p class="b1m">Grande final</p><p class="cap muted">Jogo único entre a invicta da principal e a campeã da repescagem.</p></div><div class="lado-arv"><div class="arvore2" style="width:200px;height:132px"><svg class="fios" width="200" height="132" fill="none" stroke="var(--primary-tint)" stroke-width="2"></svg><span class="rodada-rot" style="left:0px;top:0px;width:200px">Grande final</span><div class="mcard" style="left:0px;top:28px;width:200px"><div class="tlin"><span class="duo"><i>–</i></span><span class="nm">Vencedor J4</span></div><div class="tlin"><span class="duo"><i>–</i></span><span class="nm">Vencedor J5</span></div><span class="st2 esp"><b>J6</b><i></i>Aguardando</span></div></div></div></div></div></div>
+        </div>
+        <div class="rodape"><button class="btn">Ver partidas</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- link ao vivo -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">28</div>
+        <div class="passo-txt"><b>Link ao vivo</b><span>O link compartilhado pela arena ou por um jogador abre no navegador, sem precisar de conta. No celular a chave aparece uma fase por vez, com pílulas para trocar e uma bolinha laranja onde tem jogo rolando. "Agora em quadra" passa sozinho, e a busca leva para a fase da sua dupla. No rodapé, "Baixar o app".</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="url-cel"><i data-lucide="lock"></i>dist-five-jet-77.vercel.app</div>
+        <div style="flex:1"><div class="lv"><div class="lv-capa"><div class="lv-barra"><img src="../img/logo-completa.png" alt="Desafiaê"><span class="ao-vivo"><i></i>AO VIVO</span></div><div class="lv-info"><span class="esporte">Futevôlei</span><h2>Copa Maré Alta de Futevôlei</h2><p class="muted" style="margin:0">Dupla Open · Arena Maré Alta · 12/10 – 13/10</p><p class="cap muted">Atualizado agora</p></div></div><div class="lv-abas"><span class="on">Chaveamento</span><span>Partidas</span><span>Classificação</span></div><div class="lv-main"><div class="col" style="gap:10px"><p class="lv-tit">Agora em quadra <span>1 jogo</span></p><div class="lv-jogo"><div class="topo-j"><b>Quadra 2</b><span>J4 · Quartas</span></div><div class="lv-time aberto"><span class="lv-duo"><span class="lv-av">PS</span><span class="lv-av">VR</span></span><span class="nome">Pedro Salles &amp; Vini Rocha</span></div><div class="lv-time aberto"><span class="lv-duo"><span class="lv-av">CP</span><span class="lv-av">TF</span></span><span class="nome">Carol Prado &amp; Tati Freitas</span></div></div></div><div class="lv-busca"><i data-lucide="search"></i>Encontre sua dupla</div><div class="lv-quadro"><div class="rolagem"><div class="col" style="gap:12px"><div class="lv-pilulas"><span class="on">Quartas<i></i></span><span>Semifinal<i></i></span><span>Final</span></div><p class="cap muted" style="padding:0 4px">Quartas de final · 3 de 4 jogos decididos</p><div class="lv-lista"><div class="lv-card"><div class="lv-st"><b>J1</b><i style="background:var(--success)"></i><span>Finalizada</span></div><div class="lv-time venceu"><span class="lv-duo"><span class="lv-av">BM</span><span class="lv-av">DM</span></span><span class="nome">Bia Moreira &amp; Duda Martins</span><span class="placar">18</span></div><div class="lv-time"><span class="lv-duo"><span class="lv-av">GB</span><span class="lv-av">RL</span></span><span class="nome">Gui Barros &amp; Rafa Lopes</span><span class="placar">12</span></div></div><div class="lv-card"><div class="lv-st"><b>J2</b><i style="background:var(--success)"></i><span>Finalizada</span></div><div class="lv-time venceu"><span class="lv-duo"><span class="lv-av">NR</span><span class="lv-av">JT</span></span><span class="nome">Nanda Ribeiro &amp; Ju Teixeira</span><span class="placar">18</span></div><div class="lv-time"><span class="lv-duo"><span class="lv-av">MC</span><span class="lv-av">BL</span></span><span class="nome">Marina Costa &amp; Bruno Lima</span><span class="placar">16</span></div></div><div class="lv-card"><div class="lv-st"><b>J3</b><i style="background:var(--success)"></i><span>Finalizada</span></div><div class="lv-time venceu"><span class="lv-duo"><span class="lv-av">CN</span><span class="lv-av">LA</span></span><span class="nome">Caio Nunes &amp; Léo Andrade</span><span class="placar">18</span></div><div class="lv-time"><span class="lv-duo"><span class="lv-av">TC</span><span class="lv-av">IS</span></span><span class="nome">Théo Campos &amp; Iago Souza</span><span class="placar">9</span></div></div><div class="lv-card rolando"><div class="lv-st"><b>J4</b><i style="background:var(--primary)"></i><span>Em quadra</span><em>Quadra 2</em></div><div class="lv-time aberto"><span class="lv-duo"><span class="lv-av">PS</span><span class="lv-av">VR</span></span><span class="nome">Pedro Salles &amp; Vini Rocha</span></div><div class="lv-time aberto"><span class="lv-duo"><span class="lv-av">CP</span><span class="lv-av">TF</span></span><span class="nome">Carol Prado &amp; Tati Freitas</span></div></div></div><span class="lv-prox">Ver Semifinal</span></div></div></div><div class="lv-legenda"><span><i style="background:var(--success)"></i>Finalizada</span><span><i style="background:var(--primary)"></i>Em quadra / próxima</span><span><i style="background:var(--text-muted)"></i>Aguardando</span></div><div class="lv-mascote"><img src="../img/mascote-etapa-final.png" alt=""><p>O chaveamento está esquentando. Acompanhe as próximas fases ao vivo.</p></div></div><div class="lv-rodape"><img src="../img/logo-completa.png" alt="Desafiaê"><p>Torneios, desafios e reservas de quadra num app só.</p><span class="lv-baixar">Baixar o app</span></div></div></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 12 partidas -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">29</div>
+        <div class="passo-txt"><b>Ver partidas</b><span>Todas as partidas da categoria, em abas: acontecendo, aguardando e finalizadas.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Ver partidas</span><span class="lado-d"><i data-lucide="x"></i></span></div>
+          <p class="b2 muted meta">Copa Maré Alta de Futevôlei</p>
+          <p class="cap muted" style="margin-top:-12px">Futevôlei · Dupla Open · Arena Maré Alta</p>
+          <div class="segc"><span class="on">Acontecendo</span><span>Aguardando</span><span>Finalizadas</span></div>
+          <div class="col g8">
+            <p class="capm muted">QUARTAS DE FINAL</p>
+            <div class="mcard solto">
+              <div class="vs"><div class="lado"><span class="duo"><span class="av28">CN</span><span class="av28">LA</span></span>Caio Nunes &amp; Léo Andrade</div><div class="meio">x</div><div class="lado"><span class="duo"><span class="av28">VR</span><span class="av28">RL</span></span>Vini Rocha &amp; Rafa Lopes</div></div>
+              <div class="vs-rod"><span class="st"><i class="lj"></i>Em quadra</span><span class="cap muted">Quadra 2 · sáb., 10/10 · 09:40</span></div>
+            </div>
+            <div class="mcard solto">
+              <div class="vs"><div class="lado"><span class="duo"><span class="av28">DM</span><span class="av28">JT</span></span>Duda Martins &amp; Ju Teixeira</div><div class="meio">x</div><div class="lado"><span class="duo"><span class="av28">NR</span><span class="av28">CP</span></span>Nanda Ribeiro &amp; Carol Prado</div></div>
+              <div class="vs-rod"><span class="st"><i class="lj"></i>Em quadra</span><span class="cap muted">Quadra 1 · sáb., 10/10 · 09:40</span></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 13 confronto resultado -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">30</div>
+        <div class="passo-txt"><b>Confronto finalizado</b><span>Mostra o placar com o vencedor e a provocação, no mesmo card que vira imagem para o Stories. Embaixo aparece o craque do jogo escolhido pela organização (sem craque, esse card não aparece). Toque para compartilhar o resultado.</span></div>
+      </div>
+      <div class="phone"><div class="screen laranja-bg" data-status="inversa">
+        <img class="marca-dagua" src="../img/logo-simbolo.png" alt="" style="left:-30px;top:120px">
+        <img class="marca-dagua" src="../img/logo-simbolo.png" alt="" style="right:-40px;bottom:120px">
+        <div class="screen-body com-rodape" style="z-index:1">
+          <div class="cab branco"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Confronto</span><span class="lado-d"><i data-lucide="x"></i></span></div>
+          <div class="res">
+            <div class="marca"><img class="logo" src="../img/logo-completa.png" alt="Desafiaê"><span class="badge-lj">QUARTAS DE FINAL</span></div>
+            <div class="centro"><p class="t3">Copa Maré Alta de Futevôlei</p><p class="cap muted">Dupla Open</p></div>
+            <div class="placar">
+              <div class="lado"><span class="avatar xl">MC</span><span class="nome"><i data-lucide="trophy"></i>Maré Cheia</span></div>
+              <div class="num"><span class="t1 laranja">18</span><span class="t3 muted">x</span><span class="t1 muted">12</span></div>
+              <div class="lado perdeu"><span class="avatar xl">LB</span><span class="nome">Lagoa Beach</span></div>
+            </div>
+            <div class="vencedor">
+              <div class="tx"><p class="t3">Maré Cheia levou a melhor</p><p class="b2 muted">Atropelou! Lagoa Beach nem viu a cor da bola.</p></div>
+              <img src="../img/mascote-futevolei.png" alt="">
+            </div>
+            <div class="local"><i data-lucide="map-pin"></i>Quadra 1 · sáb., 10/10 · 08:00</div>
+          </div>
+          <div style="position:relative;z-index:1;margin-top:12px"><div class="card craque"><span class="medalha"><i data-lucide="crown"></i></span><div class="grow col" style="gap:2px"><p class="cap muted">Craque do jogo</p><p class="b1m">Bia Moreira</p></div></div></div>
+        </div>
+        <div class="rodape" style="background:transparent"><button class="btn sec"><i data-lucide="share-2"></i>Compartilhar resultado</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- categoria com craque -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">31</div>
+        <div class="passo-txt"><b>Categoria em andamento</b><span>Depois do sorteio, a categoria ganha as abas Resumo, Jogos e Ranking. No Resumo ficam o craque da categoria (quem foi escolhido craque mais vezes, com a coroa em cima da foto), o chat da categoria e a sua equipe. Em Jogos ficam o próximo confronto, o chaveamento e as partidas.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body com-rodape">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Dupla Open</span><span class="lado-d"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="segc"><span class="on">Resumo</span><span>Jogos</span><span>Ranking</span></div>
+            <div class="hero capa"><p class="t3">Copa Maré Alta de Futevôlei</p><p class="cap">12/10 – 13/10 · Arena Maré Alta</p><span class="pill-esporte">Futevôlei</span></div>
+            <div class="stats">
+              <div class="tile"><span class="ico"><i data-lucide="ticket"></i></span><p class="cap muted">Atleta paga</p><p class="t2">R$ 132,00</p></div>
+              <div class="tile"><span class="ico"><i data-lucide="users"></i></span><p class="cap muted">Equipes</p><p class="t2">8</p></div>
+              <div class="tile"><span class="ico ok"><i data-lucide="circle-check"></i></span><p class="cap muted">Confirmadas</p><p class="t2">8</p></div>
+            </div>
+            <div class="col g8"><p class="t3">Como funciona</p><div class="card info">
+              <div class="info-row"><span class="ib"><i data-lucide="trophy"></i></span><div class="grow"><p class="cap muted">Formato</p><p class="b2m">Eliminação simples · com disputa de 3º lugar</p></div></div>
+              <div class="info-row"><span class="ib"><i data-lucide="users"></i></span><div class="grow"><p class="cap muted">Equipe</p><p class="b2m">2 titulares por partida · elenco de 2 jogadores</p></div></div>
+            </div></div>
+            <div class="card craque"><span class="retrato"><i data-lucide="crown"></i><span class="avatar md">B</span></span><div class="grow col" style="gap:2px"><p class="cap muted">Craque da categoria</p><p class="b1m">Bia Moreira</p></div><span class="b2m ouro">2 votos</span></div>
+            <div class="card craque"><span class="medalha" style="background:var(--primary-wash);color:var(--primary)"><i data-lucide="message-circle" style="fill:none"></i></span><div class="grow col" style="gap:2px"><p class="b1m">Chat da categoria</p><p class="cap muted">Arena Maré Alta: Semifinais às 15h na Quadra 1.</p></div><i data-lucide="chevron-right" class="ic muted"></i></div>
+            <div class="card col g4"><div class="row sb"><p class="b1m">Maré Cheia</p><span class="tag-s verde">Confirmada</span></div><p class="b2 muted">Toque para ver o elenco e convidar jogadores.</p></div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn">Ver minha equipe</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- aba Ranking: mata-mata em andamento -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">32</div>
+        <div class="passo-txt"><b>Aba Ranking</b><span>O ranking é sempre de uma categoria: troque de categoria nos botões do topo. No mata-mata, quem segue vivo aparece em "Na disputa", com a fase que vai jogar. Quem já caiu ganha a posição da fase em que caiu, e quem cai na mesma fase divide a posição.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body com-rodape">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Dupla Open</span><span class="lado-d"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="segc"><span>Resumo</span><span>Jogos</span><span class="on">Ranking</span></div>
+            <div class="chips-rola"><span class="chip on-laranja">Dupla Open</span><span class="chip">Dupla Mista</span></div>
+            <div class="rk-sec">
+              <p class="t3">Na disputa</p>
+              <div class="card rkx"><span class="pos">–</span><span class="avatar md">A</span><div class="nm"><p class="b1">Areia Quente</p></div><span class="b2m muted">Semifinal</span></div>
+              <div class="card rkx eu"><span class="pos">–</span><span class="avatar md">M</span><div class="nm"><p class="b1">Maré Cheia</p><p class="cap laranja">Sua equipe</p></div><span class="b2m muted">Semifinal</span></div>
+              <div class="card rkx"><span class="pos">–</span><span class="avatar md">O</span><div class="nm"><p class="b1">Onda Norte</p></div><span class="b2m muted">Semifinal</span></div>
+              <div class="card rkx"><span class="pos">–</span><span class="avatar md">P</span><div class="nm"><p class="b1">Pé na Areia</p></div><span class="b2m muted">Semifinal</span></div>
+            </div>
+            <div class="rk-sec">
+              <p class="t3">Posições definidas</p>
+              <div class="card rkx"><span class="pos">5</span><span class="avatar md">L</span><div class="nm"><p class="b1">Lagoa Beach</p><p class="cap muted">5º a 8º lugar</p></div></div>
+              <div class="card rkx"><span class="pos">5</span><span class="avatar md">S</span><div class="nm"><p class="b1">Sol de Campeche</p><p class="cap muted">5º a 8º lugar</p></div></div>
+              <div class="card rkx"><span class="pos">5</span><span class="avatar md">S</span><div class="nm"><p class="b1">Sol Nascente</p><p class="cap muted">5º a 8º lugar</p></div></div>
+              <div class="card rkx"><span class="pos">5</span><span class="avatar md">V</span><div class="nm"><p class="b1">Vento Sul</p><p class="cap muted">5º a 8º lugar</p></div></div>
+            </div>
+            <p class="cap muted">No mata-mata, a posição vem da fase em que a equipe caiu. Quem cai na mesma fase divide a posição.</p>
+            <button class="btn sec"><i data-lucide="share-2"></i>Compartilhar ranking</button>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn">Ver minha equipe</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- aba Ranking: liga -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">33</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Ranking na liga</b><span>Em todos contra todos ou pontos corridos, o ranking é a tabela da categoria: pontos, depois vitórias, depois saldo. Em grupos com mata-mata, a tabela dos grupos aparece embaixo, em "Fase de grupos".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-rodape">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Dupla Mista</span><span class="lado-d"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="segc"><span>Resumo</span><span>Jogos</span><span class="on">Ranking</span></div>
+            <div class="chips-rola"><span class="chip">Dupla Open</span><span class="chip on-laranja">Dupla Mista</span></div>
+            <div class="card col g8 tabela-cl">
+              <div class="hd cap muted"><span class="eq">Equipe</span><span class="n">J</span><span class="n">V</span><span class="n">Pts</span><span class="n">Saldo</span></div>
+              <div class="ln"><span class="eq b2m">1. Maré Cheia</span><span class="n b2 muted">3</span><span class="n b2 muted">3</span><span class="n b2m">9</span><span class="n b2 muted">+13</span></div>
+              <div class="ln"><span class="eq b2m">2. Pé na Areia</span><span class="n b2 muted">3</span><span class="n b2 muted">2</span><span class="n b2m">6</span><span class="n b2 muted">+4</span></div>
+              <div class="ln"><span class="eq b2m">3. Areia Quente</span><span class="n b2 muted">3</span><span class="n b2 muted">1</span><span class="n b2m">3</span><span class="n b2 muted">-3</span></div>
+              <div class="ln"><span class="eq b2m">4. Lagoa Beach</span><span class="n b2 muted">3</span><span class="n b2 muted">0</span><span class="n b2m">0</span><span class="n b2 muted">-14</span></div>
+            </div>
+            <p class="cap muted">Desempate: pontos, depois vitórias, depois saldo.</p>
+            <button class="btn sec"><i data-lucide="share-2"></i>Compartilhar ranking</button>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn">Ver minha equipe</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- aba Ranking: categoria encerrada -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">34</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Classificação final</b><span>Com a categoria encerrada, o ranking ganha o pódio e vira a classificação final. É essa colocação que vale pontos no circuito. "Compartilhar ranking" gera uma imagem de story com as posições.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body com-rodape">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Dupla Open</span><span class="lado-d"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="segc"><span>Resumo</span><span>Jogos</span><span class="on">Ranking</span></div>
+            <div class="chips-rola"><span class="chip on-laranja">Dupla Open</span><span class="chip">Dupla Mista</span></div>
+            <div class="card podio-rk">
+              <i data-lucide="trophy"></i>
+              <div class="degraus">
+                <div class="lugar"><p class="capm">Onda Norte</p><div class="degrau d2">2</div></div>
+                <div class="lugar"><p class="capm">Maré Cheia</p><div class="degrau d1">1</div></div>
+                <div class="lugar"><p class="capm">Areia Quente</p><div class="degrau d3">3</div></div>
+              </div>
+            </div>
+            <div class="rk-sec">
+              <p class="t3">Classificação final</p>
+              <div class="card rkx eu"><span class="avw"><span class="avatar">M</span><span class="coroa"><i data-lucide="crown"></i></span><span class="med m1">1</span></span><div class="nm"><p class="b1m">Maré Cheia</p><p class="cap laranja">Você</p><p class="cap muted">Campeã</p></div><span class="pts"><i data-lucide="trophy" class="tr1"></i></span></div>
+              <div class="card rkx"><span class="avw"><span class="avatar">O</span><span class="med m2">2</span></span><div class="nm"><p class="b1m">Onda Norte</p><p class="cap muted">Vice</p></div><span class="pts"><i data-lucide="trophy" class="tr2"></i></span></div>
+              <div class="card rkx"><span class="avw"><span class="avatar">A</span><span class="med m3">3</span></span><div class="nm"><p class="b1m">Areia Quente</p><p class="cap muted">3º lugar</p></div><span class="pts"><i data-lucide="trophy" class="tr3"></i></span></div>
+              <div class="card rkx"><span class="pos">4</span><span class="avatar md">P</span><div class="nm"><p class="b1">Pé na Areia</p><p class="cap muted">4º lugar</p></div></div>
+              <div class="card rkx"><span class="pos">5</span><span class="avatar md">L</span><div class="nm"><p class="b1">Lagoa Beach</p><p class="cap muted">5º a 8º lugar</p></div></div>
+              <div class="card rkx"><span class="pos">5</span><span class="avatar md">S</span><div class="nm"><p class="b1">Sol de Campeche</p><p class="cap muted">5º a 8º lugar</p></div></div>
+            </div>
+            <p class="cap muted">No mata-mata, a posição vem da fase em que a equipe caiu. Quem cai na mesma fase divide a posição.</p>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn">Ver minha equipe</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 15 equipe encerrada -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">35</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Equipe depois do fim</b><span>Com o torneio encerrado, a tela da equipe fica só para consulta e mostra a classificação final. Se a categoria foi cancelada, aparece "Categoria cancelada — somente leitura."</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Maré Cheia</span><span class="lado-d"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="row sb"><span class="tag-s azul">Confirmada</span><p class="b2 muted">0 vagas</p></div>
+            <div class="fechado"><i data-lucide="lock"></i>Torneio encerrado — somente leitura.</div>
+            <button class="btn sec">Ver ingresso</button>
+            <div>
+              <p class="b1m" style="margin-bottom:8px">Classificação final</p>
+              <div class="card col g8 tabela-cl">
+                <p class="b1m">Grupo 1</p>
+                <div class="hd cap muted"><span class="eq">Equipe</span><span class="n">J</span><span class="n">V</span><span class="n">Pts</span><span class="n">Saldo</span></div>
+                <div class="ln"><span class="eq b2m">1. Maré Cheia</span><span class="n b2 muted">3</span><span class="n b2 muted">3</span><span class="n b2m">9</span><span class="n b2 muted">+13</span></div>
+                <div class="ln"><span class="eq b2m">2. Pé na Areia</span><span class="n b2 muted">3</span><span class="n b2 muted">1</span><span class="n b2m">3</span><span class="n b2 muted">+1</span></div>
+                <div class="ln"><span class="eq b2m">3. Lagoa Beach</span><span class="n b2 muted">3</span><span class="n b2 muted">0</span><span class="n b2m">0</span><span class="n b2 muted">-14</span></div>
+              </div>
+            </div>
+            <div class="col g8">
+              <div class="card pessoa"><span class="avatar sm">B</span><span class="nome">Bia Moreira</span><span class="cap muted">Confirmado · pago</span></div>
+              <div class="card pessoa"><span class="avatar sm">P</span><span class="nome">Pedro Salles</span><span class="cap muted">Confirmado · pago</span></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 16 cancelado -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">36</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Torneio cancelado</b><span>Se a arena cancela o torneio, a tela de pagamento não cobra mais e mostra em que pé está o estorno de quem já pagou.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Pagamento</span><span class="lado-d"><i data-lucide="x"></i></span></div>
+          <div class="vazio" style="margin-top:120px">
+            <div class="circ"><i data-lucide="ban"></i></div>
+            <p class="t3">Esse torneio foi cancelado</p>
+            <p class="b2 muted">Sua inscrição está sendo estornada e volta pelo mesmo meio de pagamento.</p>
+            <button class="btn" style="margin-top:12px">Voltar</button>
+          </div>
+          <p class="cap muted centro">Depois do estorno: "Sua inscrição foi estornada." Sem pagamento: "Não há mais inscrição a pagar."</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 17 moderados -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">37</div>
+        <div class="passo-txt"><span class="ramo">Moderador</span><b>Torneios que modero</b><span>Se a arena chamou você para moderar (o convite pode chegar até durante o torneio, enquanto ele não encerrou), os torneios aparecem no Início ou em Ajustes. Toque em "Apitar" para abrir a gestão do torneio.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Torneios que modero</span><span class="lado-d"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="apito">
+              <p class="t3">O APITO É SEU</p>
+              <p class="b2">2 torneios esperando sua decisão. Sem VAR, sem choro.</p>
+              <img src="../img/mascote-etapa-final.png" alt="">
+            </div>
+            <div class="mod"><div class="faixa"></div><div class="ct">
+              <div class="row"><div class="thumb foto"></div><div class="grow" style="display:flex;flex-direction:column;gap:2px"><p class="b1m">Copa Maré Alta de Futevôlei</p><p class="b2 muted">Arena Maré Alta</p><p class="cap muted">Futevôlei · 10/10 – 11/10</p></div></div>
+              <div class="row sb"><span class="selo"><i></i>ROLANDO AGORA</span><span class="apitar">Apitar<i data-lucide="arrow-right"></i></span></div>
+            </div></div>
+            <div class="mod"><div class="faixa escura"></div><div class="ct">
+              <div class="row"><div class="thumb"><i data-lucide="volleyball"></i></div><div class="grow" style="display:flex;flex-direction:column;gap:2px"><p class="b1m">Open de Beach Tennis da Primavera</p><p class="b2 muted">Arena Maré Alta</p><p class="cap muted">Beach Tennis · 24/10 – 25/10</p></div></div>
+              <div class="row sb"><span class="selo escuro">COMEÇA EM 14 DIAS</span><span class="apitar">Apitar<i data-lucide="arrow-right"></i></span></div>
+            </div></div>
+            <div class="mod fim"><div class="faixa cinza"></div><div class="ct">
+              <div class="row"><div class="thumb"><i data-lucide="volleyball"></i></div><div class="grow" style="display:flex;flex-direction:column;gap:2px"><p class="b1m">Copa de Inverno</p><p class="b2 muted">Arena Maré Alta</p><p class="cap muted">Futevôlei · 15/08 – 16/08</p></div></div>
+              <div class="row sb"><span class="selo cinza">ENCERRADO</span></div>
+            </div></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 18 confronto pendente moderador -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">38</div>
+        <div class="passo-txt"><span class="ramo">Moderador</span><b>Confronto a jogar</b><span>Com as duas equipes definidas, você edita quadra e horário e lança o placar. Se a quadra estiver ocupada, o app mostra o conflito.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-rodape">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Confronto</span><span class="lado-d"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="card col g8">
+              <div class="row sb"><span class="tag-s azul">Pronta</span><span class="capm laranja">Quartas de final</span></div>
+              <div class="vs-grande">
+                <div class="lado"><span class="avatar">CL</span>Caio Nunes &amp; Léo Andrade</div>
+                <div class="meio"><img src="../img/mascote-futevolei.png" alt=""><span class="t3 muted">x</span></div>
+                <div class="lado"><span class="avatar">VR</span>Vini Rocha &amp; Rafa Lopes</div>
+              </div>
+              <div class="row" style="justify-content:center;gap:4px"><i data-lucide="volleyball" class="ic16 laranja"></i><span class="b2 muted">Futevôlei</span></div>
+            </div>
+            <div class="agenda">
+              <div class="ls"><span class="l"><i data-lucide="map-pin"></i>Quadra 2</span><span class="l"><i data-lucide="calendar-clock"></i>sáb., 10/10 · 09:40</span></div>
+              <span class="capm laranja">Editar</span>
+            </div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn">Lançar placar</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 19 lançar placar -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">39</div>
+        <div class="passo-txt"><span class="ramo">Moderador</span><b>Lançar placar</b><span>Ajuste os pontos dentro da regra do esporte, escolha (se quiser) o craque do jogo entre os atletas das duas equipes e finalize. Depois de lançado, o placar não muda; o craque pode mudar.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Confronto</span><span class="lado-d"><i data-lucide="x"></i></span></div>
+          <div class="card col g8"><div class="row sb"><span class="tag-s azul">Pronta</span><span class="capm laranja">Semifinal</span></div></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="folha" style="gap:16px">
+          <div class="folha-cab"><div class="grow" style="display:flex;flex-direction:column;gap:2px"><p class="t3">Lançar placar</p><p class="cap muted">Até 18, com 2 de vantagem</p></div><i data-lucide="x"></i></div>
+          <div class="set-box">
+            <div class="cont"><i data-lucide="minus"></i><span class="caixa">18</span><i data-lucide="plus"></i></div>
+            <span class="t2 muted">x</span>
+            <div class="cont"><i data-lucide="minus"></i><span class="caixa">15</span><i data-lucide="plus"></i></div>
+          </div>
+          <div class="col g8"><p class="b2m">Craque do jogo (opcional)</p><div class="col" style="gap:12px"><div class="col g4"><p class="cap muted">Maré Cheia</p><div class="chips"><span class="chip on-laranja">Bia Moreira</span><span class="chip">Duda Martins</span></div></div><div class="col g4"><p class="cap muted">Onda Norte</p><div class="chips"><span class="chip">Nanda Ribeiro</span><span class="chip">Ju Teixeira</span></div></div></div></div>
+          <button class="btn">Finalizar Partida</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- trocar craque -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">40</div>
+        <div class="passo-txt"><span class="ramo">Moderador</span><b>Trocar o craque</b><span>Depois do placar, você vê "Escolher" ou "Trocar" no card do craque, até a data de fim do torneio. Tocar de novo no escolhido desmarca, e o botão vira "Tirar craque".</span></div>
+      </div>
+      <div class="phone"><div class="screen laranja-bg" data-status="inversa">
+        <div class="screen-body" style="z-index:1">
+          <div class="cab branco"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Confronto</span><span class="lado-d"><i data-lucide="x"></i></span></div>
+          <div class="card craque"><span class="medalha"><i data-lucide="crown"></i></span><div class="grow col" style="gap:2px"><p class="cap muted">Craque do jogo</p><p class="b1m">Bia Moreira</p></div><span class="capm laranja">Trocar</span></div>
+        </div>
+        <div class="sheet-veu"></div>
+        <div class="folha" style="gap:16px">
+          <div class="folha-cab"><p class="t3">Craque do jogo</p><i data-lucide="x"></i></div>
+          <p class="b2 muted">Escolha quem foi o craque da partida. É opcional e dá pra trocar até a data de fim do torneio.</p>
+          <div class="col" style="gap:12px"><div class="col g4"><p class="cap muted">Maré Cheia</p><div class="chips"><span class="chip">Bia Moreira</span><span class="chip">Duda Martins</span></div></div><div class="col g4"><p class="cap muted">Onda Norte</p><div class="chips"><span class="chip on-laranja">Nanda Ribeiro</span><span class="chip">Ju Teixeira</span></div></div></div>
+          <button class="btn">Salvar craque</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 20 check-in -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">41</div>
+        <div class="passo-txt"><span class="ramo">Moderador</span><b>Check-in</b><span>Leia o QR do ingresso pela câmera ou marque a chegada na lista. Quem não pagou não entra.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="cab"><span class="lado-e"><i data-lucide="arrow-left"></i></span><span class="t3">Check-in</span><span class="lado-d"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="segc"><span>Câmera</span><span class="on">Lista</span></div>
+            <div class="card row" style="gap:8px"><div class="grow" style="display:flex;flex-direction:column;gap:2px"><p class="b1m">Bia Moreira</p><p class="cap muted">Maré Cheia</p></div><span class="capm verde">Chegou</span></div>
+            <div class="card row" style="gap:8px"><div class="grow" style="display:flex;flex-direction:column;gap:2px"><p class="b1m">Pedro Salles</p><p class="cap muted">Maré Cheia</p></div><button class="btn sec mini">Marcar chegada</button></div>
+            <div class="card row" style="gap:8px"><div class="grow" style="display:flex;flex-direction:column;gap:2px"><p class="b1m">Caio Nunes</p><p class="cap muted">Areia Quente</p></div><button class="btn sec mini">Marcar chegada</button></div>
+            <div class="card row" style="gap:8px"><div class="grow" style="display:flex;flex-direction:column;gap:2px"><p class="b1m">Léo Andrade</p><p class="cap muted">Areia Quente</p></div><span class="cap muted">Pagamento pendente</span></div>
+            <div class="card row" style="gap:8px"><div class="grow" style="display:flex;flex-direction:column;gap:2px"><p class="b1m">Duda Martins</p><p class="cap muted">Sol de Campeche</p></div><span class="capm verde">Chegou</span></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 21 nova equipe sheet -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">42</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Nova equipe montada por quem gerencia</b><span>No desafio entre arenas, quem gerencia pode montar a equipe direto: marca o elenco, o primeiro marcado vira capitão e os outros recebem convite.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body"></div>
+        <div class="sheet-veu"></div>
+        <div class="folha" style="top:20%">
+          <div class="folha-cab"><p class="t3 grow">Nova equipe</p><i data-lucide="x"></i></div>
+          <div class="input">Pé na Areia</div>
+          <p class="b2 muted">Marque quem vai jogar. O primeiro que você marcar vira o capitão — todo mundo entra como convite, ninguém se inscreve sozinho.</p>
+          <p class="b2m muted">2 de 2 selecionados</p>
+          <div class="input"><span class="ph">Buscar jogador pelo nome</span></div>
+          <div class="col g8">
+            <div class="card pessoa" style="padding:12px 16px"><i data-lucide="check" class="ic laranja"></i><span class="avatar sm">J</span><span class="nome">Ju Teixeira</span><span class="cap laranja">Capitão</span><i data-lucide="user-round" class="ver-perfil"></i></div>
+            <div class="card pessoa" style="padding:12px 16px"><i data-lucide="check" class="ic laranja"></i><span class="avatar sm">C</span><span class="nome">Carol Prado</span><span class="cap muted">Tornar capitão</span><i data-lucide="user-round" class="ver-perfil"></i></div>
+            <div class="card pessoa" style="padding:12px 16px"><span class="avatar sm">G</span><span class="nome">Gui Barros</span><span class="cap muted">Já está em outra equipe</span><i data-lucide="user-round" class="ver-perfil"></i></div>
+          </div>
+          <button class="btn">Criar equipe (2)</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">43</div>
+        <div class="passo-txt"><b>Ingresso impresso</b><span>Quando você acaba de pagar, o ingresso aparece saindo de baixo do cabeçalho, como de uma impressora. Aberto pela lista, ele já aparece parado.</span></div>
+      </div>
+      <div class="phone an-phone" data-anima><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><span class="lado"><i data-lucide="arrow-left" class="ic24"></i></span><span class="titulo">Ingresso</span><span class="lado"><i data-lucide="x" class="ic24"></i></span></div>
+          <div class="an-fenda"><div class="card an-bilhete col g8" style="background:var(--primary-wash);border-color:var(--primary-tint)">
+            <div class="row sb"><img src="../img/logo-completa.png" alt="" style="height:22px"><span class="tag marca">COPA MARÉ ALTA DE FUTEVÔLEI</span></div>
+            <p class="t3" style="text-align:center">INGRESSO DE INSCRIÇÃO</p>
+            <div class="grid2"><div><p class="cap muted">EQUIPE</p><p class="b2m">Maré Cheia</p></div><div><p class="cap muted">CAPITÃO</p><p class="b2m">Bia Moreira</p></div><div><p class="cap muted">DATA</p><p class="b2m">10/10</p></div><div><p class="cap muted">HORÁRIO</p><p class="b2m">A definir</p></div></div>
+            <div class="row" style="gap:6px"><i data-lucide="circle-check" class="ic16 laranja"></i><span class="capm laranja">PAGO</span><span class="cap muted">Inscrição confirmada.</span></div>
+            <div class="qr" style="width:120px;height:120px"></div>
+          </div></div>
+        </div>
+      </div></div>
+      <button type="button" class="btn contorno inline an-rever"><i data-lucide="rotate-ccw"></i>Rever animação</button>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">44</div>
+        <div class="passo-txt"><b>Equipe campeã</b><span>Com a categoria encerrada, o topo da tela da categoria mostra a equipe campeã, com troféu e confete. É a mesma colocação que vale pontos no circuito.</span></div>
+      </div>
+      <div class="phone an-phone" data-anima><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><span class="lado"><i data-lucide="arrow-left" class="ic24"></i></span><span class="titulo">Dupla Open</span><span class="lado"><i data-lucide="x" class="ic24"></i></span></div>
+          <div class="an-campeao"><i class="cf l" style="left:1.8%;background:var(--primary);--d:0.07s;--r:414deg"></i><i class="cf" style="left:6.0%;background:var(--gold);--d:0.24s;--r:312deg"></i><i class="cf" style="left:11.4%;background:var(--primary-tint);--d:0.23s;--r:193deg"></i><i class="cf l" style="left:19.1%;background:var(--primary-dark);--d:0.03s;--r:213deg"></i><i class="cf" style="left:24.6%;background:var(--primary);--d:0.37s;--r:225deg"></i><i class="cf" style="left:29.0%;background:var(--gold);--d:0.28s;--r:521deg"></i><i class="cf l" style="left:36.5%;background:var(--primary-tint);--d:0.18s;--r:531deg"></i><i class="cf" style="left:39.1%;background:var(--primary-dark);--d:0.39s;--r:284deg"></i><i class="cf" style="left:45.2%;background:var(--primary);--d:0.05s;--r:291deg"></i><i class="cf l" style="left:54.5%;background:var(--gold);--d:0.08s;--r:389deg"></i><i class="cf" style="left:59.1%;background:var(--primary-tint);--d:0.17s;--r:377deg"></i><i class="cf" style="left:61.5%;background:var(--primary-dark);--d:0.03s;--r:254deg"></i><i class="cf l" style="left:70.4%;background:var(--primary);--d:0.19s;--r:293deg"></i><i class="cf" style="left:75.4%;background:var(--gold);--d:0.20s;--r:288deg"></i><i class="cf" style="left:82.1%;background:var(--primary-tint);--d:0.31s;--r:268deg"></i><i class="cf l" style="left:86.5%;background:var(--primary-dark);--d:0.24s;--r:495deg"></i><i class="cf" style="left:92.9%;background:var(--primary);--d:0.13s;--r:533deg"></i><i class="cf" style="left:95.1%;background:var(--gold);--d:0.19s;--r:453deg"></i><span class="trofeu"><i data-lucide="trophy"></i></span><span class="capm" style="color:var(--primary-dark)">EQUIPE CAMPEÃ</span><p class="t2">Maré Cheia</p></div>
+          <div class="card col g4"><p class="b2m">Torneio encerrado</p><p class="cap muted">A categoria terminou e agora é só leitura.</p></div>
+        </div>
+      </div></div>
+      <button type="button" class="btn contorno inline an-rever"><i data-lucide="rotate-ccw"></i>Rever animação</button>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Por que não consigo criar equipe nessa categoria?</summary><p>A categoria limita quem pode jogar e você não se encaixa: o aviso acima do botão diz o motivo (nível, nível validado, gênero ou idade). Se faltar gênero ou data de nascimento no seu perfil, o app pede esses dados antes de você entrar.</p></details>
+    <details><summary>Posso escolher o nome da minha dupla?</summary><p>Não. Na dupla o nome é sempre o dos dois, e na mista a mulher vem primeiro. Ele atualiza quando o parceiro aceita. Em equipe de 3 ou mais, o capitão escolhe e pode renomear.</p></details>
+    <details><summary>Paguei. Por que minha equipe está "Aguardando aprovação"?</summary><p>Equipe completa e paga ainda passa pela arena ou pelo moderador, que aprova a inscrição. Só equipe aprovada entra no chaveamento. Se alguém sai ou entra depois, a aprovação cai e a equipe espera de novo.</p></details>
+    <details><summary>Como funciona o ingresso por lote?</summary><p>A categoria vende em lotes, um aberto por vez, e o preço é por atleta. Você paga o lote que estiver aberto na hora do seu pagamento, mesmo que o seu parceiro tenha pago um lote mais barato. Ao abrir o pagamento, a sua vaga fica guardada por 30 minutos com o preço travado; se o tempo acabar, ela volta para o lote. Se as vagas do lote estiverem todas em pagamento por outras pessoas, espere alguns minutos e tente de novo.</p></details>
+    <details><summary>Saí da equipe (ou fui tirado). Recebo o dinheiro de volta?</summary><p>Se você pagou pelo app, sim: o estorno é automático, no Pix ou no cartão. Se a organização marcou que você pagou por fora, a devolução é combinada direto com ela. Sair, tirar alguém e passar a capitania só dá até o chaveamento ser gerado.</p></details>
+    <details><summary>Como pago o ingresso?</summary><p>Por Pix ou cartão, pelo app, direto para a arena. No Pix, a tela troca sozinha para o ingresso quando o pagamento cai.</p></details>
+    <details><summary>E se o torneio for cancelado?</summary><p>Só a arena organizadora cancela, e só antes de começar. Quem pagou recebe o estorno automaticamente, no Pix ou no cartão.</p></details>
+    <details><summary>Perdi um jogo. Estou fora?</summary><p>Depende do formato. Na dupla eliminação você cai na repescagem e só sai na segunda derrota.</p></details>
+    <details><summary>Quem escolhe o craque do jogo no torneio?</summary><p>Quem lança o placar, o moderador ou a arena. Não tem votação, e a escolha pode ser trocada até a data de fim do torneio.</p></details>
+    <details><summary>Como funciona o ranking do torneio?</summary><p>Ele é sempre de uma categoria, e quem pontua é a equipe. Na liga vale a tabela: pontos, depois vitórias, depois saldo. No mata-mata e na dupla eliminação, a posição vem da fase em que a equipe caiu, e quem ainda está viva aparece em "Na disputa".</p></details>
+    <details><summary>Por que minha equipe aparece em "5º a 8º lugar"?</summary><p>Quem cai na mesma fase divide a posição. Todas as equipes que perderam nas quartas de final, por exemplo, ficam entre o 5º e o 8º lugar.</p></details>
+    <details><summary>É o mesmo ranking da aba Ranking do app?</summary><p>Não. O ranking do torneio mostra a colocação das equipes na categoria, e é ela que vale pontos no circuito. A aba Ranking do app é o ranking competitivo, individual e por modalidade; os jogos do torneio também contam para o seu rating lá.</p></details>
+    <details><summary>Fui convidado para moderar. O que eu posso fazer?</summary><p>Pelos "Torneios que modero", você lança placar, escolhe o craque do jogo, ajusta quadra e horário dos confrontos, aprova as equipes inscritas e faz o check-in. O convite pode chegar a qualquer momento, até no dia ou durante o torneio, e só não vale depois que ele encerra. Cancelar o torneio é só com a arena.</p></details>
+  </div>
+</section>
+
+<script>
+  /* "Rever animação" de cada passo novo: tira .play, forca o reflow e devolve.
+     Os pontos contam de 0 ate o total, como o PointsEarnedCard do app. */
+  (function () {
+    function contar(el) {
+      var n = el.querySelector('.n'); if (!n) return;
+      var total = +n.dataset.total, t0 = performance.now();
+      n.classList.remove('bate');
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { n.textContent = '+' + total + ' pts'; return; }
+      (function passo(t) {
+        var p = Math.min((t - t0) / 900, 1);
+        n.textContent = '+' + Math.round(total * (1 - Math.pow(1 - p, 3))) + ' pts';
+        if (p < 1) requestAnimationFrame(passo); else { void n.offsetWidth; n.classList.add('bate'); }
+      })(t0);
+    }
+    function tocar(alvo) {
+      alvo.classList.remove('play'); void alvo.offsetWidth; alvo.classList.add('play');
+      alvo.querySelectorAll('.an-pontos').forEach(contar);
+    }
+    document.querySelectorAll('[data-anima]').forEach(function (alvo) {
+      tocar(alvo);
+      var b = alvo.parentNode.querySelector('.an-rever');
+      if (b) b.addEventListener('click', function () { tocar(alvo); });
+    });
+  })();
+</script>
+<script src="../kit.js"></script>
+</body>
+</html>

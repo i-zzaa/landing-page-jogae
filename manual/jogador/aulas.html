@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aulas e mensalidade · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* CSS só desta página, sempre com as variáveis do kit (nunca cor solta) */
+  /* peças do app que o kit não tem igual (ScreenHeader, SegmentedControl, Chip, Button, Avatar, Alert do iOS) */
+  .hdr { padding: 0; min-height: 50px; }
+  .hdr > svg { width: 24px; height: 24px; flex: none; }
+  .hdr .titulo { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hdr .vazio { width: 24px; flex: none; }
+  .corpo { display: flex; flex-direction: column; gap: 12px; }
+  .segx { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .segx > span { flex: 1; text-align: center; padding: 8px 4px; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); white-space: nowrap; }
+  .segx > span.on { background: var(--primary); color: var(--text-inverse); }
+  .chip.on { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+  .btn { font-weight: 500; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.out { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+  .btn.dng { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  .btn.ter { background: transparent; color: var(--primary); height: auto; padding: 10px 0; }
+  .btn.dis { opacity: .5; }
+  .avatar { background: var(--primary); color: var(--text-inverse); font-weight: 500; }
+  .rodape { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 20px 34px; background: var(--background); display: flex; flex-direction: column; gap: 8px; z-index: 3; }
+  .grupo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .grupo .lr { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; font: 400 16px/24px var(--font); }
+  .grupo .lr + .lr { border-top: 1px solid var(--border); margin-left: 16px; padding-left: 0; }
+  .grupo .lr > svg:first-child { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .grupo .lr .rot { flex: 1; min-width: 0; }
+  .grupo .lr .val { font: 500 14px/20px var(--font); color: var(--primary); }
+  .grupo .lr .chev { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .grupo .lr.perigo, .grupo .lr.perigo > svg:first-child { color: var(--danger); }
+  .alerta-veu { position: absolute; inset: 0; background: var(--overlay); z-index: 7; display: flex; align-items: center; justify-content: center; }
+  .alerta { width: 270px; background: var(--surface-alt); border-radius: 14px; text-align: center; overflow: hidden; }
+  .alerta .al-txt { padding: 18px 16px 16px; display: grid; gap: 4px; }
+  .alerta .al-txt b { font: 600 17px/22px var(--font); }
+  .alerta .al-txt span { font: 400 13px/17px var(--font); }
+  .alerta .al-bts { display: flex; border-top: 1px solid var(--border); }
+  .alerta .al-bts > span { flex: 1; padding: 11px 8px; font: 400 17px/22px var(--font); color: var(--info); }
+  .alerta .al-bts > span + span { border-left: 1px solid var(--border); }
+  .alerta .al-bts > span.forte { font-weight: 600; }
+  .alerta .al-bts > span.perigo { color: var(--danger); }
+  .alerta.pilha .al-bts { flex-direction: column; }
+  .alerta.pilha .al-bts > span + span { border-left: 0; border-top: 1px solid var(--border); }
+  .toastx { position: absolute; left: 20px; right: 20px; top: 60px; border-radius: 14px; padding: 12px 14px; display: flex; gap: 10px; align-items: center; z-index: 9; font: 500 14px/20px var(--font); background: var(--success-soft); color: var(--text); border: 1px solid var(--success); box-shadow: var(--shadow-card); }
+  .toastx svg { color: var(--success); }
+  .toastx.erro { background: var(--danger-soft); border-color: var(--danger); }
+  .toastx.erro svg { color: var(--danger); }
+  .toastx svg { width: 20px; height: 20px; flex: none; }
+  .mh { position: relative; width: 90px; height: 90px; flex: none; }
+  .mh::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; border-left-color: var(--primary); border-bottom-color: var(--primary); transform: rotate(20deg); }
+  .mh .c { position: absolute; inset: 7px; border-radius: 50%; background: var(--primary-tint); overflow: hidden; display: flex; align-items: flex-end; justify-content: center; }
+  .mh .c img { width: 88%; }
+  .cat { height: 20px; width: auto; flex: none; }
+
+  /* aba Aulas do perfil da arena (components/DayStrip.tsx + ArenaClassWeek.tsx) */
+  .mes { font: 500 16px/24px var(--font); }
+  .dias { display: flex; }
+  .dia { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .dia .n { width: 40px; height: 40px; border-radius: 999px; background: var(--surface-alt); display: flex; align-items: center; justify-content: center; font: 500 16px/24px var(--font); color: var(--text); }
+  .dia.on { color: var(--primary); }
+  .dia.on .n { background: var(--primary); color: var(--text-inverse); }
+  .dia .pt { width: 6px; height: 6px; border-radius: 3px; background: var(--primary); }
+  .dia .pt.nao { opacity: 0; }
+  .aula { display: flex; gap: 12px; }
+  .aula .hora { display: flex; flex-direction: column; gap: 8px; }
+  .aula .pilula { display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 999px; background: var(--surface-alt); font: 500 14px/20px var(--font); }
+  .aula .vagas { display: flex; align-items: center; gap: 4px; padding: 0 8px; font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .aula .info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .aula svg { color: var(--text-muted); }
+  .apagado { opacity: .45; }
+  /* aula (class-session) */
+  .heroi { display: flex; align-items: flex-end; padding: 16px 0 0 16px; background: var(--primary-wash); border-radius: 11px 11px 0 0; }
+  .heroi .txt { flex: 1; display: flex; flex-direction: column; gap: 4px; align-self: center; padding-bottom: 16px; }
+  .heroi .txt img.cat { width: auto; height: 20px; margin: 0; }
+  .heroi > img { width: 96px; height: 128px; object-fit: contain; margin-right: 8px; }
+  .detalhes { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .detalhes .row { gap: 8px; }
+  .detalhes svg { width: 16px; height: 16px; color: var(--text-muted); flex: none; }
+  .politica { display: flex; gap: 8px; padding: 0 4px; }
+  .politica svg { width: 16px; height: 16px; color: var(--text-muted); flex: none; }
+  /* pagamento */
+  .qrcard { align-self: center; padding: 16px; }
+  .qrcard .qr { width: 200px; height: 200px; border: 0; outline: 0; }
+  .codigo { font: 400 12px/16px var(--mono); word-break: break-all; }
+  .estado { display: flex; flex-direction: column; align-items: center; gap: 12px; padding-top: 16px; text-align: center; }
+  .estado > svg { width: 48px; height: 48px; }
+  /* ingresso (class-ticket) */
+  .ingresso { flex: 1; position: relative; background: var(--primary-wash); border: 1.5px solid var(--primary-tint); border-radius: 20px; padding: 16px; display: flex; flex-direction: column; box-shadow: var(--shadow-card); margin-bottom: 12px; }
+  .ingresso .sec { flex: 1; display: flex; flex-direction: column; justify-content: space-evenly; gap: 8px; }
+  .ingresso .marca { display: flex; align-items: center; justify-content: space-between; }
+  .ingresso .marca img { width: 88px; height: 27px; object-fit: contain; object-position: left; }
+  .ingresso .selo { border: 1px solid var(--primary); border-radius: 999px; padding: 3px 8px; font: 500 12px/16px var(--font); color: var(--primary); }
+  .ingresso .masc { width: 110px; height: 96px; object-fit: contain; align-self: center; }
+  .ingresso .campos { display: flex; gap: 8px; }
+  .ingresso .campo { flex: 1; display: grid; gap: 1px; }
+  .ingresso .campo .cap { color: var(--text-muted); text-transform: uppercase; }
+  .ingresso .perf { position: relative; margin: 12px 8px; border-top: 2px dashed var(--primary-tint); }
+  .ingresso .perf::before, .ingresso .perf::after { content: ""; position: absolute; top: -17px; width: 32px; height: 32px; border-radius: 16px; background: var(--background); border: 1.5px solid var(--primary-tint); }
+  .ingresso .perf::before { left: -42px; clip-path: inset(0 0 0 50%); }
+  .ingresso .perf::after { right: -42px; clip-path: inset(0 50% 0 0); }
+  .ingresso .qrbox { background: var(--surface); padding: 8px; border-radius: 12px; align-self: center; }
+  .ingresso .qrbox .qr { width: 160px; height: 160px; border: 0; outline: 0; }
+  .ingresso .cod { letter-spacing: 1px; color: var(--text-muted); text-align: center; }
+  /* planos da arena (arena-plans/[id].tsx) */
+  .topo-planos { position: relative; overflow: hidden; background: var(--primary-wash); border-radius: 0 0 20px 20px; padding: 0 20px 24px; margin: 0 -20px; }
+  .topo-planos::before { content: ""; position: absolute; width: 220px; height: 220px; border-radius: 110px; background: var(--primary-soft); top: -73px; right: -73px; }
+  .topo-planos::after { content: ""; position: absolute; width: 96px; height: 96px; border-radius: 48px; background: var(--primary-soft); bottom: -48px; left: -24px; }
+  .topo-planos > * { position: relative; z-index: 1; }
+  .carrossel { display: flex; gap: 12px; margin: 0 -20px; padding: 0 20px; overflow: hidden; }
+  .plano { flex: none; width: 284px; min-height: 330px; padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+  .plano .preco { display: flex; align-items: baseline; gap: 4px; }
+  .plano .feats { display: flex; flex-direction: column; gap: 12px; margin: 8px 0; }
+  .plano .feats .row { gap: 8px; }
+  .plano .feats svg { width: 16px; height: 16px; color: var(--primary); }
+  .plano .acao { margin-top: auto; }
+  .capa { width: 48px; height: 48px; border-radius: 12px; background: var(--primary-wash); display: flex; align-items: center; justify-content: center; color: var(--primary); flex: none; }
+
+</style>
+</head>
+<body>
+<header id="proto" data-lado="jogador" data-fluxo="aulas"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Aulas e mensalidade</h1>
+  <p>Você acha as aulas na aba Aulas do perfil da arena, se inscreve pelo seu plano ou paga a aula avulsa e mostra o ingresso no check-in. A mensalidade fica em Meus planos, nas Configurações.</p>
+  <ul class="regras">
+    <li>Aulas valem em todos os planos da arena: a aba Aulas só aparece nas arenas que oferecem aula pelo app.</li>
+    <li>As inscrições abrem 24h antes da aula. Você recebe um lembrete 1 hora antes de cada aula em que está inscrito.</li>
+    <li>A turma pode aceitar só alguns níveis. Se o seu nível na modalidade não for um deles, aparece "Turma de outro nível" no lugar da inscrição.</li>
+    <li>Turma fixa é só para a lista de alunos que a arena monta: quem está na lista já fica inscrito em todas as aulas, sem a janela de 24h. Se não puder ir, toque em "Não vou nesta aula"; dá para voltar com "Vou nesta aula" enquanto ela não começou. Quem não está na lista vê "Turma fechada" e fala com a arena.</li>
+    <li>Aula avulsa cancelada com 2h ou mais de antecedência devolve todo o valor; com menos de 2h, não há estorno. Se a arena cancelar, o estorno é sempre total.</li>
+    <li>Na aula avulsa, sua vaga fica guardada por 30 minutos enquanto você paga, por Pix ou cartão.</li>
+    <li>Você não pode ter dois planos com a mesma modalidade na mesma arena. A primeira mensalidade é paga na hora em que você contrata.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Perfil da arena · aba Aulas</b><span>Escolha o dia na faixa (a bolinha marca dia com aula) e toque numa aula. Aula lotada fica apagada; se você já está inscrito, vê a sua situação em laranja.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Arena</span><i data-lucide="x"></i></div>
+          <div class="segx"><span>Sobre</span><span>Eventos</span><span class="on">Aulas</span></div>
+          <p class="t2">Arena Maré Alta</p>
+          <button class="btn out"><i data-lucide="clipboard-list"></i>Planos de mensalidade</button>
+          <div class="col">
+            <p class="mes">Setembro de 2026</p>
+            <div class="dias">
+              <div class="dia"><span>Hoje</span><span class="n">28</span><i class="pt"></i></div>
+              <div class="dia on"><span>ter.</span><span class="n">29</span><i class="pt"></i></div>
+              <div class="dia"><span>qua.</span><span class="n">30</span><i class="pt nao"></i></div>
+              <div class="dia"><span>qui.</span><span class="n">1</span><i class="pt"></i></div>
+              <div class="dia"><span>sex.</span><span class="n">2</span><i class="pt"></i></div>
+              <div class="dia"><span>sáb.</span><span class="n">3</span><i class="pt"></i></div>
+              <div class="dia"><span>dom.</span><span class="n">4</span><i class="pt nao"></i></div>
+            </div>
+          </div>
+          <div class="col g8">
+            <div class="card aula">
+              <div class="hora"><span class="pilula"><i data-lucide="clock" class="ic16"></i>07:00</span><span class="vagas"><i data-lucide="user" class="ic16"></i>8/8</span></div>
+              <div class="info">
+                <div class="row" style="gap:8px"><p class="b1m grow">Futevôlei intermediário</p><i data-lucide="chevron-right" class="ic"></i></div>
+                <div class="row" style="gap:8px"><p class="b2 muted">Futevôlei · Caio Nunes</p><img class="cat" src="../img/categoria-b.png" alt=""></div>
+                <p class="cap muted">Local: Quadra 1</p>
+                <p class="cap muted">Incluída no seu plano</p>
+                <p class="capm laranja">Inscrito</p>
+              </div>
+            </div>
+            <div class="card aula">
+              <div class="hora"><span class="pilula"><i data-lucide="clock" class="ic16"></i>19:00</span><span class="vagas"><i data-lucide="user" class="ic16"></i>6/8</span></div>
+              <div class="info">
+                <div class="row" style="gap:8px"><p class="b1m grow">Beach tennis iniciante</p><i data-lucide="chevron-right" class="ic"></i></div>
+                <div class="row" style="gap:8px"><p class="b2 muted">Beach tennis · Léo Andrade</p><img class="cat" src="../img/categoria-d.png" alt=""></div>
+                <p class="cap muted">Local: Quadra 3</p>
+                <p class="cap muted">Aula avulsa: R$ 45,00</p>
+                <p class="capm muted">Inscrições abertas</p>
+              </div>
+            </div>
+            <div class="card aula">
+              <div class="hora apagado"><span class="pilula"><i data-lucide="clock" class="ic16"></i>20:00</span><span class="vagas"><i data-lucide="user" class="ic16"></i>10/10</span></div>
+              <div class="info">
+                <div class="row" style="gap:8px"><p class="b1m grow apagado">Vôlei de praia misto</p><span class="capm muted">Aula lotada</span><i data-lucide="chevron-right" class="ic apagado"></i></div>
+                <div class="row apagado" style="gap:8px"><p class="b2 muted">Vôlei · Nanda Ribeiro</p></div>
+                <p class="cap muted apagado">Aula avulsa: R$ 40,00</p>
+                <p class="capm muted">Fila de espera disponível</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Aula</b><span>Você vê horário, professor, vagas e quem já se inscreveu. O botão do rodapé muda conforme a situação: aqui a aula não entra no seu plano, então você paga a aula avulsa ou vai ver os planos.</span><span class="ramo">Alternativa</span><span>Incluída no plano: "Inscrever-se". Lotada: "Entrar na lista de espera" e, se abrir vaga, "Confirmar vaga" dentro do prazo. Antes das 24h: o botão fica travado em "Inscrições abrem em…". Mensalidade atrasada: aviso e "Pagar mensalidade".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="padding-bottom:150px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Beach tennis iniciante</span><i data-lucide="x"></i></div>
+          <div class="card sem-pad">
+            <div class="heroi">
+              <div class="txt">
+                <div class="row" style="gap:8px"><span class="capm laranja">BEACH TENNIS</span><img class="cat" src="../img/categoria-d.png" alt=""></div>
+                <p class="b2m muted">Ter, 29/09</p>
+                <p class="t2">19:00 – 20:00</p>
+              </div>
+              <img src="../img/mascote-beachtennis.png" alt="">
+            </div>
+            <div class="detalhes">
+              <div class="row"><i data-lucide="map-pin"></i><p class="b2 grow">Arena Maré Alta · Quadra 3</p></div>
+              <div class="row"><i data-lucide="graduation-cap"></i><p class="b2 grow">Professor Léo Andrade</p></div>
+              <div class="col g8">
+                <div class="row"><i data-lucide="users"></i><p class="b2 grow">6/8 vagas</p></div>
+                <div class="progress"><i style="width:75%"></i></div>
+              </div>
+              <div class="row"><i data-lucide="tag"></i><p class="b2m grow">Aula avulsa: R$ 45,00</p></div>
+            </div>
+          </div>
+          <div class="politica"><i data-lucide="info"></i><p class="cap muted">Inscrições abrem 24h antes da aula. Aula avulsa: cancelando com 2h ou mais de antecedência, o valor volta todo; com menos, não há estorno. Se a arena cancelar, o estorno é sempre total.</p></div>
+          <div class="col">
+            <p class="t3">Inscritos (6)</p>
+            <div class="row"><span class="avatar md">D</span><p class="b2m">Duda Martins</p></div>
+            <div class="row"><span class="avatar md">P</span><p class="b2m">Pedro Salles</p></div>
+          </div>
+        </div>
+        <div class="rodape">
+          <button class="btn">Reservar e pagar R$ 45,00</button>
+          <button class="btn ter">Ver planos da arena</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Pagamento da aula</b><span>Sua vaga fica guardada por 30 minutos. O Pix aparece sozinho ao abrir a tela; em Cartão, você paga na página do Mercado Pago e volta para o app.</span><span class="ramo">Alternativa</span><span>Se o prazo esgotar: "O prazo acabou" e "Voltar pra aula".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Pagamento da aula</span><i data-lucide="x"></i></div>
+          <div class="card col g4">
+            <p class="b1m">Beach tennis iniciante</p>
+            <p class="b2 muted">Arena Maré Alta · 29/09 19:00</p>
+            <p class="b1m">R$ 45,00</p>
+          </div>
+          <div class="row" style="gap:4px;justify-content:center"><i data-lucide="clock" class="ic16" style="color:var(--warning)"></i><p class="b2m" style="color:var(--warning)">Sua vaga fica guardada por 29:41</p></div>
+          <div class="segx"><span class="on">Pix</span><span>Cartão</span></div>
+          <div class="card qrcard"><div class="qr"></div></div>
+          <p class="b2 muted" style="text-align:center">Escaneie o QR Code no app do seu banco pra pagar com Pix.</p>
+          <p class="cap muted" style="text-align:center">Ou copie o código abaixo (Pix copia e cola):</p>
+          <div class="card"><p class="codigo">00020126580014br.gov.bcb.pix0136a1f4c2e8-7d31-4b9a-9c0e-5f2d8b61e7a45204000053039865405</p></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Pagamento confirmado</b><span>Quando o pagamento é confirmado, a tela muda sozinha. Dali você vai para o ingresso.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Pagamento da aula</span><i data-lucide="x"></i></div>
+          <div class="card col g4">
+            <p class="b1m">Beach tennis iniciante</p>
+            <p class="b2 muted">Arena Maré Alta · 29/09 19:00</p>
+            <p class="b1m">R$ 45,00</p>
+          </div>
+          <div class="estado">
+            <i data-lucide="circle-check" style="color:var(--success)"></i>
+            <p class="t3">Pagamento confirmado!</p>
+            <p class="b2 muted">Você está inscrito. Mostre o ingresso na chegada.</p>
+            <button class="btn"><i data-lucide="ticket"></i>Ver ingresso</button>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Ingresso e check-in</b><span>Na chegada, mostre o QR do ingresso; a arena lê com a câmera. Depois da leitura, o ingresso mostra "Check-in feito às 18:56" em verde.</span><span class="ramo">Alternativa</span><span>Inscrição cancelada: o QR some e aparece "Ingresso sem validade" em vermelho.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="padding-bottom:40px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Ingresso</span><i data-lucide="x"></i></div>
+          <div class="ingresso">
+            <div class="sec">
+              <div class="marca"><img src="../img/logo-completa.png" alt="Desafiaê"><span class="selo">BEACH TENNIS</span></div>
+              <img class="masc" src="../img/mascote-login.png" alt="">
+              <div><p class="t3" style="text-align:center">INGRESSO DA AULA</p><p class="cap muted" style="text-align:center">Mostre o QR na chegada</p></div>
+              <div class="campos"><div class="campo"><span class="cap">Aula</span><span class="b2m">Beach tennis iniciante</span></div><div class="campo"><span class="cap">Arena</span><span class="b2m">Arena Maré Alta</span></div></div>
+              <div class="campos"><div class="campo"><span class="cap">Data</span><span class="b2m">29/09</span></div><div class="campo"><span class="cap">Horário</span><span class="b2m">19:00 – 20:00</span></div><div class="campo"><span class="cap">Quadra</span><span class="b2m">Quadra 3</span></div></div>
+            </div>
+            <div class="perf"></div>
+            <div class="sec">
+              <div class="campos"><div class="campo"><span class="cap">Aluno</span><span class="b2m">Bia Moreira</span></div><div class="campo"><span class="cap">Professor</span><span class="b2m">Léo Andrade</span></div><div class="campo"><span class="cap">Acesso</span><span class="b2m">Avulsa</span></div></div>
+              <div class="col g4" style="align-items:center">
+                <span class="capm laranja">CHECK-IN</span>
+                <div class="qrbox"><div class="qr"></div></div>
+                <span class="capm cod">AU-BEAC-A1F4</span>
+                <span class="row capm verde" style="gap:4px"><i data-lucide="check" class="ic16"></i>Check-in feito às 18:56</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Minhas aulas</b><span>Abra pelas Configurações. Suas inscrições ficam separadas por situação: em Próximas você abre o ingresso; em Pagamento, você paga.</span><span class="ramo">Alternativa</span><span>Se você é professor da arena, essa linha não aparece nas Configurações: a lista fica na aba Aulas (no lugar do Ranking), com a opção "Minhas aulas / Aulas que dou". Sem inscrição: "Nenhuma aula marcada".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Minhas aulas</span><i data-lucide="x"></i></div>
+          <div class="chips"><span class="chip on">Próximas</span><span class="chip">Lista de espera</span><span class="chip">Pagamento</span><span class="chip">Concluídas</span><span class="chip">Canceladas</span></div>
+          <div class="col g8">
+            <div class="card">
+              <p class="b1m">Beach tennis iniciante</p>
+              <p class="b2 muted">29/09 · 19:00 – 20:00</p>
+              <p class="b2 muted">Beach tennis · Arena Maré Alta · Quadra 3</p>
+              <p class="cap muted">Inscrito · R$ 45,00</p>
+              <button class="btn sec">Ver ingresso</button>
+            </div>
+            <div class="card">
+              <p class="b1m">Futevôlei intermediário</p>
+              <p class="b2 muted">01/10 · 07:00 – 08:00</p>
+              <p class="b2 muted">Futevôlei · Arena Maré Alta · Quadra 1</p>
+              <p class="cap muted">Inscrito</p>
+              <button class="btn sec">Ver ingresso</button>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Planos da arena</b><span>Vindo de uma aula, a lista mostra só os planos com aquela modalidade ("Ver todos" tira o filtro). Passe os planos para o lado e toque em "Contratar" no pé do card.</span><span class="ramo">Alternativa</span><span>Com plano contratado, ele vem primeiro com borda verde, "Plano atual", vencimento, "Pagar" e "Cancelar plano". Arena sem Mercado Pago: aviso e botão travado.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="padding-top:0">
+          <div class="topo-planos">
+            <div class="hdr" style="padding-top:4px"><i data-lucide="arrow-left"></i><span class="titulo">Planos da arena</span><i data-lucide="x"></i></div>
+            <div class="row" style="padding-top:8px">
+              <div class="col g4 grow"><p class="t2">Treine com <span class="laranja">plano</span></p><p class="b2 muted">Mensalidade na Arena Maré Alta: escolha quantas aulas por semana.</p></div>
+              <div class="mh"><div class="c"><img src="../img/mascote-arena.png" alt=""></div></div>
+            </div>
+          </div>
+          <div style="padding-top:16px">
+            <p class="t3" style="margin-bottom:12px">Escolha seu plano</p>
+            <div class="row" style="gap:8px;margin-bottom:16px"><p class="b2 muted grow">Mostrando os planos que incluem a modalidade dessa aula.</p><span class="b2m laranja">Ver todos</span></div>
+            <div class="carrossel">
+              <div class="card plano">
+                <p class="t2">Beach tennis 2x</p>
+                <div class="preco"><span class="t1 laranja">R$ 280,00</span><span class="b2 muted">/mês</span></div>
+                <div class="feats"><div class="row"><i data-lucide="check"></i><span class="b2">Beach tennis</span></div><div class="row"><i data-lucide="check"></i><span class="b2">Até 2 aulas por semana</span></div></div>
+                <div class="acao"><button class="btn">Contratar</button></div>
+              </div>
+              <div class="card plano">
+                <p class="t2">Areia livre</p>
+                <div class="preco"><span class="t1 laranja">R$ 420,00</span><span class="b2 muted">/mês</span></div>
+                <div class="feats"><div class="row"><i data-lucide="check"></i><span class="b2">Beach tennis</span></div><div class="row"><i data-lucide="check"></i><span class="b2">Futevôlei</span></div><div class="row"><i data-lucide="check"></i><span class="b2">Até 4 aulas por semana</span></div></div>
+                <div class="acao"><button class="btn">Contratar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Confirmar contratação</b><span>Um alerta mostra o preço e o limite de aulas. Ao contratar, a primeira mensalidade é aberta e você vai direto pagar.</span><span class="ramo">Alternativa</span><span>Se você já tem plano com a modalidade, no lugar do botão aparece "Você já tem um plano com essa modalidade nessa arena."</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="padding-top:0">
+          <div class="topo-planos">
+            <div class="hdr" style="padding-top:4px"><i data-lucide="arrow-left"></i><span class="titulo">Planos da arena</span><i data-lucide="x"></i></div>
+            <div class="row" style="padding-top:8px">
+              <div class="col g4 grow"><p class="t2">Treine com <span class="laranja">plano</span></p><p class="b2 muted">Mensalidade na Arena Maré Alta: escolha quantas aulas por semana.</p></div>
+              <div class="mh"><div class="c"><img src="../img/mascote-arena.png" alt=""></div></div>
+            </div>
+          </div>
+          <div style="padding-top:16px">
+            <p class="t3" style="margin-bottom:12px">Escolha seu plano</p>
+            <div class="carrossel">
+              <div class="card plano">
+                <p class="t2">Beach tennis 2x</p>
+                <div class="preco"><span class="t1 laranja">R$ 280,00</span><span class="b2 muted">/mês</span></div>
+                <div class="acao"><button class="btn">Contratar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="alerta-veu"><div class="alerta">
+          <div class="al-txt"><b>Contratar Beach tennis 2x?</b><span>R$ 280,00 por mês, até 2 aulas por semana. O mês conta a partir de hoje e a primeira mensalidade é paga agora.</span></div>
+          <div class="al-bts"><span>Voltar</span><span class="forte">Contratar</span></div>
+        </div></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 9 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">9</div>
+        <div class="passo-txt"><b>Mensalidade</b><span>O pagamento é igual ao da aula, sem prazo de vaga: Pix na tela ou cartão à vista no Mercado Pago. Paga, aparece "Mensalidade paga!" e "Ver meus planos".</span><span class="ramo">Alternativa</span><span>Plano cancelado ou valor estornado: "Essa mensalidade não está mais em aberto".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Mensalidade</span><i data-lucide="x"></i></div>
+          <div class="card col g4">
+            <p class="b1m">Beach tennis 2x</p>
+            <p class="b2 muted">Arena Maré Alta</p>
+            <p class="b2 muted">Período: 28/09 a 27/10</p>
+            <p class="b1m">R$ 280,00</p>
+          </div>
+          <div class="segx"><span class="on">Pix</span><span>Cartão</span></div>
+          <div class="card qrcard"><div class="qr"></div></div>
+          <p class="b2 muted" style="text-align:center">Escaneie o QR Code no app do seu banco pra pagar com Pix.</p>
+          <p class="cap muted" style="text-align:center">Ou copie o código abaixo (Pix copia e cola):</p>
+          <div class="card"><p class="codigo">00020126580014br.gov.bcb.pix01367c90e1d2-44af-4e1b-8b2c-0d9f3a5e6b115204000053039865406</p></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 10 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">10</div>
+        <div class="passo-txt"><b>Meus planos</b><span>Abra pelas Configurações. Seus planos em qualquer arena, com a mensalidade em aberto para pagar e a opção de cancelar o plano; embaixo, as arenas com vínculo e um atalho para os planos de cada uma.</span><span class="ramo">Alternativa</span><span>Sem plano e sem vínculo: "Nenhum plano no bolso" e "Achar uma arena".</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Meus planos</span><i data-lucide="x"></i></div>
+          <div class="col g8">
+            <p class="t3">Seus planos</p>
+            <div class="card col g4">
+              <div class="row sb" style="gap:8px"><p class="b1m grow">Beach tennis 2x</p><span class="tag sem-ponto aviso">Atrasado</span></div>
+              <p class="b2 muted">Arena Maré Alta · 2x por semana · R$ 280,00/mês</p>
+              <p class="cap muted">Mensalidade venceu em 27/09</p>
+              <button class="btn">Pagar R$ 280,00</button>
+              <button class="btn ter">Cancelar plano</button>
+            </div>
+          </div>
+          <div class="col g8" style="margin-top:12px">
+            <p class="t3">Suas arenas</p>
+            <div class="card col g4">
+              <div class="row sb" style="gap:8px"><span class="capa"><i data-lucide="map-pin" class="ic"></i></span><div class="grow"><p class="b1m">Arena Maré Alta</p><p class="b2 muted">Beach tennis · Futevôlei</p></div><span class="tag sem-ponto ok">Seu plano é daqui</span></div>
+              <p class="cap muted">3 planos disponíveis</p>
+              <button class="btn out"><i data-lucide="clipboard-list"></i>Ver planos</button>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Quando posso me inscrever numa aula?</summary><p>As inscrições abrem 24h antes da aula. Antes disso, o botão mostra "Inscrições abrem em…".</p></details>
+    <details><summary>Cancelei a aula avulsa. Recebo o dinheiro de volta?</summary><p>Sim, se cancelou com 2h ou mais de antecedência. Com menos de 2h, não há estorno. Se quem cancelou foi a arena, o estorno é sempre total.</p></details>
+    <details><summary>A aula está lotada. E agora?</summary><p>Toque em "Entrar na lista de espera". Se abrir vaga, toque em "Confirmar vaga" dentro do prazo.</p></details>
+    <details><summary>Como faço o check-in?</summary><p>Mostre o QR do ingresso na chegada. A arena lê com a câmera e o ingresso passa a mostrar o horário do check-in.</p></details>
+    <details><summary>Posso ter dois planos na mesma arena?</summary><p>Pode, desde que não tenham a mesma modalidade.</p></details>
+    <details><summary>Estou numa turma fixa e não vou poder ir. O que faço?</summary><p>Abra a aula e toque em "Não vou nesta aula". A sua vaga fica livre só naquela aula, e dá para voltar com "Vou nesta aula" enquanto ela não começou.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

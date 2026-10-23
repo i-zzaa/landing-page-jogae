@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#ff6a00" />
+<title>Baixe o Desafiaê</title>
+<link rel="icon" href="/assets/logo-simplificada.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
+<style>
+  /* mesmos tokens do styles.css da landing */
+  :root { --orange:#ff6a00; --graphite:#1f1f1f; --border:#e9e6e2; }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; font-family:"Poppins",Arial,sans-serif; color:var(--graphite); line-height:1.5;
+         background:radial-gradient(circle at 92% 22%,#fff1e4 0,transparent 42%),linear-gradient(180deg,#fff 0,#fffdfa 100%);
+         display:flex; align-items:center; justify-content:center; padding:40px 16px; }
+  a { text-decoration:none; color:inherit; }
+  main { width:100%; max-width:316px; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .logo { width:100px; }
+  .mascot { height:212px; width:auto; margin:14px 0 18px; }
+  h1 { font-size:22px; font-weight:800; line-height:1.2; letter-spacing:-.03em; margin:0 0 6px; }
+  h1 span { color:var(--orange); }
+  .lead { font-size:12px; color:#555; margin:0 0 18px; }
+  .btn { display:flex; align-items:center; justify-content:center; width:100%; height:43px; margin-bottom:10px; border-radius:999px;
+         border:1px solid var(--border); background:#fff; font-size:12px; font-weight:600; transition:.25s; }
+  .btn:hover { border-color:var(--orange); color:var(--orange); }
+  .note { font-size:10px; color:#777; margin:6px 0 0; }
+</style>
+</head>
+<body>
+<main>
+  <img class="logo" src="/assets/logo-completa.png" alt="Desafiaê" />
+  <img class="mascot" src="/assets/mascote.png" alt="" />
+  <h1>Tá cheio de marra? <span>Prova na quadra.</span></h1>
+  <p class="lead">Escolha a loja do seu celular:</p>
+  <a class="btn" id="app-store" href="https://apps.apple.com/br/app/apple-store/id6807155371?pt=129288625&amp;ct=site_baixar&amp;mt=8">Baixar na App Store</a>
+  <a class="btn" id="google-play" href="https://play.google.com/store/apps/details?id=com.desafiae.app&amp;referrer=utm_source%3Ddesafiae.com%26utm_medium%3Dsite%26utm_campaign%3Dsite_baixar">Baixar no Google Play</a>
+  <p class="note">Grátis para iPhone e Android.</p>
+</main>
+
+<script>
+  // Destino do link da bio e dos anuncios (/baixar?c=<campanha>). O ?c= vai
+  // pras lojas pra separar os downloads por campanha: ct= na App Store
+  // Connect e utm_campaign no referrer do Play Console. Campanha da Meta
+  // (meta_*) e anuncio no Instagram; o resto e o proprio site.
+  // No celular vai direto pra loja do aparelho. A pagina ja esta desenhada
+  // antes do redirecionamento: se o navegador do Instagram nao seguir, os
+  // botoes continuam ali. Computador e tablet ficam na pagina.
+  var c = new URLSearchParams(window.location.search).get('c') || '';
+  if (!/^[a-z0-9_]{1,30}$/.test(c)) c = 'site_baixar';
+  var origem = c.indexOf('meta_') === 0
+    ? 'utm_source=instagram&utm_medium=paid'
+    : 'utm_source=desafiae.com&utm_medium=site';
+  var appStore = 'https://apps.apple.com/br/app/apple-store/id6807155371?pt=129288625&ct=' + c + '&mt=8';
+  var googlePlay = 'https://play.google.com/store/apps/details?id=com.desafiae.app&referrer='
+    + encodeURIComponent(origem + '&utm_campaign=' + c);
+  document.getElementById('app-store').href = appStore;
+  document.getElementById('google-play').href = googlePlay;
+
+  var ua = navigator.userAgent;
+  if (/iPhone|iPod/.test(ua)) {
+    window.location.replace(appStore);
+  } else if (/Android/.test(ua) && /Mobile/.test(ua)) {
+    window.location.replace(googlePlay);
+  }
+</script>
+</body>
+</html>

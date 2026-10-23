@@ -8,7 +8,9 @@
           { "/": "/tournament/*", "comment": "detalhe do torneio abre no app" },
           { "/": "/match/*", "comment": "detalhe da partida abre no app" },
           { "/": "/challenge/*", "comment": "detalhe do desafio abre no app" },
-          { "/": "/arena-challenge/*", "comment": "desafio entre arenas abre no app" }
+          { "/": "/arena-challenge/*", "comment": "desafio entre arenas abre no app" },
+          { "/": "/turma/*", "comment": "turma de aulas abre a proxima aula no app" },
+          { "/": "/player/*", "comment": "perfil do jogador abre no app (craque do jogo)" }
         ]
       }
     ]

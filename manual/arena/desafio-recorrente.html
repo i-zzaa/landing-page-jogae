@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Desafio recorrente · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* ScreenHeader do app: seta, título, "1 de 3" e X */
+  .sh { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; min-height: 56px; }
+  .sh .lado { min-width: 28px; display: flex; gap: 12px; align-items: center; justify-content: flex-end; }
+  .sh .lado:first-child { justify-content: flex-start; }
+  .sh svg { width: 28px; height: 28px; flex: none; }
+  .sh .t3 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .sh .passo-de { font: 500 14px/20px var(--font); color: var(--text-muted); white-space: nowrap; }
+  .corpo { display: flex; flex-direction: column; gap: 16px; padding: 12px 20px 24px; flex: 1; }
+  .rodape { padding: 12px 20px 34px; display: flex; flex-direction: column; gap: 8px; margin-top: auto; }
+  .screen-body.sem-pad { gap: 0; }
+  .sec-h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .chip.sel { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+  .chip img { width: 19px; height: 20px; object-fit: contain; }
+  .dias { display: flex; gap: 4px; }
+  .dias .chip { flex: 1; justify-content: center; padding: 0; }
+  .passador { height: 52px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
+  .passador svg { width: 20px; height: 20px; }
+  .select { height: 52px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; font: 400 16px/24px var(--font); }
+  .select svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .vazio { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; padding: 0 12px; }
+  .vazio img { width: 124px; height: 95px; object-fit: contain; }
+  .ic-roda { width: 64px; height: 64px; border-radius: 999px; background: var(--surface-alt); color: var(--text-muted); display: flex; align-items: center; justify-content: center; }
+  .ic-roda svg { width: 28px; height: 28px; }
+  /* painel web */
+  .wph { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+  .wph .acoes { display: flex; gap: 12px; align-items: center; }
+  .sino { width: 48px; height: 48px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; position: relative; }
+  .sino svg { width: 24px; height: 24px; }
+  .cols { display: flex; gap: 24px; align-items: flex-start; }
+  .cols.g16 { gap: 16px; }
+  .grow-col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+  .lista-w { width: 340px; flex: none; display: flex; flex-direction: column; gap: 12px; }
+  .rival { border: 1px solid var(--border); background: var(--surface); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .rival.ativo { border-color: var(--primary); background: var(--primary-wash); }
+  .ic-q { width: 36px; height: 36px; border-radius: 8px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+  .ic-q svg { width: 16px; height: 16px; }
+  .ic-q.g { width: 48px; height: 48px; border-radius: 12px; }
+  .ic-q.g svg { width: 28px; height: 28px; }
+  .tt { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; }
+  .tl { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-top: 1px solid var(--border); font: 400 14px/20px var(--font); }
+  .tl.cab { padding: 8px 16px; }
+  .tl.cab span { font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .tl.pilha { flex-direction: column; align-items: flex-start; gap: 2px; }
+  .tl.ativa { background: var(--primary-wash); }
+  .c-cat { flex: 1; min-width: 130px; } .c-curta { width: 84px; flex: none; } .c-quando { width: 140px; flex: none; } .c-lado { width: 96px; flex: none; }
+  .c-pos { width: 28px; flex: none; } .c-pts { width: 70px; flex: none; text-align: right; } .c-rod { width: 120px; flex: none; }
+  .resumo { width: 320px; flex: none; display: flex; flex-direction: column; gap: 8px; }
+  .resumo .acoes { display: flex; flex-direction: column; gap: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+  .cat-l { display: flex; align-items: center; gap: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .cat-l svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .rotulo { font: 500 12px/16px var(--font); color: var(--text-muted); }
+  .painel-lat { width: 340px; flex: none; display: flex; flex-direction: column; gap: 12px; }
+  .painel-lat.aro { border: 2px solid var(--primary); }
+  /* ---- 2026-10-07: aba Ranking (RankingRow, TournamentCategoryRanking) ---- */
+  .rk-sec { display: flex; flex-direction: column; gap: 8px; }
+  .rkx { display: flex; align-items: center; gap: 12px; padding: 12px; }
+  .rkx.eu { background: var(--primary-wash); border-color: var(--primary-tint); }
+  .rkx .pos { width: 20px; flex: none; text-align: center; font: 500 16px/24px var(--font); color: var(--text-muted); }
+  .rkx .avw { position: relative; flex: none; display: inline-flex; }
+  .rkx .med { position: absolute; right: -4px; bottom: -4px; width: 22px; height: 22px; border-radius: 999px; border: 2px solid var(--surface); color: var(--text-inverse); font: 500 11px/18px var(--font); text-align: center; }
+  .rkx .med.m1 { background: var(--gold); } .rkx .med.m2 { background: var(--silver); } .rkx .med.m3 { background: var(--bronze); }
+  .rkx .coroa { position: absolute; top: -2px; right: -2px; width: 20px; height: 20px; border-radius: 10px; background: var(--gold); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; }
+  .rkx .coroa svg { width: 12px; height: 12px; fill: var(--text-inverse); }
+  .rkx .nm { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .rkx .pts { display: flex; align-items: center; gap: 4px; flex: none; }
+  .rkx .pts svg { width: 14px; height: 14px; }
+  .rkx .tr1 { color: var(--gold); } .rkx .tr2 { color: var(--silver); } .rkx .tr3 { color: var(--bronze); }
+  .podio-rk { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .podio-rk > svg { width: 24px; height: 24px; color: var(--gold); }
+  .podio-rk .degraus { display: flex; align-items: flex-end; gap: 8px; align-self: stretch; }
+  .podio-rk .lugar { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+  .podio-rk .degrau { align-self: stretch; border-radius: 12px 12px 4px 4px; display: flex; justify-content: center; padding-top: 8px; color: var(--text-inverse); font: 600 18px/26px var(--font); }
+  .podio-rk .d1 { height: 96px; background: var(--gold); } .podio-rk .d2 { height: 72px; background: var(--silver); } .podio-rk .d3 { height: 56px; background: var(--bronze); }
+  .chips-rola { display: flex; gap: 8px; flex-wrap: nowrap; overflow: hidden; }
+  /* SegmentedControl do app: raio 8, selecionado laranja */
+  .segc { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .segc > span { flex: 1; text-align: center; padding: 8px 0; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .segc > span.on { background: var(--primary); color: var(--text-inverse); }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="arena" data-fluxo="desafio-recorrente"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Desafio recorrente</h1>
+  <p>Você cria uma rivalidade de um mês entre dois times, monta as categorias com dia, horário, formato e quadra, e publica. Depois acompanha os inscritos de cada lado, as rodadas semanais e o ranking. No celular, fica em Ajustes; no navegador, no menu Disputas.</p>
+  <ul class="regras">
+    <li>Publicar desafio recorrente exige o plano Premium ou Elite da arena. Sem o plano, o botão de criar vira "Ver planos", mas a lista continua visível.</li>
+    <li>O formato é sempre o mesmo número de jogadores dos dois lados (2x2, 4x4 e assim por diante), sempre par: toda semana o sorteio mistura os jogadores dos dois lados meio a meio.</li>
+    <li>Só dá para publicar com pelo menos uma categoria.</li>
+    <li>A rivalidade publicada aparece na aba Eventos da página pública da arena.</li>
+    <li>Cada categoria tem a aba Ranking: a soma dos games de cada jogador no mês, com o time (lado) de cada um. Empate divide a posição.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Desafio recorrente</b><span>Você vê a lista das rivalidades. Toque numa publicada para ver o detalhe; um rascunho volta para a criação.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Desafio recorrente</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="card col g8">
+              <div class="row sb"><span class="b1m grow">Feras × Titãs</span><span class="tag sem-ponto ok">Publicado</span></div>
+              <span class="b2 muted">Futevôlei · outubro de 2026</span>
+              <span class="cap muted">3 categorias</span>
+            </div>
+            <div class="card col g8">
+              <div class="row sb"><span class="b1m grow">Norte × Sul</span><span class="tag sem-ponto aviso">Rascunho</span></div>
+              <span class="b2 muted">Beach Tennis · novembro de 2026</span>
+              <span class="cap muted">1 categoria</span>
+            </div>
+          </div>
+          <div class="rodape"><button class="btn">Criar desafio recorrente</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Sem plano Premium</b><span>Sem o plano, aparece no rodapé o aviso com "Ver planos". Só dono e gerente veem o botão.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Desafio recorrente</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="vazio">
+              <img src="../img/mascote-em-acao.png" alt="">
+              <p class="t3">Nenhuma rivalidade no ar</p>
+              <p class="b2 muted">Divide a galera em dois times e deixa a disputa rolar o mês inteiro.</p>
+            </div>
+          </div>
+          <div class="rodape">
+            <p class="cap muted">Desafio recorrente é exclusivo do plano Premium da arena.</p>
+            <button class="btn"><i data-lucide="lock"></i>Ver planos</button>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Informações (1 de 3)</b><span>Escolha a modalidade, o nome dos dois times e o mês (entre os próximos 6). Ao tocar em "Continuar", o rascunho já fica salvo.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Desafio recorrente</span><span class="lado"><span class="passo-de">1 de 3</span><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div>
+              <div class="sec-h"><span class="t3">Modalidade</span></div>
+              <div class="chips"><span class="chip">Futebol</span><span class="chip sel">Futevôlei</span><span class="chip">Beach Tennis</span><span class="chip">Vôlei</span><span class="chip">Basquete</span><span class="chip">Tênis</span><span class="chip">Padel</span></div>
+            </div>
+            <div class="col g8">
+              <div class="input">Feras</div>
+              <div class="input">Titãs</div>
+            </div>
+            <div>
+              <div class="sec-h"><span class="t3">Mês</span></div>
+              <div class="chips"><span class="chip">Setembro 2026</span><span class="chip sel">Outubro 2026</span><span class="chip">Novembro 2026</span><span class="chip">Dezembro 2026</span><span class="chip">Janeiro 2027</span><span class="chip">Fevereiro 2027</span></div>
+            </div>
+          </div>
+          <div class="rodape"><button class="btn">Continuar</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Categorias (2 de 3)</b><span>Veja as categorias, com a lixeira para remover. "Adicionar categoria" abre o formulário; "Continuar" só libera com uma ou mais.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Categorias</span><span class="lado"><span class="passo-de">2 de 3</span><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="card col g8"><div class="row sb"><span class="b1m grow">Iniciante</span><i data-lucide="trash-2" class="ic muted"></i></div><span class="b2 muted">2x2 · Terça · 19:00</span></div>
+            <div class="card col g8"><div class="row sb"><span class="b1m grow">Intermediário</span><i data-lucide="trash-2" class="ic muted"></i></div><span class="b2 muted">2x2 · Quinta · 20:00</span></div>
+            <div class="card col g8"><div class="row sb"><span class="b1m grow">Livre 4x4</span><i data-lucide="trash-2" class="ic muted"></i></div><span class="b2 muted">4x4 · Sexta · 19:30</span></div>
+          </div>
+          <div class="rodape"><button class="btn sec">Adicionar categoria</button><button class="btn">Continuar</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Categoria</b><span>Preencha nome, nível (Livre ou D/C/B/A), formato (sobe de 2 em 2: 2x2, 4x4…), dia da semana, horário e quadra.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Categoria</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="input">Intermediário</div>
+            <div>
+              <div class="sec-h"><span class="t3">Nível</span></div>
+              <div class="chips"><span class="chip">Livre</span><span class="chip"><img src="../img/categoria-d.png" alt="D"></span><span class="chip sel"><img src="../img/categoria-c.png" alt="C"></span><span class="chip"><img src="../img/categoria-b.png" alt="B"></span><span class="chip"><img src="../img/categoria-a.png" alt="A"></span></div>
+            </div>
+            <div class="col g8">
+              <div class="sec-h" style="margin-bottom:4px"><span class="t3">Formato</span></div>
+              <div class="passador"><i data-lucide="minus"></i><span class="t3">2x2</span><i data-lucide="plus"></i></div>
+              <p class="cap muted">Só números pares — o sorteio mistura os dois lados da inscrição meio a meio.</p>
+            </div>
+            <div>
+              <div class="sec-h"><span class="t3">Dia da semana</span></div>
+              <div class="dias"><span class="chip">Dom</span><span class="chip">Seg</span><span class="chip">Ter</span><span class="chip">Qua</span><span class="chip sel">Qui</span><span class="chip">Sex</span><span class="chip">Sáb</span></div>
+            </div>
+            <div class="input">20:00</div>
+            <div class="col g8"><span class="b2m muted">Quadra</span><div class="select">Quadra 1<i data-lucide="chevron-down"></i></div></div>
+          </div>
+          <div class="rodape"><button class="btn">Salvar</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Revisão (3 de 3)</b><span>Confira o resumo da rivalidade e das categorias; toque numa categoria para editar. "Publicar" leva de volta à lista. Se faltar plano ou categoria, o erro aparece acima do botão.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Revisão</span><span class="lado"><span class="passo-de">3 de 3</span><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="card col g4"><p class="t3">Feras × Titãs</p><p class="b2 muted">Futevôlei · outubro de 2026</p></div>
+            <div>
+              <div class="sec-h"><span class="t3">Categorias</span></div>
+              <div class="col">
+                <div class="card col g4"><span class="b1m">Iniciante</span><span class="b2 muted">2x2 · Terça · 19:00</span></div>
+                <div class="card col g4"><span class="b1m">Intermediário</span><span class="b2 muted">2x2 · Quinta · 20:00</span></div>
+                <div class="card col g4"><span class="b1m">Livre 4x4</span><span class="b2 muted">4x4 · Sexta · 19:30</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="rodape"><button class="btn">Publicar</button></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Detalhe da rivalidade</b><span>A rivalidade publicada mostra nome, situação e as categorias. Toque numa categoria para abrir a ficha dela.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Desafio recorrente</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="card col g4"><div class="row sb"><p class="t3 grow">Feras × Titãs</p><span class="tag sem-ponto ok">Publicado</span></div><p class="b2 muted">Futevôlei · outubro de 2026</p></div>
+            <div>
+              <div class="sec-h"><span class="t3">Categorias</span></div>
+              <div class="col">
+                <div class="card col g4"><div class="row" style="gap:8px"><span class="b1m grow">Iniciante</span><i data-lucide="chevron-right" class="ic16 muted"></i></div><span class="b2 muted">2x2 · Terça · 19:00</span></div>
+                <div class="card col g4"><div class="row" style="gap:8px"><span class="b1m grow">Intermediário</span><i data-lucide="chevron-right" class="ic16 muted"></i></div><span class="b2 muted">2x2 · Quinta · 20:00</span></div>
+                <div class="card col g4"><div class="row" style="gap:8px"><span class="b1m grow">Livre 4x4</span><i data-lucide="chevron-right" class="ic16 muted"></i></div><span class="b2 muted">4x4 · Sexta · 19:30</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Categoria (inscritos e rodadas)</b><span>Na aba Categoria, veja quantos entraram de cada lado e as rodadas semanais, com a situação do sorteio. O ranking fica na aba ao lado.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Intermediário</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo">
+            <div class="segc"><span class="on">Categoria</span><span>Ranking</span></div>
+            <div class="card"><p class="b2 muted">Futevôlei · 2x2</p></div>
+            <div>
+              <div class="sec-h"><span class="t3">Inscritos</span></div>
+              <div class="row"><div class="card grow col g4"><span class="b2m muted">Feras</span><span class="t2">8</span></div><div class="card grow col g4"><span class="b2m muted">Titãs</span><span class="t2">7</span></div></div>
+            </div>
+            <div>
+              <div class="sec-h"><span class="t3">Rodadas</span></div>
+              <div class="col g8">
+                <div class="card row sb"><div class="col g4" style="gap:2px"><span class="b1m">Rodada 1</span><span class="b2 muted">01/10 · 20:00</span></div><span class="tag sem-ponto info">Sorteado</span></div>
+                <div class="card row sb"><div class="col g4" style="gap:2px"><span class="b1m">Rodada 2</span><span class="b2 muted">08/10 · 20:00</span></div><span class="tag sem-ponto aviso">Pendente</span></div>
+                <div class="card row sb"><div class="col g4" style="gap:2px"><span class="b1m">Rodada 3</span><span class="b2 muted">15/10 · 20:00</span></div><span class="tag sem-ponto aviso">Pendente</span></div>
+                <div class="card row sb"><div class="col g4" style="gap:2px"><span class="b1m">Rodada 4</span><span class="b2 muted">22/10 · 20:00</span></div><span class="tag sem-ponto aviso">Pendente</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">9</div>
+        <div class="passo-txt"><b>Aba Ranking</b><span>A soma dos games de cada jogador no mês, com o número de partidas e o time de cada um. Quem empata em games divide a posição. Toque num jogador para abrir o perfil.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body sem-pad">
+          <div class="sh"><span class="lado"><i data-lucide="arrow-left"></i></span><span class="t3">Intermediário</span><span class="lado"><i data-lucide="x"></i></span></div>
+          <div class="corpo" style="gap:8px">
+            <div class="segc" style="margin-bottom:8px"><span>Categoria</span><span class="on">Ranking</span></div>
+            <div class="card rkx"><span class="avw"><span class="avatar">B</span><span class="med m1">1</span></span><div class="nm"><p class="b1m">Bia Moreira</p><p class="cap muted">3 partidas · Feras</p></div><span class="pts"><i data-lucide="trophy" class="tr1"></i><span class="b2m">29 games</span></span></div>
+            <div class="card rkx"><span class="avw"><span class="avatar">J</span><span class="med m2">2</span></span><div class="nm"><p class="b1m">Ju Andrade</p><p class="cap muted">3 partidas · Titãs</p></div><span class="pts"><i data-lucide="trophy" class="tr2"></i><span class="b2m">24 games</span></span></div>
+            <div class="card rkx"><span class="avw"><span class="avatar">C</span><span class="med m2">2</span></span><div class="nm"><p class="b1m">Caio Nunes</p><p class="cap muted">3 partidas · Feras</p></div><span class="pts"><i data-lucide="trophy" class="tr2"></i><span class="b2m">24 games</span></span></div>
+            <div class="card rkx"><span class="pos">4</span><span class="avatar md">R</span><div class="nm"><p class="b1">Rafa Couto</p><p class="cap muted">2 partidas · Titãs</p></div><span class="pts"><span class="b2m muted">17 games</span></span></div>
+            <p class="cap muted">Soma dos games de cada um no mês. Empate divide a posição.</p>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- NAVEGADOR -->
+<section class="trilho-fluxo web" data-plataforma="navegador">
+  <div class="passos">
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Desafio recorrente no painel</b><span>No navegador, as rivalidades ficam à esquerda e a escolhida abre ao lado, com as categorias em tabela. Clique numa linha para ver o ranking dela embaixo: games no mês, partidas e o time de cada jogador. Empate divide a posição.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-recurring-challenges</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="competicoes" data-item="Desafio recorrente">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="col g4"><p class="t1">Desafio recorrente</p><p class="b2 muted">Arena Maré Alta · 2 rivalidades · 1 no ar</p></div><div class="acoes"><button class="btn inline"><i data-lucide="plus"></i>Criar desafio recorrente</button><span class="sino"><i data-lucide="bell"></i></span></div></div>
+              <div class="cols">
+                <div class="lista-w">
+                  <div class="rival ativo">
+                    <div class="row"><span class="ic-q"><i data-lucide="repeat"></i></span><span class="b2m grow">Feras × Titãs</span></div>
+                    <div class="row" style="gap:8px"><span class="cap muted grow">Futevôlei · outubro de 2026</span><span class="tag sem-ponto ok">Publicado</span></div>
+                    <span class="cap muted">3 categorias</span>
+                  </div>
+                  <div class="rival">
+                    <div class="row"><span class="ic-q"><i data-lucide="repeat"></i></span><span class="b2m grow">Norte × Sul</span></div>
+                    <div class="row" style="gap:8px"><span class="cap muted grow">Beach Tennis · novembro de 2026</span><span class="tag sem-ponto aviso">Rascunho</span></div>
+                    <span class="cap muted">1 categoria</span>
+                  </div>
+                </div>
+                <div class="grow-col">
+                  <div class="card row wrap">
+                    <span class="ic-q g"><i data-lucide="repeat"></i></span>
+                    <div class="grow" style="min-width:220px"><div class="row" style="gap:8px"><p class="t3">Feras × Titãs</p><span class="tag sem-ponto ok">Publicado</span></div><p class="b2 muted">Futevôlei · outubro de 2026</p></div>
+                    <button class="btn inline sec"><i data-lucide="plus"></i>Adicionar categoria</button>
+                  </div>
+                  <div class="card sem-pad">
+                    <div class="tt"><p class="t3">Categorias</p></div>
+                    <div class="tl pilha"><span class="b2m">Iniciante</span><span class="b2 muted">2x2 · Terça · 19:00 · Quadra 1</span><span class="cap muted">Feras: 6 · Titãs: 6</span></div>
+                    <div class="tl pilha ativa"><span class="b2m">Intermediário</span><span class="b2 muted">2x2 · Quinta · 20:00 · Quadra 1</span><span class="cap muted">Feras: 8 · Titãs: 7</span></div>
+                    <div class="tl pilha"><span class="b2m">Livre 4x4</span><span class="b2 muted">4x4 · Sexta · 19:30 · Quadra 2</span><span class="cap muted">Feras: 9 · Titãs: 8</span></div>
+                  </div>
+                  <div class="card sem-pad">
+                    <div class="tt"><p class="t3">Ranking — Intermediário</p><span class="b2m laranja">Rodadas</span></div>
+                    <div class="tl cab"><span class="c-pos">#</span><span class="grow">ATLETA</span><span class="c-curta">PARTIDAS</span><span class="c-pts">PONTOS</span></div>
+                    <div class="tl"><span class="c-pos b2m muted">1</span><span class="grow row" style="gap:8px"><span class="avatar sm">B</span><span class="col" style="gap:0"><span class="b2m">Bia Moreira</span><span class="cap muted">Feras</span></span></span><span class="c-curta muted">3 partidas</span><span class="c-pts b2m">29</span></div>
+                    <div class="tl"><span class="c-pos b2m muted">2</span><span class="grow row" style="gap:8px"><span class="avatar sm">J</span><span class="col" style="gap:0"><span class="b2m">Ju Andrade</span><span class="cap muted">Titãs</span></span></span><span class="c-curta muted">3 partidas</span><span class="c-pts b2m">24</span></div>
+                    <div class="tl"><span class="c-pos b2m muted">2</span><span class="grow row" style="gap:8px"><span class="avatar sm">C</span><span class="col" style="gap:0"><span class="b2m">Caio Nunes</span><span class="cap muted">Feras</span></span></span><span class="c-curta muted">3 partidas</span><span class="c-pts b2m">24</span></div>
+                    <div class="tl"><span class="c-pos b2m muted">4</span><span class="grow row" style="gap:8px"><span class="avatar sm">R</span><span class="col" style="gap:0"><span class="b2m">Rafa Couto</span><span class="cap muted">Titãs</span></span></span><span class="c-curta muted">2 partidas</span><span class="c-pts b2m">17</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Sem plano Premium</b><span>No cabeçalho, "Ver planos" com cadeado aparece no lugar do botão de criar, com o aviso logo abaixo.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-recurring-challenges</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="competicoes" data-item="Desafio recorrente">
+            <div class="shell-conteudo" style="gap:8px">
+              <div class="wph"><div class="col g4"><p class="t1">Desafio recorrente</p><p class="b2 muted">Arena Maré Alta · 0 rivalidades · 0 no ar</p></div><div class="acoes"><button class="btn inline sec"><i data-lucide="lock"></i>Ver planos</button><span class="sino"><i data-lucide="bell"></i></span></div></div>
+              <p class="cap muted">Desafio recorrente é exclusivo do plano Premium da arena.</p>
+              <div class="vazio" style="margin-top:120px">
+                <img src="../img/mascote-em-acao.png" alt="">
+                <p class="t3">Nenhuma rivalidade no ar</p>
+                <p class="b2 muted">Divide a galera em dois times e deixa a disputa rolar o mês inteiro.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Criar rivalidade</b><span>Os três passos do celular numa página só: informações, categorias e o resumo com "Salvar" e "Publicar" à direita.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-recurring-challenge-wizard-info</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="competicoes" data-item="Desafio recorrente">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="col g4"><p class="t1">Desafio recorrente</p><p class="b2 muted">Arena Maré Alta</p></div><div class="acoes"><span class="sino"><i data-lucide="bell"></i></span></div></div>
+              <div class="cols g16">
+                <div class="grow-col">
+                  <div class="card col">
+                    <p class="t3">Informações</p>
+                    <div><div class="sec-h"><span class="t3">Modalidade</span></div><div class="chips"><span class="chip sel">Futevôlei</span><span class="chip">Beach Tennis</span></div></div>
+                    <div class="row" style="gap:16px">
+                      <div class="grow col g4"><span class="rotulo">Nome do time A</span><div class="input">Feras</div></div>
+                      <div class="grow col g4"><span class="rotulo">Nome do time B</span><div class="input">Titãs</div></div>
+                    </div>
+                    <div class="col g4"><span class="rotulo">Mês</span><div class="chips"><span class="chip">Setembro 2026</span><span class="chip sel">Outubro 2026</span><span class="chip">Novembro 2026</span><span class="chip">Dezembro 2026</span><span class="chip">Janeiro 2027</span><span class="chip">Fevereiro 2027</span></div></div>
+                  </div>
+                  <div class="card col">
+                    <div class="row sb"><p class="t3">Categorias</p><span class="row capm laranja" style="gap:4px"><i data-lucide="plus" class="ic16"></i>Adicionar categoria</span></div>
+                    <div class="cat-l"><div class="grow col" style="gap:2px"><span class="b2m">Iniciante</span><span class="cap muted">Ter · 19:00 · 2 por lado</span></div><i data-lucide="trash-2"></i></div>
+                    <div class="cat-l"><div class="grow col" style="gap:2px"><span class="b2m">Intermediário</span><span class="cap muted">Qui · 20:00 · 2 por lado</span></div><i data-lucide="trash-2"></i></div>
+                    <div class="cat-l"><div class="grow col" style="gap:2px"><span class="b2m">Livre 4x4</span><span class="cap muted">Sex · 19:30 · 4 por lado</span></div><i data-lucide="trash-2"></i></div>
+                  </div>
+                </div>
+                <div class="card resumo">
+                  <p class="b1m">Feras × Titãs</p>
+                  <p class="cap muted">3 categorias</p>
+                  <div class="acoes"><button class="btn sec">Salvar</button><button class="btn">Publicar</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Categoria</b><span>Os mesmos campos do celular em duas colunas, com o resumo e "Salvar" fixos à direita.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-recurring-challenge-category-form</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="competicoes" data-item="Desafio recorrente">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="col g4"><p class="t1">Categoria</p><p class="b2 muted">Feras × Titãs</p></div><div class="acoes"><span class="sino"><i data-lucide="bell"></i></span></div></div>
+              <div class="cols g16">
+                <div class="card grow-col">
+                  <div class="row top" style="gap:16px">
+                    <div class="grow col g4"><span class="rotulo">Nome da categoria</span><div class="input">Intermediário</div></div>
+                    <div class="grow col g4" style="gap:6px"><span class="b2m muted">Quadra</span><div class="select">Quadra 1<i data-lucide="chevron-down"></i></div></div>
+                  </div>
+                  <div class="col g4"><span class="rotulo">Nível</span><div class="chips"><span class="chip">Livre</span><span class="chip"><img src="../img/categoria-d.png" alt="D"></span><span class="chip sel"><img src="../img/categoria-c.png" alt="C"></span><span class="chip"><img src="../img/categoria-b.png" alt="B"></span><span class="chip"><img src="../img/categoria-a.png" alt="A"></span></div></div>
+                  <div class="col g4"><span class="rotulo">Formato</span><div class="passador"><i data-lucide="minus"></i><span class="t3">2x2</span><i data-lucide="plus"></i></div><p class="cap muted">Só números pares — o sorteio mistura os dois lados da inscrição meio a meio.</p></div>
+                  <div class="row top" style="gap:16px">
+                    <div class="grow col g4"><span class="rotulo">Dia da semana</span><div class="chips"><span class="chip">Dom</span><span class="chip">Seg</span><span class="chip">Ter</span><span class="chip">Qua</span><span class="chip sel">Qui</span><span class="chip">Sex</span><span class="chip">Sáb</span></div></div>
+                    <div class="grow col g4"><span class="rotulo">Horário (hh:mm)</span><div class="input">20:00</div></div>
+                  </div>
+                </div>
+                <div class="card resumo">
+                  <p class="b1m">Intermediário</p>
+                  <p class="cap muted">2x2 · Qui · 20:00</p>
+                  <div class="acoes"><button class="btn">Salvar</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Rivalidade</b><span>As categorias aparecem em tabela. Clique numa para abrir o painel à direita, com "Abrir a categoria" e "Editar categoria".</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-recurring-challenge/8c2d</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="competicoes" data-item="Desafio recorrente">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="col g4"><p class="t1">Feras × Titãs</p><p class="b2 muted">Futevôlei · outubro de 2026 · 3 categorias</p></div><div class="acoes"><button class="btn inline sec">Editar rascunho</button><span class="sino"><i data-lucide="bell"></i></span></div></div>
+              <div class="cols g16">
+                <div class="card sem-pad grow-col" style="gap:0">
+                  <div class="tl cab" style="border-top:0"><span class="c-cat">CATEGORIA</span><span class="c-quando">DIA E HORÁRIO</span><span class="c-curta">FORMATO</span></div>
+                  <div class="tl"><span class="c-cat b2m">Iniciante</span><span class="c-quando muted">Terça · 19:00</span><span class="c-curta muted">2x2</span></div>
+                  <div class="tl ativa"><span class="c-cat b2m">Intermediário</span><span class="c-quando muted">Quinta · 20:00</span><span class="c-curta muted">2x2</span></div>
+                  <div class="tl"><span class="c-cat b2m">Livre 4x4</span><span class="c-quando muted">Sexta · 19:30</span><span class="c-curta muted">4x4</span></div>
+                </div>
+                <div class="card painel-lat aro">
+                  <div class="row top sb"><div class="grow col" style="gap:2px"><p class="t3">Intermediário</p><span class="cap muted">2x2 · Quinta · 20:00</span></div><i data-lucide="x" class="ic muted"></i></div>
+                  <span class="tag sem-ponto ok">Publicado</span>
+                  <div class="col g8"><button class="btn">Abrir a categoria</button><button class="btn sec">Editar categoria</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Categoria (rodadas e lados)</b><span>As rodadas ficam numa tabela à esquerda e os dois lados, sempre visíveis, na coluna da direita.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-recurring-challenge-category/41af</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="competicoes" data-item="Desafio recorrente">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="col g4"><p class="t1">Intermediário</p><p class="b2 muted">Futevôlei · 2x2</p></div><div class="acoes"><span class="sino"><i data-lucide="bell"></i></span></div></div>
+              <div class="cols g16">
+                <div class="card sem-pad grow-col" style="gap:0">
+                  <div class="tt"><p class="t3">Rodadas</p></div>
+                  <div class="tl"><span class="c-rod b2m">Rodada 1</span><span class="grow muted">01/10 · 20:00</span><span class="tag sem-ponto info">Sorteado</span></div>
+                  <div class="tl"><span class="c-rod b2m">Rodada 2</span><span class="grow muted">08/10 · 20:00</span><span class="tag sem-ponto aviso">Pendente</span></div>
+                  <div class="tl"><span class="c-rod b2m">Rodada 3</span><span class="grow muted">15/10 · 20:00</span><span class="tag sem-ponto aviso">Pendente</span></div>
+                  <div class="tl"><span class="c-rod b2m">Rodada 4</span><span class="grow muted">22/10 · 20:00</span><span class="tag sem-ponto aviso">Pendente</span></div>
+                  <div class="tl"><span class="c-rod b2m">Rodada 5</span><span class="grow muted">29/10 · 20:00</span><span class="tag sem-ponto aviso">Pendente</span></div>
+                </div>
+                <div class="painel-lat">
+                  <div class="card col g4"><span class="b2m muted">Feras</span><span class="t2">8</span></div>
+                  <div class="card col g4"><span class="b2m muted">Titãs</span><span class="t2">7</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Quanto tempo dura uma rivalidade?</summary><p>Um mês. Você escolhe o mês entre os próximos 6.</p></details>
+    <details><summary>Como os times são montados toda semana?</summary><p>Toda semana um sorteio mistura os jogadores dos dois lados meio a meio. Por isso o formato tem sempre número par por time.</p></details>
+    <details><summary>Que plano preciso para publicar?</summary><p>O plano Premium ou Elite da arena. Sem ele, você ainda vê a lista, mas o botão de criar vira "Ver planos".</p></details>
+    <details><summary>Como funciona o ranking da categoria?</summary><p>Ele soma os games de cada jogador nas partidas confirmadas do mês e mostra o time de cada um. Quem empata em games divide a posição. No celular fica na aba Ranking da categoria; no navegador, embaixo da tabela de categorias.</p></details>
+    <details><summary>Onde os jogadores encontram a rivalidade?</summary><p>Depois de publicada, ela aparece na aba Eventos da página pública da arena.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

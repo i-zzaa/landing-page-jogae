@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TotalPass e Wellhub · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  .sh { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 50px; flex: none; }
+  .sh .t { font: 600 18px/26px var(--font); }
+  .sh svg { width: 24px; height: 24px; }
+  .corpo12 { gap: 12px; }
+  .segm { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .segm span { flex: 1; text-align: center; padding: 8px 0; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .segm span.on { background: var(--primary); color: var(--text-inverse); }
+  .tile { flex: 1; min-width: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+  .tile .v { font: 600 20px/28px var(--font); font-variant-numeric: tabular-nums; }
+  .tile .v.hl { color: var(--primary); }
+  .btn { font-weight: 500; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.ter { background: transparent; color: var(--primary); }
+  .lrow { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .lrow:last-child { border-bottom: 0; }
+  .lrow > svg:first-child { width: 20px; height: 20px; color: var(--text-muted); }
+  .lrow .l { flex: 1; font: 400 16px/24px var(--font); }
+  .lrow .val { font: 500 14px/20px var(--font); color: var(--primary); }
+  .lrow .chev { width: 20px; height: 20px; color: var(--text-muted); }
+  .lrow.perigo .l, .lrow.perigo > svg:first-child { color: var(--danger); }
+  .vazio { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 20px; text-align: center; }
+  .vazio .circ { width: 64px; height: 64px; border-radius: 999px; background: var(--surface-alt); display: flex; align-items: center; justify-content: center; color: var(--text-muted); margin-bottom: 4px; }
+  .vazio .circ svg { width: 28px; height: 28px; }
+  /* AggregatorConnectionCard */
+  .con { display: flex; flex-direction: column; gap: 16px; }
+  .con-cab { display: flex; align-items: center; gap: 12px; }
+  .logo-ag { width: 44px; height: 44px; border-radius: 12px; background: var(--neutral-soft); display: flex; align-items: center; justify-content: center; font: 500 12px/16px var(--font); flex: none; }
+  .aviso-ag { display: flex; flex-direction: column; gap: 4px; padding: 12px; border-radius: 12px; background: var(--warning-soft); }
+  .aviso-ag.perigo { background: var(--danger-soft); }
+  .passo-ag { display: flex; align-items: flex-start; gap: 12px; }
+  .passo-ag .n { width: 24px; height: 24px; border-radius: 999px; background: var(--primary-soft); color: var(--primary-dark); display: flex; align-items: center; justify-content: center; font: 500 12px/16px var(--font); flex: none; }
+  .linha-ag { display: flex; align-items: center; gap: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .preco-ag { display: flex; flex-direction: column; gap: 8px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .acoes-ag { display: flex; flex-wrap: wrap; gap: 8px; }
+  .acoes-ag .btn { width: auto; }
+  .tag.sem-ponto { }
+  /* conciliação */
+  .mes { display: flex; align-items: center; gap: 12px; align-self: flex-start; }
+  .mes svg { width: 20px; height: 20px; }
+  .mes .rot { min-width: 150px; text-align: center; font: 500 16px/24px var(--font); }
+  .vlista-cab { display: flex; flex-direction: column; gap: 2px; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+  .vl { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--neutral-soft); }
+  .vl:last-child { border-bottom: 0; }
+  .aviso-cor { color: var(--warning); }
+  /* aula */
+  .ins { display: flex; align-items: center; gap: 8px; }
+  .fora { display: flex; flex-direction: column; gap: 12px; border: 1px solid var(--warning); }
+  .fora-l { display: flex; flex-direction: column; gap: 8px; padding: 12px; border-radius: 12px; background: var(--background); border: 1px solid var(--border); }
+  .rodape { padding: 12px 20px 34px; display: flex; flex-direction: column; gap: 8px; background: var(--background); border-top: 1px solid var(--border); }
+  .rodape .btn { height: 44px; }
+  /* meus atletas */
+  .at { display: flex; align-items: center; gap: 12px; }
+  .at .av { width: 40px; height: 40px; border-radius: 999px; background: var(--neutral-soft); display: flex; align-items: center; justify-content: center; font: 500 12px/16px var(--font); flex: none; }
+  .selo { padding: 1px 8px; border-radius: 8px; background: var(--neutral-soft); font: 500 12px/16px var(--font); }
+  .selo.app { background: var(--primary-soft); color: var(--primary-dark); border-radius: 999px; }
+  .segm.quatro span { font-size: 13px; }
+  /* acordeão */
+  .acc { display: flex; align-items: center; justify-content: space-between; }
+  .acc .tt { display: flex; align-items: center; gap: 8px; font: 500 16px/24px var(--font); }
+  .acc svg { width: 20px; height: 20px; }
+  .acc .tt svg { color: var(--primary); } .acc > svg { color: var(--text-muted); }
+  /* alerta nativo do iOS */
+  .ios-veu { position: absolute; inset: 0; background: rgba(0,0,0,.35); z-index: 7; display: flex; align-items: center; justify-content: center; }
+  .ios-alerta { width: 270px; border-radius: 14px; background: rgba(242,242,247,.96); text-align: center; overflow: hidden; }
+  .ios-alerta .tx { padding: 18px 16px 16px; display: grid; gap: 4px; }
+  .ios-alerta .tx b { font: 600 17px/22px var(--font); }
+  .ios-alerta .tx span { font: 400 13px/17px var(--font); }
+  .ios-alerta .bt { display: flex; border-top: 1px solid rgba(60,60,67,.29); }
+  .ios-alerta .bt span { flex: 1; padding: 11px 0; font: 400 17px/22px var(--font); color: var(--info); }
+  .ios-alerta .bt span + span { border-left: 1px solid rgba(60,60,67,.29); color: var(--danger); }
+  /* navegador */
+  .wph { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .wph .tx { display: grid; gap: 4px; }
+  .wph .ac { display: flex; align-items: center; gap: 12px; }
+  .wph .sino { padding: 4px; display: flex; } .wph .sino svg { width: 24px; height: 24px; }
+  .wseg { display: inline-flex; background: var(--neutral-soft); border-radius: 12px; padding: 4px; }
+  .wseg span { height: 30px; display: inline-flex; align-items: center; gap: 4px; padding: 0 12px; border-radius: 8px; font: 500 14px/20px var(--font); color: var(--text-muted); white-space: nowrap; }
+  .wseg span.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow-card); }
+  .wseg span small { font: 400 12px/16px var(--font); color: var(--text-muted); }
+  .wcol { display: flex; gap: 16px; align-items: flex-start; }
+  .wcol > * { flex: 1; min-width: 0; }
+  .grupo-t { font: 500 12px/16px var(--font); color: var(--text-muted); text-transform: uppercase; }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="arena" data-fluxo="agregadores"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>TotalPass e Wellhub</h1>
+  <p>Você conecta TotalPass e Wellhub, define em quais modalidades o check-in cai sozinho na aula e quantas vagas ficam para o agregador, publica suas aulas no app deles e confere as visitas do mês. Quem vem pelo agregador aparece na aula e em "Meus atletas", mesmo sem ter o Desafiaê. Tudo fica em Ajustes, em "Agregadores".</p>
+  <ul class="regras">
+    <li>Agregadores são do plano Elite. Conectar e publicar aulas exigem o Elite; desconectar e recusar check-in, não.</li>
+    <li>O check-in feito no app do agregador chega sozinho, cadastra o aluno e cai na aula da modalidade aceita que começa até 15 min antes ou depois. Fora disso, fica "sem aula" para a equipe encaixar ou recusar, e o professor da turma recebe uma notificação.</li>
+    <li>A vaga do agregador (visita ou reserva) conta na lotação da aula e no limite de vagas por turma. O limite vale para cada agregador separado: o das regras é o padrão, e cada turma pode ter o dela (0 tira a turma daquele app). Na turma fixa, o agregador só pega a vaga de quem da lista desmarcou a aula.</li>
+    <li>As aulas publicadas no app do agregador abrem para reserva 24h antes e fecham no início. A reserva só é confirmada na hora se couber, e quem reservou cai direto na aula reservada.</li>
+    <li>O valor por visita é só estimativa e fica fora do "Recebido": quem paga é o agregador, fora do Mercado Pago.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Ajustes</b><span>Role a tela: "Agregadores" aparece só para quem gerencia a arena.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas" style="gap:16px">
+          <div class="card sem-pad">
+            <div class="lrow"><i data-lucide="users"></i><span class="l">Usuários vinculados</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="chart-line"></i><span class="l">Analytics</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="users-round"></i><span class="l">Meus atletas</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="bell"></i><span class="l">Lembretes</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="bell-ring"></i><span class="l">Notificações por categoria</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="credit-card"></i><span class="l">Plano</span><span class="val">Elite Mensal</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="wallet"></i><span class="l">Financeiro</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow" style="background:var(--primary-wash)"><i data-lucide="link-2"></i><span class="l">Agregadores</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="globe"></i><span class="l">Idioma</span><span class="val">Automático</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="circle-help"></i><span class="l">Ajuda e suporte</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow"><i data-lucide="info"></i><span class="l">Sobre o Desafiaê</span><i data-lucide="chevron-right" class="chev"></i></div>
+            <div class="lrow perigo"><i data-lucide="trash-2"></i><span class="l">Excluir conta</span></div>
+          </div>
+          <button class="btn" style="background:var(--surface);color:var(--danger);border:1px solid var(--danger)"><i data-lucide="log-out"></i>Sair da conta</button>
+        </div>
+        <div class="tabbar" data-abas="arena" data-ativa="ajustes"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Conexões, nada conectado</b><span>Cada agregador mostra o passo a passo no portal dele. Na TotalPass, cole a API Key e a conexão é feita na hora. Na Wellhub, informe o Gym ID e envie o pedido.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body corpo12">
+          <div class="sh"><i data-lucide="arrow-left"></i><span class="t">Agregadores</span><i data-lucide="x"></i></div>
+          <div class="segm"><span class="on">Conexões</span><span>Conciliação</span></div>
+          <div class="card con">
+            <div class="con-cab"><div class="logo-ag">TP</div><div class="col grow" style="gap:2px"><p class="t3">TotalPass</p><p class="cap muted">Check-in e reserva de aula</p></div><span class="tag neutro sem-ponto">Não conectado</span></div>
+            <div class="col">
+              <div class="passo-ag"><span class="n">1</span><p class="b2 grow">No portal da TotalPass, abra Integrações › Integrações novas.</p></div>
+              <div class="passo-ag"><span class="n">2</span><p class="b2 grow">Escolha a sua unidade e o Desafiaê como sistema.</p></div>
+              <div class="passo-ag"><span class="n">3</span><p class="b2 grow">Copie a API Key gerada e cole aqui.</p></div>
+              <div class="input"><span class="ph grow">Cole a API Key</span><i data-lucide="eye"></i></div>
+              <button class="btn">Conectar TotalPass</button>
+            </div>
+          </div>
+          <div class="card con">
+            <div class="con-cab"><div class="logo-ag">WH</div><div class="col grow" style="gap:2px"><p class="t3">Wellhub</p><p class="cap muted">Antigo Gympass · check-in e reserva de aula</p></div><span class="tag neutro sem-ponto">Não conectado</span></div>
+            <div class="col">
+              <div class="passo-ag"><span class="n">1</span><p class="b2 grow">No Portal do Parceiro da Wellhub, abra Integrações e escolha o Desafiaê.</p></div>
+              <div class="passo-ag"><span class="n">2</span><p class="b2 grow">Informe aqui o Gym ID da sua unidade. Ele aparece no topo do portal.</p></div>
+              <div class="input foco">482913</div>
+              <button class="btn">Enviar pedido à Wellhub</button>
+            </div>
+          </div>
+          <div class="card con">
+            <div class="col" style="gap:2px"><p class="t3">Regras para quem vem pelo agregador</p><p class="cap muted">Valem para a TotalPass e para a Wellhub.</p></div>
+            <div class="col g8">
+              <p class="b2m">Modalidades que aceitam</p>
+              <div class="chips"><span class="chip">Futevôlei</span><span class="chip">Beach tennis</span><span class="chip">Vôlei de praia</span></div>
+              <p class="cap aviso-cor">Sem modalidade marcada, todo check-in fica sem aula e alguém da arena precisa encaixar.</p>
+            </div>
+            <div class="col g8">
+              <p class="b2m">Vagas por turma para cada agregador</p>
+              <div class="input" style="width:160px"><span class="ph">Sem limite</span></div>
+              <p class="cap muted">Padrão de cada agregador por turma; cada turma pode mudar o dela. Vazio: vale só a lotação da aula. Turma no limite recusa o encaixe.</p>
+            </div>
+            <button class="btn">Salvar regras</button>
+          </div>
+          <div class="card"><div class="acc"><span class="tt"><i data-lucide="list-checks"></i>Regras dos agregadores</span><i data-lucide="chevron-down"></i></div></div>
+          <div style="height:12px"></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Conexões, TotalPass no ar e Wellhub aguardando</b><span>Conectada, a TotalPass ganha as opções de validar o check-in sozinho e publicar aulas, o valor por visita e "Testar conexão". A Wellhub fica aguardando por até 5 dias úteis, com "Cancelar pedido". Nas regras, você escolhe as modalidades aceitas e as vagas por turma.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body corpo12">
+          <div class="sh"><i data-lucide="arrow-left"></i><span class="t">Agregadores</span><i data-lucide="x"></i></div>
+          <div class="segm"><span class="on">Conexões</span><span>Conciliação</span></div>
+          <div class="card con">
+            <div class="con-cab"><div class="logo-ag">TP</div><div class="col grow" style="gap:2px"><p class="t3">TotalPass</p><p class="cap muted">Último check-in: Hoje · 07:12</p></div><span class="tag ok sem-ponto">Conectado</span></div>
+            <div class="linha-ag"><div class="col grow" style="gap:2px"><p class="b2m">Validar o check-in sozinho</p><p class="cap muted">Bateu com uma aula, a gente confirma na TotalPass na hora, sem ninguém tocar.</p></div><span class="toggle on"></span></div>
+            <div class="linha-ag"><div class="col grow" style="gap:2px"><p class="b2m">Publicar as aulas na TotalPass</p><p class="cap muted">As aulas das modalidades aceitas aparecem no app para reservar, de 24h antes até o início. Atualiza a cada 15 min.</p><p class="cap muted">Última publicação: Hoje · 07:15</p></div><span class="toggle on"></span></div>
+            <div class="preco-ag">
+              <div class="col" style="gap:2px"><p class="b2m">Quanto você recebe por visita</p><p class="cap muted">Só pra estimar a receita. O repasse é o agregador quem faz.</p></div>
+              <div class="row"><div class="input grow" style="max-width:220px">22,00</div><button class="btn inline contorno">Salvar</button></div>
+            </div>
+            <div class="acoes-ag"><button class="btn contorno">Testar conexão</button><button class="btn ter">Desconectar</button></div>
+          </div>
+          <div class="card con">
+            <div class="con-cab"><div class="logo-ag">WH</div><div class="col grow" style="gap:2px"><p class="t3">Wellhub</p><p class="cap muted">Antigo Gympass · check-in e reserva de aula</p></div><span class="tag aviso sem-ponto">Aguardando aprovação</span></div>
+            <div class="aviso-ag"><p class="b2m">Aguardando a aprovação da Wellhub</p><p class="cap muted">Gym ID 482913. A Wellhub aprova em até 5 dias úteis; o primeiro check-in que chegar confirma a conexão.</p></div>
+            <div class="acoes-ag"><button class="btn ter">Cancelar pedido</button></div>
+          </div>
+          <div class="card con">
+            <div class="col" style="gap:2px"><p class="t3">Regras para quem vem pelo agregador</p><p class="cap muted">Valem para a TotalPass e para a Wellhub.</p></div>
+            <div class="col g8">
+              <p class="b2m">Modalidades que aceitam</p>
+              <div class="chips"><span class="chip on-laranja">Futevôlei</span><span class="chip on-laranja">Beach tennis</span><span class="chip on-laranja">Vôlei de praia</span></div>
+            </div>
+            <div class="col g8">
+              <p class="b2m">Vagas por turma para cada agregador</p>
+              <div class="input" style="width:160px">4</div>
+              <p class="cap muted">Padrão de cada agregador por turma; cada turma pode mudar o dela. Vazio: vale só a lotação da aula. Turma no limite recusa o encaixe.</p>
+            </div>
+            <button class="btn">Salvar regras</button>
+          </div>
+          <div class="card"><div class="acc"><span class="tt"><i data-lucide="list-checks"></i>Regras dos agregadores</span><i data-lucide="chevron-down"></i></div></div>
+          <div style="height:12px"></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Conexão com erro</b><span class="ramo">Alternativa</span><span>Se o agregador recusar a chave, o card mostra o motivo e pede a API Key de novo. Você pode testar outra vez ou desconectar.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body corpo12">
+          <div class="sh"><i data-lucide="arrow-left"></i><span class="t">Agregadores</span><i data-lucide="x"></i></div>
+          <div class="segm"><span class="on">Conexões</span><span>Conciliação</span></div>
+          <div class="card con">
+            <div class="con-cab"><div class="logo-ag">TP</div><div class="col grow" style="gap:2px"><p class="t3">TotalPass</p><p class="cap muted">Último check-in: 27/09 · 18:05</p></div><span class="tag erro sem-ponto">Com erro</span></div>
+            <div class="aviso-ag perigo"><p class="b2m">A conexão precisa de atenção</p><p class="cap muted">A TotalPass não aceitou esta API Key. Confira no portal e tente de novo.</p></div>
+            <div class="col">
+              <div class="passo-ag"><span class="n">1</span><p class="b2 grow">No portal da TotalPass, abra Integrações › Integrações novas.</p></div>
+              <div class="passo-ag"><span class="n">2</span><p class="b2 grow">Escolha a sua unidade e o Desafiaê como sistema.</p></div>
+              <div class="passo-ag"><span class="n">3</span><p class="b2 grow">Copie a API Key gerada e cole aqui.</p></div>
+              <div class="input"><span class="ph grow">Cole a API Key</span><i data-lucide="eye"></i></div>
+              <button class="btn">Conectar TotalPass</button>
+            </div>
+            <div class="acoes-ag"><button class="btn contorno">Testar conexão</button><button class="btn ter">Desconectar</button></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Confirmar desconexão</b><span>Antes de desconectar, o app avisa que os check-ins param de chegar até você conectar de novo.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body corpo12">
+          <div class="sh"><i data-lucide="arrow-left"></i><span class="t">Agregadores</span><i data-lucide="x"></i></div>
+          <div class="segm"><span class="on">Conexões</span><span>Conciliação</span></div>
+          <div class="card con">
+            <div class="con-cab"><div class="logo-ag">TP</div><div class="col grow" style="gap:2px"><p class="t3">TotalPass</p><p class="cap muted">Último check-in: Hoje · 07:12</p></div><span class="tag ok sem-ponto">Conectado</span></div>
+            <div class="linha-ag"><div class="col grow" style="gap:2px"><p class="b2m">Validar o check-in sozinho</p><p class="cap muted">Bateu com uma aula, a gente confirma na TotalPass na hora, sem ninguém tocar.</p></div><span class="toggle on"></span></div>
+            <div class="linha-ag"><div class="col grow" style="gap:2px"><p class="b2m">Publicar as aulas na TotalPass</p><p class="cap muted">As aulas das modalidades aceitas aparecem no app para reservar, de 24h antes até o início. Atualiza a cada 15 min.</p></div><span class="toggle on"></span></div>
+          </div>
+        </div>
+        <div class="ios-veu"><div class="ios-alerta"><div class="tx"><b>Desconectar</b><span>Desconectar a TotalPass? Os check-ins param de chegar aqui até você conectar de novo.</span></div><div class="bt"><span>Cancelar</span><span>Desconectar</span></div></div></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Conciliação do mês</b><span>Navegue entre os meses (até o atual) e confira as visitas com o extrato de cada portal. A receita é estimada pelo valor por visita.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body corpo12">
+          <div class="sh"><i data-lucide="arrow-left"></i><span class="t">Agregadores</span><i data-lucide="x"></i></div>
+          <div class="segm"><span>Conexões</span><span class="on">Conciliação</span></div>
+          <div class="col g16">
+            <div class="mes"><i data-lucide="chevron-left"></i><span class="rot">Setembro de 2026</span><i data-lucide="chevron-right" style="color:var(--border)"></i></div>
+            <div class="col">
+              <div class="tile"><span class="cap muted">Visitas validadas</span><span class="v hl">30</span><span class="cap muted">18 TotalPass · 12 Wellhub</span></div>
+              <div class="tile"><span class="cap muted">Precisa de você</span><span class="v">3</span><span class="cap muted">Sem aula ou esperando confirmação</span></div>
+              <div class="tile"><span class="cap muted">Receita estimada</span><span class="v">R$ 696,00</span><span class="cap muted">Pelo valor por visita que você informou</span></div>
+            </div>
+            <div class="card sem-pad">
+              <div class="vlista-cab"><p class="t3">Visitas do mês</p><p class="cap muted">Confira com o extrato do portal de cada agregador.</p></div>
+              <div class="vl"><div class="col grow" style="gap:2px"><p class="b2m">Marina Costa</p><p class="cap muted">Hoje · 07:12 · TotalPass · Beach tennis iniciante</p></div><span class="tag ok sem-ponto">Validada</span></div>
+              <div class="vl"><div class="col grow" style="gap:2px"><p class="b2m">Paula Nunes</p><p class="cap muted">Hoje · 07:05 · TotalPass · Beach tennis iniciante</p><p class="cap aviso-cor">O agregador não respondeu. Tente de novo.</p></div><span class="tag aviso sem-ponto">A validar</span></div>
+              <div class="vl"><div class="col grow" style="gap:2px"><p class="b2m">Rodrigo Alves</p><p class="cap muted">Hoje · 06:58 · Wellhub · Sem aula</p></div><span class="tag aviso sem-ponto">Sem aula</span></div>
+              <div class="vl"><div class="col grow" style="gap:2px"><p class="b2m">Felipe Duarte</p><p class="cap muted">27/09 · 17:52 · Wellhub · Futevôlei intermediário</p></div><span class="tag info sem-ponto">Validando…</span></div>
+              <div class="vl"><div class="col grow" style="gap:2px"><p class="b2m">Aluno do agregador</p><p class="cap muted">26/09 · 19:10 · TotalPass · Vôlei de praia funcional</p></div><span class="tag ok sem-ponto">Validada</span></div>
+              <div class="vl"><div class="col grow" style="gap:2px"><p class="b2m">Camila Torres</p><p class="cap muted">25/09 · 07:03 · Wellhub · Beach tennis iniciante</p></div><span class="tag erro sem-ponto">Recusada</span></div>
+              <div class="vl"><div class="col grow" style="gap:2px"><p class="b2m">Tiago Mendes</p><p class="cap muted">24/09 · 18:40 · TotalPass · Futevôlei intermediário</p></div><span class="tag neutro sem-ponto">Expirada</span></div>
+            </div>
+          </div>
+          <div style="height:12px"></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Aula com gente do agregador</b><span>Na aula aparece quem entrou pelo agregador (com ou sem Desafiaê) e quem reservou e ainda não chegou. Você confirma ou recusa a visita pendente e encaixa o check-in que ficou sem aula.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body corpo12">
+          <div class="sh"><i data-lucide="arrow-left"></i><span class="t">Beach tennis iniciante</span><i data-lucide="x"></i></div>
+          <div class="card col g8">
+            <p class="t3">28/09 · 07:00 – 08:00</p>
+            <p class="b2 muted">Beach tennis · Renata Prado · Quadra 1</p>
+            <p class="b2 muted">10/12 vagas</p>
+          </div>
+          <div class="col g8">
+            <p class="t3" style="margin-bottom:4px">Inscritos (7)</p>
+            <div class="card ins"><div class="col grow" style="gap:2px"><p class="b1m">Bia Moreira</p><p class="cap muted">Plano · presente às 06:55</p></div><button class="btn inline ter sm">Desfazer</button></div>
+            <div class="card ins"><div class="col grow" style="gap:2px"><p class="b1m">Duda Lima</p><p class="cap muted">Plano · presente às 06:58</p></div><button class="btn inline ter sm">Desfazer</button></div>
+            <div class="card ins"><div class="col grow" style="gap:2px"><p class="b1m">Ju Castro</p><p class="cap muted">Avulsa</p></div><button class="btn inline sec sm">Marcar chegada</button></div>
+          </div>
+          <div class="col g8" style="margin-top:8px">
+            <p class="t3" style="margin-bottom:4px">Pelo agregador (3)</p>
+            <div class="card col"><div class="row top"><div class="col grow" style="gap:2px"><p class="b1m">Marina Costa</p><p class="cap muted">TotalPass · sem app · check-in 07:12</p></div><span class="tag ok sem-ponto">Validada</span></div></div>
+            <div class="card col">
+              <div class="row top"><div class="col grow" style="gap:2px"><p class="b1m">Paula Nunes</p><p class="cap muted">TotalPass · tem Desafiaê · check-in 07:05</p><p class="cap aviso-cor">O agregador não respondeu. Tente de novo.</p></div><span class="tag aviso sem-ponto">A validar</span></div>
+              <div class="acoes-ag"><button class="btn contorno sm">Tentar validar de novo</button><button class="btn ter sm">Recusar</button></div>
+            </div>
+            <div class="card col"><div class="row top"><div class="col grow" style="gap:2px"><p class="b1m">Lucas Prado</p><p class="cap muted">Wellhub · sem app · reservou pelo agregador</p></div><span class="tag info sem-ponto">Reservou, ainda não chegou</span></div></div>
+          </div>
+          <div class="card fora" style="margin-top:8px">
+            <div class="row" style="gap:8px"><i data-lucide="clock" style="width:18px;height:18px;color:var(--warning)"></i><p class="b1m">1 check-in sem aula</p></div>
+            <p class="cap muted">Entraram pelo agregador perto do horário desta aula, mas sem cair em nenhuma turma.</p>
+            <div class="fora-l">
+              <div class="col" style="gap:2px"><p class="b2m">Rodrigo Alves</p><p class="cap muted">Wellhub · sem app · check-in 06:58</p></div>
+              <div class="acoes-ag"><button class="btn sm">Encaixar nesta aula</button><button class="btn ter sm">Recusar</button></div>
+            </div>
+          </div>
+          <div style="height:8px"></div>
+        </div>
+        <div class="rodape">
+          <button class="btn"><i data-lucide="camera"></i>Check-in pela câmera</button>
+          <button class="btn sec">Editar só esta aula</button>
+          <button class="btn ter">Cancelar esta aula</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 8 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">8</div>
+        <div class="passo-txt"><b>Meus atletas, aba Agregador</b><span>Com agregador conectado, "Meus atletas" ganha a aba "Agregador": quem veio pela TotalPass ou Wellhub, visitas no mês, turmas e o que ainda espera a sua resposta.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body corpo12">
+          <div class="sh"><i data-lucide="arrow-left"></i><span class="t">Meus atletas</span><i data-lucide="x"></i></div>
+          <div class="input"><i data-lucide="search" style="color:var(--primary)"></i><span class="ph">Buscar por nome</span></div>
+          <div class="segm quatro"><span>Mais recentes</span><span>Sumiram</span><span>Em aberto</span><span class="on">Agregador</span></div>
+          <div class="col g8">
+            <p class="cap muted">5 pessoas vieram pela TotalPass ou Wellhub. Entram sozinhas no primeiro check-in, sem precisar do Desafiaê.</p>
+            <div class="card at"><div class="av">M</div><div class="col grow" style="gap:2px"><div class="row" style="gap:4px;flex-wrap:wrap"><p class="b1m">Marina Costa</p><span class="selo">TotalPass</span></div><p class="cap muted">6 visitas no mês · Beach tennis iniciante</p><p class="cap muted">Última vez: 28/09</p></div></div>
+            <div class="card at"><div class="av">R</div><div class="col grow" style="gap:2px"><div class="row" style="gap:4px;flex-wrap:wrap"><p class="b1m">Rodrigo Alves</p><span class="selo">Wellhub</span></div><p class="cap muted">4 visitas no mês · Futevôlei intermediário</p><p class="cap aviso-cor">1 visita esperando a arena</p></div></div>
+            <div class="card at"><div class="av">P</div><div class="col grow" style="gap:2px"><div class="row" style="gap:4px;flex-wrap:wrap"><p class="b1m">Paula Nunes</p><span class="selo">TotalPass</span><span class="selo app">tem Desafiaê</span></div><p class="cap muted">3 visitas no mês · Beach tennis iniciante, Futevôlei intermediário</p><p class="cap aviso-cor">1 visita esperando a arena</p></div></div>
+            <div class="card at"><div class="av">F</div><div class="col grow" style="gap:2px"><div class="row" style="gap:4px;flex-wrap:wrap"><p class="b1m">Felipe Duarte</p><span class="selo">Wellhub</span></div><p class="cap muted">2 visitas no mês · Futevôlei intermediário</p><p class="cap muted">Última vez: 27/09</p></div></div>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn sec">Confirmar plano de aluno</button></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 9 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">9</div>
+        <div class="passo-txt"><b>Agregadores sem Elite</b><span class="ramo">Alternativa</span><span>Fora do plano Elite, a tela mostra o cadeado. Professor e atendente veem só o aviso, sem botão.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="padding-bottom:40px">
+          <div class="sh"><i data-lucide="arrow-left"></i><span class="t">Agregadores</span><i data-lucide="x"></i></div>
+          <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+            <div class="vazio">
+              <div class="circ"><i data-lucide="lock"></i></div>
+              <p class="t3">Agregadores são do Elite</p>
+              <p class="b2 muted">No Elite, quem vem pela TotalPass ou pela Wellhub cai sozinho na lista da aula, e você concilia as visitas do mês.</p>
+              <button class="btn sec" style="margin-top:12px">Ver planos</button>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- NAVEGADOR -->
+<section class="trilho-fluxo web" data-plataforma="navegador">
+  <div class="passos">
+
+    <!-- 1 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Conexões no painel</b><span>No navegador, os dois cartões ficam lado a lado, com as regras embaixo e as abas no topo. Para desconectar, o navegador pede confirmação.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-aggregators</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="dinheiro" data-item="Agregadores">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="tx"><p class="t1">Agregadores</p><p class="b2 muted">Arena Maré Alta · 2 de 2 conectados</p></div><div class="ac"><div class="wseg"><span class="on">Conexões</span><span>Conciliação</span></div><span class="sino"><i data-lucide="bell"></i></span></div></div>
+              <div class="col g16">
+                <div class="wcol">
+                  <div class="card con">
+                    <div class="con-cab"><div class="logo-ag">TP</div><div class="col grow" style="gap:2px"><p class="t3">TotalPass</p><p class="cap muted">Último check-in: Hoje · 07:12</p></div><span class="tag ok sem-ponto">Conectado</span></div>
+                    <div class="linha-ag"><div class="col grow" style="gap:2px"><p class="b2m">Validar o check-in sozinho</p><p class="cap muted">Bateu com uma aula, a gente confirma na TotalPass na hora, sem ninguém tocar.</p></div><span class="toggle on"></span></div>
+                    <div class="linha-ag"><div class="col grow" style="gap:2px"><p class="b2m">Publicar as aulas na TotalPass</p><p class="cap muted">As aulas das modalidades aceitas aparecem no app para reservar, de 24h antes até o início. Atualiza a cada 15 min.</p><p class="cap muted">Última publicação: Hoje · 07:15</p></div><span class="toggle on"></span></div>
+                    <div class="preco-ag">
+                      <div class="col" style="gap:2px"><p class="b2m">Quanto você recebe por visita</p><p class="cap muted">Só pra estimar a receita. O repasse é o agregador quem faz.</p></div>
+                      <div class="row"><div class="input grow" style="max-width:220px">22,00</div><button class="btn inline contorno">Salvar</button></div>
+                    </div>
+                    <div class="acoes-ag"><button class="btn contorno">Testar conexão</button><button class="btn ter">Desconectar</button></div>
+                  </div>
+                  <div class="card con">
+                    <div class="con-cab"><div class="logo-ag">WH</div><div class="col grow" style="gap:2px"><p class="t3">Wellhub</p><p class="cap muted">Último check-in: Hoje · 06:58</p></div><span class="tag ok sem-ponto">Conectado</span></div>
+                    <div class="linha-ag"><div class="col grow" style="gap:2px"><p class="b2m">Validar o check-in sozinho</p><p class="cap muted">Bateu com uma aula, a gente confirma na Wellhub na hora, sem ninguém tocar.</p></div><span class="toggle on"></span></div>
+                    <div class="linha-ag"><div class="col grow" style="gap:2px"><p class="b2m">Publicar as aulas na Wellhub</p><p class="cap muted">As aulas das modalidades aceitas aparecem no app para reservar, de 24h antes até o início. Atualiza a cada 15 min.</p></div><span class="toggle"></span></div>
+                    <div class="preco-ag">
+                      <div class="col" style="gap:2px"><p class="b2m">Quanto você recebe por visita</p><p class="cap muted">Só pra estimar a receita. O repasse é o agregador quem faz.</p></div>
+                      <div class="row"><div class="input grow" style="max-width:220px">25,00</div><button class="btn inline contorno">Salvar</button></div>
+                    </div>
+                    <div class="acoes-ag"><button class="btn ter">Desconectar</button></div>
+                  </div>
+                </div>
+                <div class="card con">
+                  <div class="col" style="gap:2px"><p class="t3">Regras para quem vem pelo agregador</p><p class="cap muted">Valem para a TotalPass e para a Wellhub.</p></div>
+                  <div class="col g8">
+                    <p class="b2m">Modalidades que aceitam</p>
+                    <div class="chips"><span class="chip on-laranja">Futevôlei</span><span class="chip on-laranja">Beach tennis</span><span class="chip on-laranja">Vôlei de praia</span></div>
+                  </div>
+                  <div class="col g8">
+                    <p class="b2m">Vagas por turma para cada agregador</p>
+                    <div class="input" style="width:160px">4</div>
+                    <p class="cap muted">Padrão de cada agregador por turma; cada turma pode mudar o dela. Vazio: vale só a lotação da aula. Turma no limite recusa o encaixe.</p>
+                  </div>
+                  <button class="btn">Salvar regras</button>
+                </div>
+                <div class="card"><div class="acc"><span class="tt"><i data-lucide="list-checks"></i>Regras dos agregadores</span><i data-lucide="chevron-down"></i></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Conciliação no painel</b><span>Os três números ficam lado a lado, e a lista de visitas ocupa a largura toda.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-aggregators</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="dinheiro" data-item="Agregadores">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="tx"><p class="t1">Agregadores</p><p class="b2 muted">Arena Maré Alta · 2 de 2 conectados</p></div><div class="ac"><div class="wseg"><span>Conexões</span><span class="on">Conciliação</span></div><span class="sino"><i data-lucide="bell"></i></span></div></div>
+              <div class="col g16">
+                <div class="mes"><i data-lucide="chevron-left"></i><span class="rot">Setembro de 2026</span><i data-lucide="chevron-right" style="color:var(--border)"></i></div>
+                <div class="row" style="gap:12px;align-items:stretch">
+                  <div class="tile"><span class="cap muted">Visitas validadas</span><span class="v hl">30</span><span class="cap muted">18 TotalPass · 12 Wellhub</span></div>
+                  <div class="tile"><span class="cap muted">Precisa de você</span><span class="v">3</span><span class="cap muted">Sem aula ou esperando confirmação</span></div>
+                  <div class="tile"><span class="cap muted">Receita estimada</span><span class="v">R$ 696,00</span><span class="cap muted">Pelo valor por visita que você informou</span></div>
+                </div>
+                <div class="card sem-pad">
+                  <div class="vlista-cab"><p class="t3">Visitas do mês</p><p class="cap muted">Confira com o extrato do portal de cada agregador.</p></div>
+                  <div class="vl"><div class="col grow" style="gap:2px"><p class="b2m">Marina Costa</p><p class="cap muted">Hoje · 07:12 · TotalPass · Beach tennis iniciante</p></div><span class="tag ok sem-ponto">Validada</span></div>
+                  <div class="vl"><div class="col grow" style="gap:2px"><p class="b2m">Paula Nunes</p><p class="cap muted">Hoje · 07:05 · TotalPass · Beach tennis iniciante</p><p class="cap aviso-cor">O agregador não respondeu. Tente de novo.</p></div><span class="tag aviso sem-ponto">A validar</span></div>
+                  <div class="vl"><div class="col grow" style="gap:2px"><p class="b2m">Rodrigo Alves</p><p class="cap muted">Hoje · 06:58 · Wellhub · Sem aula</p></div><span class="tag aviso sem-ponto">Sem aula</span></div>
+                  <div class="vl"><div class="col grow" style="gap:2px"><p class="b2m">Felipe Duarte</p><p class="cap muted">27/09 · 17:52 · Wellhub · Futevôlei intermediário</p></div><span class="tag info sem-ponto">Validando…</span></div>
+                  <div class="vl"><div class="col grow" style="gap:2px"><p class="b2m">Aluno do agregador</p><p class="cap muted">26/09 · 19:10 · TotalPass · Vôlei de praia funcional</p></div><span class="tag ok sem-ponto">Validada</span></div>
+                  <div class="vl"><div class="col grow" style="gap:2px"><p class="b2m">Camila Torres</p><p class="cap muted">25/09 · 07:03 · Wellhub · Beach tennis iniciante</p></div><span class="tag erro sem-ponto">Recusada</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Aula no painel</b><span>Inscritos e a seção do agregador ficam na coluna principal; vagas e ações da aula, na lateral.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser longo">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-class-session/beach-tennis-iniciante-2809</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="agenda" data-item="Aulas">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="tx"><p class="t1">Beach tennis iniciante</p><p class="b2 muted">28/09 · 07:00 – 08:00 · Renata Prado · Quadra 1</p></div><div class="ac"><span class="sino"><i data-lucide="bell"></i></span></div></div>
+              <div class="row top" style="gap:16px">
+                <div class="col g16 grow">
+                  <div class="col g8">
+                    <p class="grupo-t">Inscritos (7)</p>
+                    <div class="card ins"><div class="col grow" style="gap:2px"><p class="b1m">Bia Moreira</p><p class="cap muted">Plano · presente às 06:55</p></div><button class="btn inline ter sm">Desfazer</button></div>
+                    <div class="card ins"><div class="col grow" style="gap:2px"><p class="b1m">Duda Lima</p><p class="cap muted">Plano · presente às 06:58</p></div><button class="btn inline ter sm">Desfazer</button></div>
+                    <div class="card ins"><div class="col grow" style="gap:2px"><p class="b1m">Ju Castro</p><p class="cap muted">Avulsa</p></div><button class="btn inline sec sm">Marcar chegada</button></div>
+                  </div>
+                  <div class="col g8">
+                    <p class="t3" style="margin-bottom:4px">Pelo agregador (3)</p>
+                    <div class="card col"><div class="row top"><div class="col grow" style="gap:2px"><p class="b1m">Marina Costa</p><p class="cap muted">TotalPass · sem app · check-in 07:12</p></div><span class="tag ok sem-ponto">Validada</span></div></div>
+                    <div class="card col">
+                      <div class="row top"><div class="col grow" style="gap:2px"><p class="b1m">Paula Nunes</p><p class="cap muted">TotalPass · tem Desafiaê · check-in 07:05</p><p class="cap aviso-cor">O agregador não respondeu. Tente de novo.</p></div><span class="tag aviso sem-ponto">A validar</span></div>
+                      <div class="acoes-ag"><button class="btn contorno sm">Tentar validar de novo</button><button class="btn ter sm">Recusar</button></div>
+                    </div>
+                    <div class="card col"><div class="row top"><div class="col grow" style="gap:2px"><p class="b1m">Lucas Prado</p><p class="cap muted">Wellhub · sem app · reservou pelo agregador</p></div><span class="tag info sem-ponto">Reservou, ainda não chegou</span></div></div>
+                  </div>
+                  <div class="card fora">
+                    <div class="row" style="gap:8px"><i data-lucide="clock" style="width:18px;height:18px;color:var(--warning)"></i><p class="b1m">1 check-in sem aula</p></div>
+                    <p class="cap muted">Entraram pelo agregador perto do horário desta aula, mas sem cair em nenhuma turma.</p>
+                    <div class="fora-l">
+                      <div class="col" style="gap:2px"><p class="b2m">Rodrigo Alves</p><p class="cap muted">Wellhub · sem app · check-in 06:58</p></div>
+                      <div class="acoes-ag"><button class="btn sm">Encaixar nesta aula</button><button class="btn ter sm">Recusar</button></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col g16" style="width:320px;flex:none">
+                  <div class="card col">
+                    <p class="t3">10/12 vagas</p>
+                    <div class="col g8"><button class="btn sec">Editar só esta aula</button><button class="btn ter">Cancelar esta aula</button></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Meus atletas no painel, aba Agregador</b><span>Escolha "Agregador" no seletor do topo, e a lista de quem veio pela TotalPass ou Wellhub aparece no lugar da tabela.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-customers</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="pessoas" data-item="Meus atletas">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="tx"><p class="t1">Meus atletas</p><p class="b2 muted">Arena Maré Alta · 64 atletas · 25 alunos com plano</p></div><div class="ac"><button class="btn inline sec">Confirmar plano de aluno</button><span class="sino"><i data-lucide="bell"></i></span></div></div>
+              <div class="row" style="gap:16px">
+                <div class="input" style="width:360px"><i data-lucide="search"></i><span class="ph">Buscar por nome</span></div>
+                <div class="wseg"><span>Todos <small>64</small></span><span>Alunos <small>25</small></span><span>Sumiram</span><span>Em aberto <small>3</small></span><span class="on">Agregador</span></div>
+              </div>
+              <div class="col g8">
+                <p class="cap muted">5 pessoas vieram pela TotalPass ou Wellhub. Entram sozinhas no primeiro check-in, sem precisar do Desafiaê.</p>
+                <div class="card at"><div class="av">M</div><div class="col grow" style="gap:2px"><div class="row" style="gap:4px"><p class="b1m">Marina Costa</p><span class="selo">TotalPass</span></div><p class="cap muted">6 visitas no mês · Beach tennis iniciante</p><p class="cap muted">Última vez: 28/09</p></div></div>
+                <div class="card at"><div class="av">R</div><div class="col grow" style="gap:2px"><div class="row" style="gap:4px"><p class="b1m">Rodrigo Alves</p><span class="selo">Wellhub</span></div><p class="cap muted">4 visitas no mês · Futevôlei intermediário</p><p class="cap aviso-cor">1 visita esperando a arena</p></div></div>
+                <div class="card at"><div class="av">P</div><div class="col grow" style="gap:2px"><div class="row" style="gap:4px"><p class="b1m">Paula Nunes</p><span class="selo">TotalPass</span><span class="selo app">tem Desafiaê</span></div><p class="cap muted">3 visitas no mês · Beach tennis iniciante, Futevôlei intermediário</p><p class="cap aviso-cor">1 visita esperando a arena</p></div></div>
+                <div class="card at"><div class="av">F</div><div class="col grow" style="gap:2px"><div class="row" style="gap:4px"><p class="b1m">Felipe Duarte</p><span class="selo">Wellhub</span></div><p class="cap muted">2 visitas no mês · Futevôlei intermediário</p><p class="cap muted">Última vez: 27/09</p></div></div>
+                <div class="card at"><div class="av">C</div><div class="col grow" style="gap:2px"><div class="row" style="gap:4px"><p class="b1m">Camila Torres</p><span class="selo">Wellhub</span></div><p class="cap muted">1 visita no mês · Beach tennis iniciante</p><p class="cap muted">Última vez: 25/09</p></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Agregadores no painel, sem Elite</b><span class="ramo">Alternativa</span><span>Mesmo cadeado do celular, com o nome da arena no subtítulo.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/arena-aggregators</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="dinheiro" data-item="Agregadores">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="tx"><p class="t1">Agregadores</p><p class="b2 muted">Arena Maré Alta</p></div><div class="ac"><span class="sino"><i data-lucide="bell"></i></span></div></div>
+              <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:0 20px">
+                <div class="vazio" style="width:100%">
+                  <div class="circ"><i data-lucide="lock"></i></div>
+                  <p class="t3">Agregadores são do Elite</p>
+                  <p class="b2 muted">No Elite, quem vem pela TotalPass ou pela Wellhub cai sozinho na lista da aula, e você concilia as visitas do mês.</p>
+                  <button class="btn sec" style="margin-top:12px">Ver planos</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>O aluno da TotalPass ou da Wellhub precisa ter o Desafiaê?</summary><p>Não. O check-in feito no app do agregador chega sozinho, cadastra o aluno e o coloca na aula.</p></details>
+    <details><summary>E se o check-in não bater com nenhuma aula?</summary><p>Se não houver aula da modalidade aceita começando até 15 min antes ou depois, o check-in fica "sem aula". A equipe encaixa numa aula ou recusa, e o professor da turma é avisado.</p></details>
+    <details><summary>Quanto tempo leva para conectar a Wellhub?</summary><p>Na Wellhub você envia o pedido com o Gym ID, e ele fica aguardando por até 5 dias úteis. A TotalPass conecta na hora, com a API Key.</p></details>
+    <details><summary>O valor das visitas entra no meu "Recebido"?</summary><p>Não. O valor por visita é só estimativa, porque quem paga é o agregador, fora do Mercado Pago. Use a conciliação do mês para conferir com o extrato de cada portal.</p></details>
+    <details><summary>Quando a aula publicada no agregador abre para reserva?</summary><p>24h antes do início, e fecha quando a aula começa. A reserva só é confirmada se houver vaga.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

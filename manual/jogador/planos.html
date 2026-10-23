@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Planos Premium e Elite · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* CSS só desta página, sempre com as variáveis do kit (nunca cor solta) */
+  /* peças do app que o kit não tem igual (ScreenHeader, SegmentedControl, Chip, Button, Avatar, Alert do iOS) */
+  .hdr { padding: 0; min-height: 50px; }
+  .hdr > svg { width: 24px; height: 24px; flex: none; }
+  .hdr .titulo { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hdr .vazio { width: 24px; flex: none; }
+  .corpo { display: flex; flex-direction: column; gap: 12px; }
+  .segx { display: flex; background: var(--surface-alt); border-radius: 8px; padding: 4px; gap: 4px; }
+  .segx > span { flex: 1; text-align: center; padding: 8px 4px; border-radius: 6px; font: 500 14px/20px var(--font); color: var(--text-muted); white-space: nowrap; }
+  .segx > span.on { background: var(--primary); color: var(--text-inverse); }
+  .chip.on { background: var(--primary); border-color: var(--primary); color: var(--text-inverse); }
+  .btn { font-weight: 500; }
+  .btn.sec { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.out { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+  .btn.dng { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  .btn.ter { background: transparent; color: var(--primary); height: auto; padding: 10px 0; }
+  .btn.dis { opacity: .5; }
+  .avatar { background: var(--primary); color: var(--text-inverse); font-weight: 500; }
+  .rodape { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 20px 34px; background: var(--background); display: flex; flex-direction: column; gap: 8px; z-index: 3; }
+  .grupo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .grupo .lr { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; font: 400 16px/24px var(--font); }
+  .grupo .lr + .lr { border-top: 1px solid var(--border); margin-left: 16px; padding-left: 0; }
+  .grupo .lr > svg:first-child { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .grupo .lr .rot { flex: 1; min-width: 0; }
+  .grupo .lr .val { font: 500 14px/20px var(--font); color: var(--primary); }
+  .grupo .lr .chev { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .grupo .lr.perigo, .grupo .lr.perigo > svg:first-child { color: var(--danger); }
+  .alerta-veu { position: absolute; inset: 0; background: var(--overlay); z-index: 7; display: flex; align-items: center; justify-content: center; }
+  .alerta { width: 270px; background: var(--surface-alt); border-radius: 14px; text-align: center; overflow: hidden; }
+  .alerta .al-txt { padding: 18px 16px 16px; display: grid; gap: 4px; }
+  .alerta .al-txt b { font: 600 17px/22px var(--font); }
+  .alerta .al-txt span { font: 400 13px/17px var(--font); }
+  .alerta .al-bts { display: flex; border-top: 1px solid var(--border); }
+  .alerta .al-bts > span { flex: 1; padding: 11px 8px; font: 400 17px/22px var(--font); color: var(--info); }
+  .alerta .al-bts > span + span { border-left: 1px solid var(--border); }
+  .alerta .al-bts > span.forte { font-weight: 600; }
+  .alerta .al-bts > span.perigo { color: var(--danger); }
+  .alerta.pilha .al-bts { flex-direction: column; }
+  .alerta.pilha .al-bts > span + span { border-left: 0; border-top: 1px solid var(--border); }
+  .toastx { position: absolute; left: 20px; right: 20px; top: 60px; border-radius: 14px; padding: 12px 14px; display: flex; gap: 10px; align-items: center; z-index: 9; font: 500 14px/20px var(--font); background: var(--success-soft); color: var(--text); border: 1px solid var(--success); box-shadow: var(--shadow-card); }
+  .toastx svg { color: var(--success); }
+  .toastx.erro { background: var(--danger-soft); border-color: var(--danger); }
+  .toastx.erro svg { color: var(--danger); }
+  .toastx svg { width: 20px; height: 20px; flex: none; }
+  .mh { position: relative; width: 90px; height: 90px; flex: none; }
+  .mh::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; border-left-color: var(--primary); border-bottom-color: var(--primary); transform: rotate(20deg); }
+  .mh .c { position: absolute; inset: 7px; border-radius: 50%; background: var(--primary-tint); overflow: hidden; display: flex; align-items: flex-end; justify-content: center; }
+  .mh .c img { width: 88%; }
+  .cat { height: 20px; width: auto; flex: none; }
+
+  /* ArenaPlanCard (vitrine de "Minha assinatura", também serve o jogador) */
+  .pc { padding: 16px; display: flex; flex-direction: column; gap: 8px; position: relative; }
+  .pc.destaque { border-color: var(--primary-tint); border-radius: 20px; background: linear-gradient(160deg, var(--surface) 0%, var(--primary-wash) 30%, var(--primary-soft) 100%); }
+  .pc.atual { border-color: var(--success); border-width: 2px; }
+  .pc .selos { display: flex; justify-content: flex-end; }
+  .pc .selo-atual { padding: 2px 8px; border-radius: 999px; background: var(--success-soft); color: var(--success); font: 500 12px/16px var(--font); }
+  .pc .topo-elite { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .pc .preco { display: flex; align-items: baseline; gap: 4px; }
+  .pc .feats { display: flex; flex-direction: column; gap: 8px; margin: 8px 0; }
+  .pc .feats .row { gap: 8px; align-items: center; }
+  .pc .feats svg { width: 16px; height: 16px; color: var(--primary); flex: none; }
+  .elite { border-radius: 999px; background: var(--primary); display: inline-flex; align-items: center; justify-content: center; color: var(--text-inverse); flex: none; }
+  .elite.g { width: 24px; height: 24px; } .elite.g svg { width: 14px; height: 14px; }
+  .elite.m { width: 18px; height: 18px; } .elite.m svg { width: 11px; height: 11px; }
+  .aviso-renova { font: 400 12px/16px var(--font); color: var(--text-muted); text-align: center; }
+  .aviso-renova a { color: var(--primary); text-decoration: none; }
+  .upsell { background: var(--primary-wash); border-color: var(--primary-tint); display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+  .upsell > svg { width: 24px; height: 24px; color: var(--primary); }
+  .upsell .btn { margin-top: 8px; }
+  .tiles { display: flex; gap: 8px; }
+  .tile { flex: 1; padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+  .tile .ico { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+  .tile .ico svg { width: 16px; height: 16px; }
+  .ti-ok { background: var(--success-soft); color: var(--success); }
+  .ti-neutro { background: var(--neutral-soft); color: var(--neutral); }
+  .ti-erro { background: var(--danger-soft); color: var(--danger); }
+  .cabeca { display: flex; align-items: center; gap: 12px; padding: 16px 0; }
+  .cabeca .id { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .cabeca img { height: 18px; width: auto; }
+  .rk { display: flex; align-items: center; gap: 12px; padding: 12px; }
+  .rk.eu { background: var(--primary-wash); border-color: var(--primary-tint); }
+  .rk .pos { width: 20px; text-align: center; font: 500 16px/24px var(--font); color: var(--text-muted); }
+  .rk .l { display: flex; align-items: center; gap: 3px; }
+  .rk .l img { height: 14px; width: auto; }
+  .elite.p { width: 14px; height: 14px; } .elite.p svg { width: 8px; height: 8px; }
+
+</style>
+</head>
+<body>
+<header id="proto" data-lado="jogador" data-fluxo="planos"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Planos Premium e Elite</h1>
+  <p>Em Minha assinatura você compara Básico, Premium e Elite e assina pela loja do celular, no mensal ou no anual. O Premium mostra os seus próprios números: o seu ranking, as suas estatísticas e as sequências contra cada rival. O Elite deixa você se comparar com os outros: as tabelas do ranking, as estatísticas completas e o histórico completo contra cada rival.</p>
+  <ul class="regras">
+    <li>Básico: grátis, com 1 desafio por semana.</li>
+    <li>Premium: desafios ilimitados, 50% de desconto na taxa do app, o seu ranking (rating, divisão, posições e histórico), estatísticas básicas (totais, sequências, últimos jogos e desempenho por modalidade) e as sequências contra cada rival.</li>
+    <li>Elite: tudo do Premium, nenhuma taxa do app, as tabelas do ranking (quem está na sua frente e quem vem atrás), estatísticas completas (sets, mês a mês, parceiros e arenas) e o histórico completo contra cada rival (últimos confrontos, por arena e por parceiro).</li>
+    <li>No Rival da semana, trocar de rival é do Premium e do Elite (uma vez por semana); o emblema no card e a lista de sugeridos são do Elite.</li>
+    <li>A assinatura é feita só pela loja do celular (App Store ou Google Play).</li>
+    <li>Trocar de plano é na mesma assinatura: subir de plano vale na hora; descer vale na próxima renovação.</li>
+    <li>O plano do jogador e o plano da arena são assinaturas separadas.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Minha assinatura (no Básico)</b><span>Abra pela linha "Plano" das Configurações ou pelo "Ver planos" de um conteúdo com cadeado. Escolha Mensal ou Anual e toque em "Começar agora" no plano que quer.</span><span class="ramo">Alternativa</span><span>Se a loja não responder, aparece "Preço em breve" e o botão fica travado.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Minha assinatura</span><i data-lucide="x"></i></div>
+          <p class="t3">Planos</p>
+          <div class="segx"><span class="on">Mensal</span><span>Anual</span></div>
+          <div class="card pc destaque">
+            <div class="topo-elite"><span class="elite g"><i data-lucide="gem"></i></span><p class="t2">Elite</p></div>
+            <div class="preco"><span class="t1 laranja">R$ 29,90</span><span class="b2 muted">/mês</span></div>
+            <div class="feats">
+              <div class="row"><i data-lucide="check"></i><span class="b2">Desafios ilimitados por semana</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">Sem taxa do app em reservas, torneios, aulas e mensalidades</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">Ranking competitivo com divisões e posição na cidade</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">Estatísticas completas</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">Histórico detalhado contra cada rival</span></div>
+            </div>
+            <button class="btn">Começar agora</button>
+          </div>
+          <div class="card pc">
+            <p class="t2">Premium</p>
+            <div class="preco"><span class="t1 laranja">R$ 14,90</span><span class="b2 muted">/mês</span></div>
+            <div class="feats">
+              <div class="row"><i data-lucide="check"></i><span class="b2">Desafios ilimitados por semana</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">50% de desconto nas taxas do app</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">Seu rating, sua divisão e sua posição na cidade, no estado e no Brasil</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">Suas estatísticas: desempenho por modalidade, sequências e últimos jogos</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">Sequências contra cada rival</span></div>
+            </div>
+            <button class="btn">Começar agora</button>
+          </div>
+          <div class="card pc atual">
+            <div class="selos"><span class="selo-atual">Plano atual</span></div>
+            <p class="t2">Básico</p>
+            <div class="preco"><span class="t1 laranja">Grátis</span></div>
+            <div class="feats"><div class="row"><i data-lucide="check"></i><span class="b2">1 desafio por semana</span></div></div>
+          </div>
+          <button class="btn ter">Restaurar compras</button>
+          <p class="aviso-renova">A assinatura renova automaticamente todo mês até você cancelar, cobrada na conta da loja do aparelho. <a>Termos de uso</a> e <a>Política de privacidade</a>.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><b>Assinar o Elite</b><span>A tela abre no plano e no ciclo escolhidos (dá para trocar o ciclo aqui). "Assinar" abre a compra da loja; comprado, você volta para Minha assinatura.</span><span class="ramo">Alternativa</span><span>Produto indisponível na loja: "Assinatura ainda não disponível — volte mais tarde." Se você desistir na loja, nada muda. "Restaurar compra" avisa se achou ou não uma assinatura na sua conta da loja.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo"></span><i data-lucide="x"></i></div>
+          <div class="col g4"><p class="t1">Desafiaê Elite</p><p class="b2 muted">Assine e aproveite mais do Desafiaê.</p></div>
+          <div class="segx"><span>Mensal</span><span class="on">Anual</span></div>
+          <div class="card pc aro" style="border-width:2px;border-color:var(--primary)">
+            <p class="t2">Elite</p>
+            <div class="preco"><span class="t1 laranja">R$ 299,90</span><span class="b2 muted">/ano</span></div>
+            <div class="feats">
+              <div class="row"><i data-lucide="check"></i><span class="b2">Desafios ilimitados por semana</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">Sem taxa do app em reservas, torneios, aulas e mensalidades</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">Ranking competitivo com divisões e posição na cidade</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">Estatísticas completas</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">Histórico detalhado contra cada rival</span></div>
+            </div>
+            <button class="btn">Assinar</button>
+          </div>
+          <button class="btn ter">Restaurar compra</button>
+          <p class="aviso-renova">A assinatura renova automaticamente todo ano até você cancelar, cobrada na conta da loja do aparelho. <a>Termos de uso</a> e <a>Política de privacidade</a>.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Minha assinatura (no Elite)</b><span>O card do seu plano mostra "Plano atual", a próxima cobrança e "Gerenciar assinatura", que abre a loja; é por lá que você cancela. Os outros planos oferecem a troca.</span><span class="ramo">Alternativa</span><span>Na aba do outro ciclo, o mesmo plano mostra "Mudar para o mensal" ou "Mudar para o anual".</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Minha assinatura</span><i data-lucide="x"></i></div>
+          <p class="t3">Mudar de plano</p>
+          <div class="segx"><span>Mensal</span><span class="on">Anual</span></div>
+          <div class="card pc destaque atual">
+            <div class="selos"><span class="selo-atual">Plano atual</span></div>
+            <div class="topo-elite"><span class="elite g"><i data-lucide="gem"></i></span><p class="t2">Elite</p></div>
+            <div class="preco"><span class="t1 laranja">R$ 299,90</span><span class="b2 muted">/ano</span></div>
+            <div class="feats">
+              <div class="row"><i data-lucide="check"></i><span class="b2">Desafios ilimitados por semana</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">Sem taxa do app em reservas, torneios, aulas e mensalidades</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">Ranking competitivo com divisões e posição na cidade</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">Estatísticas completas</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">Histórico detalhado contra cada rival</span></div>
+            </div>
+            <p class="b2 muted">Próxima cobrança 28/09</p>
+            <button class="btn ter">Gerenciar assinatura</button>
+          </div>
+          <div class="card pc">
+            <p class="t2">Premium</p>
+            <div class="preco"><span class="t1 laranja">R$ 129,90</span><span class="b2 muted">/ano</span></div>
+            <div class="feats">
+              <div class="row"><i data-lucide="check"></i><span class="b2">Desafios ilimitados por semana</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">50% de desconto nas taxas do app</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">Seu rating, sua divisão e sua posição na cidade, no estado e no Brasil</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">Suas estatísticas: desempenho por modalidade, sequências e últimos jogos</span></div>
+              <div class="row"><i data-lucide="check"></i><span class="b2">Sequências contra cada rival</span></div>
+            </div>
+            <button class="btn">Mudar para o Premium</button>
+          </div>
+          <div class="card pc">
+            <p class="t2">Básico</p>
+            <div class="preco"><span class="t1 laranja">Grátis</span></div>
+            <div class="feats"><div class="row"><i data-lucide="check"></i><span class="b2">1 desafio por semana</span></div></div>
+          </div>
+          <p class="cap muted">A troca é feita pela loja, na mesma assinatura. O upgrade vale na hora; o downgrade passa a valer na próxima renovação.</p>
+          <button class="btn ter">Restaurar compras</button>
+          <p class="aviso-renova">A assinatura renova automaticamente todo ano até você cancelar, cobrada na conta da loja do aparelho. <a>Termos de uso</a> e <a>Política de privacidade</a>.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Desconto nas taxas</b><span>Em todo pagamento pelo app (reserva, ingresso de torneio, aula avulsa e mensalidade), o valor já vem com o desconto do plano e uma linha verde explica. No Elite, a taxa do app sai inteira.</span><span class="ramo">Alternativa</span><span>No Básico não aparece linha nenhuma e o valor é cheio.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Pagamento da aula</span><i data-lucide="x"></i></div>
+          <div class="card col g4">
+            <p class="b1m">Beach tennis iniciante</p>
+            <p class="b2 muted">Arena Maré Alta · 29/09 19:00</p>
+            <p class="b1m">R$ 40,50</p>
+            <p class="cap verde">De R$ 45,00, com R$ 4,50 de desconto do seu plano</p>
+          </div>
+          <div class="row" style="gap:4px;justify-content:center"><i data-lucide="clock" class="ic16" style="color:var(--warning)"></i><p class="b2m" style="color:var(--warning)">Sua vaga fica guardada por 29:41</p></div>
+          <div class="segx"><span class="on">Pix</span><span>Cartão</span></div>
+          <div class="card" style="align-self:center;padding:16px"><div class="qr" style="width:200px;height:200px;border:0;outline:0"></div></div>
+          <p class="b2 muted" style="text-align:center">Escaneie o QR Code no app do seu banco pra pagar com Pix.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Convite no lugar do conteúdo pago</b><span class="ramo">Alternativa</span><span>No Básico, o placar geral contra o rival continua aberto, mas o resto aparece com cadeado; "Ver planos" leva para Minha assinatura. O mesmo convite aparece em Minhas estatísticas ("Estatísticas a partir do Premium") e na aba Ranking ("Ranking competitivo a partir do Premium").</span><span class="ramo">Alternativa</span><span>No Premium, você já vê as sequências contra o rival, as suas estatísticas básicas e o seu ranking; o convite continua só no que é do Elite: os últimos confrontos e o resultado por arena e por parceiro, as estatísticas completas e as tabelas do ranking ("As tabelas do ranking são do Elite"). O seu emblema no perfil e o resultado de cada partida no ranking continuam abertos para todos.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body" style="gap:12px">
+          <div class="hdr"><i data-lucide="arrow-left"></i><span class="titulo">Jogador</span><i data-lucide="x"></i></div>
+          <div class="cabeca" style="padding:4px 0"><span class="avatar xl">C</span><div class="id"><div class="row" style="gap:4px"><p class="t3">Caio Nunes</p><span class="elite m"><i data-lucide="gem"></i></span></div><div class="row" style="gap:4px"><img src="../img/categoria-a.png" alt=""><span class="b2 muted">Beach tennis</span></div></div></div>
+          <p class="t3">Você x Caio Nunes</p>
+          <div class="tiles">
+            <div class="card tile"><span class="ico ti-ok"><i data-lucide="trophy"></i></span><span class="cap muted">Vitórias</span><span class="t2">2</span></div>
+            <div class="card tile"><span class="ico ti-neutro"><i data-lucide="minus"></i></span><span class="cap muted">Empates</span><span class="t2">0</span></div>
+            <div class="card tile"><span class="ico ti-erro"><i data-lucide="x"></i></span><span class="cap muted">Derrotas</span><span class="t2">3</span></div>
+          </div>
+          <div class="card upsell">
+            <i data-lucide="lock"></i>
+            <p class="b1m">Veja o histórico completo contra Caio Nunes</p>
+            <p class="b2 muted">As sequências são a partir do Premium; resultado por arena e por parceiro e os últimos confrontos, do Elite.</p>
+            <button class="btn out">Ver planos</button>
+          </div>
+        </div>
+        <div class="rodape"><button class="btn"><i data-lucide="zap"></i>Desafiar</button></div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>Como cancelo minha assinatura?</summary><p>Em Minha assinatura, toque em "Gerenciar assinatura". O cancelamento é feito na loja do celular.</p></details>
+    <details><summary>Mudei de plano. Quando vale?</summary><p>Subir de plano vale na hora. Descer vale na próxima renovação.</p></details>
+    <details><summary>Troquei de celular. Como recupero meu plano?</summary><p>Na tela de assinar, toque em "Restaurar compra". O app procura a assinatura na sua conta da loja.</p></details>
+    <details><summary>Meu plano de jogador vale para a minha arena?</summary><p>Não. O plano do jogador e o plano da arena são assinaturas separadas.</p></details>
+    <details><summary>O que a aba Ranking mostra no Premium e no Elite?</summary><p>No Premium, a aba Ranking mostra o seu ranking: o rating por modalidade, a divisão (de Bronze a Lenda), as suas posições na cidade, no estado e no Brasil e o histórico jogo a jogo. O Elite mostra também as tabelas, com quem está na sua frente e quem vem atrás na cidade, no estado, no Brasil, na sua arena e entre quem já jogou com você. No Básico, o emblema continua no perfil e o resultado de cada partida no ranking continua aberto.</p></details>
+    <details><summary>Qual a diferença entre Premium e Elite nas estatísticas?</summary><p>O Premium mostra os totais, as sequências, os últimos jogos e o desempenho por modalidade, e as sequências contra cada rival. O Elite acrescenta sets ganhos e perdidos, a evolução mês a mês, os parceiros e as arenas, e o histórico completo contra cada rival.</p></details>
+    <details><summary>Onde vejo o desconto do meu plano?</summary><p>Em todo pagamento pelo app, uma linha verde mostra o desconto. No Elite, a taxa do app não é cobrada.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>

@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Painel do dia · Manual do Desafiaê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.28.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* CSS só desta página, sempre com as variáveis do kit (nunca cor solta) */
+  .input svg { flex: none; }
+  .input span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  /* cabeçalho da Home: nome da arena com a seta da troca de conta e o sino */
+  .home-cab { display: flex; align-items: flex-start; justify-content: space-between; padding: 16px 0; }
+  .home-cab .nome { display: flex; align-items: center; gap: 4px; }
+  .home-cab .nome svg { width: 20px; height: 20px; }
+  .sino { position: relative; }
+  .sino > svg { width: 24px; height: 24px; }
+  .sino .qtd { position: absolute; top: -4px; right: -6px; min-width: 18px; height: 18px; border-radius: 999px; background: var(--danger); color: var(--text-inverse); border: 2px solid var(--background); font: 400 10px/14px var(--font); text-align: center; padding: 0 3px; }
+  .secao { margin-bottom: 24px; }
+  .sec-cab { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .sec-cab .acao { font: 500 14px/20px var(--font); color: var(--primary); }
+  .carrossel { display: flex; gap: 12px; overflow: hidden; margin-right: -20px; align-items: flex-start; }
+  .carrossel > * { width: 240px; flex: none; }
+
+  /* HomeBanner (desafio recebido) */
+  .banner { background: var(--primary-wash); border: 1px solid var(--primary-tint); border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: var(--shadow-card); overflow: visible; }
+  .banner.info { background: var(--info-soft); border-color: var(--info); }
+  .banner .topo-b { display: flex; align-items: center; gap: 8px; }
+  .banner .topo-b .t3 { flex: 1; }
+  .banner .topo-b svg { width: 20px; height: 20px; }
+  .banner .baixo { display: flex; align-items: flex-end; justify-content: space-between; margin-top: 12px; }
+  .banner .baixo .acoes { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; }
+  .banner .baixo .btn { height: 40px; width: auto; padding: 0 12px; font-size: 14px; }
+  .banner .baixo img { width: 100px; height: 130px; object-fit: contain; margin: -46px -24px -46px 0; }
+  .btn.terc { background: transparent; color: var(--primary); }
+  .pontos-car { display: flex; gap: 6px; justify-content: center; margin: -4px 0 16px; }
+  .pontos-car i { width: 6px; height: 6px; border-radius: 3px; background: var(--border); display: block; }
+  .pontos-car i.on { background: var(--primary); width: 18px; }
+
+  /* CallUpBanner */
+  .convoca { position: relative; display: flex; align-items: center; gap: 12px; padding: 16px 88px 16px 16px; margin: 24px 0 16px; border-radius: 12px; border: 2px solid var(--primary); background: var(--secondary); box-shadow: var(--shadow-card); }
+  .convoca .conta { width: 64px; align-self: stretch; border-radius: 8px; background: var(--primary); color: var(--text-inverse); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .convoca .conta .cap { letter-spacing: 1px; margin-top: -4px; font-weight: 500; }
+  .convoca .txt { flex: 1; display: grid; gap: 2px; color: var(--text-inverse); }
+  .convoca .olho { font: 500 12px/16px var(--font); letter-spacing: 1px; color: var(--primary); }
+  .convoca .link { display: flex; align-items: center; gap: 4px; margin-top: 4px; color: var(--primary); font: 500 14px/20px var(--font); }
+  .convoca .link svg { width: 16px; height: 16px; }
+  .convoca img { position: absolute; right: 4px; bottom: 0; width: 88px; height: 132px; object-fit: contain; }
+
+  /* MatchCard / CoverCard: faixa de capa com 25% da largura */
+  .cc { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .cc .capa { position: absolute; left: 0; top: 0; bottom: 0; width: 25%; display: flex; align-items: center; justify-content: center; background: var(--primary-wash); color: var(--primary); }
+  .cc .capa.quadra { background: linear-gradient(160deg, var(--primary-tint), var(--accent) 140%); }
+  .cc .capa svg { width: 16px; height: 16px; }
+  .cc .capa .tag { align-self: center; padding: 3px 5px; }
+  .cc .miolo { margin-left: 25%; padding: 12px; display: grid; gap: 2px; }
+  .cc.cover .miolo { padding: 16px; }
+  .cc .l1 { display: flex; align-items: center; gap: 4px; }
+  .cc .l1 .b2m { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cc .l2 { display: flex; align-items: center; gap: 4px; color: var(--text-muted); }
+  .cc .l2 svg { width: 12px; height: 12px; }
+  .cc .l3 { display: flex; align-items: center; gap: 4px; }
+  .cc .l3 .cap { flex: 1; }
+  .pilula-jog { display: inline-flex; align-items: center; gap: 2px; padding: 1px 4px; border-radius: 999px; background: var(--surface-alt); font: 400 12px/16px var(--font); }
+  .pilula-jog svg { width: 12px; height: 12px; }
+  .tag svg { width: 12px; height: 12px; }
+
+  /* linhas de hoje (reserva e aula) */
+  .hoje-lista { margin-top: 12px; display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .hoje-linha { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-top: 1px solid var(--border); }
+  .hoje-linha:first-child { border-top: 0; }
+  .hoje-linha .hora { width: 44px; font: 500 14px/20px var(--font); font-variant-numeric: tabular-nums; }
+  .hoje-linha .txt { flex: 1; min-width: 0; display: grid; gap: 2px; }
+  .hoje-linha > svg { width: 16px; height: 16px; color: var(--text-muted); }
+
+  .pend { display: grid; gap: 8px; }
+  .pend .acoes { display: flex; gap: 8px; }
+  .pend .acoes .btn { flex: 1; }
+  .btn.perigo-borda { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  .aprov { display: grid; gap: 4px; }
+  .aprov .topo-a { display: flex; align-items: center; gap: 8px; }
+  .aprov .topo-a img { width: 20px; height: 20px; }
+  .aprov .topo-a .b1m { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .vazio { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 20px; text-align: center; }
+  .vazio .ic-bola { width: 64px; height: 64px; border-radius: 999px; background: var(--surface-alt); color: var(--text-muted); display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+  .vazio .ic-bola svg { width: 28px; height: 28px; }
+  .vazio img { width: 124px; height: 95px; object-fit: contain; margin-bottom: 4px; }
+
+  /* folha do Mercado Pago */
+  .sheet.mp { background: var(--background); padding: 20px 20px 32px; gap: 12px; }
+  .sheet.mp::before { display: none; }
+
+  /* Jogos (aparelho) */
+  .stats-banner { display: flex; align-items: center; gap: 16px; background: var(--primary-wash); border: 1px solid var(--primary-tint); border-radius: 12px; padding: 16px; margin-bottom: 4px; overflow: visible; }
+  .stats-banner .linha-s { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .stats-banner .div { width: 1px; height: 28px; background: var(--primary-tint); }
+  .stats-banner img { width: 64px; height: 96px; object-fit: contain; margin: -12px -4px -12px 0; }
+  .lista-cards { display: flex; flex-direction: column; gap: 12px; }
+
+  /* notificações */
+  .notif { display: flex; align-items: flex-start; gap: 12px; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); }
+  .notif .txt { flex: 1; display: grid; gap: 2px; }
+  .notif > svg { width: 20px; height: 20px; color: var(--text-muted); flex: none; }
+  .notif .acoes { display: flex; gap: 8px; margin-top: 4px; }
+  .notif .acoes .btn { flex: 1; height: 40px; font-size: 14px; }
+
+  /* lembretes */
+  .lemb { display: grid; gap: 12px; }
+  .lemb .topo-l { display: flex; align-items: center; gap: 12px; }
+  .lemb .acoes-l { display: flex; gap: 16px; color: var(--text-muted); }
+  .lemb .acoes-l svg { width: 20px; height: 20px; }
+  .chip.dia { width: 40px; justify-content: center; padding: 0; }
+  .chip.on-laranja { color: var(--text-inverse); }
+
+  /* ---------- navegador ---------- */
+  .wph { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .wph .textos { display: grid; gap: 4px; }
+  .wph .acoes { display: flex; align-items: center; gap: 12px; }
+  .wph .acoes .btn { width: auto; }
+  .wph .sino { padding: 4px; }
+  .wph .sino .qtd { top: 0; right: 0; border: 0; min-width: 16px; height: 16px; line-height: 16px; }
+  .colunas { display: flex; gap: 16px; align-items: flex-start; }
+  .colunas .principal { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+  .tab-hoje .topo-t { padding: 16px 16px 0; }
+  .tab-hoje .sec-cab { margin-bottom: 12px; }
+  .linha-w { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-top: 1px solid var(--border); }
+  .linha-w.cab { padding-top: 8px; padding-bottom: 8px; }
+  .linha-w.aberta { background: var(--primary-wash); }
+  .c-hora { width: 64px; } .c-quadra { width: 120px; } .c-ativ { flex: 1; min-width: 0; } .c-atl { width: 72px; text-align: right; } .c-sit { width: 112px; display: flex; justify-content: flex-end; }
+  .c-quando { width: 120px; }
+  .grade-prox { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
+  .card-prox { width: 240px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .card-prox.aberto { transform: scale(1.04); border-color: var(--primary); position: relative; z-index: 1; }
+  .card-prox .capa-p { height: 92px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; }
+  .card-prox .capa-p svg { width: 24px; height: 24px; }
+  .card-prox .txt { padding: 12px; display: grid; gap: 2px; }
+  .card-prox .det { display: grid; gap: 4px; padding-top: 8px; margin-top: 4px; border-top: 1px solid var(--border); }
+  .lin-det { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .lateral { width: 320px; flex: none; display: flex; flex-direction: column; gap: 16px; }
+  .aside .topo-a { display: flex; align-items: center; gap: 8px; padding: 16px; }
+  .aside .contador { min-width: 22px; height: 22px; border-radius: 999px; background: var(--danger); color: var(--text-inverse); font: 400 12px/22px var(--font); text-align: center; padding: 0 4px; }
+  .aside .pendencia { display: grid; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--border); }
+  .aside .rot { text-transform: uppercase; letter-spacing: .4px; }
+  .aside .acoes-a { display: flex; gap: 8px; }
+  .aside .acoes-a span { flex: 1; height: 36px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font: 500 14px/20px var(--font); }
+  .aside .acoes-a .sec { border: 1px solid var(--border); background: var(--surface); }
+  .aside .acoes-a .pri { background: var(--primary); color: var(--text-inverse); }
+  .aside .atalho { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--border); }
+  .aside .atalho .txt { flex: 1; display: grid; gap: 2px; }
+  .aside .atalho svg { width: 16px; height: 16px; color: var(--text-muted); }
+  .det-evento { display: grid; gap: 8px; }
+  .det-evento .topo-d { display: flex; align-items: flex-start; gap: 12px; }
+  .det-evento .topo-d svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .btn.secundario { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); }
+  .btn.perigo-cheio { background: var(--surface); color: var(--danger); border: 1px solid var(--danger); }
+  .wseg { display: inline-flex; background: var(--neutral-soft); border-radius: 12px; padding: 4px; align-self: flex-start; }
+  .wseg span { height: 30px; display: inline-flex; align-items: center; gap: 4px; padding: 0 12px; border-radius: 8px; font: 500 14px/20px var(--font); color: var(--text-muted); }
+  .wseg span.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow-card); }
+  .wseg span .cap { color: var(--text-muted); }
+  .painel-lado { width: 340px; flex: none; display: grid; gap: 12px; }
+  .painel-lado .topo-d { display: flex; align-items: flex-start; gap: 12px; }
+  .painel-lado .topo-d svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .jog { display: flex; align-items: center; gap: 8px; }
+  .notif-w { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-top: 1px solid var(--border); }
+  .notif-w .pt { width: 8px; height: 8px; border-radius: 999px; background: var(--primary); flex: none; }
+  .notif-w .pt.lida { background: transparent; }
+  .notif-w .txt { flex: 1; min-width: 0; display: grid; gap: 4px; }
+  .notif-w .quando { width: 150px; text-align: right; }
+  .notif-w > svg { width: 20px; height: 20px; color: var(--text-muted); }
+  .notif-w .acoes { display: flex; gap: 8px; margin-top: 4px; }
+  .notif-w .acoes .btn { width: 120px; height: 40px; font-size: 14px; }
+  .lemb-w { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-top: 1px solid var(--border); }
+  .lemb-w:first-child { border-top: 0; }
+  .lemb-w.aberta { background: var(--primary-wash); }
+  .lemb-w .txt { flex: 1; min-width: 0; display: grid; gap: 2px; }
+  .lemb-w .hora { width: 70px; text-align: right; }
+  .lemb-w .liga { width: 80px; text-align: right; }
+  .lemb-w > svg { width: 16px; height: 16px; color: var(--text-muted); }
+  .form-lemb { width: 340px; flex: none; display: grid; gap: 12px; }
+  .form-lemb .campo { display: grid; gap: 4px; }
+  .form-lemb .acoes-f { display: grid; gap: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<header id="proto" data-lado="arena" data-fluxo="painel"></header>
+
+<section class="intro">
+  <div class="lado"></div>
+  <h1>Painel do dia</h1>
+  <p>O Painel é a primeira tela da arena. Nele você vê o que acontece hoje, o que espera uma decisão sua (reserva, partida, nível, vínculo, mensalidade vencida, quadra parada) e o que vem pela frente. Dali você chega a Jogos, Notificações e Lembretes.</p>
+  <ul class="regras">
+    <li>A ocupação conta reserva, aula e partida; bloqueio fica de fora. Quadra sem uso há 14 dias aparece como “parada”, com atalho para oferecer horário relâmpago.</li>
+    <li>Se você é professor, vê só as suas aulas. Cobrar mensalidade vencida é com a gestão (dono, administrador ou gerente).</li>
+    <li>Para aceitar desafio de outra arena, você precisa de plano ativo e Mercado Pago conectado. Sem ele, o Painel abre a tela para conectar.</li>
+    <li>Recusar uma reserva já paga estorna o pagamento, e o app pede confirmação antes.</li>
+  </ul>
+  <div class="plataforma"></div>
+</section>
+
+<!-- CELULAR -->
+<section class="trilho-fluxo" data-plataforma="celular">
+  <div class="passos">
+
+    <!-- 1 Home -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Painel</b><span>Role a tela: desafio recebido, jogos e agenda de hoje, pendências para aprovar, o que precisa de você, próximos eventos e torneios.</span></div>
+      </div>
+      <div class="phone longo"><div class="screen">
+        <div class="screen-body com-abas" style="gap:0">
+          <div class="home-cab">
+            <div class="col g4"><div class="nome"><p class="t1">Arena Maré Alta</p><i data-lucide="chevron-down"></i></div><p class="b2 muted">Florianópolis - SC</p></div>
+            <span class="sino"><i data-lucide="bell"></i><span class="qtd">3</span></span>
+          </div>
+
+          <div class="banner">
+            <div class="col g4">
+              <div class="topo-b"><p class="t3">SUA ARENA FOI DESAFIADA!</p><i data-lucide="chevron-right"></i></div>
+              <p class="b2 muted">Arena Ponta do Sol está esperando sua resposta.</p>
+              <p class="cap muted">07/10 · 09:00</p>
+            </div>
+            <div class="baixo"><div class="acoes"><button class="btn">Aceitar</button><button class="btn terc">Recusar</button></div><img src="../img/mascote-arena.png" alt=""></div>
+          </div>
+          <div class="pontos-car"><i class="on"></i><i></i></div>
+
+          <div class="secao"><div class="sec-cab"><p class="t3">Desafios de arena</p><span class="acao">Ver todos</span></div></div>
+
+          <div class="secao">
+            <div class="sec-cab"><p class="t3">Hoje</p><span class="acao">Ver todos</span></div>
+            <div class="carrossel">
+              <div class="cc"><div class="capa" style="background: var(--primary-wash)"><i data-lucide="calendar-check"></i></div><div class="miolo"><div class="l1"><span class="b2m">Futevôlei</span><span class="tag ok sem-ponto"><i data-lucide="circle-check"></i></span></div><div class="l2"><i data-lucide="map-pin"></i><span class="b2">Arena Maré Alta</span></div><div class="l3"><span class="cap muted">Hoje · 18:00</span><span class="pilula-jog"><i data-lucide="users"></i>4/4</span></div></div></div>
+              <div class="cc"><div class="capa"><i data-lucide="calendar-check"></i></div><div class="miolo"><div class="l1"><span class="b2m">Beach Tennis</span><span class="tag aviso sem-ponto"><i data-lucide="clock"></i></span></div><div class="l2"><i data-lucide="map-pin"></i><span class="b2">Arena Maré Alta</span></div><div class="l3"><span class="cap muted">Hoje · 19:30</span><span class="pilula-jog"><i data-lucide="users"></i>2/4</span></div></div></div>
+            </div>
+            <div class="hoje-lista">
+              <div class="hoje-linha"><span class="hora">07:00</span><div class="txt"><p class="b2">Futevôlei iniciante</p><p class="cap muted">Aula · 6/8</p></div></div>
+              <div class="hoje-linha"><span class="hora">17:00</span><div class="txt"><p class="b2">Reserva de Bia Moreira</p><p class="cap muted">Reserva · Quadra 3</p></div></div>
+              <div class="hoje-linha"><span class="hora">20:00</span><div class="txt"><p class="b2">Reserva de Caio Nunes</p><p class="cap muted">Reserva · Quadra 1</p></div></div>
+            </div>
+          </div>
+
+          <div class="secao">
+            <div class="sec-cab"><p class="t3">Partidas pendentes</p></div>
+            <div class="carrossel"><div class="card pend"><p class="b1m">Beach Tennis</p><p class="b2 muted">Hoje · 19:30</p><div class="acoes"><button class="btn sm perigo-borda">Recusar</button><button class="btn sm">Aprovar</button></div></div></div>
+          </div>
+
+          <div class="secao">
+            <div class="sec-cab"><p class="t3">Reservas pendentes</p><span class="acao">Ver todas</span></div>
+            <div class="carrossel">
+              <div class="card pend"><p class="b1m">Quadra 2</p><p class="b2 muted">Duda Martins</p><p class="b2 muted">29/09 · 18:00</p><div class="acoes"><button class="btn sm perigo-borda">Recusar</button><button class="btn sm">Aprovar</button></div></div>
+              <div class="card pend"><p class="b1m">Quadra 3</p><p class="b2 muted">Léo Andrade</p><p class="b2 muted">30/09 · 07:00</p><div class="acoes"><button class="btn sm perigo-borda">Recusar</button><button class="btn sm">Aprovar</button></div></div>
+            </div>
+          </div>
+
+          <div class="secao">
+            <div class="sec-cab"><p class="t3">Precisa de você</p></div>
+            <div class="hoje-lista">
+              <div class="hoje-linha"><div class="txt"><p class="b2m">Mensalidades vencidas</p><p class="cap muted">2 esperando</p></div><i data-lucide="chevron-right"></i></div>
+              <div class="hoje-linha"><div class="txt"><p class="b2m">Quadra 2 sem uso há 16 dias</p><p class="cap muted">Oferecer horário</p></div><i data-lucide="chevron-right"></i></div>
+            </div>
+          </div>
+
+          <div class="secao">
+            <div class="sec-cab"><p class="t3">Aprovações pendentes</p><span class="acao">Ver todas</span></div>
+            <div class="carrossel">
+              <div class="card aprov"><div class="topo-a"><span class="avatar md">N</span><img src="../img/categoria-b.png" alt="B"><p class="b1m">Nanda Ribeiro</p></div><p class="b2 muted">Futevôlei</p></div>
+              <div class="card aprov"><div class="topo-a"><span class="avatar md">P</span><img src="../img/categoria-c.png" alt="C"><p class="b1m">Pedro Salles</p></div><p class="b2 muted">Beach Tennis</p></div>
+            </div>
+          </div>
+
+          <div class="secao">
+            <div class="sec-cab"><p class="t3">Pedidos de vínculo</p><span class="acao">Ver todos</span></div>
+            <div class="carrossel"><div class="card aprov"><div class="topo-a"><span class="avatar md">J</span><p class="b1m">Ju Teixeira</p></div><p class="b2 muted">Futevôlei</p></div></div>
+          </div>
+
+          <div class="secao">
+            <div class="sec-cab"><p class="t3">Próximos eventos</p><span class="acao">Ver todos</span></div>
+            <div class="carrossel">
+              <div class="cc cover"><div class="capa quadra"><span class="tag ok sem-ponto"><i data-lucide="trophy"></i></span></div><div class="miolo"><p class="b2m" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Copa Maré Alta de Futevôlei</p><p class="cap muted">Futevôlei · 11/10</p></div></div>
+              <div class="cc cover"><div class="capa"><span class="tag info sem-ponto"><i data-lucide="party-popper"></i></span></div><div class="miolo"><p class="b2m">Aulão no pôr do sol</p><p class="cap muted">Futevôlei · 04/10 · 17:00</p></div></div>
+            </div>
+          </div>
+
+          <div class="secao">
+            <div class="sec-cab"><p class="t3">Torneios</p><span class="acao">Ver todos</span></div>
+            <div class="carrossel">
+              <div class="cc cover"><div class="capa quadra"><span class="tag ok sem-ponto"><i data-lucide="circle-check"></i></span></div><div class="miolo"><p class="b2m" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Copa Maré Alta de Futevôlei</p><p class="cap muted">Futevôlei · 11/10</p></div></div>
+              <div class="cc cover"><div class="capa"><span class="tag aviso sem-ponto"><i data-lucide="pencil-line"></i></span></div><div class="miolo"><p class="b2m">Open de Beach Tennis</p><p class="cap muted">Beach Tennis · 08/11</p></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="tabbar" data-abas="arena" data-ativa="painel"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 2 Mercado Pago -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Conecte o Mercado Pago</b><span>Abre sozinha na sua primeira visita, se a arena ainda não tem Mercado Pago, e também quando você aceita um desafio sem ele. Se você fechar, ela não volta a abrir sozinha.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas" style="gap:0">
+          <div class="home-cab">
+            <div class="col g4"><div class="nome"><p class="t1">Arena Maré Alta</p><i data-lucide="chevron-down"></i></div><p class="b2 muted">Florianópolis - SC</p></div>
+            <span class="sino"><i data-lucide="bell"></i></span>
+          </div>
+          <div class="secao"><div class="sec-cab"><p class="t3">Desafios de arena</p><span class="acao">Ver todos</span></div>
+            <div class="vazio"><span class="ic-bola"><i data-lucide="swords"></i></span><p class="t3">Nenhum desafio ativo</p><p class="b2 muted">Desafie outra arena pra um confronto provocativo (mas divertido).</p></div>
+          </div>
+        </div>
+        <div class="tabbar" data-abas="arena" data-ativa="painel"></div>
+        <div class="sheet-veu"></div>
+        <div class="sheet mp">
+          <div class="row sb"><p class="t3">Conecte o Mercado Pago</p><i data-lucide="x" class="ic24"></i></div>
+          <p class="b2 muted">Todo torneio tem taxa de inscrição, e o dinheiro cai direto na conta da arena. Sem o Mercado Pago conectado não dá pra publicar torneio nem receber pelas reservas.</p>
+          <button class="btn">Conectar agora</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 3 dia vazio + convocação -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Desafio aceito e dia sem jogo</b><span>Com um desafio aceito, o aviso do topo vira convocação com contagem regressiva. Seção sem nada mostra que está vazia.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas" style="gap:0">
+          <div class="home-cab">
+            <div class="col g4"><div class="nome"><p class="t1">Arena Maré Alta</p><i data-lucide="chevron-down"></i></div><p class="b2 muted">Florianópolis - SC</p></div>
+            <span class="sino"><i data-lucide="bell"></i><span class="qtd">1</span></span>
+          </div>
+          <div class="convoca" style="margin-top: 8px">
+            <div class="conta"><p class="t1">9</p><p class="cap">DIAS</p></div>
+            <div class="txt">
+              <span class="olho">CONVOCAÇÃO ABERTA</span>
+              <p class="b2m">Monte seu time contra Arena Ponta do Sol.</p>
+              <p class="cap">Maré Alta x Ponta do Sol</p>
+              <p class="cap muted">Futevôlei · 07/10 · 09:00</p>
+              <span class="link">Convocar jogadores<i data-lucide="arrow-right"></i></span>
+            </div>
+            <img src="../img/mascote-futevolei.png" alt="">
+          </div>
+          <div class="secao"><div class="sec-cab"><p class="t3">Desafios de arena</p><span class="acao">Ver todos</span></div></div>
+          <div class="secao"><div class="sec-cab"><p class="t3">Hoje</p><span class="acao">Ver todos</span></div>
+            <div class="vazio"><span class="ic-bola"><i data-lucide="calendar-check"></i></span><p class="t3">Nenhum jogo hoje</p><p class="b2 muted">Os jogos agendados na sua arena aparecem aqui.</p></div>
+          </div>
+                  </div>
+        <div class="tabbar" data-abas="arena" data-ativa="painel"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 4 Notificações -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Notificações</b><span>Toque no sino. Filtre por todas, convites ou alertas. Pedido de vínculo você decide ali mesmo, e a lixeira apaga.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas">
+          <p class="t1" style="padding: 12px 0 0">Notificações</p>
+          <div class="chips nowrap"><span class="chip on-laranja">Todas</span><span class="chip">Convites</span><span class="chip">Alertas</span></div>
+          <div class="notif"><span class="avatar md">J</span><div class="txt"><p class="b1m">Pedido de vínculo</p><p class="b2 muted">Ju Teixeira quer entrar na modalidade Futevôlei.</p><p class="cap muted">Hoje · 08:12</p><div class="acoes"><button class="btn perigo-borda">Recusar</button><button class="btn">Aceitar</button></div></div><i data-lucide="trash-2"></i></div>
+          <div class="notif"><div class="txt"><p class="b1m">Nova reserva pra aprovar</p><p class="b2 muted">Duda Martins pediu a Quadra 2 amanhã às 18:00.</p><p class="cap muted">Hoje · 07:40</p></div><i data-lucide="trash-2"></i></div>
+          <div class="notif"><div class="txt"><p class="b1m muted">Inscrição confirmada</p><p class="b2 muted">Bia e Carol pagaram a inscrição na Copa Maré Alta de Futevôlei.</p><p class="cap muted">27/09 · 21:05</p></div><i data-lucide="trash-2"></i></div>
+        </div>
+        <div class="tabbar" data-abas="arena" data-ativa="painel"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 5 Jogos -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Jogos</b><span>Na aba Jogos você vê os números do dia e as partidas avulsas. Toque em “Criar jogo” para marcar uma partida na arena.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas">
+          <p class="t1" style="padding: 12px 0 0">Jogos</p>
+          <div class="stats-banner">
+            <div class="linha-s">
+              <div class="col" style="gap:2px"><p class="t2 num">2</p><p class="cap muted">Hoje</p></div><span class="div"></span>
+              <div class="col" style="gap:2px"><p class="t2 num">1</p><p class="cap muted">Pendentes</p></div><span class="div"></span>
+              <div class="col" style="gap:2px"><p class="t2 num">48</p><p class="cap muted">Total</p></div>
+            </div>
+            <img src="../img/mascote-arena.png" alt="">
+          </div>
+          <div class="seg"><span class="on">Partidas</span><span>Torneios</span><span>Desafios</span></div>
+          <div class="lista-cards">
+            <div class="cc"><div class="capa"><i data-lucide="volleyball"></i></div><div class="miolo"><div class="l1"><span class="b2m">Futevôlei</span><span class="tag ok sem-ponto">Confirmada</span></div><div class="l2"><i data-lucide="map-pin"></i><span class="b2">Arena Maré Alta</span></div><div class="l3"><span class="cap muted">Hoje · 18:00</span><span class="pilula-jog"><i data-lucide="users"></i>4/4</span></div></div></div>
+            <div class="cc"><div class="capa"><i data-lucide="volleyball"></i></div><div class="miolo"><div class="l1"><span class="b2m">Beach Tennis</span><span class="tag aviso sem-ponto">Pendente</span></div><div class="l2"><i data-lucide="map-pin"></i><span class="b2">Arena Maré Alta</span></div><div class="l3"><span class="cap muted">Hoje · 19:30</span><span class="pilula-jog"><i data-lucide="users"></i>2/4</span></div></div></div>
+            <div class="cc"><div class="capa"><i data-lucide="volleyball"></i></div><div class="miolo"><div class="l1"><span class="b2m">Futevôlei</span><span class="tag info sem-ponto">Aberta</span></div><div class="l2"><i data-lucide="map-pin"></i><span class="b2">Arena Maré Alta</span></div><div class="l3"><span class="cap muted">30/09 · 06:30</span><span class="pilula-jog"><i data-lucide="users"></i>3/4</span></div></div></div>
+          </div>
+          <button class="btn" style="margin-top:auto">Criar jogo</button>
+        </div>
+        <div class="tabbar" data-abas="arena" data-ativa="jogos"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 6 Jogos torneios -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">6</div>
+        <div class="passo-txt"><b>Jogos · Torneios</b><span>Troque o seletor para torneios e veja rascunhos, publicados e cancelados; o botão vira “Criar torneio”. Em Desafios não há botão.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body com-abas">
+          <p class="t1" style="padding: 12px 0 0">Jogos</p>
+          <div class="stats-banner">
+            <div class="linha-s">
+              <div class="col" style="gap:2px"><p class="t2 num">2</p><p class="cap muted">Hoje</p></div><span class="div"></span>
+              <div class="col" style="gap:2px"><p class="t2 num">1</p><p class="cap muted">Pendentes</p></div><span class="div"></span>
+              <div class="col" style="gap:2px"><p class="t2 num">48</p><p class="cap muted">Total</p></div>
+            </div>
+            <img src="../img/mascote-arena.png" alt="">
+          </div>
+          <div class="seg"><span>Partidas</span><span class="on">Torneios</span><span>Desafios</span></div>
+          <div class="lista-cards">
+            <div class="cc cover"><div class="capa quadra"></div><div class="miolo"><p class="b2m">Copa Maré Alta de Futevôlei</p><div class="l3"><span class="cap muted">Futevôlei · 11/10</span><span class="tag ok sem-ponto">Publicado</span></div></div></div>
+            <div class="cc cover"><div class="capa"><i data-lucide="trophy" style="width:24px;height:24px"></i></div><div class="miolo"><p class="b2m">Open de Beach Tennis</p><div class="l3"><span class="cap muted">Beach Tennis · 08/11</span><span class="tag aviso sem-ponto">Rascunho</span></div></div></div>
+            <div class="cc cover"><div class="capa"><i data-lucide="trophy" style="width:24px;height:24px"></i></div><div class="miolo"><p class="b2m">Rei da Praia — Categoria B</p><div class="l3"><span class="cap muted">Futevôlei · 20/09</span><span class="tag erro sem-ponto">Cancelado</span></div></div></div>
+          </div>
+          <button class="btn" style="margin-top:auto">Criar torneio</button>
+        </div>
+        <div class="tabbar" data-abas="arena" data-ativa="jogos"></div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- 7 Lembretes -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">7</div>
+        <div class="passo-txt"><b>Lembretes</b><span>Em Ajustes, crie um lembrete com nome, dias e hora. O interruptor liga e desliga; o lápis edita.</span></div>
+      </div>
+      <div class="phone"><div class="screen">
+        <div class="screen-body tela-footer" style="gap:16px">
+          <div class="hdr"><span class="lado"><i data-lucide="arrow-left" class="ic24"></i></span><span class="titulo">Lembretes</span><span class="lado"><i data-lucide="x" class="ic24"></i></span></div>
+          <div class="card lemb"><div class="topo-l"><div class="grow col" style="gap:2px"><p class="b1m">Cobrar mensalidades</p><p class="b2 muted">seg · 09:00</p></div><span class="toggle on"></span></div><div class="acoes-l"><i data-lucide="pencil"></i><i data-lucide="trash-2"></i></div></div>
+          <div class="card lemb"><div class="topo-l"><div class="grow col" style="gap:2px"><p class="b1m">Conferir quadras</p><p class="b2 muted">ter, qui · 06:00</p></div><span class="toggle"></span></div><div class="acoes-l"><i data-lucide="pencil"></i><i data-lucide="trash-2"></i></div></div>
+          <div class="col g8">
+            <p class="t3">Novo lembrete</p>
+            <div class="input"><span class="ph">Ex.: Treino de beach tennis</span></div>
+            <p class="cap muted" style="text-align:right">0/40 caracteres</p>
+            <p class="b2m muted">Dias da semana</p>
+            <div class="chips"><span class="chip dia">D</span><span class="chip dia">S</span><span class="chip dia">T</span><span class="chip dia">Q</span><span class="chip dia">Q</span><span class="chip dia">S</span><span class="chip dia">S</span></div>
+            <div class="input"><span class="ph">HH:MM</span></div>
+          </div>
+          <button class="btn off" style="margin-top:auto">Criar lembrete</button>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- NAVEGADOR -->
+<section class="trilho-fluxo web" data-plataforma="navegador">
+  <div class="passos">
+
+    <!-- W1 Início -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">1</div>
+        <div class="passo-txt"><b>Início</b><span>Veja a agenda de hoje numa tabela (partida, reserva e aula juntas), os próximos eventos e torneios, e a coluna “Precisa de você”, onde você aprova ou recusa ali mesmo.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="painel" data-item="Início">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="textos"><p class="t1">Arena Maré Alta</p><p class="b2 muted">Florianópolis - SC · segunda-feira, 28 de setembro</p></div><div class="acoes"><span class="sino"><i data-lucide="bell"></i><span class="qtd">3</span></span></div></div>
+              <div class="colunas">
+                <div class="principal">
+                  <div class="card sem-pad tab-hoje">
+                    <div class="topo-t"><div class="sec-cab"><p class="t3">Hoje</p><span class="acao">Ver todos</span></div></div>
+                    <div class="linha-w cab"><span class="cap muted c-hora">HORÁRIO</span><span class="cap muted c-quadra">QUADRA</span><span class="cap muted c-ativ">ATIVIDADE</span><span class="cap muted c-atl">ATLETAS</span><span class="cap muted c-sit">SITUAÇÃO</span></div>
+                    <div class="linha-w"><span class="b2m c-hora">07:00</span><span class="b2 muted c-quadra">Quadra 1</span><span class="b2 c-ativ">Futevôlei iniciante</span><span class="b2 muted c-atl">6/8</span><span class="c-sit"><span class="cap muted">Aula</span></span></div>
+                    <div class="linha-w"><span class="b2m c-hora">17:00</span><span class="b2 muted c-quadra">Quadra 3</span><span class="b2 c-ativ">Reserva de Bia Moreira</span><span class="b2 muted c-atl"></span><span class="c-sit"><span class="cap muted">Reserva</span></span></div>
+                    <div class="linha-w"><span class="b2m c-hora">18:00</span><span class="b2 muted c-quadra">Quadra 1</span><span class="b2 c-ativ">Futevôlei</span><span class="b2 muted c-atl">4/4</span><span class="c-sit"><span class="tag ok sem-ponto">Confirmado</span></span></div>
+                    <div class="linha-w"><span class="b2m c-hora">19:30</span><span class="b2 muted c-quadra">Quadra 3</span><span class="b2 c-ativ">Beach Tennis</span><span class="b2 muted c-atl">2/4</span><span class="c-sit"><span class="tag aviso sem-ponto">Pendente</span></span></div>
+                    <div class="linha-w"><span class="b2m c-hora">20:00</span><span class="b2 muted c-quadra">Quadra 1</span><span class="b2 c-ativ">Reserva de Caio Nunes</span><span class="b2 muted c-atl"></span><span class="c-sit"><span class="cap muted">Reserva</span></span></div>
+                  </div>
+                  <div class="col g12">
+                    <div class="sec-cab" style="margin:0"><p class="t3">Próximos eventos e torneios</p></div>
+                    <div class="grade-prox">
+                      <div class="card-prox"><div class="capa-p"><i data-lucide="party-popper"></i></div><div class="txt"><p class="b2m">Aulão de futevôlei no pôr do sol</p><p class="cap muted">04/10 · Futevôlei · evento</p></div></div>
+                      <div class="card-prox"><div class="capa-p"><i data-lucide="trophy"></i></div><div class="txt"><p class="b2m">Copa Maré Alta de Futevôlei</p><p class="cap muted">11/10 · Futevôlei · torneio</p></div></div>
+                      <div class="card-prox"><div class="capa-p"><i data-lucide="party-popper"></i></div><div class="txt"><p class="b2m">Clínica de beach tennis</p><p class="cap muted">18/10 · Beach Tennis · evento</p></div></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="lateral">
+                  <div class="card sem-pad aside">
+                    <div class="topo-a"><p class="t3">Precisa de você</p><span class="contador">8</span></div>
+                    <div class="pendencia"><p class="cap muted rot">Reservas pendentes · 2</p><div class="col" style="gap:2px"><p class="b2m">Quadra 2 · Duda Martins</p><p class="cap muted">29/09 · 18:00 – 19:00</p></div><div class="acoes-a"><span class="sec">Recusar</span><span class="pri">Aprovar</span></div></div>
+                    <div class="pendencia"><p class="cap muted rot">Partidas pendentes · 1</p><div class="col" style="gap:2px"><p class="b2m">Beach Tennis · Quadra 3</p><p class="cap muted">Hoje · 19:30</p></div><div class="acoes-a"><span class="sec">Recusar</span><span class="pri">Aprovar</span></div></div>
+                    <div class="atalho"><div class="txt"><p class="cap muted">Aprovações pendentes</p><p class="b2">2 esperando</p></div><i data-lucide="chevron-right"></i></div>
+                    <div class="atalho"><div class="txt"><p class="cap muted">Pedidos de vínculo</p><p class="b2">1 esperando</p></div><i data-lucide="chevron-right"></i></div>
+                    <div class="atalho"><div class="txt"><p class="cap muted">Mensalidades vencidas</p><p class="b2">2 esperando</p></div><i data-lucide="chevron-right"></i></div>
+                    <div class="atalho"><div class="txt"><p class="cap muted">Quadra 2 sem uso há 16 dias</p><p class="b2">1 esperando</p></div><i data-lucide="chevron-right"></i></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W2 evento aberto -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">2</div>
+        <div class="passo-txt"><span class="ramo">Alternativa</span><b>Evento aberto no Início</b><span>Clique num evento para ver a ficha curta. “Abrir o evento” mostra o detalhe na coluna da direita, com compartilhar; torneio abre a tela dele. Sem pendências, a coluna mostra “Nada pendente”.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="painel" data-item="Início">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="textos"><p class="t1">Arena Maré Alta</p><p class="b2 muted">Florianópolis - SC · segunda-feira, 28 de setembro</p></div><div class="acoes"><span class="sino"><i data-lucide="bell"></i></span></div></div>
+              <div class="colunas">
+                <div class="principal">
+                  <div class="card sem-pad tab-hoje">
+                    <div class="topo-t"><div class="sec-cab"><p class="t3">Hoje</p><span class="acao">Ver todos</span></div></div>
+                    <div class="vazio" style="border-top: 1px solid var(--border)"><img src="../img/mascote-arena.png" alt=""><p class="t3">Nenhum jogo hoje</p><p class="b2 muted">Os jogos agendados na sua arena aparecem aqui.</p></div>
+                  </div>
+                  <div class="col g12">
+                    <div class="sec-cab" style="margin:0"><p class="t3">Próximos eventos e torneios</p></div>
+                    <div class="grade-prox">
+                      <div class="card-prox aberto"><div class="capa-p"><i data-lucide="party-popper"></i></div><div class="txt"><p class="b2m">Aulão de futevôlei no pôr do sol</p><p class="cap muted">04/10 · Futevôlei · evento</p><div class="det"><div class="lin-det"><span class="cap muted">HORÁRIO</span><span class="b2">04/10 · 17:00</span></div><div class="lin-det"><span class="cap muted">INSCRITOS</span><span class="b2">11/16</span></div><span class="capm laranja">Abrir o evento</span></div></div></div>
+                      <div class="card-prox"><div class="capa-p"><i data-lucide="trophy"></i></div><div class="txt"><p class="b2m">Copa Maré Alta de Futevôlei</p><p class="cap muted">11/10 · Futevôlei · torneio</p></div></div>
+                      <div class="card-prox"><div class="capa-p"><i data-lucide="party-popper"></i></div><div class="txt"><p class="b2m">Clínica de beach tennis</p><p class="cap muted">18/10 · Beach Tennis · evento</p></div></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="lateral">
+                  <div class="card sem-pad aside">
+                    <div class="topo-a"><p class="t3">Precisa de você</p></div>
+                    <div class="atalho"><div class="txt"><p class="cap muted">Aprovações pendentes</p><p class="b2">Nada pendente</p></div><i data-lucide="chevron-right"></i></div>
+                    <div class="atalho"><div class="txt"><p class="cap muted">Pedidos de vínculo</p><p class="b2">Nada pendente</p></div><i data-lucide="chevron-right"></i></div>
+                    <div class="atalho"><p class="b2 muted">Nada pendente</p></div>
+                  </div>
+                  <div class="card det-evento">
+                    <div class="topo-d"><div class="grow col" style="gap:2px"><p class="t3">Aulão de futevôlei no pôr do sol</p><p class="cap muted">evento</p></div><i data-lucide="x"></i></div>
+                    <div class="lin-det"><span class="cap muted">HORÁRIO</span><span class="b2">04/10 · 17:00</span></div>
+                    <div class="lin-det"><span class="cap muted">MODALIDADE</span><span class="b2">Futevôlei</span></div>
+                    <div class="lin-det"><span class="cap muted">INSCRITOS</span><span class="b2">11/16</span></div>
+                    <div class="lin-det"><span class="cap muted">INSCRIÇÕES ATÉ</span><span class="b2">03/10 · 23:59</span></div>
+                    <button class="btn secundario"><i data-lucide="share-2"></i>Compartilhar evento</button>
+                    <div class="lin-det"><span class="cap muted">NÍVEL PEDIDO</span><span class="b2">C</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W3 Jogos -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">3</div>
+        <div class="passo-txt"><b>Jogos</b><span>As partidas ficam numa tabela. Clique numa para abrir a ficha ao lado, onde você aprova, recusa, edita ou apaga. Torneios e desafios ficam no mesmo seletor.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/games</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="painel" data-item="Jogos">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="textos"><p class="t1">Jogos</p><p class="b2 muted">Arena Maré Alta · 2 hoje · 1 esperando você</p></div><div class="acoes"><button class="btn">Criar jogo</button><span class="sino"><i data-lucide="bell"></i><span class="qtd">3</span></span></div></div>
+              <div class="wseg"><span class="on">Partidas <span class="cap">48</span></span><span>Torneios <span class="cap">3</span></span><span>Desafios <span class="cap">2</span></span></div>
+              <div class="colunas">
+                <div class="card sem-pad" style="flex:1; min-width:0">
+                  <div class="linha-w cab" style="border-top:0"><span class="cap muted c-quando">HORÁRIO</span><span class="cap muted c-quadra">QUADRA</span><span class="cap muted c-ativ">ATIVIDADE</span><span class="cap muted c-atl">ATLETAS</span><span class="cap muted c-sit">SITUAÇÃO</span></div>
+                  <div class="linha-w"><span class="b2m c-quando">Hoje · 18:00</span><span class="b2 muted c-quadra">Quadra 1</span><span class="b2 c-ativ">Futevôlei</span><span class="b2 muted c-atl">4/4</span><span class="c-sit"><span class="tag ok sem-ponto">Confirmada</span></span></div>
+                  <div class="linha-w aberta"><span class="b2m c-quando">Hoje · 19:30</span><span class="b2 muted c-quadra">Quadra 3</span><span class="b2 c-ativ">Beach Tennis</span><span class="b2 muted c-atl">2/4</span><span class="c-sit"><span class="tag aviso sem-ponto">Pendente</span></span></div>
+                  <div class="linha-w"><span class="b2m c-quando">30/09 · 06:30</span><span class="b2 muted c-quadra">Quadra 2</span><span class="b2 c-ativ">Futevôlei</span><span class="b2 muted c-atl">3/4</span><span class="c-sit"><span class="tag info sem-ponto">Aberta</span></span></div>
+                  <div class="linha-w"><span class="b2m c-quando">01/10 · 07:00</span><span class="b2 muted c-quadra">Quadra 1</span><span class="b2 c-ativ">Futevôlei</span><span class="b2 muted c-atl">4/4</span><span class="c-sit"><span class="tag ok sem-ponto">Confirmada</span></span></div>
+                  <div class="linha-w"><span class="b2m c-quando">02/10 · 18:30</span><span class="b2 muted c-quadra">Quadra 3</span><span class="b2 c-ativ">Beach Tennis</span><span class="b2 muted c-atl">4/4</span><span class="c-sit"><span class="tag ok sem-ponto">Confirmada</span></span></div>
+                  <div style="padding:16px; border-top:1px solid var(--border)"><button class="btn secundario">Carregar mais</button></div>
+                </div>
+                <div class="card painel-lado">
+                  <div class="topo-d"><div class="grow col" style="gap:2px"><p class="t3">Beach Tennis</p><p class="cap muted">Hoje · 19:30 · Quadra 3</p></div><i data-lucide="x"></i></div>
+                  <span class="tag aviso sem-ponto">Pendente</span>
+                  <div class="lin-det"><span class="cap muted">Nível</span><img src="../img/categoria-c.png" alt="C" style="width:22px;height:22px"></div>
+                  <div class="lin-det"><span class="cap muted">Visibilidade</span><span class="b2">Público</span></div>
+                  <div class="lin-det"><span class="cap muted">Formato</span><span class="b2">2x2</span></div>
+                  <div class="lin-det"><span class="cap muted">ATLETAS</span><span class="b2">2/4</span></div>
+                  <div class="col g8"><span class="cap muted">Participantes (2)</span><div class="jog"><span class="avatar sm">P</span><span class="b2 grow">Pedro Salles</span></div><div class="jog"><span class="avatar sm">T</span><span class="b2 grow">Tati Freitas</span></div></div>
+                  <div class="col g8"><button class="btn">Aprovar</button><button class="btn perigo-cheio">Recusar</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W4 Notificações -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">4</div>
+        <div class="passo-txt"><b>Notificações</b><span>As não lidas têm um ponto laranja. Filtre pelo seletor; “Limpar” apaga tudo. Pedido de vínculo você decide na própria linha.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/notifications</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="painel" data-item="Notificações">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="textos"><p class="t1">Notificações</p><p class="b2 muted">Arena Maré Alta · 2 não lidas</p></div><div class="acoes"><button class="btn secundario">Limpar</button><span class="sino"><i data-lucide="bell"></i><span class="qtd">2</span></span></div></div>
+              <div class="wseg"><span class="on">Todas</span><span>Convites</span><span>Alertas</span></div>
+              <div class="card sem-pad">
+                <div class="notif-w" style="border-top:0"><span class="pt"></span><span class="avatar md">J</span><div class="txt"><p class="b1m">Pedido de vínculo</p><p class="b2 muted">Ju Teixeira quer entrar na modalidade Futevôlei.</p><div class="acoes"><button class="btn perigo-cheio">Recusar</button><button class="btn">Aceitar</button></div></div><span class="cap muted quando">Hoje · 08:12</span><i data-lucide="trash-2"></i></div>
+                <div class="notif-w"><span class="pt"></span><div class="txt"><p class="b1m">Nova reserva pra aprovar</p><p class="b2 muted">Duda Martins pediu a Quadra 2 amanhã às 18:00.</p></div><span class="cap muted quando">Hoje · 07:40</span><i data-lucide="trash-2"></i></div>
+                <div class="notif-w"><span class="pt lida"></span><div class="txt"><p class="b1m muted">Inscrição confirmada</p><p class="b2 muted">Bia e Carol pagaram a inscrição na Copa Maré Alta de Futevôlei.</p></div><span class="cap muted quando">27/09 · 21:05</span><i data-lucide="trash-2"></i></div>
+                <div class="notif-w"><span class="pt lida"></span><div class="txt"><p class="b1m muted">Mensalidade vencida</p><p class="b2 muted">A mensalidade de Rafa Lopes venceu há 3 dias.</p></div><span class="cap muted quando">26/09 · 09:00</span><i data-lucide="trash-2"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="seta"></div>
+
+    <!-- W5 Lembretes -->
+    <div class="passo">
+      <div class="passo-cab">
+        <div class="passo-num">5</div>
+        <div class="passo-txt"><b>Lembretes</b><span>No navegador, os lembretes ficam no Painel: a lista à esquerda (clique para editar; “Ligado/Desligado” alterna) e o formulário à direita.</span></div>
+      </div>
+      <div class="browser-wrap"><div class="browser">
+        <div class="browser-bar"><div class="luzes"><i></i><i></i><i></i></div><div class="url"><i data-lucide="lock"></i>app.desafiae.com/reminders</div></div>
+        <div class="browser-body">
+          <div class="shell" data-area="painel" data-item="Lembretes">
+            <div class="shell-conteudo">
+              <div class="wph"><div class="textos"><p class="t1">Lembretes</p><p class="b2 muted">2 lembretes</p></div><div class="acoes"><span class="sino"><i data-lucide="bell"></i><span class="qtd">3</span></span></div></div>
+              <div class="colunas">
+                <div class="card sem-pad" style="flex:1; min-width:0">
+                  <div class="lemb-w"><div class="txt"><p class="b2m">Cobrar mensalidades</p><p class="cap muted">seg</p></div><span class="b2m hora">09:00</span><span class="capm laranja liga">Ligado</span><i data-lucide="trash-2"></i></div>
+                  <div class="lemb-w"><div class="txt"><p class="b2m">Conferir quadras</p><p class="cap muted">ter, qui</p></div><span class="b2m hora">06:00</span><span class="capm muted liga">Desligado</span><i data-lucide="trash-2"></i></div>
+                </div>
+                <div class="card form-lemb">
+                  <p class="t3">Novo lembrete</p>
+                  <div class="campo"><p class="capm muted">Ex.: Treino de beach tennis</p><div class="input"><span>Fechar o caixa</span></div></div>
+                  <div class="campo"><p class="capm muted">Dias da semana</p><div class="chips" style="gap:4px"><span class="chip dia">D</span><span class="chip dia on-laranja">S</span><span class="chip dia on-laranja">T</span><span class="chip dia on-laranja">Q</span><span class="chip dia on-laranja">Q</span><span class="chip dia on-laranja">S</span><span class="chip dia">S</span></div></div>
+                  <div class="campo"><p class="capm muted">HORÁRIO</p><div class="input foco"><span class="num">22:00</span></div></div>
+                  <div class="acoes-f"><button class="btn">Criar lembrete</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <div class="lista">
+    <details><summary>O que é uma quadra “parada”?</summary><p>É a quadra sem uso há 14 dias. O Painel mostra um atalho para você oferecer um horário relâmpago nela.</p></details>
+    <details><summary>Bloqueio de quadra conta como ocupação?</summary><p>Não. A ocupação conta reserva, aula e partida. Quadra bloqueada hoje também não entra no alerta de quadra parada.</p></details>
+    <details><summary>Por que não consigo aceitar o desafio de outra arena?</summary><p>Para aceitar, a arena precisa de plano ativo e Mercado Pago conectado. Sem o Mercado Pago, o Painel abre a tela para conectar.</p></details>
+    <details><summary>Sou professor. Por que não vejo todas as aulas?</summary><p>Professor vê só as aulas dele. Mensalidade vencida também fica com a gestão da arena.</p></details>
+    <details><summary>O que acontece se eu recusar uma reserva que já foi paga?</summary><p>O pagamento é estornado. Antes, o app pede sua confirmação.</p></details>
+  </div>
+</section>
+
+<script src="../kit.js"></script>
+</body>
+</html>
