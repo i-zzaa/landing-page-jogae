@@ -1,0 +1,295 @@
+funcionalidades.html
+  s_c9dfac9ae8aec9::t_d37fe165c3e854 79,113-114,122,126-128,153-163,174-175,199-200,202,223-225,245-246,274-275,304-306,317-324,339-340,355,360-361,363-365,391-393,421-423,425-427,430-433,446-447,455,457-458,466-467
+  s_c9dfac9ae8aec9::t_4b4fc54f6e67ee 138
+  s_c9dfac9ae8aec9::t_c67d81f92e5e9d 137
+  s_c9dfac9ae8aec9::t_3f46943ddc515e 140-141
+regras.html
+  s_8cf9b28d981723::t_3c117db516c31f 77,104-105,107,109,111-113,115,117-120,122,124-125,139-141,154-156,159-165,177-179,190-193,195-202,217,263-268,297-298,332,369-370,375,383,385,395-396,398-400,419,422,429-436,439,441,443,451-453,455-462,485,487,494,496,518-519,524,532,544-548,551,553,555-556,558,560,568,573,581,586,598-604,608-611,625,627-631,634,656,659,661,699,701,718,722,820,833-839,842,844
+  s_d023ae6fe422de::t_20274f535dbd11 108,114,121,401-402,414,423,437-438,463-464,484,498-499,520-521,549-550,605-607,632-633,657-658,698,721,787-800,843
+  s_de27dab2512dcc::t_437989d6e857e9 508,510
+  s_de27dab2512dcc::t_13859320abc417 538
+  s_de27dab2512dcc::t_41abf222bd16fc 440,523,552,567,660
+  s_76a86a4cf683f7::t_44bdeeff1d7b92 299-300
+  s_ba93d551365cd7::t_326312aa7f24a1 110,116,123,341-355,428,454,554,662,733
+  s_680006bb119e69::t_70636f8bef7939 813-819,821-823
+  s_76a86a4cf683f7::t_342ecb4ea3f682 450
+  s_1c555405cef655::t_b5a3db438f8055 183-189,194
+  s_52fb9bbb3d3a6e::t_4b71d979cc87df 824-832,840-841,845-847
+  s_893e6c54dfdd85::t_4a24302927fb61 384
+.well-known/apple-app-site-association
+  s_570bb3b828ba70::t_8a4dc7d157e4d4 11-13
+abrir.html
+  s_570bb3b828ba70::t_90b09380514dd0 155-156
+arena.html
+  s_4277e8c8290877::t_c8b96f0746118f 749,752,955-956,979-981
+baixar.html
+  s_8d6d23fed65fb5::t_c3f551438c3c45 1-71
+index.html
+  s_4277e8c8290877::t_c8ead5658a8f2f 174,176
+interno/comparativo-f129406331.html
+  s_c85b3ab0f22ef1::t_f71548a746473a 310,504
+manual/arena/agenda.html
+  s_4277e8c8290877::t_adc5a852cf9ca8 1-1034
+manual/arena/agregadores.html
+  s_ed628adefdb661::t_932f9544e851b3 1-653
+manual/arena/analitico.html
+  s_7436e9da1876b2::t_12ac739155e118 1-504
+manual/arena/assinatura.html
+  s_4277e8c8290877::t_428518930d32cc 1-311
+manual/arena/atletas.html
+  s_ed628adefdb661::t_d364360ad47af8 1-951
+manual/arena/aulas.html
+  s_ed628adefdb661::t_1e06294b1511a1 1-652
+manual/arena/cadastro.html
+  s_ed628adefdb661::t_e57fc0659e3861 1-996
+manual/arena/chat.html
+  s_7436e9da1876b2::t_3f4e807d7d94ed 1-750
+manual/arena/desafio-arena.html
+  s_1753c9c1140b3c::t_ad332f1cdb03ca 1-1026
+manual/arena/desafio-recorrente.html
+  s_1753c9c1140b3c::t_23fdc0a268fa21 1-597
+manual/arena/entrar.html
+  s_7436e9da1876b2::t_ae744124b282eb 1-577
+manual/arena/eventos-partidas.html
+  s_7436e9da1876b2::t_d284ae6b92ae0a 1-607
+manual/arena/financeiro.html
+  s_7436e9da1876b2::t_d941ec005d808b 1-600
+manual/arena/mensalidade.html
+  s_ed628adefdb661::t_3886d02b45ef2d 1-684
+manual/arena/painel.html
+  s_7436e9da1876b2::t_8ea0aa92a9504a 1-698
+manual/arena/perfil.html
+  s_8d6d23fed65fb5::t_862805e593e771 1-1352
+manual/arena/quadras.html
+  s_7436e9da1876b2::t_dbc6d4a87feb53 1-503
+manual/arena/temporada.html
+  s_ed628adefdb661::t_e380bdc2b098be 1-668
+manual/arena/torneio.html
+  s_ed628adefdb661::t_0a345b0c4da5bb 1-1541
+manual/index.html
+  s_ed628adefdb661::t_b980e8a18aac32 4-13,15-53,58-131
+manual/jogador/aulas.html
+  s_ed628adefdb661::t_7bb51fb4cd03f0 1-521
+manual/jogador/cadastro.html
+  s_7436e9da1876b2::t_817cb9ed28a401 1-496
+manual/jogador/chat.html
+  s_7436e9da1876b2::t_5f86334372886c 1-559
+manual/jogador/conta.html
+  s_7436e9da1876b2::t_120017a86d309f 1-324
+manual/jogador/desafio-marca.html
+  s_ed628adefdb661::t_f48491df8cf8aa 1-622
+manual/jogador/desafio-recorrente.html
+  s_1753c9c1140b3c::t_e6c959c58428ac 1-457
+manual/jogador/entrar.html
+  s_7436e9da1876b2::t_5f58fff36e7d36 1-265
+manual/jogador/inicio.html
+  s_ed628adefdb661::t_4a05d91855d27d 1-694
+manual/jogador/nivel-validado.html
+  s_7436e9da1876b2::t_e715a8b2e371ca 1-379
+manual/jogador/notificacoes.html
+  s_7436e9da1876b2::t_7f23599e0b3718 1-310
+manual/jogador/partida.html
+  s_7c1640c067f8ea::t_c244bf36ff7f82 1-914
+manual/jogador/planos.html
+  s_ed628adefdb661::t_a73f145ecb0f14 1-324
+manual/jogador/ranking-perfil.html
+  s_ed628adefdb661::t_549e253103a9d4 1-876
+manual/jogador/recordes.html
+  s_ed628adefdb661::t_6f537e41b408f5 1-203
+manual/jogador/reserva-quadra.html
+  s_7436e9da1876b2::t_720144d46acf5d 1-722
+manual/jogador/temporada.html
+  s_ed628adefdb661::t_7a49013a660a7f 1-361
+manual/jogador/torneio.html
+  s_ed628adefdb661::t_4bb2ce921f58fb 1-1364
+manual/kit.js
+  s_ed628adefdb661::t_6a7761417859e8 1-179
+pagamentos.html
+  s_4277e8c8290877::t_84311b91cd83b2 131
+privacidade.html
+  s_5d3304330c3cf5::t_f7265ca431793f 52,70,85-86,89-93,97,101-102,105,109,113,117,121
+vercel.json
+  s_214b71bcc3ff96::t_f06b16b59deaf4 76,94-101
+manual/jogador/rival.html
+  s_73b7142b96e357::t_ed22363a7932ea 1-183
+manual/jogador/desafio.html
+  s_ed628adefdb661::t_22a1476ffe32e0 1-1033
+manual/kit.css
+  s_ed628adefdb661::t_35b54d4e3abd08 1-256
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "d83a720d9c97dd476cec67a3fab836f50b229247",
+  "prompts": {},
+  "sessions": {
+    "s_1753c9c1140b3c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "37d9e7ec-128e-48eb-924c-1a5eb5ebaeac",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_1c555405cef655": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c8ade843-9922-4289-a3f1-846a104b5805",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_214b71bcc3ff96": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "79042699-6a5c-4edf-a37a-c552202485bf",
+        "model": "unknown"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_4277e8c8290877": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4a42013f-a6be-42ee-84e5-63b7abfe2f6f",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_52fb9bbb3d3a6e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cde9fe4f-6b5c-483f-8c54-cb6f8ad5c271",
+        "model": "unknown"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_570bb3b828ba70": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "66561591-c0ac-4d22-b4c0-7ede2c9fb530",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_5d3304330c3cf5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a4bad9a8-87f3-4563-b5f2-5fa55cb95c26",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_680006bb119e69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "84b517f1-c182-4b81-8bfa-6b9281e2f7b9",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_73b7142b96e357": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a6bced919b8580e30",
+        "model": "unknown"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_7436e9da1876b2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d0000928-1c3a-4915-a438-f4a4ffb32714",
+        "model": "unknown"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_76a86a4cf683f7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8e5e35ee-f697-4e08-a10d-e6103bf81b94",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_7c1640c067f8ea": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fbcd2ec6-e406-4b6a-b0bf-fec86a011de1",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_893e6c54dfdd85": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4596bc6a-f885-47df-889d-2fe227dad50f",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_8cf9b28d981723": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2326d92a-f43d-4a77-8da4-9b591870e963",
+        "model": "unknown"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_8d6d23fed65fb5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1ef8b5d7-9e9c-4a63-822b-42ded9b54e80",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_ba93d551365cd7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6a438c6d-0511-47e6-8d3f-27e7f7c841e6",
+        "model": "unknown"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_c85b3ab0f22ef1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0ed87dd2-df27-4a0a-a2b8-52c15880f72d",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_c9dfac9ae8aec9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6670ce68-4773-4eba-b1d2-3e9cb80e34ce",
+        "model": "unknown"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_d023ae6fe422de": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3896ba2e-d8c7-4b8f-8a7a-057f4b6a9d29",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_de27dab2512dcc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "333685cf-164e-4512-8a53-e35cf0e4ddae",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_ed628adefdb661": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "22b05e44-bb6c-4c1c-95e3-5f53ad1a477e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
