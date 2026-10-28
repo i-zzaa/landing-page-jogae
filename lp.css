@@ -462,6 +462,8 @@ body { margin: 0; background: var(--background); color: var(--text); font-family
 .lp-chave .caixa { margin-top: 40px; }
 .lp-chave .caixa .live-demo { max-width: 100%; }
 .lp-chave .aviso { margin-top: 12px; font: 400 13px/20px var(--font); color: #8c8c8c; }
+.lp-chave .ir { margin-top: 16px; display: inline-flex; gap: 6px; align-items: center; font: 600 15px/20px var(--font); color: var(--primary); }
+.lp-chave .ir svg { width: 16px; height: 16px; }
 
 /* agregadores */
 .lp-agreg { padding-block: 104px; overflow: hidden; }

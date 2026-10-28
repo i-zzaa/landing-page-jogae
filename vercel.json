@@ -126,6 +126,10 @@
       "destination": "https://dist-five-jet-77.vercel.app/aovivo/:path*"
     },
     {
+      "source": "/torneios",
+      "destination": "https://dist-five-jet-77.vercel.app/torneios"
+    },
+    {
       "source": "/:path*",
       "destination": "https://app-dist-ecru.vercel.app/:path*"
     }
