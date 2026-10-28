@@ -100,6 +100,32 @@
       "destination": "https://dist-five-jet-77.vercel.app/telao/:token"
     },
     {
+      "source": "/aovivo/:t/:c",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(WhatsApp|facebookexternalhit|Facebot|Twitterbot|TelegramBot|Slackbot|Discordbot|LinkedInBot|SkypeUriPreview|redditbot|Iframely|vkShare|Applebot).*"
+        }
+      ],
+      "destination": "/api/og?type=tournament&slug=:t&live=https://desafiae.com/aovivo/:t/:c"
+    },
+    {
+      "source": "/aovivo/:t",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(WhatsApp|facebookexternalhit|Facebot|Twitterbot|TelegramBot|Slackbot|Discordbot|LinkedInBot|SkypeUriPreview|redditbot|Iframely|vkShare|Applebot).*"
+        }
+      ],
+      "destination": "/api/og?type=tournament&slug=:t&live=https://desafiae.com/aovivo/:t"
+    },
+    {
+      "source": "/aovivo/:path*",
+      "destination": "https://dist-five-jet-77.vercel.app/aovivo/:path*"
+    },
+    {
       "source": "/:path*",
       "destination": "https://app-dist-ecru.vercel.app/:path*"
     }

@@ -6,7 +6,7 @@
 export const config = { runtime: 'edge' };
 
 const OG_FUNCTION = 'https://ckgxcylcnkqdhalsrptz.supabase.co/functions/v1/tournament-og';
-const PARAMS = ['type', 'id', 'live'];
+const PARAMS = ['type', 'id', 'slug', 'live'];
 
 export default async function handler(request) {
   const incoming = new URL(request.url).searchParams;
