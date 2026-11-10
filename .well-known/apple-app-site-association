@@ -8,7 +8,10 @@
           { "/": "/tournament/*", "comment": "detalhe do torneio abre no app" },
           { "/": "/match/*", "comment": "detalhe da partida abre no app" },
           { "/": "/challenge/*", "comment": "detalhe do desafio abre no app" },
-          { "/": "/arena-challenge/*", "comment": "desafio entre arenas abre no app" }
+          { "/": "/arena-challenge/*", "comment": "desafio entre arenas abre no app" },
+          { "/": "/inscricao/*", "?": { "pagamento": "?*" }, "exclude": true, "comment": "volta do cartao fica na pagina web" },
+          { "/": "/inscricao/*", "?": { "embed": "?*" }, "exclude": true, "comment": "inscricao embutida na vitrine" },
+          { "/": "/inscricao/*", "comment": "inscricao e link do capitao (?convite=) abrem no app" }
         ]
       }
     ]
