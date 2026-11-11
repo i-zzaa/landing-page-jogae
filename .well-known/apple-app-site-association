@@ -11,6 +11,7 @@
           { "/": "/arena-challenge/*", "comment": "desafio entre arenas abre no app" },
           { "/": "/turma/*", "comment": "turma de aulas abre a proxima aula no app" },
           { "/": "/player/*", "comment": "perfil do jogador abre no app (craque do jogo)" },
+          { "/": "/arena/*", "comment": "perfil da arena/assessoria abre no app (convite de aluno)" },
           { "/": "/inscricao/*", "?": { "pagamento": "?*" }, "exclude": true, "comment": "volta do cartao fica na pagina web" },
           { "/": "/inscricao/*", "?": { "embed": "?*" }, "exclude": true, "comment": "inscricao embutida na vitrine" },
           { "/": "/inscricao/*", "comment": "inscricao e link do capitao (?convite=) abrem no app" }
