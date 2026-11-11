@@ -1,0 +1,19 @@
+regras.html
+  s_1acec4d803ddd8::t_854942bf1c430d 425
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "63114aec101ae2ba44ab12d29bd82b8acfd5e978",
+  "prompts": {},
+  "sessions": {
+    "s_1acec4d803ddd8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cc8d6c92-acca-4542-be09-140a593944a1",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
