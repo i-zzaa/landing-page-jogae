@@ -73,7 +73,7 @@
       "destination": "/api/og?type=:type&id=:id"
     },
     {
-      "source": "/:type(match|challenge|tournament|arena-challenge)/:id",
+      "source": "/:type(match|challenge|tournament|arena-challenge|arena)/:id",
       "destination": "/abrir"
     },
     {

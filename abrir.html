@@ -147,19 +147,22 @@
 <script>
   // Quem tem o app instalado nem chega aqui: o iOS abre o app direto pelo
   // apple-app-site-association. Esta pagina e o destino dos rewrites de
-  // /match, /challenge, /tournament e /arena-challenge (vercel.json) pra quem
+  // /match, /challenge, /tournament, /arena-challenge e /arena (vercel.json) pra quem
   // nao tem o app — o botao repassa o mesmo caminho pelo esquema do app.
   var icons = {
     ball: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.3l3.6 2.6-1.4 4.3h-4.4L8.4 9.9 12 7.3z"/><path d="M12 3v4.3M5 8l3.4 1.9M19 8l-3.4 1.9M7 19l1.9-5M17 19l-1.9-5"/></svg>',
     swords: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2"/><path d="M9.5 6.5L14 2h3v3l-4.5 4.5M5 14l-2 2 5 5 2-2"/></svg>',
     trophy: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0V4z"/><path d="M8 5H5a3 3 0 0 0 3 4M16 5h3a3 3 0 0 1-3 4"/><path d="M12 12v3M9 20h6M9.6 20c0-1.8.8-3 2.4-3s2.4 1.2 2.4 3"/></svg>',
-    shield: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg>'
+    shield: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg>',
+    pin: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 5-8 12-8 12s-8-7-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>'
   };
   var types = {
     match: { eyebrow:'Partida', title:'Tem partida <span>te esperando</span>', lead:'Te chamaram pra jogar. Veja data, arena e quem vai jogar pelo app.', label:'Partida', card:'Bora completar o time?', icon:'ball' },
     challenge: { eyebrow:'Desafio', title:'Você foi <span>desafiado</span>', lead:'Aceite, recuse ou mande uma provocação, direto pelo app.', label:'Desafio', card:'Aceita o desafio?', icon:'swords' },
     tournament: { eyebrow:'Torneio', title:'Bora pro <span>torneio</span>?', lead:'Inscreva-se e pague pelo navegador, sem baixar nada. No app você acompanha chaveamento, horário e resultados ao vivo.', label:'Torneio', card:'Inscrição sem baixar o app', icon:'trophy' },
-    'arena-challenge': { eyebrow:'Desafio entre arenas', title:'Arena contra <span>arena</span>', lead:'Acompanhe o confronto, as equipes e o placar pelo app.', label:'Desafio entre arenas', card:'Quem leva essa?', icon:'shield' }
+    'arena-challenge': { eyebrow:'Desafio entre arenas', title:'Arena contra <span>arena</span>', lead:'Acompanhe o confronto, as equipes e o placar pelo app.', label:'Desafio entre arenas', card:'Quem leva essa?', icon:'shield' },
+    // perfil da arena ou da assessoria — e o link do convite de aluno (0397)
+    arena: { eyebrow:'Arena e assessoria', title:'Vem jogar e treinar <span>com a gente</span>', lead:'Veja modalidades, planos, aulas e treinos, e entre como aluno pelo app.', label:'Convite', card:'Entre como aluno', icon:'pin' }
   };
   var parts = window.location.pathname.split('/').filter(Boolean);
   // o app manda o id sem tracos (com tracos o WhatsApp le como chave Pix); o
