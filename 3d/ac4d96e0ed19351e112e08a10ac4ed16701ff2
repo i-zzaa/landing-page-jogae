@@ -1,0 +1,51 @@
+regras.html
+  s_41bb23e508c61c::t_7766e3f94838ef 890
+  s_76e566b2e0b43e::t_d0583084e0b98b 216-223
+  s_2ed112ef596f44::t_f7a924d61e2bfb 113-117,121-122,161-162,164-165,170,186,208-211,214-215,230-231,233-235,241,244-247,250-253,330,351-352,388-402,418,485,607,635,891
+funcionalidades.html
+  s_e7cdcc1f40da7c::t_e6efc188b4f83c 197,199,223-224
+manual/arena/chat.html
+  s_2ed112ef596f44::t_d9f541c9c51d16 191,722
+manual/jogador/chat.html
+  s_2ed112ef596f44::t_63846300aeac06 145,276,550
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "3dac4d96e0ed19351e112e08a10ac4ed16701ff2",
+  "prompts": {},
+  "sessions": {
+    "s_2ed112ef596f44": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "35fc1555-760e-4f87-a0c3-d7ab0b2b7e99",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_41bb23e508c61c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5010326f-d022-4d10-8a08-e20cbb4119b3",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_76e566b2e0b43e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e2aa03d1-09b1-4c04-9f36-cb68d0d449a2",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_e7cdcc1f40da7c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2dd4424b-6673-4cbc-8094-ee4b94f0572b",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
