@@ -1,0 +1,23 @@
+abrir.html
+  s_0c8231ec79b2fc::t_20f8b1fa403fb9 150,156-157,163-165
+regras.html
+  s_0c8231ec79b2fc::t_5291322e7a817a 764-768
+vercel.json
+  s_0c8231ec79b2fc::t_05a21ef2f14c31 76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "395868f4c1170ffdedc6d674b3c9c80b0c447a31",
+  "prompts": {},
+  "sessions": {
+    "s_0c8231ec79b2fc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bcd1ae6b-c951-4943-883f-6559fc1c4538",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
