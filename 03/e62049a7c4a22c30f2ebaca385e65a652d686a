@@ -1,0 +1,21 @@
+.well-known/apple-app-site-association
+  s_e575e144394ec8::t_9df1da5ff0328e 15
+regras.html
+  s_e575e144394ec8::t_e79315760228cb 770-794
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "03e62049a7c4a22c30f2ebaca385e65a652d686a",
+  "prompts": {},
+  "sessions": {
+    "s_e575e144394ec8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c1c100f6-6ad6-4cbd-8da0-e15033f5d543",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
