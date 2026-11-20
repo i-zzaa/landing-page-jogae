@@ -543,7 +543,7 @@
     <div>
       <p class="eyebrow">Software pra arena esportiva</p>
       <h1>Sua arena não devia rodar no grupo do WhatsApp.</h1>
-      <p class="lede">Desafiaê organiza reserva de quadra, aprovação de jogador, torneio, aulas, mensalidade e financeiro da sua arena — e ainda coloca você na frente de quem tá procurando onde jogar.</p>
+      <p class="lede">Desafiaê organiza reserva de quadra, aprovação de atleta, torneio, aulas, mensalidade e financeiro da sua arena — e ainda coloca você na frente de quem tá procurando onde jogar.</p>
       <div class="hero-ctas">
         <a class="btn btn-primary" href="/cadastrar-arena">Cadastrar minha arena <span>→</span></a>
         <a class="btn btn-ghost" href="/sign-in">Já tenho conta: entrar</a>
@@ -616,7 +616,7 @@
       <div class="pillar">
         <div class="pillar-num">01</div>
         <h3>Descoberta</h3>
-        <p>Jogador que busca arena perto encontra a sua — com foto, quadras, horário de funcionamento e avaliação.</p>
+        <p>Atleta que busca arena perto encontra a sua — com foto, quadras, horário de funcionamento e avaliação.</p>
       </div>
       <div class="pillar">
         <div class="pillar-num">02</div>
@@ -695,7 +695,7 @@
         <ul>
           <li>Liga fixa mensal entre dois lados da sua arena</li>
           <li>Categorias por nível, dia da semana, horário e quadra</li>
-          <li>O app sorteia os confrontos toda semana e o jogador confirma presença</li>
+          <li>O app sorteia os confrontos toda semana e o atleta confirma presença</li>
           <li>Ranking do mês guardado sozinho</li>
         </ul>
       </div>
@@ -704,7 +704,7 @@
       <strong>Benefícios pra sua arena, nos dois formatos</strong>
       <ul>
         <li>Agenda ocupada sem precisar organizar por fora, em grupo de mensagem</li>
-        <li>Jogador engajado tem motivo pra voltar toda semana ou disputar de novo</li>
+        <li>Atleta engajado tem motivo pra voltar toda semana ou disputar de novo</li>
         <li>Chaveamento e ranking gerados automático — sem planilha, sem tabela na mão</li>
         <li>Tudo com a marca da sua arena, dentro do app</li>
       </ul>
@@ -796,7 +796,7 @@
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">Pareamento por nível</p>
-      <h2>Todo jogador tem nível. Cada modalidade, um vínculo que passa por você.</h2>
+      <h2>Todo atleta tem nível. Cada modalidade, um vínculo que passa por você.</h2>
       <p>Da estreia ao profissional — cinco categorias guiam quem joga com quem, pra ninguém cair numa partida completamente fora do seu nível.</p>
     </div>
     <div class="medals">
@@ -827,7 +827,7 @@
       </div>
     </div>
     <div class="level-note">
-      <p><strong>Um jogador pode jogar em duas modalidades, em duas arenas diferentes</strong> — e cada vínculo passa pela sua aprovação, modalidade por modalidade. Trocou de nível, o pedido volta pra você decidir de novo.</p>
+      <p><strong>Um atleta pode jogar em duas modalidades, em duas arenas diferentes</strong> — e cada vínculo passa pela sua aprovação, modalidade por modalidade. Trocou de nível, o pedido volta pra você decidir de novo.</p>
     </div>
   </div>
 </section>
@@ -917,17 +917,9 @@
             <option value="1">Repassar ao atleta</option>
           </select>
         </div>
-        <div class="calc-field">
-          <label for="calc-plano">Plano de quem está pagando</label>
-          <select id="calc-plano">
-            <option value="0">Jogador Básico — sem desconto</option>
-            <option value="50">Jogador Premium — 50% da taxa</option>
-            <option value="100">Jogador Elite — sem taxa do app</option>
-          </select>
-        </div>
       </div>
       <div class="calc-out">
-        <div class="calc-line"><span>Jogador paga</span><b id="calc-paga"></b></div>
+        <div class="calc-line"><span>Atleta paga</span><b id="calc-paga"></b></div>
         <div class="calc-line"><span>Taxa do app<small id="calc-taxa-label"></small></span><b id="calc-taxa"></b></div>
         <div class="calc-line"><span>Tarifa do Mercado Pago<small id="calc-mp-label"></small></span><b id="calc-mp"></b></div>
         <div class="calc-total"><span>Sua arena recebe</span><b id="calc-arena"></b></div>
@@ -1003,15 +995,15 @@
 <footer>
   <div class="wrap footer-row">
     <img src="assets/logo-completa.png" alt="Desafiaê" />
-    <p>Desafiaê — conecta jogador, organiza arena.</p>
+    <p>Desafiaê — conecta atleta, organiza arena.</p>
   </div>
 </footer>
 
 
 <script>
 /* Calculadora — taxas do app e tarifas do Mercado Pago como em /pagamentos.
-   O desconto do plano sai da taxa do app: o jogador paga menos e a arena
-   recebe o mesmo valor bruto. A tarifa do MP incide sobre o que foi pago. */
+   A taxa é a mesma em todo plano do atleta (0445). A tarifa do MP incide
+   sobre o que foi pago. */
 const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 const el = id => document.getElementById(id);
 const calcValor = el('calc-valor');
@@ -1034,13 +1026,11 @@ function calcular() {
   const valor = Math.max(0, Number(calcValor.value) || 0);
   const taxaPct = Number(tipo.value);
   const mpPct = Number(meio.value);
-  const descPct = Number(el('calc-plano').value);
 
   const cents = n => Math.round(n * 100) / 100;
   const taxaCheia = cents(valor * taxaPct / 100);
-  const desconto = cents(taxaCheia * descPct / 100);
-  const paga = cents(repassa ? valor + taxaCheia - desconto : valor - desconto);
-  const taxaApp = cents(taxaCheia - desconto);
+  const paga = cents(repassa ? valor + taxaCheia : valor);
+  const taxaApp = taxaCheia;
   const tarifaMp = cents(paga * mpPct / 100);
   const recebe = cents(paga - taxaApp - tarifaMp);
 
@@ -1049,20 +1039,15 @@ function calcular() {
   el('calc-taxa').textContent = menos(taxaApp);
   el('calc-mp').textContent = menos(tarifaMp);
   el('calc-arena').textContent = brl(recebe);
-  el('calc-taxa-label').textContent = (descPct
-    ? `${taxaPct}% com ${descPct}% de desconto do plano`
-    : `${taxaPct}% do valor`) + (repassa ? ', somada ao preço do atleta' : '');
+  el('calc-taxa-label').textContent = `${taxaPct}% do valor` + (repassa ? ', somada ao preço do atleta' : '');
   el('calc-mp-label').textContent = meio.selectedOptions[0].textContent.split('—')[0].trim();
   el('calc-note').textContent = repassa
     ? 'No repasse, a categoria é anunciada por ' + brl(paga) + ': o atleta paga a taxa do app e você recebe a inscrição cheia, só com a tarifa do Mercado Pago descontada.'
-    : descPct
-      ? 'O desconto do plano sai da taxa do app, não da sua parte: sem ele, o jogador pagaria '
-        + brl(valor) + ' e você receberia praticamente o mesmo.'
-      : 'Valores do Mercado Pago de junho de 2026, para venda online. A tarifa que vale é a da conta da sua arena.';
+    : 'Valores do Mercado Pago de junho de 2026, para venda online. A tarifa que vale é a da conta da sua arena.';
 }
 
 if (calcValor) {
-  ['calc-valor', 'calc-tipo', 'calc-meio', 'calc-plano', 'calc-taxa-quem'].forEach(id =>
+  ['calc-valor', 'calc-tipo', 'calc-meio', 'calc-taxa-quem'].forEach(id =>
     el(id).addEventListener('input', calcular));
   calcular();
 }

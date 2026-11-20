@@ -45,7 +45,7 @@
       ['conta', 'Conta e configurações'],
     ],
   };
-  var ROTULOS = { arena: 'Arena', jogador: 'Jogador' };
+  var ROTULOS = { arena: 'Arena', jogador: 'Atleta' };
   window.MANUAL_FLUXOS = FLUXOS;
 
   var ABAS = {

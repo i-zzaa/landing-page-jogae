@@ -306,8 +306,8 @@
         <table>
           <thead><tr><th>App</th><th>O que a assinatura dá</th><th class="num">Preço</th><th>Brasil</th></tr></thead>
           <tbody>
-            <tr class="us"><td>Desafiaê Premium</td><td>Desafios ilimitados (grátis: 1 a cada 7 dias) e 50% de desconto na taxa da plataforma</td><td class="num">R$ 14,90/mês<br />R$ 129,90/ano</td><td>Sim</td></tr>
-            <tr class="us"><td>Desafiaê Elite</td><td>Tudo do Premium, taxa zero, estatísticas completas e histórico contra cada rival</td><td class="num">R$ 29,90/mês<br />R$ 299,90/ano</td><td>Sim</td></tr>
+            <tr class="us"><td>Desafiaê Premium</td><td>Desafios ilimitados (grátis: 1 a cada 7 dias) e as próprias estatísticas</td><td class="num">R$ 14,90/mês<br />R$ 129,90/ano</td><td>Sim</td></tr>
+            <tr class="us"><td>Desafiaê Elite</td><td>Tudo do Premium, estatísticas completas e histórico contra cada rival</td><td class="num">R$ 29,90/mês<br />R$ 299,90/ano</td><td>Sim</td></tr>
             <tr><td>Playtomic</td><td>Desconto ou isenção da taxa de reserva, estatísticas, destaque em partidas</td><td class="num">R$ 50,90/mês<br />R$ 299,00/ano</td><td>Sim</td></tr>
             <tr><td>Strava <small>(referência)</small></td><td>Não concorre em quadra; mostra quanto o esportista brasileiro aceita pagar</td><td class="num">R$ 22,90/mês<br />R$ 149,90/ano · família R$ 389,90/ano</td><td>Sim</td></tr>
             <tr><td>MATCHi</td><td>Sem assinatura; cobra taxa de serviço na reserva</td><td class="num">4% por transação</td><td>Não · opera na Europa</td></tr>
@@ -495,18 +495,17 @@
           <h4>Premium</h4>
           <p class="big">R$ 14,90<small>/mês</small></p>
           <p class="yr">R$ 129,90/ano · líquido R$ 12,22</p>
-          <p>Desafio ilimitado e 50% de desconto na taxa. Mais barato que o Strava.</p>
+          <p>Desafio ilimitado e as próprias estatísticas. Mais barato que o Strava.</p>
         </div>
         <div class="pc">
           <h4>Elite</h4>
           <p class="big">R$ 29,90<small>/mês</small></p>
           <p class="yr">R$ 299,90/ano · líquido R$ 24,53</p>
-          <p>Taxa zero, estatísticas e confronto. Acima do Strava, bem abaixo do Playtomic.</p>
+          <p>Estatísticas completas e confronto. Acima do Strava, bem abaixo do Playtomic.</p>
         </div>
       </div>
       <ul class="list" style="margin-top:14px">
         <li><b>O anual do Premium é o mais generoso da casa.</b> R$ 129,90 equivalem a 8,7 meses — cerca de 27% de desconto. Todos os outros planos, de arena e de jogador, dão exatamente 2 meses grátis (10 mensalidades). Ou é intencional e vira argumento, ou é desalinhamento. Referência do público: o Strava dá 45% no anual.</li>
-        <li><b>O Elite se paga na taxa</b> para quem joga torneio: uma inscrição de R$ 195 já devolve R$ 19,50 dos R$ 29,90.</li>
         <li><b>Básico do jogador segue em <code>MISSING_METADATA</code></b> na loja — sem uso, mas é um produto pendente na lista.</li>
       </ul>
     </section>
@@ -524,7 +523,7 @@
           </tbody>
         </table>
       </div>
-      <p class="note">O desconto de taxa por plano do jogador (Premium 50%, Elite 100%) já está no banco e sai da nossa margem, não da arena. Por cima da nossa taxa ainda vêm as do Mercado Pago, cobradas da arena.</p>
+      <p class="note">Nenhum plano do jogador dá desconto na taxa (0445): Básico, Premium e Elite pagam a mesma. Por cima da nossa taxa ainda vêm as do Mercado Pago, cobradas da arena.</p>
     </section>
 
     <section class="sec">
@@ -619,7 +618,7 @@
 
     <section class="sec">
       <h3>A saída: mensalidade compra desconto de taxa</h3>
-      <p>A mecânica já existe e está em produção — é o <code>player_plan_benefits</code> do jogador, em que Premium desconta 50% e Elite zera a taxa. Aplicada à arena, resolve os dois eixos de uma vez: quem não quer pagar assinatura entra e paga taxa cheia; quem fatura mais compra o desconto.</p>
+      <p>A mecânica já existe — é o <code>player_plan_benefits</code> do jogador (<code>fee_discount_percent</code>), hoje zerado no Premium e no Elite (0445). Aplicada à arena, resolve os dois eixos de uma vez: quem não quer pagar assinatura entra e paga taxa cheia; quem fatura mais compra o desconto.</p>
       <div class="tbl-wrap">
         <table>
           <thead><tr><th>Degrau</th><th class="num">Mensalidade</th><th class="num">Reserva, torneio e aula</th><th class="num">Mensalidade de aluno</th><th class="num">Faixa em que compensa</th></tr></thead>
