@@ -66,7 +66,7 @@
       if (!podeRepassar) quem.selectedIndex = 0;
       var repassa = quem.value === '1';
       var valor = Math.max(0, Number(q('valor').value) || 0);
-      var taxaPct = Number(tipo.value), mpPct = Number(q('meio').value), descPct = Number(q('plano').value);
+      var taxaPct = Number(tipo.value), mpPct = Number(q('meio').value), descPct = q('plano') ? Number(q('plano').value) : 0; // 0445: plano do atleta não dá desconto
       var taxaCheia = cents(valor * taxaPct / 100), desconto = cents(taxaCheia * descPct / 100);
       var paga = cents(repassa ? valor + taxaCheia - desconto : valor - desconto);
       var taxaApp = cents(taxaCheia - desconto), tarifaMp = cents(paga * mpPct / 100);

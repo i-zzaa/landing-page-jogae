@@ -239,13 +239,15 @@
     <li>A provocação sai só de uma lista de frases prontas, sem texto livre, e quem recebe pode denunciar.</li>
     <li>O desafio vale até a data proposta. Se passar do horário sem ser aceito, as opções de aceitar e montar time somem e o desafio é cancelado.</li>
     <li>O local é por endereço ou por arena, nunca os dois, e o endereço pode ficar em branco. A arena escolhida não precisa aprovar o desafio.</li>
-    <li>Quem você desafia não pode entrar no seu time: cada pessoa está ou num time, ou do outro lado.</li>
     <li>Você pode apostar 5, 10 ou 20 pontos na modalidade, ou seguir sem aposta. Só entra no desafio quem tem esse valor nos pontos da modalidade, e aceitar o desafio é aceitar a aposta. A aposta não depende de plano e não existe no desafio de marca (corrida, CrossFit, Hyrox).</li>
     <li>Com aposta, cada um do time vencedor ganha o valor e cada um do perdedor perde o valor, sem ficar com saldo negativo. Empate não muda nada.</li>
     <li>Se quem venceu lançou o placar, o time que perdeu tem 24h pra confirmar ou contestar. Sem resposta, vale o placar lançado. Contestou, a aposta cai, mas o placar e os pontos da partida ficam. Quem lança a própria derrota paga na hora.</li>
     <li>A aposta sai dos pontos por partida da modalidade (3 por vitória, 1 por jogo), os mesmos das classificações de evento. O rating da aba Ranking é outra conta: o desafio entra nele, a aposta não.</li>
-    <li>Só conta de jogador entra em desafio. Se você é vinculado a uma arena, participa pela sua conta de jogador.</li>
+    <li>Só conta de atleta entra em desafio. Se você é vinculado a uma arena, participa pela sua conta de atleta.</li>
     <li>No desafio entre arenas, o jogo é na arena desafiante. Só paga inscrição quem entra pelo link, e a vaga só vale depois que o capitão ou a arena aprova.</li>
+    <li>Até o desafio ser confirmado, a tela mostra quantos já aceitaram, quem falta (o rival ou o convocado, com há quanto tempo foi chamado) e a vaga que o capitão ainda vai convocar.</li>
+    <li>Quem recebe o link do desafio e não está nele vê os times, quem falta aceitar, o local, a aposta e o placar de cada jogo, em qualquer momento. Só olha: não lança placar, não gera jogo e não entra no chat.</li>
+    <li>Cada jogo com placar tem o próprio compartilhar, inclusive o misturado, com quem jogou aquele jogo e o placar dele, mesmo com o desafio em andamento. O compartilhar do topo continua mandando o desafio inteiro.</li>
   </ul>
   <div class="plataforma"></div>
 </section>
@@ -263,7 +265,7 @@
           <div class="sh"><span class="ld"><i data-lucide="arrow-left"></i></span><span class="ld"><i data-lucide="x"></i></span></div>
           <p class="t2">Quem você quer desafiar?</p>
           <p class="b2 muted">Escolha quem vai ter a chance de provar que joga mais.</p>
-          <div class="input"><i data-lucide="search" style="color:var(--primary)"></i><span class="ph">Buscar jogador</span></div>
+          <div class="input"><i data-lucide="search" style="color:var(--primary)"></i><span class="ph">Buscar atleta</span></div>
           <div class="seg-rn"><span class="on">Recentes</span><span>Mesma categoria</span></div>
           <div class="lista">
             <div class="card prow sel-on"><span class="avatar">R</span><div class="tx"><p class="b1m">Rafa Lopes</p><div class="row" style="gap:4px"><img class="cat c16" src="../img/categoria-b.png" alt=""><span class="cap muted">Futevôlei</span></div><p class="cap laranja">3 partidas contra você</p></div><span class="perfil-btn"><i data-lucide="user-round"></i></span></div>
@@ -341,7 +343,7 @@
           <p class="b2 muted">Você é o capitão. Monte sua tropa!</p>
           <div><p class="sec-t">Capitão</p>
             <div class="card prow"><span class="avatar">B</span><img class="cat" src="../img/categoria-b.png" alt=""><div class="tx"><p class="b1m">Bia Moreira</p><p class="cap muted">Você</p></div><i data-lucide="crown" class="ic" style="color:var(--primary)"></i></div></div>
-          <div><p class="sec-t">Time · 2/2 jogadores</p>
+          <div><p class="sec-t">Time · 2/2 atletas</p>
             <div class="card prow"><span class="avatar">L</span><img class="cat" src="../img/categoria-b.png" alt=""><div class="tx"><p class="b1m">Lara Mendes</p><p class="cap muted">Selecionado</p></div><span class="cap vermelho">remover</span></div></div>
           <p class="cap muted">Com o time completo, a busca e as sugestões somem.</p>
         </div>
@@ -498,7 +500,7 @@
               <div class="dr"><span class="k"><i data-lucide="volleyball"></i>Modalidade</span><span class="val">Futevôlei</span></div>
               <div class="dr"><span class="k"><i data-lucide="bar-chart-3"></i>Categoria</span><span class="val"><img class="cat c24" src="../img/categoria-b.png" alt="B"></span></div>
               <div class="dr"><span class="k"><i data-lucide="users"></i>Formato</span><span class="val">2x2</span></div>
-              <div class="dr"><span class="k"><i data-lucide="coins"></i>Aposta</span><span class="val">10 pts por jogador</span></div>
+              <div class="dr"><span class="k"><i data-lucide="coins"></i>Aposta</span><span class="val">10 pts por atleta</span></div>
             </div>
             <div class="div"></div>
             <div class="col g8">
@@ -682,8 +684,8 @@
           <p class="b2 muted">Agora é sua vez de montar o time!</p>
           <span class="stk-pill"><i data-lucide="coins"></i>Valendo 10 pts</span>
           <div><p class="sec-t">Capitão</p><div class="card prow"><span class="avatar">R</span><img class="cat" src="../img/categoria-b.png" alt=""><div class="tx"><p class="b1m">Rafa Lopes</p><p class="cap muted">Você</p></div><i data-lucide="crown" class="ic" style="color:var(--primary)"></i></div></div>
-          <div><p class="sec-t">Time · 1/2 jogadores</p></div>
-          <div class="input" style="margin-top:-12px"><i data-lucide="search" style="color:var(--primary)"></i><span class="ph">Buscar jogador</span></div>
+          <div><p class="sec-t">Time · 1/2 atletas</p></div>
+          <div class="input" style="margin-top:-12px"><i data-lucide="search" style="color:var(--primary)"></i><span class="ph">Buscar atleta</span></div>
           <div><p class="sec-t">Sugeridos para o seu time</p><div class="lista">
             <div class="card prow"><span class="avatar">V</span><div class="tx"><p class="b1m">Vini Rocha</p><div class="row" style="gap:4px"><img class="cat c16" src="../img/categoria-b.png" alt=""><span class="cap muted">Futevôlei · 64 pts</span></div></div><span class="perfil-btn"><i data-lucide="user-round"></i></span><i data-lucide="user-plus" class="ic" style="color:var(--primary)"></i></div>
             <div class="card prow cand-off"><span class="avatar">P</span><div class="tx"><p class="b1m">Pedro Salles</p><div class="row" style="gap:4px"><img class="cat c16" src="../img/categoria-b.png" alt=""><span class="cap muted">Futevôlei · 4 pts</span></div><p class="cap vermelho">Não cobre a aposta</p></div><span class="perfil-btn"><i data-lucide="user-round"></i></span></div>
@@ -712,7 +714,7 @@
             <p class="t2 verde">Time convocado!</p>
             <p class="b2">Agora é esperar seus parceiros confirmarem.</p>
           </div>
-          <div><p class="sec-t">Jogadores convocados</p><div class="lista">
+          <div><p class="sec-t">Atletas convocados</p><div class="lista">
             <div class="card prow"><span class="avatar">V</span><div class="tx"><p class="b1m">Vini Rocha</p><p class="cap verde">Convite enviado</p></div><span class="tag sem-ponto ok">Convite enviado</span></div>
           </div></div>
         </div>
@@ -749,7 +751,7 @@
               <div class="dr"><span class="k"><i data-lucide="volleyball"></i>Modalidade</span><span class="val">Futevôlei</span></div>
               <div class="dr"><span class="k"><i data-lucide="bar-chart-3"></i>Categoria</span><span class="val">B</span></div>
               <div class="dr"><span class="k"><i data-lucide="users"></i>Formato</span><span class="val">2x2</span></div>
-              <div class="dr"><span class="k"><i data-lucide="coins"></i>Aposta</span><span class="val">10 pts por jogador</span></div>
+              <div class="dr"><span class="k"><i data-lucide="coins"></i>Aposta</span><span class="val">10 pts por atleta</span></div>
             </div>
             <div class="div"></div>
             <div class="acoes-d"><div><span class="q"><i data-lucide="map-pin"></i></span>Ver arena</div><div><span class="q"><i data-lucide="share-2"></i></span>Compartilhar</div></div>
@@ -792,7 +794,7 @@
             <div class="dr"><span class="k"><i data-lucide="calendar"></i>Data</span><span class="val">04/10</span></div>
             <div class="dr"><span class="k"><i data-lucide="clock"></i>Horário</span><span class="val">19:30</span></div>
             <div class="dr"><span class="k"><i data-lucide="volleyball"></i>Modalidade</span><span class="val">Futevôlei</span></div>
-            <div class="dr"><span class="k"><i data-lucide="coins"></i>Aposta</span><span class="val">10 pts por jogador</span></div>
+            <div class="dr"><span class="k"><i data-lucide="coins"></i>Aposta</span><span class="val">10 pts por atleta</span></div>
           </div>
         </div>
         <div class="tchips"><span class="tchip">Pode aquecer.</span><span class="tchip">Print tirado.</span><span class="tchip">Ranking muda hoje!</span><span class="tchip">Já aceitamos revanche.</span></div>
@@ -915,7 +917,7 @@
             <div class="inforow"><i data-lucide="calendar"></i><span class="b2">11/10 · 09:00</span></div>
             <div class="inforow"><i data-lucide="map-pin"></i><div class="col g4" style="gap:0"><span class="b2">Arena Maré Alta</span><span class="cap muted">Quadras 1 a 3, entrada pela Rua das Gaivotas</span></div></div>
             <div class="inforow"><i data-lucide="volleyball"></i><span class="b2">Futevôlei</span></div>
-            <div class="inforow"><i data-lucide="ticket"></i><span class="b2">Inscrição: R$ 40,00 por jogador</span></div>
+            <div class="inforow"><i data-lucide="ticket"></i><span class="b2">Inscrição: R$ 40,00 por atleta</span></div>
           </div>
           <div class="col g8"><p class="sec-t" style="margin:0">Por qual arena você joga?</p>
             <div class="srow on"><div class="tx"><span class="b1m laranja">Arena Maré Alta</span></div><span class="mk"><i data-lucide="check"></i></span></div>
@@ -952,7 +954,7 @@
           <div class="card col g8">
             <div class="inforow"><i data-lucide="calendar"></i><span class="b2">11/10 · 09:00</span></div>
             <div class="inforow"><i data-lucide="map-pin"></i><span class="b2">Arena Maré Alta</span></div>
-            <div class="inforow"><i data-lucide="ticket"></i><span class="b2">Inscrição: R$ 40,00 por jogador</span></div>
+            <div class="inforow"><i data-lucide="ticket"></i><span class="b2">Inscrição: R$ 40,00 por atleta</span></div>
           </div>
           <div class="card col g8">
             <p class="b1m">Você está no desafio</p>
@@ -995,7 +997,7 @@
     <details><summary>De onde saem os pontos da aposta?</summary><p>Dos seus pontos por partida na modalidade do desafio (3 por vitória, 1 por jogo), os mesmos das classificações de evento. A aposta não mexe no rating da aba Ranking, e ninguém fica com saldo negativo.</p></details>
     <details><summary>Quem pode entrar num desafio com aposta?</summary><p>Só quem tem pelo menos o valor apostado na modalidade: o rival na hora de aceitar e cada parceiro na convocação. Aceitar o desafio é aceitar a aposta.</p></details>
     <details><summary>E se o placar lançado estiver errado?</summary><p>O time que perdeu tem 24h pra contestar. Contestado, a aposta é cancelada, mas o placar e os pontos da partida ficam, e a partida sai do rating. Sem resposta em 24h, vale o placar lançado.</p></details>
-    <details><summary>Preciso de plano pago pra apostar?</summary><p>Não. A aposta vale em qualquer plano, só no desafio entre jogadores. Desafio de marca (corrida, CrossFit, Hyrox) não tem aposta.</p></details>
+    <details><summary>Preciso de plano pago pra apostar?</summary><p>Não. A aposta vale em qualquer plano, só no desafio entre atletas. Desafio de marca (corrida, CrossFit, Hyrox) não tem aposta.</p></details>
     <details><summary>Quem paga no desafio entre arenas?</summary><p>Só quem entra pelo link paga a inscrição, e só depois que o capitão ou a arena aprova o pedido.</p></details>
   </div>
 </section>
