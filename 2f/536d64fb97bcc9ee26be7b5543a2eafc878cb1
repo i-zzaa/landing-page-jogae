@@ -1,0 +1,136 @@
+regras.html
+  s_c59871cb12a25c::t_843350da702ace 222,225-230
+  s_72bf99db278ec7::t_582aac959d32d4 921
+  s_c59871cb12a25c::t_29903c07fecf37 231
+  s_72bf99db278ec7::t_42649b7a69d6ee 918-920
+  s_72bf99db278ec7::t_bd54d798b19509 922
+  s_dc3f32fea8bbe2::t_3b8a41286bd39e 155,158-159,166-167,182-184,240,257,333,336,376,385,417,423,429,448,453,464,485-486,492,499-500,516,528,532,534,554,572,574,618,620,622,629-630,643,649,662,681,838,844,861,864,870,902-917
+arena.html
+  s_17d7eb9943dd7d::t_95d77334d4f7e4 546,619,698,707,799,830,922,998,1005-1006,1032-1033,1042,1046,1050
+desafiae/3d.html
+  s_dc3f32fea8bbe2::t_02024ab32f29e8 406,419
+funcionalidades.html
+  s_17d7eb9943dd7d::t_5a9d2b0a99689e 6,80,82,97,123,136,199,202,205,218,224-225,246,328,330,370,402-404,446,453
+index.html
+  s_17d7eb9943dd7d::t_e3d4ee6a9f9e09 6,25,56,90,108,111,144,204,212,216-218,245
+interno/comparativo-f129406331.html
+  s_17d7eb9943dd7d::t_ad09e93a227bcb 309-310,498,504,526,621
+manual/arena/agenda.html
+  s_dc3f32fea8bbe2::t_8751512726da8f 201,402,527,530,539,859,945,985
+manual/arena/analitico.html
+  s_dc3f32fea8bbe2::t_d3a217ec49612a 140,267,330
+manual/arena/atletas.html
+  s_dc3f32fea8bbe2::t_bcb6df10120f32 160,563,567,577,603,870,878,887,942
+manual/arena/aulas.html
+  s_dc3f32fea8bbe2::t_acba23abe03475 393
+manual/arena/cadastro.html
+  s_dc3f32fea8bbe2::t_a925363b292805 258,379-380,486,492,653,655,783,792
+manual/arena/desafio-arena.html
+  s_dc3f32fea8bbe2::t_6005ffd5f533b2 215,221,330,338,407,598,607,787,835,1018-1019
+manual/arena/desafio-recorrente.html
+  s_dc3f32fea8bbe2::t_10f49481838038 102,105,334,361,588,590-591
+manual/arena/entrar.html
+  s_dc3f32fea8bbe2::t_fec08b493c95ed 170,291
+manual/arena/eventos-partidas.html
+  s_dc3f32fea8bbe2::t_1c25b0a5caebd3 122,124,202,239,274,306,318,336,493,597
+manual/arena/financeiro.html
+  s_dc3f32fea8bbe2::t_392192e6e970e9 150,402,418,452
+manual/arena/mensalidade.html
+  s_dc3f32fea8bbe2::t_70c1efe775241c 378,422
+manual/arena/painel.html
+  s_dc3f32fea8bbe2::t_42d4bd6b73684f 349
+manual/arena/perfil.html
+  s_dc3f32fea8bbe2::t_07e90a1683bed8 297,304,306,362,427,468,478,488,490,569,744,974,977,1013,1026,1036,1345
+manual/arena/torneio.html
+  s_dc3f32fea8bbe2::t_d205a2f6c56bfc 501,690,714,747,857,1000,1118,1298
+manual/index.html
+  s_dc3f32fea8bbe2::t_c62095c2a7b310 8,63,66,85,90,93,96
+manual/jogador/cadastro.html
+  s_dc3f32fea8bbe2::t_80c7d223cb802b 106,138,180,195
+manual/jogador/chat.html
+  s_dc3f32fea8bbe2::t_79eeaea0dacf7d 139-140
+manual/jogador/conta.html
+  s_dc3f32fea8bbe2::t_8826379ecf33be 108,198,207,229,255,299,301
+manual/jogador/desafio-marca.html
+  s_dc3f32fea8bbe2::t_17c2627007acc8 284
+manual/jogador/desafio-recorrente.html
+  s_dc3f32fea8bbe2::t_a9c9698a75610c 87,89-90,421,450
+manual/jogador/desafio.html
+  s_dc3f32fea8bbe2::t_d51385c944a6d7 246,268,346,503,687-688,717,754,797,920,957,1000
+manual/jogador/entrar.html
+  s_dc3f32fea8bbe2::t_424499a93dd174 164,166
+manual/jogador/inicio.html
+  s_dc3f32fea8bbe2::t_aa09af2d705396 162,194,272,346,394,400,541,547-548,674
+manual/jogador/nivel-validado.html
+  s_dc3f32fea8bbe2::t_3acd0cd63741d9 243
+manual/jogador/partida.html
+  s_dc3f32fea8bbe2::t_34e658a91e5e80 276,284,287,317,325,364,442,446,478,492,529,534,548,569,578,587,605,614,647,695,703,728,832
+manual/jogador/planos.html
+  s_17d7eb9943dd7d::t_968f9c6e74c8ae 109-110,114,257,285
+manual/jogador/ranking-perfil.html
+  s_dc3f32fea8bbe2::t_d8e54e0232cd70 297,414,488,565,569,610,614,641,649,861,867
+manual/jogador/reserva-quadra.html
+  s_17d7eb9943dd7d::t_9bbba0e83da268 196,343,370,394,420,544
+manual/jogador/rival.html
+  s_dc3f32fea8bbe2::t_0ad790f1b67700 98,108,158,160,174
+manual/jogador/torneio.html
+  s_17d7eb9943dd7d::t_465a6ed3422003 412,568,570,581,607,632,699,738,766,786,788,846,937,941,1261
+manual/kit.js
+  s_dc3f32fea8bbe2::t_99eace4b403de4 48
+pagamentos.html
+  s_17d7eb9943dd7d::t_9d906fe2b3c1c0 6,69,79,87,128,136-137,159,164,173,185,207,219,226
+privacidade.html
+  s_021a73a9437771::t_bcf8e75774fd34 66,74,78,89-93,97-98,101,105,109,113,117,121,125
+script.js
+  s_dc3f32fea8bbe2::t_7185a4e486ab22 76,83
+termos.html
+  s_dc3f32fea8bbe2::t_b591a85dfeda4f 66,78,82,86,90
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "2f536d64fb97bcc9ee26be7b5543a2eafc878cb1",
+  "prompts": {},
+  "sessions": {
+    "s_021a73a9437771": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "38e76475-010a-4743-b7df-e2426600744a",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_17d7eb9943dd7d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ef7fdffd-e9d4-4182-a1e6-e1338987986e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_72bf99db278ec7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6b38b389-d2af-44d8-aa2e-8452b68227a9",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_c59871cb12a25c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "45df14e0-1c6a-46dc-b807-f8f5beace192",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    },
+    "s_dc3f32fea8bbe2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ed4e83cd-b3d1-4f89-b17c-7f412e34fc42",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
