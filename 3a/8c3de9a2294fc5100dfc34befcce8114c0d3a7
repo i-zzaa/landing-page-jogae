@@ -1,0 +1,19 @@
+privacidade.html
+  s_f0b2d820103ee3::t_c6e51dd6151116 52,86
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "3a8c3de9a2294fc5100dfc34befcce8114c0d3a7",
+  "prompts": {},
+  "sessions": {
+    "s_f0b2d820103ee3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f4d33dce-00be-43d5-a65c-d3e730d30561",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
