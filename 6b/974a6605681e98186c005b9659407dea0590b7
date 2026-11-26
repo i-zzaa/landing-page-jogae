@@ -1,0 +1,23 @@
+manual/arena/datas-comemorativas.html
+  s_efe412a19b7980::t_f5af8be204d0b1 1-624
+manual/index.html
+  s_efe412a19b7980::t_1a67ea0f0b0a5b 78
+manual/kit.js
+  s_efe412a19b7980::t_88949704a63925 10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "6b974a6605681e98186c005b9659407dea0590b7",
+  "prompts": {},
+  "sessions": {
+    "s_efe412a19b7980": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e5b73f73-898b-459c-91fc-279f901683a9",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "C1321644 Isa Andressa Novaes Menezes <c1321644@interno.bb.com.br>"
+    }
+  }
+}
