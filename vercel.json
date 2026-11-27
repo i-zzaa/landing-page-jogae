@@ -73,6 +73,17 @@
       "destination": "/api/og?type=:type&id=:id"
     },
     {
+      "source": "/mission-challenge/:id",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(WhatsApp|facebookexternalhit|Facebot|Twitterbot|TelegramBot|Slackbot|Discordbot|LinkedInBot|SkypeUriPreview|redditbot|Iframely|vkShare|Applebot).*"
+        }
+      ],
+      "destination": "/api/og?type=mission-challenge&id=:id"
+    },
+    {
       "source": "/:type(match|challenge|tournament|arena-challenge|arena|turma|player)/:id",
       "destination": "/abrir"
     },
